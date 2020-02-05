@@ -10,6 +10,12 @@
 #include <map>
 #include "Graph.h"
 
+#include "Entity.h"
+#include "HealthComp.h"
+#include "HealthSystem.h"
+#include "PositionComp.h"
+#include "RenderSystem.h"
+
 
 typedef GraphArc<pair<std::string, int>, int> Arc;
 typedef GraphNode<pair<std::string, int>, int> Node;
@@ -59,5 +65,12 @@ private:
 
 	bool startAstar{ false };
 	//------! A* stuff ------------
+
+
+	//---------Entity + Components-----------
+	Entity* m_testEntity = new Entity(0);
+
+	HealthSystem m_healthSystem;
+
 };
 

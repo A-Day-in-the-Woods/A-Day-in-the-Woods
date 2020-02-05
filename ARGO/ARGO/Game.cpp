@@ -51,6 +51,13 @@ Game::Game()
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
 
+
+
+	m_testEntity->addComponent(new HealthComponent());
+	m_testEntity->addComponent(new PositionComponent(SDL_Rect{ 100,100,100,100 }));
+
+	m_healthSystem.addEntity(m_testEntity);
+
 }
 
 /// <summary>
@@ -114,11 +121,20 @@ void Game::processEvent()
 /// </summary>
 void Game::update()
 {
+	m_healthSystem.update();
+
 	if (!startAstar)
 	{
+		
 		aStar();
 		startAstar = !startAstar;
+
+
+		m_healthSystem.removeEntityFromSystem(ComponentType::HEALTH, 0);
+		//m_testEntity->removeComponent(ComponentType::HEALTH);
+
 	}
+	m_healthSystem.update();
 }
 
 /// <summary>
