@@ -51,7 +51,10 @@ Game::Game()
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
 
-
+	m_menuscreen = new MenuScreen(*this);
+	m_optionscreen = new Option(*this);
+	m_gameplayscreen = new Gameplay(*this);
+	m_creditscreen = new CreditScreen(*this);
 
 	m_testEntity->addComponent(new HealthComponent());
 	m_testEntity->addComponent(new PositionComponent(SDL_Rect{ 100,100,100,100 }));
@@ -123,6 +126,26 @@ void Game::update()
 {
 	m_healthSystem.update();
 
+	switch (m_currentState)
+	{
+	case GameState::Menu:
+		m_menuscreen->update();
+		break;
+	case GameState::Options:
+		m_optionscreen->update();
+		break;
+	case GameState::Gameplay:
+		m_gameplayscreen->update();
+		break;
+	case GameState::Credit:
+		m_creditscreen->update();
+		break;
+	case GameState::Quit:
+		m_isRunning = false;
+	default:
+		break;
+	}
+
 	if (!startAstar)
 	{
 		
@@ -143,6 +166,25 @@ void Game::render()
 {
 	SDL_RenderClear(m_renderer);
 	//Draw Here
+	switch (m_currentState)
+	{
+	case GameState::Menu:
+		m_menuscreen->render();
+		break;
+	case GameState::Options:
+		m_optionscreen->render();
+		break;
+	case GameState::Gameplay:
+		m_gameplayscreen->render();
+		break;
+	case GameState::Credit:
+		m_creditscreen->render();
+		break;
+	case GameState::Quit:
+		m_isRunning = false;
+	default:
+		break;
+	}
 
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 
