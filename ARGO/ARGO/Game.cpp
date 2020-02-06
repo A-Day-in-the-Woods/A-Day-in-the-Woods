@@ -96,6 +96,8 @@ void Game::run()
 /// </summary>
 void Game::processEvent()
 {
+	
+
 	SDL_Event event;
 	SDL_PollEvent(&event);
 
@@ -109,7 +111,9 @@ void Game::processEvent()
 		if (SDLK_ESCAPE == event.key.keysym.sym)
 		{
 			m_isRunning = false;
+
 		}
+		
 		break;
 	default:
 		break;

@@ -16,6 +16,11 @@
 #include "PositionComp.h"
 #include "RenderSystem.h"
 
+#include "InputHandler.h"
+
+
+
+
 
 typedef GraphArc<pair<std::string, int>, int> Arc;
 typedef GraphNode<pair<std::string, int>, int> Node;
@@ -71,6 +76,8 @@ private:
 	Entity* m_testEntity = new Entity(0);
 
 	HealthSystem m_healthSystem;
+
+	InputHandler m_handle;
 
 };
 

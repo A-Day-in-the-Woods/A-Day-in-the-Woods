@@ -25,6 +25,9 @@
     <Filter Include="Header Files\UCS\ComponentSystems">
       <UniqueIdentifier>{f596f7fb-2461-4cdd-bf75-cb1cde1924bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\CommandPattern">
+      <UniqueIdentifier>{b34f1efd-bd7f-4b43-99ba-743aec4a1f36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -64,6 +67,18 @@
     </ClInclude>
     <ClInclude Include="PositionComp.h">
       <Filter>Header Files\UCS\ComponentList</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandInterface.h">
+      <Filter>Header Files\CommandPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandManager.h">
+      <Filter>Header Files\CommandPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="ConcreteCommands.h">
+      <Filter>Header Files\CommandPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>Header Files\CommandPattern</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
