@@ -129,8 +129,7 @@ void Game::update()
 		aStar();
 		startAstar = !startAstar;
 
-
-		m_healthSystem.removeEntityFromSystem(ComponentType::HEALTH, 0);
+		m_healthSystem.removeEntityFromSystem(0);
 		//m_testEntity->removeComponent(ComponentType::HEALTH);
 
 	}

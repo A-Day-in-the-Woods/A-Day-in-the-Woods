@@ -12,8 +12,6 @@ class Component {
 
 public:
 
-	
-
 	Component(ComponentType t_type) : m_compType(t_type) {};
 
 	ComponentType getType() { return m_compType; }

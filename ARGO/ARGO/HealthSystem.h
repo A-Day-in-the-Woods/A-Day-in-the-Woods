@@ -45,12 +45,12 @@ public:
 		}
 	}
 
-	void removeEntityFromSystem(ComponentType t_c, int t_entityID){
+	void removeEntityFromSystem(int t_entityID){
 		for (int i = 0; i < m_entities.size(); i++)
 		{
 			if (m_entities[i]->getId() == t_entityID)
 			{
-				m_entities[i]->removeComponent(t_c);
+				m_entities[i]->removeComponent(ComponentType::HEALTH);
 
 				m_entities.erase(m_entities.begin() + i);
 				m_healthComp.erase(m_healthComp.begin() + i);
