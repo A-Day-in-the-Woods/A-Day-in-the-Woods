@@ -21,10 +21,10 @@ void MinigameScreen::update()
 void MinigameScreen::render()
 {
 	std::cout << "Minigame render" << std::endl;
-	SDL_RenderClear(m_renderer);
+	//SDL_RenderClear(m_renderer);
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 
-	SDL_RenderPresent(m_renderer);
+	//SDL_RenderPresent(m_renderer);
 }
 
 void MinigameScreen::setGameState()

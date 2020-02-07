@@ -227,7 +227,7 @@ void Game::render()
 		break;
 	}
 
-	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
+	//SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 	m_player.render(m_renderer);
 
 
@@ -255,6 +255,8 @@ void Game::render()
 			SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y+5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y+5);
 			SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);		
 	}
+
+	SDL_RenderPresent(m_renderer);
 
 }
 

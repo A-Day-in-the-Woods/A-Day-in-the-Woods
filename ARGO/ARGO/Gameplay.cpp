@@ -22,10 +22,10 @@ void Gameplay::update()
 void Gameplay::render()
 {
 	std::cout << "Gameplay render" << std::endl;
-	SDL_RenderClear(m_renderer);
+	//SDL_RenderClear(m_renderer);
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 
-	SDL_RenderPresent(m_renderer);
+	//SDL_RenderPresent(m_renderer);
 }
 
 void Gameplay::setGameState()
