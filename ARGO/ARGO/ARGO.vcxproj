@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -31,8 +33,10 @@
     <ClInclude Include="GraphNode.h" />
     <ClInclude Include="HealthComp.h" />
     <ClInclude Include="HealthSystem.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PositionComp.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="Tile.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="NodeDistances.txt" />
