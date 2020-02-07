@@ -22,12 +22,15 @@
 #include "HealthSystem.h"
 #include "PositionComp.h"
 #include "RenderSystem.h"
+#include "Player.h"
+#include "Tile.h"
 
 class MenuScreen;
 class OptionScreen;
 class Gameplay;
 class CreditScreen;
 class MinigameScreen;
+
 
 typedef GraphArc<pair<std::string, int>, int> Arc;
 typedef GraphNode<pair<std::string, int>, int> Node;
@@ -59,7 +62,10 @@ private:
 	
 	SDL_Window* m_window;	// game window
 	SDL_Renderer* m_renderer;	// game renderer
-	
+
+	Player m_player;
+	std::vector<Tile> m_tile;
+
 	bool m_isRunning;	// is game running?
 
 

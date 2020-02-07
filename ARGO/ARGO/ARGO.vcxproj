@@ -26,6 +26,8 @@
     <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="Minigame.cpp" />
     <ClCompile Include="Options.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -42,8 +44,10 @@
     <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="Minigame.h" />
     <ClInclude Include="Options.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PositionComp.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="Tile.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="NodeDistances.txt" />
