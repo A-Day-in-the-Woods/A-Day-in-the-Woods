@@ -15,15 +15,13 @@
 #include "HealthSystem.h"
 #include "PositionComp.h"
 #include "RenderSystem.h"
-
-#include "InputHandler.h"
-
-
-
+#include "InputComponent.h"
+#include "InputSystem.h"
 
 
 typedef GraphArc<pair<std::string, int>, int> Arc;
 typedef GraphNode<pair<std::string, int>, int> Node;
+
 
 
 /// <summary>
@@ -35,6 +33,7 @@ public:
 	Game();
 	~Game();
 	void run();
+
 private:
 	void processEvent();
 	void update();
@@ -67,6 +66,7 @@ private:
 
 	string from, to;
 	int weight;
+	
 
 	bool startAstar{ false };
 	//------! A* stuff ------------
@@ -74,10 +74,9 @@ private:
 
 	//---------Entity + Components-----------
 	Entity* m_testEntity = new Entity(0);
-
+	
 	HealthSystem m_healthSystem;
-
-	InputHandler m_handle;
+	InputSystem m_inputSystem;
 
 };
 

@@ -34,7 +34,9 @@
     <ClInclude Include="GraphNode.h" />
     <ClInclude Include="HealthComp.h" />
     <ClInclude Include="HealthSystem.h" />
+    <ClInclude Include="InputComponent.h" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="InputSystem.h" />
     <ClInclude Include="PositionComp.h" />
     <ClInclude Include="RenderSystem.h" />
   </ItemGroup>

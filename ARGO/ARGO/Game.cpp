@@ -55,9 +55,9 @@ Game::Game()
 
 	m_testEntity->addComponent(new HealthComponent());
 	m_testEntity->addComponent(new PositionComponent(SDL_Rect{ 100,100,100,100 }));
-
+	m_testEntity->addComponent(new InputComponent());
 	m_healthSystem.addEntity(m_testEntity);
-
+	m_inputSystem.addEntity(m_testEntity);
 }
 
 /// <summary>
@@ -96,10 +96,10 @@ void Game::run()
 /// </summary>
 void Game::processEvent()
 {
-	
-
-	SDL_Event event;
+	SDL_Event(event);
 	SDL_PollEvent(&event);
+
+	m_inputSystem.update(event);
 
 	switch (event.type)
 	{
@@ -108,6 +108,7 @@ void Game::processEvent()
 		break;
 	case SDL_KEYDOWN:
 		// Press Escape to close screen
+		
 		if (SDLK_ESCAPE == event.key.keysym.sym)
 		{
 			m_isRunning = false;
