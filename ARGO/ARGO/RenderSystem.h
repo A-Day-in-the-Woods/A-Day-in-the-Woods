@@ -8,17 +8,29 @@ class RenderSystem
 {
 public:
 
-	void addEntity(Entity* t_e)
+	void addEntity(Entity* t_e, SDL_Texture* t_tex)
 	{
-		m_entities.push_back(t_e);
-
 		std::vector<Component*> RenderCheck = t_e->getComponents();
 
 		for (int i = 0; i < RenderCheck.size(); i++)
 		{
 			if (RenderCheck[i]->getType() == ComponentType::POSITION)
 			{
+				m_entities.push_back(t_e);
 				m_posComp.push_back(static_cast<PositionComponent*>(RenderCheck[i]));
+			}
+		}
+	}
+
+	void removeEntityFromSystem(int t_entityID) {
+		for (int i = 0; i < m_entities.size(); i++)
+		{
+			if (m_entities[i]->getId() == t_entityID)
+			{
+				m_entities[i]->removeComponent(ComponentType::POSITION);
+
+				m_entities.erase(m_entities.begin() + i);
+				m_posComp.erase(m_posComp.begin() + i);
 			}
 		}
 	}
@@ -35,7 +47,9 @@ public:
 		}
 	}
 
+	
 private:
 	std::vector<Entity*> m_entities;
 	std::vector<PositionComponent*> m_posComp;
+	//std::vector<SDL_Texture*> m_textureList;
 };

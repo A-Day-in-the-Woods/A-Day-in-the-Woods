@@ -24,7 +24,7 @@ Game::Game()
 		if (SDL_Init(SDL_INIT_EVERYTHING) < 0) throw "Error Loading SDL";
 		
 		// Create SDL Window Centred in Middle Of Screen
-		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, NULL);
+		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, NULL);
 		// Check if window was created correctly
 		if (!m_window) throw "Error Loading Window";
 
@@ -131,6 +131,8 @@ void Game::update()
 
 		m_healthSystem.removeEntityFromSystem(0);
 		//m_testEntity->removeComponent(ComponentType::HEALTH);
+
+		//std::cout << graph.nodeIndex(1)->m_x;
 
 	}
 	m_healthSystem.update();

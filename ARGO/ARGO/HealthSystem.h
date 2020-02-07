@@ -10,13 +10,13 @@ class HealthSystem
 {
 public:
 	void addEntity(Entity* t_e) {
-		m_entities.push_back(t_e);
 		std::vector<Component*> healthCheck = t_e->getComponents();
 
 		for (int i = 0; i < healthCheck.size(); i++)
 		{
 			if (healthCheck[i]->getType() == ComponentType::HEALTH)
 			{
+				m_entities.push_back(t_e);
 				m_healthComp.push_back(static_cast<HealthComponent*>(healthCheck[i]));
 			}
 		}
