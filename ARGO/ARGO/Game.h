@@ -16,6 +16,9 @@
 #include "PositionComp.h"
 #include "RenderSystem.h"
 
+#include "Player.h"
+#include "Tile.h"
+
 
 typedef GraphArc<pair<std::string, int>, int> Arc;
 typedef GraphNode<pair<std::string, int>, int> Node;
@@ -36,9 +39,15 @@ private:
 	void render();
 	void clean();
 
-	
+
+
+
 	SDL_Window* m_window;	// game window
 	SDL_Renderer* m_renderer;	// game renderer
+
+	Player m_player;
+	std::vector<Tile> m_tile;
+
 
 	bool m_isRunning;	// is game running?
 

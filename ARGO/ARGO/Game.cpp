@@ -8,7 +8,7 @@ void visit(Node* node) {
 	cout << "Visiting: " << node->data().first << endl;
 }
 
-Graph< pair<string, int>, int> graph(4); // A* Graph
+Graph< pair<string, int>, int> graph(172); // A* Graph
 
 
 /// <summary>
@@ -16,6 +16,8 @@ Graph< pair<string, int>, int> graph(4); // A* Graph
 /// </summary>
 Game::Game()
 {
+	m_tile.reserve(200);
+	
 	initNodeFiles();
 
 	try
@@ -24,7 +26,9 @@ Game::Game()
 		if (SDL_Init(SDL_INIT_EVERYTHING) < 0) throw "Error Loading SDL";
 		
 		// Create SDL Window Centred in Middle Of Screen
+
 		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, NULL);
+
 		// Check if window was created correctly
 		if (!m_window) throw "Error Loading Window";
 
@@ -45,6 +49,8 @@ Game::Game()
 		// game doesnt run
 		m_isRunning = false;
 	}
+
+
 
 
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic.png");
@@ -121,7 +127,10 @@ void Game::processEvent()
 /// </summary>
 void Game::update()
 {
-	m_healthSystem.update();
+
+	m_player.update();
+	//graph.nodeIndex(1)->m_x;
+	//graph.nodeIndex(1)->m_Y;
 
 	if (!startAstar)
 	{
@@ -145,8 +154,39 @@ void Game::render()
 {
 	SDL_RenderClear(m_renderer);
 	//Draw Here
-
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
+	m_player.render(m_renderer);
+
+
+
+	for (int i = 0; i < m_tile.size() ; i++)
+	{
+		m_tile[i].render(m_renderer);
+	}
+
+
+
+
+	for (int i = 0; i < 40; i ++)
+	{
+	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x+5, graph.nodeIndex(i)->m_y+5, graph.nodeIndex(i + 1)->m_x+5, graph.nodeIndex(i + 1)->m_y+5);
+	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+	}
+
+
+	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(38)->m_x + 5, graph.nodeIndex(38)->m_y+5, graph.nodeIndex(41)->m_x + 5, graph.nodeIndex(41)->m_y+5);
+	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+
+	for (int i = 41; i < 50; i++)
+	{
+			SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
+			SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y+5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y+5);
+			SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);		
+	}
+
+
 
 	SDL_RenderPresent(m_renderer);
 }
@@ -188,6 +228,8 @@ void Game::initNodeFiles()
 		graph.addNode(nodeLabel, posX, posY, index);
 		nodemap[nodeLabel.first] = index;
 		index++;
+
+		m_tile.push_back(Tile(posX, posY));
 	}
 	myfile.close();
 
@@ -195,6 +237,8 @@ void Game::initNodeFiles()
 	myfile.open("NodeDistances.txt");	// arcs
 	while (myfile >> from >> to >> weight) {
 		graph.addArc(nodemap[from], nodemap[to], weight);
+
 	}
+
 	myfile.close();
 }
