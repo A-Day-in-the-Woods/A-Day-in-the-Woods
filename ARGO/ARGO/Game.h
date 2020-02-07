@@ -15,6 +15,7 @@
 #include "Options.h"
 #include "Gameplay.h"
 #include "CreditsScreen.h"
+#include "Minigame.h"
 
 #include "Entity.h"
 #include "HealthComp.h"
@@ -23,9 +24,10 @@
 #include "RenderSystem.h"
 
 class MenuScreen;
-class OptionMenu;
+class OptionScreen;
 class Gameplay;
 class CreditScreen;
+class MinigameScreen;
 
 typedef GraphArc<pair<std::string, int>, int> Arc;
 typedef GraphNode<pair<std::string, int>, int> Node;
@@ -41,7 +43,7 @@ public:
 	~Game();
 	void run();
 	GameState m_currentState{ GameState::Menu };
-	void newGameState(GameState t_newState) { m_currentState = t_newState; };
+	void setGameState(GameState t_newState) { m_currentState = t_newState; };
 
 private:
 	void processEvent();
@@ -50,9 +52,10 @@ private:
 	void clean();
 
 	MenuScreen* m_menuscreen;
-	Option* m_optionscreen;
+	OptionScreen* m_optionscreen;
 	Gameplay* m_gameplayscreen;
 	CreditScreen* m_creditscreen;
+	MinigameScreen* m_minigamescreen;
 	
 	SDL_Window* m_window;	// game window
 	SDL_Renderer* m_renderer;	// game renderer

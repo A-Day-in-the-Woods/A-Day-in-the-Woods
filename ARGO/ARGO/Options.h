@@ -1,6 +1,7 @@
 #pragma once
 #ifndef OPTIONS
 #define OPTIONS
+
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -9,16 +10,17 @@
 
 class Game;
 
-class Option
+class OptionScreen
 {
 public:
-	Option(Game& game);
-	~Option();
+	OptionScreen(Game& game, SDL_Renderer* t_renderer);
+	~OptionScreen();
 	void update();
 	void render();
+	void setGameState();
 private:
-	SDL_Event event;
 	Game& m_game;
-
+	SDL_Texture* m_TestingTexture;
+	SDL_Renderer* m_renderer;	// game renderer
 };
 #endif // OPTIONS

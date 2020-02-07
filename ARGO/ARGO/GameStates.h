@@ -9,6 +9,7 @@ enum class GameState
 	Options,
 	Gameplay,
 	Credit,
+	Minigame,
 	Quit
 };
 

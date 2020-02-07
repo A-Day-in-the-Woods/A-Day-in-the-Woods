@@ -35,6 +35,13 @@ Game::Game()
 
 		// Sets clear colour of renderer to black and the color of any primitives
 		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+
+		m_menuscreen = new MenuScreen(*this, m_renderer);
+		m_optionscreen = new OptionScreen(*this, m_renderer);
+		m_gameplayscreen = new Gameplay(*this, m_renderer);
+		m_creditscreen = new CreditScreen(*this, m_renderer);
+		m_minigamescreen = new MinigameScreen(*this, m_renderer);
+
 		// Game is running
 		m_isRunning = true;
 	}
@@ -46,15 +53,11 @@ Game::Game()
 		m_isRunning = false;
 	}
 
-
+/*
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
-
-	m_menuscreen = new MenuScreen(*this);
-	m_optionscreen = new Option(*this);
-	m_gameplayscreen = new Gameplay(*this);
-	m_creditscreen = new CreditScreen(*this);
+*/
 
 	m_testEntity->addComponent(new HealthComponent());
 	m_testEntity->addComponent(new PositionComponent(SDL_Rect{ 100,100,100,100 }));
@@ -114,9 +117,33 @@ void Game::processEvent()
 			m_isRunning = false;
 		}
 		break;
+	case SDL_MOUSEBUTTONUP:
+		if (m_currentState == GameState::Menu)
+		{
+			m_menuscreen->setGameState();
+		}
+		else if (m_currentState == GameState::Options)
+		{
+			m_optionscreen->setGameState();
+		}
+		else if (m_currentState == GameState::Gameplay)
+		{
+			m_gameplayscreen->setGameState();
+		}
+		else if (m_currentState == GameState::Credit)
+		{
+			m_creditscreen->setGameState();
+		}
+		else if (m_currentState == GameState::Minigame)
+		{
+			m_minigamescreen->setGameState();
+		}
+		break;
 	default:
 		break;
 	}
+
+
 }
 
 /// <summary>
@@ -139,6 +166,9 @@ void Game::update()
 		break;
 	case GameState::Credit:
 		m_creditscreen->update();
+		break;
+	case GameState::Minigame:
+		m_minigamescreen->update();
 		break;
 	case GameState::Quit:
 		m_isRunning = false;
@@ -164,7 +194,7 @@ void Game::update()
 /// </summary>
 void Game::render()
 {
-	SDL_RenderClear(m_renderer);
+	//SDL_RenderClear(m_renderer);
 	//Draw Here
 	switch (m_currentState)
 	{
@@ -180,15 +210,18 @@ void Game::render()
 	case GameState::Credit:
 		m_creditscreen->render();
 		break;
+	case GameState::Minigame:
+		m_minigamescreen->render();
+		break;
 	case GameState::Quit:
 		m_isRunning = false;
 	default:
 		break;
 	}
 
-	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
+	/*SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 
-	SDL_RenderPresent(m_renderer);
+	SDL_RenderPresent(m_renderer);*/
 }
 
 /// <summary>

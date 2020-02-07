@@ -12,14 +12,15 @@ class Game;
 class CreditScreen
 {
 public:
-	CreditScreen(Game& game);
+	CreditScreen(Game& game, SDL_Renderer* t_renderer);
 	~CreditScreen();
 	void update();
 	void render();
+	void setGameState();
 private:
-	SDL_Event event;
 	Game& m_game;
-
+	SDL_Texture* m_TestingTexture;
+	SDL_Renderer* m_renderer;	// game renderer
 };
 
 #endif // !CREDIT

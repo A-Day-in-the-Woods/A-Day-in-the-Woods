@@ -1,24 +1,33 @@
 #include "Options.h"
 
-Option::Option(Game& game) :
-	m_game(game)
+OptionScreen::OptionScreen(Game& game, SDL_Renderer* t_renderer) :
+	m_game(game),
+	m_renderer(t_renderer)
+{
+	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic1.png");
+	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
+	SDL_FreeSurface(tempSerface);
+}
+
+OptionScreen::~OptionScreen()
 {
 }
 
-Option::~Option()
-{
-}
-
-void Option::update()
+void OptionScreen::update()
 {
 	std::cout << "Options update" << std::endl;
-	if (event.type == SDL_MOUSEBUTTONUP)
-	{
-		m_game.newGameState(GameState::Gameplay);
-	}
 }
 
-void Option::render()
+void OptionScreen::render()
 {
 	std::cout << "Options render" << std::endl;
+	SDL_RenderClear(m_renderer);
+	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
+
+	SDL_RenderPresent(m_renderer);
+}
+
+void OptionScreen::setGameState()
+{
+	m_game.setGameState(GameState::Gameplay);
 }

@@ -12,13 +12,15 @@ class Game;
 class Gameplay
 {
 public:
-	Gameplay(Game& game);
+	Gameplay(Game& game, SDL_Renderer* t_renderer);
 	~Gameplay();
 	void update();
 	void render();
+	void setGameState();
 private:
-	SDL_Event event;
 	Game& m_game;
+	SDL_Texture* m_TestingTexture;
+	SDL_Renderer* m_renderer;	// game renderer
 };
 
 #endif // !GAMEPLAY
