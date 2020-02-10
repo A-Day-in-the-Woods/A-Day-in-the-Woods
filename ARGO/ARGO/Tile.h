@@ -20,7 +20,7 @@ public:
 	void render(SDL_Renderer* t_renderer);
 
 	void setPosition();
-	void getPosition();
+	SDL_Rect & getPosition();
 
 private:
 

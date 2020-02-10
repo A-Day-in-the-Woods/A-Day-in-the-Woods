@@ -32,6 +32,7 @@ void Tile::setPosition()
 {
 }
 
-void Tile::getPosition()
+SDL_Rect & Tile::getPosition()
 {
+	return rect;
 }
