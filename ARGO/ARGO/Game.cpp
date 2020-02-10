@@ -100,7 +100,7 @@ void Game::run()
 			SDL_Delay(frameDelay - frameTime);
 		}
 	}
-}
+ }
 
 /// <summary>
 /// Processes SDL event
