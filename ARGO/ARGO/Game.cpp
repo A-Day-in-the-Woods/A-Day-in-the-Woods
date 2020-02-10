@@ -8,7 +8,7 @@ void visit(Node* node) {
 	cout << "Visiting: " << node->data().first << endl;
 }
 
-Graph< pair<string, int>, int> graph(4); // A* Graph
+Graph< pair<string, int>, int> graph(172); // A* Graph
 
 
 /// <summary>
@@ -16,6 +16,8 @@ Graph< pair<string, int>, int> graph(4); // A* Graph
 /// </summary>
 Game::Game()
 {
+	m_tile.reserve(200);
+	
 	initNodeFiles();
 
 	try
@@ -24,7 +26,7 @@ Game::Game()
 		if (SDL_Init(SDL_INIT_EVERYTHING) < 0) throw "Error Loading SDL";
 		
 		// Create SDL Window Centred in Middle Of Screen
-		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, NULL);
+		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1900, 1000, NULL);
 		// Check if window was created correctly
 		if (!m_window) throw "Error Loading Window";
 
@@ -35,6 +37,13 @@ Game::Game()
 
 		// Sets clear colour of renderer to black and the color of any primitives
 		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+
+		m_menuscreen = new MenuScreen(*this, m_renderer);
+		m_optionscreen = new OptionScreen(*this, m_renderer);
+		m_gameplayscreen = new Gameplay(*this, m_renderer);
+		m_creditscreen = new CreditScreen(*this, m_renderer);
+		m_minigamescreen = new MinigameScreen(*this, m_renderer);
+
 		// Game is running
 		m_isRunning = true;
 	}
@@ -47,10 +56,12 @@ Game::Game()
 	}
 
 
+
+
+
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
-
 
 
 	m_testEntity->addComponent(new HealthComponent());
@@ -116,9 +127,33 @@ void Game::processEvent()
 		}
 		
 		break;
+	case SDL_MOUSEBUTTONUP:
+		if (m_currentState == GameState::Menu)
+		{
+			m_menuscreen->setGameState();
+		}
+		else if (m_currentState == GameState::Options)
+		{
+			m_optionscreen->setGameState();
+		}
+		else if (m_currentState == GameState::Gameplay)
+		{
+			m_gameplayscreen->setGameState();
+		}
+		else if (m_currentState == GameState::Credit)
+		{
+			m_creditscreen->setGameState();
+		}
+		else if (m_currentState == GameState::Minigame)
+		{
+			m_minigamescreen->setGameState();
+		}
+		break;
 	default:
 		break;
 	}
+
+
 }
 
 /// <summary>
@@ -126,7 +161,33 @@ void Game::processEvent()
 /// </summary>
 void Game::update()
 {
-	m_healthSystem.update();
+
+	m_player.update();
+	//graph.nodeIndex(1)->m_x;
+	//graph.nodeIndex(1)->m_Y;
+
+	switch (m_currentState)
+	{
+	case GameState::Menu:
+		m_menuscreen->update();
+		break;
+	case GameState::Options:
+		m_optionscreen->update();
+		break;
+	case GameState::Gameplay:
+		m_gameplayscreen->update();
+		break;
+	case GameState::Credit:
+		m_creditscreen->update();
+		break;
+	case GameState::Minigame:
+		m_minigamescreen->update();
+		break;
+	case GameState::Quit:
+		m_isRunning = false;
+	default:
+		break;
+	}
 
 	if (!startAstar)
 	{
@@ -146,12 +207,62 @@ void Game::update()
 /// </summary>
 void Game::render()
 {
-	SDL_RenderClear(m_renderer);
+	//SDL_RenderClear(m_renderer);
 	//Draw Here
+	switch (m_currentState)
+	{
+	case GameState::Menu:
+		m_menuscreen->render();
+		break;
+	case GameState::Options:
+		m_optionscreen->render();
+		break;
+	case GameState::Gameplay:
+		m_gameplayscreen->render();
+		break;
+	case GameState::Credit:
+		m_creditscreen->render();
+		break;
+	case GameState::Minigame:
+		m_minigamescreen->render();
+		break;
+	case GameState::Quit:
+		m_isRunning = false;
+	default:
+		break;
+	}
 
-	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
+	//SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
+	m_player.render(m_renderer);
+
+
+
+	for (int i = 0; i < m_tile.size() ; i++)
+	{
+		m_tile[i].render(m_renderer);
+	}
+
+	for (int i = 0; i < 40; i ++)
+	{
+	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x+5, graph.nodeIndex(i)->m_y+5, graph.nodeIndex(i + 1)->m_x+5, graph.nodeIndex(i + 1)->m_y+5);
+	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+	}
+
+
+	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(38)->m_x + 5, graph.nodeIndex(38)->m_y+5, graph.nodeIndex(41)->m_x + 5, graph.nodeIndex(41)->m_y+5);
+	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+
+	for (int i = 41; i < 50; i++)
+	{
+			SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
+			SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y+5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y+5);
+			SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);		
+	}
 
 	SDL_RenderPresent(m_renderer);
+
 }
 
 /// <summary>
@@ -191,6 +302,8 @@ void Game::initNodeFiles()
 		graph.addNode(nodeLabel, posX, posY, index);
 		nodemap[nodeLabel.first] = index;
 		index++;
+
+		m_tile.push_back(Tile(posX, posY));
 	}
 	myfile.close();
 
@@ -198,6 +311,8 @@ void Game::initNodeFiles()
 	myfile.open("NodeDistances.txt");	// arcs
 	while (myfile >> from >> to >> weight) {
 		graph.addArc(nodemap[from], nodemap[to], weight);
+
 	}
+
 	myfile.close();
 }
