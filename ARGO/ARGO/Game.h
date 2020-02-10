@@ -22,6 +22,8 @@
 #include "HealthSystem.h"
 #include "PositionComp.h"
 #include "RenderSystem.h"
+#include "InputComponent.h"
+#include "InputSystem.h"
 #include "Player.h"
 #include "Tile.h"
 
@@ -34,6 +36,7 @@ class MinigameScreen;
 
 typedef GraphArc<pair<std::string, int>, int> Arc;
 typedef GraphNode<pair<std::string, int>, int> Node;
+
 
 
 /// <summary>
@@ -88,6 +91,7 @@ private:
 
 	string from, to;
 	int weight;
+	
 
 	bool startAstar{ false };
 	//------! A* stuff ------------
@@ -95,8 +99,9 @@ private:
 
 	//---------Entity + Components-----------
 	Entity* m_testEntity = new Entity(0);
-
+	
 	HealthSystem m_healthSystem;
+	InputSystem m_inputSystem;
 
 };
 

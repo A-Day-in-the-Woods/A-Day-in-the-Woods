@@ -16,13 +16,16 @@
     <Filter Include="Header Files\A%2a">
       <UniqueIdentifier>{3c8a1885-97ca-4b37-ab10-34728ce72b88}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\UCS">
+    <Filter Include="Header Files\CommandPattern">
+      <UniqueIdentifier>{b34f1efd-bd7f-4b43-99ba-743aec4a1f36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ECS">
       <UniqueIdentifier>{b25ac0e0-1275-43a7-8cca-e2ee5b0a73d6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\UCS\ComponentList">
+    <Filter Include="Header Files\ECS\ComponentList">
       <UniqueIdentifier>{c2c6e682-1fb0-4145-a72e-aed0def56504}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\UCS\ComponentSystems">
+    <Filter Include="Header Files\ECS\ComponentSystems">
       <UniqueIdentifier>{f596f7fb-2461-4cdd-bf75-cb1cde1924bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -69,22 +72,40 @@
       <Filter>Header Files\A%2a</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>Header Files\UCS</Filter>
+      <Filter>Header Files\ECS</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>Header Files\UCS</Filter>
+      <Filter>Header Files\ECS</Filter>
     </ClInclude>
     <ClInclude Include="HealthSystem.h">
-      <Filter>Header Files\UCS\ComponentSystems</Filter>
+      <Filter>Header Files\ECS\ComponentSystems</Filter>
     </ClInclude>
     <ClInclude Include="RenderSystem.h">
-      <Filter>Header Files\UCS\ComponentSystems</Filter>
+      <Filter>Header Files\ECS\ComponentSystems</Filter>
     </ClInclude>
     <ClInclude Include="HealthComp.h">
-      <Filter>Header Files\UCS\ComponentList</Filter>
+      <Filter>Header Files\ECS\ComponentList</Filter>
     </ClInclude>
     <ClInclude Include="PositionComp.h">
-      <Filter>Header Files\UCS\ComponentList</Filter>
+      <Filter>Header Files\ECS\ComponentList</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandInterface.h">
+      <Filter>Header Files\CommandPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandManager.h">
+      <Filter>Header Files\CommandPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="ConcreteCommands.h">
+      <Filter>Header Files\CommandPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>Header Files\CommandPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="InputComponent.h">
+      <Filter>Header Files\ECS\ComponentList</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>Header Files\ECS\ComponentSystems</Filter>
     </ClInclude>
     <ClInclude Include="GameStates.h">
       <Filter>Header Files</Filter>

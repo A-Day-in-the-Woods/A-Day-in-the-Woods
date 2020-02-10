@@ -30,7 +30,10 @@
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CommandInterface.h" />
+    <ClInclude Include="CommandManager.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ConcreteCommands.h" />
     <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
@@ -41,6 +44,9 @@
     <ClInclude Include="GraphNode.h" />
     <ClInclude Include="HealthComp.h" />
     <ClInclude Include="HealthSystem.h" />
+    <ClInclude Include="InputComponent.h" />
+    <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="Minigame.h" />
     <ClInclude Include="Options.h" />
