@@ -64,26 +64,22 @@ void Player::movePlayerOnBoard()
 
 	//auto f = m_graph.nodeIndex(30)->getArc(m_graph.nodeIndex(31));
 
-	auto e = p.front().node()->m_x;
-
 	if (p.size() > 1)
 	{ // direction choice
 	}
 	else
 	{ // only one way to go
 
-		for (int i = 0; i < 175; i++)
+		for (int i = 0; i < m_map.size(); i++)
 		{
-			//if (p.begin() == m_graph.nodeIndex(i))
-			//{				
-			//}
+			if (p.front().node()->m_x == m_graph.nodeIndex(i)->m_x && 
+				p.front().node()->m_y == m_graph.nodeIndex(i)->m_y)
+			{
+				CurrentGameBoardIndex = i;
+
+			}
 		}
-
-		p.begin();
 	}
-
-
-	
 
 	//setPosition(m_map[CurrentGameBoardIndex].getPosition().x - (rect.w / 4.0f), m_map[CurrentGameBoardIndex].getPosition().y - (rect.h / 4.0f));
 	//CurrentGameBoardIndex++;
