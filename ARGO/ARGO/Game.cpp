@@ -245,9 +245,22 @@ void Game::render()
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(152)->m_x + 5, graph.nodeIndex(152)->m_y + 5, graph.nodeIndex(28)->m_x + 5, graph.nodeIndex(28)->m_y + 5); //weird top right bit
 
 
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(170)->m_x + 5, graph.nodeIndex(170)->m_y + 5, graph.nodeIndex(171)->m_x + 5, graph.nodeIndex(171)->m_y + 5);
 
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(170)->m_x + 5, graph.nodeIndex(170)->m_y + 5, graph.nodeIndex(76)->m_x + 5, graph.nodeIndex(76)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(171)->m_x + 5, graph.nodeIndex(171)->m_y + 5, graph.nodeIndex(129)->m_x + 5, graph.nodeIndex(129)->m_y + 5);
+	
 
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(149)->m_x + 5, graph.nodeIndex(149)->m_y + 5, graph.nodeIndex(153)->m_x + 5, graph.nodeIndex(153)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(153)->m_x + 5, graph.nodeIndex(153)->m_y + 5, graph.nodeIndex(154)->m_x + 5, graph.nodeIndex(154)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(154)->m_x + 5, graph.nodeIndex(154)->m_y + 5, graph.nodeIndex(63)->m_x + 5, graph.nodeIndex(63)->m_y + 5);
 
+	for (int i = 162; i < 166; i++)
+	{
+		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
+	}
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(166)->m_x + 5, graph.nodeIndex(166)->m_y + 5, graph.nodeIndex(26)->m_x + 5, graph.nodeIndex(26)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(162)->m_x + 5, graph.nodeIndex(162)->m_y + 5, graph.nodeIndex(75)->m_x + 5, graph.nodeIndex(75)->m_y + 5);
 
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 
