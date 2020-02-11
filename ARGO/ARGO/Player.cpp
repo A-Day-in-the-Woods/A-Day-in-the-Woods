@@ -62,10 +62,66 @@ void Player::movePlayerOnBoard()
 
 	//m_tempGraph = m_graph.nodeIndex(CurrentGameBoardIndex)->arcList();
 
+	
+
 	//auto f = m_graph.nodeIndex(30)->getArc(m_graph.nodeIndex(31));
 
 	if (p.size() > 1)
 	{ // direction choice
+	
+		//point 1
+		if (p.front().node()->m_x == m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+			p.front().node()->m_y > m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+		{
+			std::cout << "p1 Down" << std::endl;
+
+		}
+
+		if (p.front().node()->m_x == m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+			p.front().node()->m_y < m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+		{
+			std::cout << "p1 Up" << std::endl;
+		}
+
+		if (p.front().node()->m_x > m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+			p.front().node()->m_y == m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+		{
+			std::cout << "p1 Right" << std::endl;
+		}
+
+		if (p.front().node()->m_x < m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+			p.front().node()->m_y == m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+		{
+			std::cout << "p1 Left" << std::endl;
+		}
+
+		p.reverse();
+
+		//point 2
+		if (p.front().node()->m_x == m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+			p.front().node()->m_y > m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+		{
+			std::cout << "p2 Down" << std::endl;
+
+		}
+
+		if (p.front().node()->m_x == m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+			p.front().node()->m_y < m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+		{
+			std::cout << "p2 Up" << std::endl;
+		}
+
+		if (p.front().node()->m_x > m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+			p.front().node()->m_y == m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+		{
+			std::cout << "p2 Right" << std::endl;
+		}
+
+		if (p.front().node()->m_x < m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+			p.front().node()->m_y == m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+		{
+			std::cout << "p2 Left" << std::endl;
+		}
 	}
 	else
 	{ // only one way to go
@@ -75,6 +131,7 @@ void Player::movePlayerOnBoard()
 			if (p.front().node()->m_x == m_graph.nodeIndex(i)->m_x && 
 				p.front().node()->m_y == m_graph.nodeIndex(i)->m_y)
 			{
+				// this is then the next tile index to go to
 				CurrentGameBoardIndex = i;
 
 			}
