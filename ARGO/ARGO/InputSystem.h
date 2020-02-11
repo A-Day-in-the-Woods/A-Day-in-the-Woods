@@ -4,10 +4,15 @@
 #include <vector>
 #include "SDL.h"
 #include "Entity.h"
+#include "Player.h"
 
 
 class InputSystem {
 public:
+	InputSystem(Player & t_player):
+		m_player(t_player)
+	{}
+
 	void addEntity(Entity* t_e)
 	{
 		m_entities.push_back(t_e);
@@ -31,6 +36,7 @@ public:
 				switch (event.key.keysym.sym)
 				{
 				case SDLK_UP:
+					m_player.rollForMove(1);
 					std::cout << "Up ";
 					break;	
 				case SDLK_DOWN:
@@ -58,4 +64,5 @@ public:
 private:
 	std::vector<Entity*> m_entities;
 	std::vector<InputComponent*> m_inputComp;
+	Player & m_player;
 };

@@ -29,12 +29,14 @@ public:
 	void setPosition(float t_x, float t_y);
 	void getPosition();
 
-	void movePlayerOnBoard();
+	void nodeNavigation(int t_diceRoll);
 
+	void playerNodeChange(std::list<GraphArc<std::pair<std::string, int>, int>> & newPoint);
+
+
+	void rollForMove(int t_diceRoll);
 
 private:
-	
-	int dice;
 
 	std::vector<Tile> & m_map;
 

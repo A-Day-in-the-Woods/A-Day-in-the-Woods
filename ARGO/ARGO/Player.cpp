@@ -4,8 +4,8 @@ Player::Player(std::vector<Tile> & t_map, Graph< pair<string, int>, int>& t_g):
 	m_map(t_map),
 	m_graph(t_g)
 {
-	dice = 2;
 	SetUp();
+	CurrentGameBoardIndex = 0;
 }
 
 Player::~Player()
@@ -22,7 +22,7 @@ void Player::SetUp()
 
 void Player::update()
 {
-	movePlayerOnBoard();
+	setPosition(m_map[CurrentGameBoardIndex].getPosition().x - (rect.w / 4.0f), m_map[CurrentGameBoardIndex].getPosition().y - (rect.h / 4.0f));
 }
 
 void Player::render(SDL_Renderer* t_renderer)
@@ -42,104 +42,129 @@ void Player::getPosition()
 {
 }
 
-void Player::movePlayerOnBoard()
+void Player::nodeNavigation(int t_diceRoll)
 {
+	int temp = t_diceRoll;
 
-	CurrentGameBoardIndex = 27;
-
-	for (int i = 0; i < dice; i++)
+	
+	for (int x = 0; x < t_diceRoll; x++)
 	{
 
-	}
+		std::list<GraphArc<std::pair<std::string, int>, int>> p;
 
-	auto d = m_graph.getArc(0, 1);
+		p = m_graph.nodeIndex(CurrentGameBoardIndex)->arcList();
 
-	auto c = m_graph.nodeIndex(27)->arcList().begin();
 
-	std::list<GraphArc<std::pair<std::string, int>, int>> p;
+		if (p.size() > 1)
+		{ // direction choice
+			bool ChoicMade = false;
+			bool choice = false;
 
-	p = m_graph.nodeIndex(CurrentGameBoardIndex)->arcList();
-
-	//m_tempGraph = m_graph.nodeIndex(CurrentGameBoardIndex)->arcList();
-
-	
-
-	//auto f = m_graph.nodeIndex(30)->getArc(m_graph.nodeIndex(31));
-
-	if (p.size() > 1)
-	{ // direction choice
-	
-		//point 1
-		if (p.front().node()->m_x == m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
-			p.front().node()->m_y > m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
-		{
-			std::cout << "p1 Down" << std::endl;
-
-		}
-
-		if (p.front().node()->m_x == m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
-			p.front().node()->m_y < m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
-		{
-			std::cout << "p1 Up" << std::endl;
-		}
-
-		if (p.front().node()->m_x > m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
-			p.front().node()->m_y == m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
-		{
-			std::cout << "p1 Right" << std::endl;
-		}
-
-		if (p.front().node()->m_x < m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
-			p.front().node()->m_y == m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
-		{
-			std::cout << "p1 Left" << std::endl;
-		}
-
-		p.reverse();
-
-		//point 2
-		if (p.front().node()->m_x == m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
-			p.front().node()->m_y > m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
-		{
-			std::cout << "p2 Down" << std::endl;
-
-		}
-
-		if (p.front().node()->m_x == m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
-			p.front().node()->m_y < m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
-		{
-			std::cout << "p2 Up" << std::endl;
-		}
-
-		if (p.front().node()->m_x > m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
-			p.front().node()->m_y == m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
-		{
-			std::cout << "p2 Right" << std::endl;
-		}
-
-		if (p.front().node()->m_x < m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
-			p.front().node()->m_y == m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
-		{
-			std::cout << "p2 Left" << std::endl;
-		}
-	}
-	else
-	{ // only one way to go
-
-		for (int i = 0; i < m_map.size(); i++)
-		{
-			if (p.front().node()->m_x == m_graph.nodeIndex(i)->m_x && 
-				p.front().node()->m_y == m_graph.nodeIndex(i)->m_y)
+			while (!ChoicMade)
 			{
-				// this is then the next tile index to go to
-				CurrentGameBoardIndex = i;
+
+				SDL_Event(event);
+				SDL_PollEvent(&event);
+
+
+				if (SDLK_a == event.key.keysym.sym)
+				{
+					choice = false;
+					ChoicMade = !ChoicMade;
+				}
+				if (SDLK_s == event.key.keysym.sym)
+				{
+					choice = true;
+					ChoicMade = !ChoicMade;
+				}
 
 			}
+
+			
+		
+
+
+			if (!choice)
+			{
+				//----------------------------Point 1 ------------------------------------------
+				if (p.front().node()->m_x == m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+					p.front().node()->m_y > m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+				{	// p1 Down
+					playerNodeChange(p);
+				}
+
+				if (p.front().node()->m_x == m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+					p.front().node()->m_y < m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+				{	// p1 Up
+					playerNodeChange(p);
+				}
+
+				if (p.front().node()->m_x > m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+					p.front().node()->m_y == m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+				{	//p1 Right
+					playerNodeChange(p);
+				}
+
+				if (p.front().node()->m_x < m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+					p.front().node()->m_y == m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+				{	//p1 Left
+					playerNodeChange(p);
+				}
+				
+			}
+			else
+			{
+				p.reverse();
+
+				//----------------------------Point 2 ------------------------------------------
+				if (p.front().node()->m_x == m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+					p.front().node()->m_y > m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+				{	// p2 Down
+					playerNodeChange(p);
+
+				}
+
+				if (p.front().node()->m_x == m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+					p.front().node()->m_y < m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+				{	// p2 Up
+					playerNodeChange(p);
+				}
+
+				if (p.front().node()->m_x > m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+					p.front().node()->m_y == m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+				{	//p2 Right
+					playerNodeChange(p);
+				}
+
+				if (p.front().node()->m_x < m_graph.nodeIndex(CurrentGameBoardIndex)->m_x &&
+					p.front().node()->m_y == m_graph.nodeIndex(CurrentGameBoardIndex)->m_y)
+				{	//p2 Left
+					playerNodeChange(p);
+				}
+			}
+		}
+		else
+		{ // only one way to go
+			playerNodeChange(p);
 		}
 	}
+}
 
-	//setPosition(m_map[CurrentGameBoardIndex].getPosition().x - (rect.w / 4.0f), m_map[CurrentGameBoardIndex].getPosition().y - (rect.h / 4.0f));
-	//CurrentGameBoardIndex++;
+void Player::playerNodeChange(std::list<GraphArc<std::pair<std::string, int>, int>>& newPoint)
+{
+	for (int i = 0; i < m_map.size(); i++)
+	{
+		if (newPoint.front().node()->m_x == m_graph.nodeIndex(i)->m_x &&
+			newPoint.front().node()->m_y == m_graph.nodeIndex(i)->m_y)
+		{
+			// this is then the next tile index to go to
+			CurrentGameBoardIndex = i;
+			//setPosition(m_map[CurrentGameBoardIndex].getPosition().x - (rect.w / 4.0f), m_map[CurrentGameBoardIndex].getPosition().y - (rect.h / 4.0f));
+		}
+	}
+}
 
-	//m_map[0].getPosition
+void Player::rollForMove(int t_diceRoll)
+{
+	nodeNavigation(t_diceRoll);
 }

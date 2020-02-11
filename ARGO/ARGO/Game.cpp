@@ -15,7 +15,8 @@ Graph< pair<string, int>, int> graph(172); // A* Graph
 /// Constructor for the game class.
 /// </summary>
 Game::Game() :
-	m_player(m_tile, graph)
+	m_player(m_tile, graph),
+	m_inputSystem(m_player)
 {
 	m_tile.reserve(200);
 	
