@@ -40,6 +40,13 @@ Game::Game() :
 
 		// Sets clear colour of renderer to black and the color of any primitives
 		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+
+		m_menuscreen = new MenuScreen(*this, m_renderer);
+		m_optionscreen = new OptionScreen(*this, m_renderer);
+		m_gameplayscreen = new Gameplay(*this, m_renderer);
+		m_creditscreen = new CreditScreen(*this, m_renderer);
+		m_minigamescreen = new MinigameScreen(*this, m_renderer);
+
 		// Game is running
 		m_isRunning = true;
 	}
@@ -54,17 +61,17 @@ Game::Game() :
 
 
 
+
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
 
 
-
 	m_testEntity->addComponent(new HealthComponent());
 	m_testEntity->addComponent(new PositionComponent(SDL_Rect{ 100,100,100,100 }));
-
+	m_testEntity->addComponent(new InputComponent());
 	m_healthSystem.addEntity(m_testEntity);
-
+	m_inputSystem.addEntity(m_testEntity);
 }
 
 /// <summary>
@@ -103,8 +110,10 @@ void Game::run()
 /// </summary>
 void Game::processEvent()
 {
-	SDL_Event event;
+	SDL_Event(event);
 	SDL_PollEvent(&event);
+
+	m_inputSystem.update(event);
 
 	switch (event.type)
 	{
@@ -113,14 +122,41 @@ void Game::processEvent()
 		break;
 	case SDL_KEYDOWN:
 		// Press Escape to close screen
+		
 		if (SDLK_ESCAPE == event.key.keysym.sym)
 		{
 			m_isRunning = false;
+
+		}
+		
+		break;
+	case SDL_MOUSEBUTTONUP:
+		if (m_currentState == GameState::Menu)
+		{
+			m_menuscreen->setGameState();
+		}
+		else if (m_currentState == GameState::Options)
+		{
+			m_optionscreen->setGameState();
+		}
+		else if (m_currentState == GameState::Gameplay)
+		{
+			m_gameplayscreen->setGameState();
+		}
+		else if (m_currentState == GameState::Credit)
+		{
+			m_creditscreen->setGameState();
+		}
+		else if (m_currentState == GameState::Minigame)
+		{
+			m_minigamescreen->setGameState();
 		}
 		break;
 	default:
 		break;
 	}
+
+
 }
 
 /// <summary>
@@ -132,6 +168,29 @@ void Game::update()
 	m_player.update();
 	//graph.nodeIndex(1)->m_x;
 	//graph.nodeIndex(1)->m_Y;
+
+	switch (m_currentState)
+	{
+	case GameState::Menu:
+		m_menuscreen->update();
+		break;
+	case GameState::Options:
+		m_optionscreen->update();
+		break;
+	case GameState::Gameplay:
+		m_gameplayscreen->update();
+		break;
+	case GameState::Credit:
+		m_creditscreen->update();
+		break;
+	case GameState::Minigame:
+		m_minigamescreen->update();
+		break;
+	case GameState::Quit:
+		m_isRunning = false;
+	default:
+		break;
+	}
 
 	if (!startAstar)
 	{
@@ -153,9 +212,32 @@ void Game::update()
 /// </summary>
 void Game::render()
 {
-	SDL_RenderClear(m_renderer);
+	//SDL_RenderClear(m_renderer);
 	//Draw Here
-	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
+	switch (m_currentState)
+	{
+	case GameState::Menu:
+		m_menuscreen->render();
+		break;
+	case GameState::Options:
+		m_optionscreen->render();
+		break;
+	case GameState::Gameplay:
+		m_gameplayscreen->render();
+		break;
+	case GameState::Credit:
+		m_creditscreen->render();
+		break;
+	case GameState::Minigame:
+		m_minigamescreen->render();
+		break;
+	case GameState::Quit:
+		m_isRunning = false;
+	default:
+		break;
+	}
+
+	//SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 	m_player.render(m_renderer);
 
 
@@ -164,32 +246,117 @@ void Game::render()
 	{
 		m_tile[i].render(m_renderer);
 	}
-
-
-
-
-	for (int i = 0; i < 40; i ++)
-	{
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x+5, graph.nodeIndex(i)->m_y+5, graph.nodeIndex(i + 1)->m_x+5, graph.nodeIndex(i + 1)->m_y+5);
-	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+
+	for (int i = 0; i < 41; i ++)
+	{
+
+		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
+	}
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(39)->m_x + 5, graph.nodeIndex(39)->m_y+5, graph.nodeIndex(42)->m_x + 5, graph.nodeIndex(42)->m_y+5);
+
+
+	for (int i = 42; i < 54; i++)
+	{
+		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y+5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y+5);
+	}
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(54)->m_x + 5, graph.nodeIndex(54)->m_y + 5, graph.nodeIndex(37)->m_x + 5, graph.nodeIndex(37)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(35)->m_x + 5, graph.nodeIndex(35)->m_y + 5, graph.nodeIndex(55)->m_x + 5, graph.nodeIndex(55)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(30)->m_x + 5, graph.nodeIndex(30)->m_y + 5, graph.nodeIndex(56)->m_x + 5, graph.nodeIndex(56)->m_y + 5);
+
+	for (int i = 55; i < 101; i++)
+	{
+		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
+	}
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(51)->m_x + 5, graph.nodeIndex(51)->m_y + 5, graph.nodeIndex(43)->m_x + 5, graph.nodeIndex(43)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(101)->m_x + 5, graph.nodeIndex(101)->m_y + 5, graph.nodeIndex(4)->m_x + 5, graph.nodeIndex(4)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(108)->m_x + 5, graph.nodeIndex(108)->m_y + 5, graph.nodeIndex(11)->m_x + 5, graph.nodeIndex(11)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(107)->m_x + 5, graph.nodeIndex(107)->m_y + 5, graph.nodeIndex(8)->m_x + 5, graph.nodeIndex(8)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(107)->m_x + 5, graph.nodeIndex(107)->m_y + 5, graph.nodeIndex(108)->m_x + 5, graph.nodeIndex(108)->m_y + 5);
+
+	for (int i = 101; i < 106; i++)
+	{
+		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
 	}
 
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(106)->m_x + 5, graph.nodeIndex(106)->m_y + 5, graph.nodeIndex(99)->m_x + 5, graph.nodeIndex(99)->m_y + 5);
 
-	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(38)->m_x + 5, graph.nodeIndex(38)->m_y+5, graph.nodeIndex(41)->m_x + 5, graph.nodeIndex(41)->m_y+5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(127)->m_x + 5, graph.nodeIndex(127)->m_y + 5, graph.nodeIndex(97)->m_x + 5, graph.nodeIndex(97)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(128)->m_x + 5, graph.nodeIndex(128)->m_y + 5, graph.nodeIndex(83)->m_x + 5, graph.nodeIndex(83)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(128)->m_x + 5, graph.nodeIndex(128)->m_y + 5, graph.nodeIndex(127)->m_x + 5, graph.nodeIndex(127)->m_y + 5);
+
+	for (int i = 124; i < 126; i++)
+	{
+		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
+	}
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(124)->m_x + 5, graph.nodeIndex(124)->m_y + 5, graph.nodeIndex(93)->m_x + 5, graph.nodeIndex(93)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(126)->m_x + 5, graph.nodeIndex(126)->m_y + 5, graph.nodeIndex(91)->m_x + 5, graph.nodeIndex(91)->m_y + 5);
+
+	for (int i = 109; i < 112; i++)
+	{
+		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
+	}
+
+	for (int i = 113; i < 115; i++)
+	{
+		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
+	}
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(109)->m_x + 5, graph.nodeIndex(109)->m_y + 5, graph.nodeIndex(14)->m_x + 5, graph.nodeIndex(14)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(112)->m_x + 5, graph.nodeIndex(112)->m_y + 5, graph.nodeIndex(17)->m_x + 5, graph.nodeIndex(17)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(13)->m_x + 5, graph.nodeIndex(13)->m_y + 5, graph.nodeIndex(113)->m_x + 5, graph.nodeIndex(113)->m_y + 5);
+
+	for (int i = 116; i < 121; i++)
+	{
+		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
+	}
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(121)->m_x + 5, graph.nodeIndex(121)->m_y + 5, graph.nodeIndex(21)->m_x + 5, graph.nodeIndex(21)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(115)->m_x + 5, graph.nodeIndex(115)->m_y + 5, graph.nodeIndex(116)->m_x + 5, graph.nodeIndex(116)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(114)->m_x + 5, graph.nodeIndex(114)->m_y + 5, graph.nodeIndex(137)->m_x + 5, graph.nodeIndex(137)->m_y + 5);
+
+	for (int i = 129; i < 137; i++)
+	{
+		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
+	}
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(138)->m_x + 5, graph.nodeIndex(138)->m_y + 5, graph.nodeIndex(134)->m_x + 5, graph.nodeIndex(134)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(138)->m_x + 5, graph.nodeIndex(138)->m_y + 5, graph.nodeIndex(115)->m_x + 5, graph.nodeIndex(115)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(130)->m_x + 5, graph.nodeIndex(130)->m_y + 5, graph.nodeIndex(81)->m_x + 5, graph.nodeIndex(81)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(122)->m_x + 5, graph.nodeIndex(122)->m_y + 5, graph.nodeIndex(123)->m_x + 5, graph.nodeIndex(123)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(122)->m_x + 5, graph.nodeIndex(122)->m_y + 5, graph.nodeIndex(22)->m_x + 5, graph.nodeIndex(22)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(123)->m_x + 5, graph.nodeIndex(123)->m_y + 5, graph.nodeIndex(25)->m_x + 5, graph.nodeIndex(25)->m_y + 5);
+
+	for (int i = 148; i < 152; i++)
+	{
+		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
+	}
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(148)->m_x + 5, graph.nodeIndex(148)->m_y + 5, graph.nodeIndex(27)->m_x + 5, graph.nodeIndex(27)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(152)->m_x + 5, graph.nodeIndex(152)->m_y + 5, graph.nodeIndex(28)->m_x + 5, graph.nodeIndex(28)->m_y + 5); //weird top right bit
+
+
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(170)->m_x + 5, graph.nodeIndex(170)->m_y + 5, graph.nodeIndex(171)->m_x + 5, graph.nodeIndex(171)->m_y + 5);
+
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(170)->m_x + 5, graph.nodeIndex(170)->m_y + 5, graph.nodeIndex(76)->m_x + 5, graph.nodeIndex(76)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(171)->m_x + 5, graph.nodeIndex(171)->m_y + 5, graph.nodeIndex(129)->m_x + 5, graph.nodeIndex(129)->m_y + 5);
+	
+
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(149)->m_x + 5, graph.nodeIndex(149)->m_y + 5, graph.nodeIndex(153)->m_x + 5, graph.nodeIndex(153)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(153)->m_x + 5, graph.nodeIndex(153)->m_y + 5, graph.nodeIndex(154)->m_x + 5, graph.nodeIndex(154)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(154)->m_x + 5, graph.nodeIndex(154)->m_y + 5, graph.nodeIndex(63)->m_x + 5, graph.nodeIndex(63)->m_y + 5);
+
+	for (int i = 162; i < 166; i++)
+	{
+		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
+	}
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(166)->m_x + 5, graph.nodeIndex(166)->m_y + 5, graph.nodeIndex(26)->m_x + 5, graph.nodeIndex(26)->m_y + 5);
+	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(162)->m_x + 5, graph.nodeIndex(162)->m_y + 5, graph.nodeIndex(75)->m_x + 5, graph.nodeIndex(75)->m_y + 5);
+
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 
-	for (int i = 41; i < 50; i++)
-	{
-			SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-			SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y+5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y+5);
-			SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);		
-	}
+
 
 
 
 	SDL_RenderPresent(m_renderer);
+
 }
 
 /// <summary>
