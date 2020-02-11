@@ -15,12 +15,12 @@ CreditScreen::~CreditScreen()
 
 void CreditScreen::update()
 {
-	std::cout << "Credits update" << std::endl;
+	
 }
 
 void CreditScreen::render()
 {
-	std::cout << "Credits render" << std::endl;
+	
 	//SDL_RenderClear(m_renderer);
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 

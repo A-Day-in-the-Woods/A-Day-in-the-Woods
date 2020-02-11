@@ -15,12 +15,12 @@ OptionScreen::~OptionScreen()
 
 void OptionScreen::update()
 {
-	std::cout << "Options update" << std::endl;
+	
 }
 
 void OptionScreen::render()
 {
-	std::cout << "Options render" << std::endl;
+	
 	//SDL_RenderClear(m_renderer);
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 

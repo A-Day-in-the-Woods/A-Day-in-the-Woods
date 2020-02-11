@@ -16,12 +16,12 @@ MenuScreen::~MenuScreen()
 
 void MenuScreen::update()
 {
-	std::cout << "Menu update" << std::endl;
+	
 }
 
 void MenuScreen::render()
 {
-	std::cout << "Menu render" << std::endl;
+	
 	//SDL_RenderClear(m_renderer);
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 

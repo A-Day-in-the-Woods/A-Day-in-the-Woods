@@ -3,11 +3,17 @@
 #include <iostream>
 #include <vector>
 #include "SDL.h"
+#include "Game.h"
 #include "Entity.h"
 
 
 class InputSystem {
 public:
+	
+	InputSystem(GameState & t_currentState) :
+		m_currentState(t_currentState)
+	{}
+
 	void addEntity(Entity* t_e)
 	{
 		m_entities.push_back(t_e);
@@ -21,7 +27,7 @@ public:
 			}
 		}
 	}
-
+	
 	void update(SDL_Event &event)
 	{
 		for (int i = 0; i < m_entities.size(); i++)
@@ -48,14 +54,27 @@ public:
 				case SDLK_RIGHT:
 					std::cout << "Right ";
 					break;
+				case SDLK_a:
+					switch (m_currentState)
+					{
+					case GameState::Minigame:
+						
+						break;
+					default:
+						break;
+					}
+					break;
 				default:
 					break;
 				}
 			}
 		}
 	}
-
+	
 private:
+	GameState & m_currentState;
+
+	//Game& game;
 	std::vector<Entity*> m_entities;
 	std::vector<InputComponent*> m_inputComp;
 };

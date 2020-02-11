@@ -15,13 +15,13 @@ Gameplay::~Gameplay()
 
 void Gameplay::update()
 {
-	std::cout << "Gameplay update" << std::endl;
+
 	
 }
 
 void Gameplay::render()
 {
-	std::cout << "Gameplay render" << std::endl;
+
 	//SDL_RenderClear(m_renderer);
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 

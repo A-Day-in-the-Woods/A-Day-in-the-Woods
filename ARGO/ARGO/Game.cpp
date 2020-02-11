@@ -14,7 +14,8 @@ Graph< pair<string, int>, int> graph(172); // A* Graph
 /// <summary>
 /// Constructor for the game class.
 /// </summary>
-Game::Game()
+Game::Game() :
+	m_inputSystem(m_currentState)
 {
 	m_tile.reserve(200);
 	
@@ -143,6 +144,7 @@ void Game::processEvent()
 		else if (m_currentState == GameState::Credit)
 		{
 			m_creditscreen->setGameState();
+			m_minigamescreen->startMinGame(1);
 		}
 		else if (m_currentState == GameState::Minigame)
 		{
