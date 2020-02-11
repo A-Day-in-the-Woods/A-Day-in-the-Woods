@@ -1,7 +1,14 @@
 #include "Gameplay.h"
 
 
-Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& even) :
+void visit(Node* node) {
+	std::cout << "Visiting " << node->data().first << std::endl;
+}
+
+
+
+
+Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event) :
 	m_game(game),
 	m_event(event),
 	m_renderer(t_renderer)
