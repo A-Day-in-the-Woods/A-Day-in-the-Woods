@@ -148,7 +148,7 @@ dx fn 1
 dy dz 1
 dy ek 1
 dz ea 1
-ea eb 1
+ea eb 1 
 ed ee 1
 ee ef 1
 ef di 1
