@@ -4,7 +4,6 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-#include <SDL_ttf.h>
 
 #include <iostream>
 #include "Game.h"
@@ -31,9 +30,7 @@ private:
 	SDL_Rect m_buttonPos;
 
 	SDL_Surface* menu[4];
-	const char* text[4] = {"Game","Options","Credits","Quit"};
 	SDL_Rect m_textPos[4] = { { 800,100,300,100 },{ 800,300,300,100 },{ 800,500,300,100 },{ 850,700,200,100 } };
 	SDL_Texture* m_menuTexture[4];
-	SDL_Color color = { 255,255,255 };
 };
 #endif // MENU

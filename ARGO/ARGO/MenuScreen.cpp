@@ -14,18 +14,14 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event) :
 	SDL_FreeSurface(tempButton);
 	m_buttonPos = { 50,50,100,100 };
 
-	TTF_Font* m_font = TTF_OpenFont("ASSETS\\FONTS\\comic.ttf", 36);
-	if (!m_font)
-	{
-		std::cout << "Text Load Error" << TTF_GetError() << std::endl;
-	}
-	else
-	{
-		std::cout << "Text Load Fine" << std::endl;
-	}
+	
+	menu[0] = IMG_Load("ASSETS\\IMAGES\\game.png");
+	menu[1] = IMG_Load("ASSETS\\IMAGES\\options.png");
+	menu[2] = IMG_Load("ASSETS\\IMAGES\\credits.png");
+	menu[3] = IMG_Load("ASSETS\\IMAGES\\quit.png");
+
 	for (int i = 0; i < MENU_NUM; i++)
 	{
-		menu[i] = TTF_RenderText_Solid(m_font, text[i], color);
 		m_menuTexture[i] = SDL_CreateTextureFromSurface(m_renderer, menu[i]);
 		SDL_FreeSurface(menu[i]);
 	}
