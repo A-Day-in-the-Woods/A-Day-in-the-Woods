@@ -13,4 +13,6 @@ enum class GameState
 	Quit
 };
 
+
+
 #endif // ENUM
