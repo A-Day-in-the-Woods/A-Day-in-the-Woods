@@ -183,6 +183,7 @@ void Gameplay::render()
 
 void Gameplay::setGameState()
 {
+	m_game.startMinGame();
 	m_game.setGameState(GameState::Minigame);
 }
 

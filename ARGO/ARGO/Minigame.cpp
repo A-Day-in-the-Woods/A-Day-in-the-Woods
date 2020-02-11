@@ -109,7 +109,6 @@ void MinigameScreen::render()
 	
 	//SDL_RenderPresent(m_renderer);
 	std::cout << "Minigame render" << std::endl;
-	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 }
 
 void MinigameScreen::spriteMove()

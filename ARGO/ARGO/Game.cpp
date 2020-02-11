@@ -92,6 +92,11 @@ void Game::run()
 	}
  }
 
+void Game::startMinGame()
+{
+	m_minigamescreen->startMinGame(1);
+}
+
 /// <summary>
 /// Processes SDL event
 /// </summary>

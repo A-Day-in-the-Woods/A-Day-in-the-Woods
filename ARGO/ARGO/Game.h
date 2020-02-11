@@ -47,6 +47,8 @@ public:
 	GameState m_currentState{ GameState::Menu };
 	void setGameState(GameState t_newState) { m_currentState = t_newState; };
 
+	void startMinGame();
+
 private:
 	void processEvent();
 	void update();

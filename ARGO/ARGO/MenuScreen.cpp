@@ -109,6 +109,7 @@ void MenuScreen::setGameState()
 	if (button == 0)
 	{
 		m_game.setGameState(GameState::Gameplay);
+	
 	}
 	else if (button == 1)
 	{
