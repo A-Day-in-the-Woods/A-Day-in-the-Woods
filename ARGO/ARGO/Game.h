@@ -1,7 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include <SDL_image.h>
-
+#include <SDL_ttf.h>
 
 #include <iostream>
 #include <fstream>
@@ -73,7 +73,7 @@ private:
 
 
 	SDL_Texture* m_TestingTexture;
-
+	SDL_Event event;
 
 	// ------ A* stuff ----------
 	void aStar();
@@ -102,6 +102,5 @@ private:
 	
 	HealthSystem m_healthSystem;
 	InputSystem m_inputSystem;
-
 };
 

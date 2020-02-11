@@ -24,7 +24,8 @@ Game::Game()
 	{
 		// Try to initalise SDL in general
 		if (SDL_Init(SDL_INIT_EVERYTHING) < 0) throw "Error Loading SDL";
-		
+		if (TTF_Init() < 0) throw "Error Loading TTF";
+
 		// Create SDL Window Centred in Middle Of Screen
 		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1900, 1000, NULL);
 		// Check if window was created correctly
@@ -38,11 +39,11 @@ Game::Game()
 		// Sets clear colour of renderer to black and the color of any primitives
 		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 
-		m_menuscreen = new MenuScreen(*this, m_renderer);
-		m_optionscreen = new OptionScreen(*this, m_renderer);
-		m_gameplayscreen = new Gameplay(*this, m_renderer);
-		m_creditscreen = new CreditScreen(*this, m_renderer);
-		m_minigamescreen = new MinigameScreen(*this, m_renderer);
+		m_menuscreen = new MenuScreen(*this, m_renderer, event);
+		m_optionscreen = new OptionScreen(*this, m_renderer, event);
+		m_gameplayscreen = new Gameplay(*this, m_renderer, event);
+		m_creditscreen = new CreditScreen(*this, m_renderer, event);
+		m_minigamescreen = new MinigameScreen(*this, m_renderer, event);
 
 		// Game is running
 		m_isRunning = true;
@@ -107,7 +108,8 @@ void Game::run()
 /// </summary>
 void Game::processEvent()
 {
-	SDL_Event(event);
+	//SDL_Event(event);
+	
 	SDL_PollEvent(&event);
 
 	m_inputSystem.update(event);
@@ -118,36 +120,12 @@ void Game::processEvent()
 		m_isRunning = false;
 		break;
 	case SDL_KEYDOWN:
-		// Press Escape to close screen
-		
+		// Press Escape to close screen		
 		if (SDLK_ESCAPE == event.key.keysym.sym)
 		{
 			m_isRunning = false;
-
 		}
 		
-		break;
-	case SDL_MOUSEBUTTONUP:
-		if (m_currentState == GameState::Menu)
-		{
-			m_menuscreen->setGameState();
-		}
-		else if (m_currentState == GameState::Options)
-		{
-			m_optionscreen->setGameState();
-		}
-		else if (m_currentState == GameState::Gameplay)
-		{
-			m_gameplayscreen->setGameState();
-		}
-		else if (m_currentState == GameState::Credit)
-		{
-			m_creditscreen->setGameState();
-		}
-		else if (m_currentState == GameState::Minigame)
-		{
-			m_minigamescreen->setGameState();
-		}
 		break;
 	default:
 		break;
@@ -235,32 +213,33 @@ void Game::render()
 	//SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 	m_player.render(m_renderer);
 
-
-
-	for (int i = 0; i < m_tile.size() ; i++)
+	if (m_currentState == GameState::Gameplay)
 	{
-		m_tile[i].render(m_renderer);
-	}
 
-	for (int i = 0; i < 40; i ++)
-	{
-	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x+5, graph.nodeIndex(i)->m_y+5, graph.nodeIndex(i + 1)->m_x+5, graph.nodeIndex(i + 1)->m_y+5);
-	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
-	}
+		for (int i = 0; i < m_tile.size(); i++)
+		{
+			m_tile[i].render(m_renderer);
+		}
 
-
-	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(38)->m_x + 5, graph.nodeIndex(38)->m_y+5, graph.nodeIndex(41)->m_x + 5, graph.nodeIndex(41)->m_y+5);
-	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
-
-	for (int i = 41; i < 50; i++)
-	{
+		for (int i = 0; i < 40; i++)
+		{
 			SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-			SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y+5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y+5);
-			SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);		
-	}
+			SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
+			SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+		}
 
+		SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
+		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(38)->m_x + 5, graph.nodeIndex(38)->m_y + 5, graph.nodeIndex(41)->m_x + 5, graph.nodeIndex(41)->m_y + 5);
+		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+
+		for (int i = 41; i < 50; i++)
+		{
+			SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
+			SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
+			SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+		}
+
+	}
 	SDL_RenderPresent(m_renderer);
 
 }
