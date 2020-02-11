@@ -116,29 +116,7 @@ void Game::processEvent()
 		}
 		
 		break;
-	case SDL_MOUSEBUTTONUP:
-		if (m_currentState == GameState::Menu)
-		{
-			m_menuscreen->setGameState();
-		}
-		else if (m_currentState == GameState::Options)
-		{
-			m_optionscreen->setGameState();
-		}
-		else if (m_currentState == GameState::Gameplay)
-		{
-			m_gameplayscreen->setGameState();
-		}
-		else if (m_currentState == GameState::Credit)
-		{
-			m_creditscreen->setGameState();
-			m_minigamescreen->startMinGame(1);
-		}
-		else if (m_currentState == GameState::Minigame)
-		{
-			m_minigamescreen->setGameState();
-		}
-		break;
+
 	default:
 		break;
 	}
