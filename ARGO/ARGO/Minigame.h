@@ -16,7 +16,7 @@ class Game;
 class MinigameScreen
 {
 public:
-	MinigameScreen(Game& game, SDL_Renderer* t_renderer);
+	MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event);
 	~MinigameScreen();
 
 	void update();
@@ -63,5 +63,6 @@ private:
 	SDL_Rect honeyRectangle;
 
 	SDL_Renderer* m_renderer;	// game renderer
+	SDL_Event& m_event;
 };
 #endif // MINIGAME
