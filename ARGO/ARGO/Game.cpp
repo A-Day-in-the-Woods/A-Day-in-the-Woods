@@ -1,14 +1,5 @@
 #include "Game.h"
 
-/// <summary>
-/// Function for visiting nodes, used in A*
-/// </summary>
-/// <param name="node"></param>
-void visit(Node* node) {
-	cout << "Visiting: " << node->data().first << endl;
-}
-
-Graph< pair<string, int>, int> graph(172); // A* Graph
 
 
 /// <summary>
@@ -16,9 +7,7 @@ Graph< pair<string, int>, int> graph(172); // A* Graph
 /// </summary>
 Game::Game()
 {
-	m_tile.reserve(200);
-	
-	initNodeFiles();
+
 
 	try
 	{
@@ -167,16 +156,6 @@ void Game::update()
 		break;
 	}
 
-	if (!startAstar)
-	{
-		
-		aStar();
-		startAstar = !startAstar;
-
-		m_healthSystem.removeEntityFromSystem(0);
-		//m_testEntity->removeComponent(ComponentType::HEALTH);
-
-	}
 	m_healthSystem.update();
 }
 
@@ -213,33 +192,6 @@ void Game::render()
 	//SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 	m_player.render(m_renderer);
 
-	if (m_currentState == GameState::Gameplay)
-	{
-
-		for (int i = 0; i < m_tile.size(); i++)
-		{
-			m_tile[i].render(m_renderer);
-		}
-
-		for (int i = 0; i < 40; i++)
-		{
-			SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-			SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
-			SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
-		}
-
-		SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(38)->m_x + 5, graph.nodeIndex(38)->m_y + 5, graph.nodeIndex(41)->m_x + 5, graph.nodeIndex(41)->m_y + 5);
-		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
-
-		for (int i = 41; i < 50; i++)
-		{
-			SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-			SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
-			SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
-		}
-
-	}
 	SDL_RenderPresent(m_renderer);
 
 }
@@ -254,44 +206,3 @@ void Game::clean()
 	SDL_QUIT;
 }
 
-/// <summary>
-/// Uses A* From one node to another
-/// </summary>
-void Game::aStar()
-{
-	vector<Node*> nodeVector;
-	graph.aStar(graph.nodeIndex(nodemap["a"]), graph.nodeIndex(nodemap["d"]), visit, nodeVector);
-
-	cout << "The node path taken is :" << endl;
-
-	for (int i = nodeVector.size() - 1; i > -1; i--)
-	{
-		cout << nodeVector[i]->data().first << endl;
-	}
-}
-
-/// <summary>
-/// Loades in files for A*
-/// </summary>
-void Game::initNodeFiles()
-{
-	myfile.open("Nodes.txt");	// nodes
-	while (myfile >> nodeLabel.first >> posX >> posY)
-	{
-		graph.addNode(nodeLabel, posX, posY, index);
-		nodemap[nodeLabel.first] = index;
-		index++;
-
-		m_tile.push_back(Tile(posX, posY));
-	}
-	myfile.close();
-
-
-	myfile.open("NodeDistances.txt");	// arcs
-	while (myfile >> from >> to >> weight) {
-		graph.addArc(nodemap[from], nodemap[to], weight);
-
-	}
-
-	myfile.close();
-}
