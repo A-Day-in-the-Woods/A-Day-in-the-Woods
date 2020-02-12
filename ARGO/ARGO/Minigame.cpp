@@ -1,9 +1,10 @@
 #include "Minigame.h"
 
-MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event) :
+MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState) :
 	m_game(game),
 	m_event(event),
-	m_renderer(t_renderer)
+	m_renderer(t_renderer),
+	m_inputSystem(t_currentState)
 {
 	
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic4.png");
@@ -50,16 +51,19 @@ MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& 
 
 	honeyRectangle.h = 150;
 	honeyRectangle.w = 150;
-
 }
 
 MinigameScreen::~MinigameScreen()
 {
 }
 
+void MinigameScreen::processEvent(Player& t_player)
+{
+	m_inputSystem.update(m_event, t_player);
+}
+
 void MinigameScreen::update()
 {
-	
 
 
 	switch (m_miniGameID)
@@ -180,6 +184,11 @@ void MinigameScreen::startMinGame(int t_mineGameID)
 void MinigameScreen::setGameState()
 {
 	m_game.setGameState(GameState::Menu);
+}
+
+void MinigameScreen::addPlayer(Player& t_player)
+{
+	m_inputSystem.addEntity(t_player.getEntity());
 }
 
 int MinigameScreen::randomNumber(int t_max, int t_min)

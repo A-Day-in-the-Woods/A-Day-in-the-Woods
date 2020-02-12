@@ -34,7 +34,9 @@ Game::Game() :
 		m_optionscreen = new OptionScreen(*this, m_renderer, event);
 		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState);
 		m_creditscreen = new CreditScreen(*this, m_renderer, event);
-		m_minigamescreen = new MinigameScreen(*this, m_renderer, event);
+		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState);
+
+		m_minigamescreen->addPlayer(m_gameplayscreen->m_player);
 
 		// Game is running
 		m_isRunning = true;
@@ -135,6 +137,7 @@ void Game::processEvent()
 		case GameState::Credit:
 			break;
 		case GameState::Minigame:
+			m_minigamescreen->processEvent(m_gameplayscreen->m_player);
 			break;
 		case GameState::Quit:
 			m_isRunning = false;

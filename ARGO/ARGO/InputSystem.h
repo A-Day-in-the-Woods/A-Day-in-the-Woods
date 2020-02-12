@@ -37,8 +37,17 @@ public:
 				switch (event.key.keysym.sym)
 				{
 				case SDLK_UP:
-					t_player.rollForMove(1);
-					std::cout << "Up ";
+					if (m_currentState == GameState::Gameplay)
+					{
+						t_player.rollForMove(3);
+						SDL_Delay(500);
+						std::cout << "Up ";
+					}
+					else if (m_currentState == GameState::Minigame)
+					{
+						std::cout << "l";
+						//input?
+					}
 					break;	
 				case SDLK_DOWN:
 					std::cout << "Down ";

@@ -10,20 +10,26 @@
 #include "Game.h"
 #include <random>
 #include <math.h>
+#include "Player.h"
+#include "InputSystem.h"
 
 class Game;
 
 class MinigameScreen
 {
 public:
-	MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event);
+	MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState);
 	~MinigameScreen();
 
+	void processEvent(Player& t_player);
 	void update();
 	void render();
 	void spriteMove();
 	void startMinGame(int t_mineGameID);
 	void setGameState();
+
+	void addPlayer(Player & t_player);
+
 private:
 	
 
@@ -64,5 +70,8 @@ private:
 
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;
+
+
+	InputSystem m_inputSystem;
 };
 #endif // MINIGAME

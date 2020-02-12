@@ -29,6 +29,10 @@ public:
 	void render();
 	void processEvent();
 	void setGameState();
+
+
+	Player m_player;
+
 private:
 
 
@@ -63,7 +67,6 @@ private:
 
 	InputSystem m_inputSystem;
 
-	Player m_player;
 
 };
 
