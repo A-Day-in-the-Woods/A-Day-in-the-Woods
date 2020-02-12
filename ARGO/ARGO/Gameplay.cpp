@@ -5,13 +5,15 @@ void visit(Node* node) {
 	std::cout << "Visiting " << node->data().first << std::endl;
 }
 
+Graph< pair<string, int>, int> graph(172); // A* Graph
 
 
-
-Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event) :
+Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameState& t_currentState) :
 	m_game(game),
 	m_event(event),
-	m_renderer(t_renderer)
+	m_renderer(t_renderer),
+	m_player(m_tile, graph),
+	m_inputSystem(t_currentState)
 {
 	m_tile.reserve(200);
 	initNodeFiles();
@@ -19,9 +21,12 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event) :
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic2.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
+
+	m_player.addComponent(new InputComponent());
+	m_inputSystem.addEntity(m_player.getEntity());
 }
 
-Graph< pair<string, int>, int> graph(172); // A* Graph
+
 
 Gameplay::~Gameplay()
 {
@@ -52,6 +57,7 @@ void Gameplay::update()
 
 	}
 
+	m_player.update();
 
 }
 
@@ -176,9 +182,15 @@ void Gameplay::render()
 
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 
-
+	m_player.render(m_renderer);
 
 	//SDL_RenderPresent(m_renderer);
+}
+
+void Gameplay::processEvent()
+{
+	m_inputSystem.update(m_event,m_player);
+
 }
 
 void Gameplay::setGameState()

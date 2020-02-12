@@ -6,8 +6,7 @@
 /// Constructor for the game class.
 /// </summary>
 Game::Game() :
-	m_player(m_tile, graph),
-	m_inputSystem(m_currentState,m_player)
+	m_inputSystem(m_currentState)
 {
 
 
@@ -33,7 +32,7 @@ Game::Game() :
 
 		m_menuscreen = new MenuScreen(*this, m_renderer, event);
 		m_optionscreen = new OptionScreen(*this, m_renderer, event);
-		m_gameplayscreen = new Gameplay(*this, m_renderer, event);
+		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState);
 		m_creditscreen = new CreditScreen(*this, m_renderer, event);
 		m_minigamescreen = new MinigameScreen(*this, m_renderer, event);
 
@@ -109,7 +108,6 @@ void Game::processEvent()
 	
 	SDL_PollEvent(&event);
 
-	m_inputSystem.update(event);
 
 	switch (event.type)
 	{
@@ -123,6 +121,29 @@ void Game::processEvent()
 			m_isRunning = false;
 		}
 		
+
+
+		switch (m_currentState)
+		{
+		case GameState::Menu:
+			break;
+		case GameState::Options:
+			break;
+		case GameState::Gameplay:
+			m_gameplayscreen->processEvent();
+			break;
+		case GameState::Credit:
+			break;
+		case GameState::Minigame:
+			break;
+		case GameState::Quit:
+			m_isRunning = false;
+		default:
+			break;
+		}
+
+
+
 		break;
 
 	default:
@@ -137,8 +158,6 @@ void Game::processEvent()
 /// </summary>
 void Game::update()
 {
-
-	m_player.update();
 	//graph.nodeIndex(1)->m_x;
 	//graph.nodeIndex(1)->m_Y;
 
@@ -199,7 +218,6 @@ void Game::render()
 	}
 
 	//SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
-	m_player.render(m_renderer);
 
 	SDL_RenderPresent(m_renderer);
 

@@ -10,9 +10,8 @@
 
 class InputSystem {
 public:
-	InputSystem(GameState & t_currentState, Player & t_player) :
-		m_currentState(t_currentState),
-		m_player(t_player)
+	InputSystem(GameState & t_currentState) :
+		m_currentState(t_currentState)
 	{}
 
 	void addEntity(Entity* t_e)
@@ -29,7 +28,7 @@ public:
 		}
 	}
 	
-	void update(SDL_Event &event)
+	void update(SDL_Event &event, Player & t_player)
 	{
 		for (int i = 0; i < m_entities.size(); i++)
 		{
@@ -38,7 +37,7 @@ public:
 				switch (event.key.keysym.sym)
 				{
 				case SDLK_UP:
-					m_player.rollForMove(1);
+					t_player.rollForMove(1);
 					std::cout << "Up ";
 					break;	
 				case SDLK_DOWN:
@@ -79,5 +78,4 @@ private:
 	//Game& game;
 	std::vector<Entity*> m_entities;
 	std::vector<InputComponent*> m_inputComp;
-	Player & m_player;
 };

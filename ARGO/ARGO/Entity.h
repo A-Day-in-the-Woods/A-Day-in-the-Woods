@@ -22,6 +22,10 @@ public:
 	std::vector<Component*> getComponents() { return m_components; }
 	int getId() { return m_id; }
 
+	Entity * getEntity(){
+		return this;
+	}
+
 private:
 	std::vector<Component*> m_components;
 	int m_id;

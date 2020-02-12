@@ -9,6 +9,9 @@
 #include "Tile.h"
 #include <map>
 #include "Graph.h"
+#include "Player.h"
+#include "InputSystem.h"
+#include "Entity.h"
 
 class Game;
 
@@ -20,10 +23,11 @@ typedef GraphNode<pair<std::string, int>, int> Node;
 class Gameplay
 {
 public:
-	Gameplay(Game& game, SDL_Renderer* t_renderer, SDL_Event& event);
+	Gameplay(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState);
 	~Gameplay();
 	void update();
 	void render();
+	void processEvent();
 	void setGameState();
 private:
 
@@ -56,6 +60,11 @@ private:
 	SDL_Texture* m_TestingTexture;
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;
+
+	InputSystem m_inputSystem;
+
+	Player m_player;
+
 };
 
 #endif // !GAMEPLAY

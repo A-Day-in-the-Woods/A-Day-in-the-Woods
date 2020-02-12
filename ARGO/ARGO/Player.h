@@ -5,6 +5,8 @@
 #include"Tile.h"
 #include "iostream"
 #include"Graph.h"
+#include "Entity.h"
+
 
 /// <summary>
 /// @Authors:
@@ -15,7 +17,7 @@
 
 
 
-class Player
+class Player : public Entity 
 {
 public:
 	Player(std::vector<Tile> & t_map, Graph< pair<string, int>, int> & t_g);
@@ -46,6 +48,4 @@ private:
 
 
 	SDL_Rect rect;//temp rect for a player square 
-
-
 };

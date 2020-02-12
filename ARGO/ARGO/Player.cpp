@@ -2,7 +2,8 @@
 
 Player::Player(std::vector<Tile> & t_map, Graph< pair<string, int>, int>& t_g):
 	m_map(t_map),
-	m_graph(t_g)
+	m_graph(t_g),
+	Entity(1)
 {
 	SetUp();
 	CurrentGameBoardIndex = 0;

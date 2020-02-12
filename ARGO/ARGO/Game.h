@@ -64,8 +64,6 @@ private:
 	SDL_Window* m_window;	// game window
 	SDL_Renderer* m_renderer;	// game renderer
 
-	Player m_player;
-
 	bool m_isRunning;	// is game running?
 
 
