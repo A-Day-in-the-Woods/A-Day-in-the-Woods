@@ -3,7 +3,10 @@
 /// @date 06/02/2020
 /// </summary>
 
-#pragma once
+#ifndef COMMANDINTERFACE_H
+#define COMMANDINTERFACE_H
+
+
 
 //Template that each command will take
 class Command
@@ -15,3 +18,5 @@ protected:
 	Command() {};
 
 };
+
+#endif // !COMMANDINTERFACE_H

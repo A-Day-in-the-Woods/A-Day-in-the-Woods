@@ -2,10 +2,12 @@
 /// @author Jack Fennell
 /// @date 06/02/2020
 /// </summary>
-#pragma once
+#ifndef COMMANDMANGER_H
+#define COMMANDMANGER_H
 
-#include "ConcreteCommands.h"
 #include <stack>
+
+#include <ConcreteCommands.h>
 
 class CommandManager
 {
@@ -19,15 +21,4 @@ private:
 };
 
 
-void CommandManager::addCmd(Command* t_input)
-{
-	//push onto stack then execute
-	m_commands.push(t_input);
-	execute();
-}
-
-
-void CommandManager::execute()
-{
-	m_commands.top()->execute();
-}
+#endif // !COMMANDMANGER_H

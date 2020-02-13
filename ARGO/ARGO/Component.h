@@ -1,4 +1,7 @@
-#pragma once
+#ifndef COMPONENT_H
+
+#define COMPONENT_H
+
 
 #include <SDL.h>
 
@@ -20,3 +23,5 @@ public:
 private:
 	ComponentType m_compType;
 };
+
+#endif // !COMPONENT_H

@@ -1,6 +1,6 @@
-#pragma once
-#ifndef CREDIT
-#define CREDIT
+
+#ifndef CREDIT_H
+#define CREDIT_H
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -24,4 +24,4 @@ private:
 	SDL_Event& m_event;
 };
 
-#endif // !CREDIT
+#endif // !CREDIT_H

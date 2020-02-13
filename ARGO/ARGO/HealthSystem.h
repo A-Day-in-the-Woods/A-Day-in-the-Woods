@@ -1,4 +1,7 @@
-#pragma once
+#ifndef HEALTHSYSTEM_H
+#define HEALTHSYSTEM_H
+
+
 
 #include"Entity.h"
 #include <vector>
@@ -61,7 +64,7 @@ public:
 	void update() {
 		for (int i = 0; i < m_entities.size(); i++)
 		{
-			std::cout << "ID : " << m_entities[i]->getId() << "  Health : " << m_healthComp[i]->getHealth() << std::endl;
+			//std::cout << "ID : " << m_entities[i]->getId() << "  Health : " << m_healthComp[i]->getHealth() << std::endl;
 		}
 	}
 
@@ -69,3 +72,4 @@ private:
 	std::vector<Entity*> m_entities;
 	std::vector<HealthComponent*> m_healthComp;
 };
+#endif // !HEALTHSYSTEM_H

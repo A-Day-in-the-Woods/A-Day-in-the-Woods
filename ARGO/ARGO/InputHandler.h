@@ -2,13 +2,14 @@
 /// @author Jack Fennell
 /// @date 06/02/2020
 /// </summary>
-#pragma once
-
-
-#include"CommandManager.h"
+#ifndef INPUTHANDLER_H
 
 
 
+#define INPUTHANDLER_H
+
+
+#include <CommandManager.h>
 #include <stack>
 #include <SDL.h>
 
@@ -28,46 +29,9 @@ private:
 	Command* buttonSpace = new SpaceOutput();
 	Command* buttonLeft = new LeftOutput();
 	Command* buttonRight = new RightOutput();
-
+	Command* buttonA = new AOutput();
 	
 };
 
-void InputHandler::inputHandle(SDL_Event &event)
-{
-	//SDL_Event event;
-	//SDL_PollEvent(&event);
 
-	
-	switch (event.type)
-	{
-	case SDL_KEYDOWN:
-		if (SDLK_UP == event.key.keysym.sym)
-		{
-			m_manager.addCmd(buttonUp);
-		}
-		if (SDLK_DOWN == event.key.keysym.sym)
-		{
-			m_manager.addCmd(buttonDown);
-		}
-		if (SDLK_RETURN == event.key.keysym.sym)
-		{
-			m_manager.addCmd(buttonEnter);
-		}
-		if (SDLK_SPACE == event.key.keysym.sym)
-		{
-			m_manager.addCmd(buttonSpace);
-		}
-		if (SDLK_LEFT == event.key.keysym.sym)
-		{
-			m_manager.addCmd(buttonLeft);
-		}
-		if (SDLK_RIGHT == event.key.keysym.sym)
-		{
-			m_manager.addCmd(buttonRight);
-		}
-		break;
-	default:
-		break;
-	}
-	
-}
+#endif // !INPUTHANDLER_H

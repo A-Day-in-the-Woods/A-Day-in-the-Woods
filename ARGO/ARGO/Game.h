@@ -1,4 +1,7 @@
-#pragma once
+#ifndef GAME_H
+
+#define GAME_H
+
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -79,3 +82,4 @@ private:
 	InputSystem m_inputSystem;
 };
 
+#endif // !GAME_H

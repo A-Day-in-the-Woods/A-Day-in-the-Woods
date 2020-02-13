@@ -3,8 +3,8 @@
 MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState) :
 	m_game(game),
 	m_event(event),
-	m_renderer(t_renderer),
-	m_inputSystem(t_currentState)
+	m_renderer(t_renderer)
+	//m_inputSystem(t_currentState)
 {
 	
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic4.png");
@@ -59,7 +59,7 @@ MinigameScreen::~MinigameScreen()
 
 void MinigameScreen::processEvent(Player& t_player)
 {
-	m_inputSystem.update(m_event, t_player);
+	//m_inputSystem.update(m_event, t_player);
 }
 
 void MinigameScreen::update()
@@ -188,7 +188,7 @@ void MinigameScreen::setGameState()
 
 void MinigameScreen::addPlayer(Player& t_player)
 {
-	m_inputSystem.addEntity(t_player.getEntity());
+	//m_inputSystem.addEntity(t_player.getEntity());
 }
 
 int MinigameScreen::randomNumber(int t_max, int t_min)

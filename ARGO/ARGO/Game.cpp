@@ -17,7 +17,7 @@ Game::Game() :
 
 		// Create SDL Window Centred in Middle Of Screen
 
-		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, NULL);
+		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1820, 980, NULL);
 
 		// Check if window was created correctly
 		if (!m_window) throw "Error Loading Window";

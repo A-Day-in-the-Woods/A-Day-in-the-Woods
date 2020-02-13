@@ -1,7 +1,10 @@
-#pragma once
+#ifndef ENTITY_H
 
-#include<vector>
-#include"Component.h"
+#define ENTITY_H
+
+
+#include <vector>
+#include "Component.h"
 
 class Entity
 {
@@ -30,3 +33,5 @@ private:
 	std::vector<Component*> m_components;
 	int m_id;
 };
+
+#endif // !ENTITY_H

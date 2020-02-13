@@ -1,4 +1,7 @@
-#pragma once
+#ifndef GRAPH_H
+#define GRAPH_H
+
+
 
 #include <list>
 #include <queue>
@@ -454,3 +457,5 @@ inline void Graph<NodeType, ArcType>::aStar(Node* t_start, Node* t_destination, 
 
 #include "GraphNode.h"
 #include "GraphArc.h"
+
+#endif // !GRAPH_H

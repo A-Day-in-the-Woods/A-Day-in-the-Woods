@@ -1,4 +1,4 @@
-#pragma once
+
 #ifndef MINIGAME
 #define MINIGAME
 
@@ -11,7 +11,7 @@
 #include <random>
 #include <math.h>
 #include "Player.h"
-#include "InputSystem.h"
+//#include "InputSystem.h"
 
 class Game;
 
@@ -72,6 +72,6 @@ private:
 	SDL_Event& m_event;
 
 
-	InputSystem m_inputSystem;
+	//InputSystem m_inputSystem;
 };
 #endif // MINIGAME

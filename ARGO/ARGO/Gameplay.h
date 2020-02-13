@@ -1,4 +1,4 @@
-#pragma once
+
 #ifndef GAMEPLAY
 #define GAMEPLAY
 #include <SDL.h>
@@ -10,7 +10,7 @@
 #include <map>
 #include "Graph.h"
 #include "Player.h"
-#include "InputSystem.h"
+//#include <InputSystem.h>
 #include "Entity.h"
 
 class Game;
@@ -65,7 +65,7 @@ private:
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;
 
-	InputSystem m_inputSystem;
+	//InputSystem m_inputSystem;
 
 
 };

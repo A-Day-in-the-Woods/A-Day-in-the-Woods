@@ -1,4 +1,7 @@
-#pragma once
+#ifndef GRAPHARC_H
+#define GRAPHARC_H
+
+
 
 #include "GraphNode.h"
 
@@ -41,3 +44,5 @@ private:
 	// -------------------------------------------------------
 	ArcType m_weight;
 };
+
+#endif // !GRAPHARC_H

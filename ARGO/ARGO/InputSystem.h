@@ -1,11 +1,13 @@
-#pragma once
-#include "InputComponent.h"
+#ifndef INPUTSYSTEM_H
+#define INPUTSYSTEM_H
+
 #include <iostream>
 #include <vector>
 #include "SDL.h"
 #include "Game.h"
 #include "Entity.h"
 #include "Player.h"
+#include "InputComponent.h"
 
 
 class InputSystem {
@@ -24,6 +26,7 @@ public:
 			if (InputCheck[i]->getType() == ComponentType::POSITION)
 			{
 				m_inputComp.push_back(static_cast<InputComponent*>(InputCheck[i]));
+				//m_inputComp[i]->m_input;
 			}
 		}
 	}
@@ -32,7 +35,20 @@ public:
 	{
 		for (int i = 0; i < m_entities.size(); i++)
 		{
-			if (event.type == SDL_KEYDOWN)
+			m_inputComp[i]->m_input.inputHandle(event);
+		}
+	}
+	
+private:
+	GameState & m_currentState;
+
+	//Game& game;
+	std::vector<Entity*> m_entities;
+	std::vector<InputComponent*> m_inputComp;
+};
+
+#endif // !INPUTSYSTEM_H
+/*if (event.type == SDL_KEYDOWN)
 			{
 				switch (event.key.keysym.sym)
 				{
@@ -77,14 +93,4 @@ public:
 				default:
 					break;
 				}
-			}
-		}
-	}
-	
-private:
-	GameState & m_currentState;
-
-	//Game& game;
-	std::vector<Entity*> m_entities;
-	std::vector<InputComponent*> m_inputComp;
-};
+			}*/

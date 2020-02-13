@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RENDERSYSTEM_H
+#define RENDERSYSTEM_H
 
 #include"Entity.h"
 #include"PositionComp.h"
@@ -53,3 +54,5 @@ private:
 	std::vector<PositionComponent*> m_posComp;
 	//std::vector<SDL_Texture*> m_textureList;
 };
+
+#endif // !RENDERSYSTEM_H

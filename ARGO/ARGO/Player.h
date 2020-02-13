@@ -1,12 +1,14 @@
-#pragma once
-#include "SDL.h"
+#ifndef PLAYER_H
+#define PLAYER_H
 
-#include<vector>
-#include"Tile.h"
-#include "iostream"
-#include"Graph.h"
+
+#include <SDL.h>
+
+#include <vector>
+#include "Tile.h"
+#include <iostream>
+#include "Graph.h"
 #include "Entity.h"
-
 
 /// <summary>
 /// @Authors:
@@ -49,3 +51,4 @@ private:
 
 	SDL_Rect rect;//temp rect for a player square 
 };
+#endif // !PLAYER_H

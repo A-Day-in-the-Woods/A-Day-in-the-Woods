@@ -3,7 +3,10 @@
 /// @date 06/02/2020
 /// </summary>
 
-#pragma once
+#ifndef CONCRETECOMMANDS_H
+#define CONCRETECOMMANDS_H
+
+
 
 #include "CommandInterface.h"
 #include <iostream>
@@ -51,3 +54,12 @@ public:
 	//placeholder for actual function prints out to command window
 	virtual void execute() { std::cout << "Right "; }
 };
+
+class AOutput : public Command
+{
+public:
+	//placeholder for actual function prints out to command window
+	virtual void execute() { std::cout << "A "; }
+};
+
+#endif // !CONCRETECOMMANDS_H
