@@ -36,10 +36,9 @@ void Gameplay::update()
 {
 
 	
-	std::cout << "Gameplay update" << std::endl;
 	if (m_event.type == SDL_KEYDOWN)
 	{
-		if (m_event.key.keysym.sym == SDLK_SPACE || m_event.key.keysym.sym == SDLK_RETURN)
+		if ( m_event.key.keysym.sym == SDLK_RETURN)
 		{
 			SDL_Delay(200);
 			setGameState();
@@ -65,7 +64,6 @@ void Gameplay::render()
 {
 
 	//SDL_RenderClear(m_renderer);
-	std::cout << "Gameplay render" << std::endl;
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 
 
@@ -198,6 +196,7 @@ void Gameplay::setGameState()
 	m_game.startMinGame();
 	m_game.setGameState(GameState::Minigame);
 }
+
 
 
 /// <summary>

@@ -38,7 +38,6 @@ private:
 
 	std::vector<Tile> m_tile;
 
-
 	// ------ A* stuff ----------
 	void aStar();
 

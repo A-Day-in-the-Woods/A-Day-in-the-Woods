@@ -34,7 +34,6 @@ MenuScreen::~MenuScreen()
 void MenuScreen::update()
 {
 	
-	std::cout << "Menu update" << std::endl;
 	
 
 	if (m_event.type == SDL_KEYDOWN)
@@ -94,7 +93,6 @@ void MenuScreen::render()
 {
 	
 	//SDL_RenderClear(m_renderer);
-	std::cout << "Menu render" << std::endl;
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 	
 	SDL_RenderCopy(m_renderer, m_buttonTexture, NULL, &m_buttonPos);

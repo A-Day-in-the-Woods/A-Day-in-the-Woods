@@ -6,7 +6,7 @@
 #include "iostream"
 #include"Graph.h"
 #include "Entity.h"
-
+#include <random>
 
 /// <summary>
 /// @Authors:
@@ -36,11 +36,28 @@ public:
 	void playerNodeChange(std::list<GraphArc<std::pair<std::string, int>, int>> & newPoint);
 
 
-	void rollForMove(int t_diceRoll);
+	void rollForMove();
+	void AButtonPressed(bool t_state);
+	void BButtonPressed(bool t_state);
+	void XButtonPressed(bool t_state);
+	void YButtonPressed(bool t_state);
+
+	bool isAButtonPressed();
+	bool isBButtonPressed();
+	bool isXButtonPressed();
+	bool isYButtonPressed();
 
 private:
+	
+	int randomNumber(int t_max, int t_min);
+
+	bool m_Abutton = false;
+	bool m_Bbutton = false;
+	bool m_Xbutton = false;
+	bool m_Ybutton = false;
 
 	std::vector<Tile> & m_map;
+
 
 	int CurrentGameBoardIndex;
 

@@ -32,6 +32,8 @@ public:
 
 private:
 	
+	void GetWinnerPicture();
+
 
 
 	int m_directionX = 0;
@@ -49,6 +51,21 @@ private:
 	std::chrono::duration<float> m_runningTime;
 	
 	std::chrono::duration<float> m_randTime;
+
+	std::chrono::duration<float> m_ApressedTimeOne;
+	std::chrono::duration<float> m_ApressedTimeTwo;
+	std::chrono::duration<float> m_ApressedTimeThree;
+	std::chrono::duration<float> m_ApressedTimeFour;
+
+	
+	bool m_playerOneAnswerd = false;
+	bool m_playerTwoAnswerd = false;
+	bool m_playerThreeAnswerd = false;
+	bool m_playerFourAnswerd = false;
+
+	bool EndPictureminiGame = false;
+
+
 	int m_randomNumber;
 	int m_spawn;
 
@@ -57,8 +74,18 @@ private:
 
 	Game& m_game;
 	SDL_Texture* m_TestingTexture;
+	SDL_Texture* m_TestingTextureTwo;
 	SDL_Texture* m_reticleTexture; //camera reticle
-	SDL_Texture* m_buttonTexture; // button 
+
+	SDL_Texture* m_AbuttonTextureOne; // button
+	SDL_Texture* m_AbuttonTextureTwo; // button 
+	SDL_Texture* m_AbuttonTextureThree; // button 
+	SDL_Texture* m_AbuttonTextureFour; // button 
+
+	SDL_Texture* m_WinScreenTexture; // button
+
+	SDL_Rect m_Winsscreen;
+
 	SDL_Texture* m_honeyPotTexture; //honey pot
 
 	SDL_Rect reticleRectangle;
