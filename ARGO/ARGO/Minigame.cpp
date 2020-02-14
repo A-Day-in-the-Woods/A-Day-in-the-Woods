@@ -88,32 +88,37 @@ void MinigameScreen::processEvent(Player& t_player)
 {
 	m_inputSystem.update(m_event, t_player);
 
+	m_direction.x = (honeyRectangle.x - reticleRectangle.x);
+	m_direction.y = (honeyRectangle.y - reticleRectangle.y);
+
 	if(t_player.isAButtonPressed() == true && m_playerOneAnswerd == false)
 	{
-		m_ApressedTimeOne = (std::chrono::high_resolution_clock::now() - m_startTime)-m_randTime;
+
 		m_playerOneAnswerd = true;
+		m_ApressedDistanceOne = sqrt((m_direction.x) * (m_direction.x)+(m_direction.y) * (m_direction.y));
 		SDL_SetTextureColorMod(m_AbuttonTextureOne, 100, 100, 100);
 
 	}
 	
 	else if (t_player.isBButtonPressed() == true && m_playerTwoAnswerd == false)
 	{
-		m_ApressedTimeTwo = (std::chrono::high_resolution_clock::now() - m_startTime) - m_randTime;
+
 		m_playerTwoAnswerd = true;
+		m_ApressedDistanceTwo = sqrt((m_direction.x) * (m_direction.x) + (m_direction.y) * (m_direction.y));
 		SDL_SetTextureColorMod(m_AbuttonTextureTwo, 100, 100, 100);
 		
 	}
 	else if (t_player.isXButtonPressed() == true && m_playerThreeAnswerd == false)
 	{
-		m_ApressedTimeThree = (std::chrono::high_resolution_clock::now() - m_startTime) - m_randTime;
 		m_playerThreeAnswerd = true;
+		m_ApressedDistanceThree = sqrt((m_direction.x) * (m_direction.x) + (m_direction.y) * (m_direction.y));
 		SDL_SetTextureColorMod(m_AbuttonTextureThree, 100, 100, 100);
 
 	}
 	else if (t_player.isYButtonPressed() == true && m_playerFourAnswerd == false)
 	{
-		m_ApressedTimeFour = (std::chrono::high_resolution_clock::now() - m_startTime) - m_randTime;
 		m_playerFourAnswerd = true;
+		m_ApressedDistanceFour = sqrt((m_direction.x) * (m_direction.x) + (m_direction.y) * (m_direction.y));
 		SDL_SetTextureColorMod(m_AbuttonTextureFour, 100, 100, 100);
 
 	}
@@ -158,8 +163,8 @@ void MinigameScreen::update()
 		}
 		else if (m_runningTime > m_randTime)
 		{
-			honeyRectangle.x -= m_velocityX;
-			honeyRectangle.y -= m_velocityY;
+			honeyRectangle.x -= m_velocity.x;
+			honeyRectangle.y -= m_velocity.y;
 		}
 
 		if (m_runningTime >= m_randTime + std::chrono::seconds(2)) 
@@ -207,15 +212,15 @@ void MinigameScreen::render()
 void MinigameScreen::spriteMove()
 {
 
-	m_directionX = (honeyRectangle.x  - reticleRectangle.x);
-	m_directionY = (honeyRectangle.y - reticleRectangle.y);
+	m_direction.x = (honeyRectangle.x  - (reticleRectangle.x+ (reticleRectangle.w/4)) );
+	m_direction.y = (honeyRectangle.y - (reticleRectangle.y+ (reticleRectangle.h /4)));
 
-	distance = sqrt((m_directionX) * (m_directionX) + (m_directionY) * (m_directionY));
+	distance = sqrt((m_direction.x) * (m_direction.x) + (m_direction.y) * (m_direction.y));
 
 	//m_angle = std::atan(m_directionY / m_directionX) * (180 / 3.141592);
 
-	m_velocityX = m_directionX / (distance * 0.04);
-	m_velocityY = m_directionY / (distance * 0.04);
+	m_velocity.x = m_direction.x / (distance * 0.04);
+	m_velocity.y = m_direction.y / (distance * 0.04);
 
 }
 
@@ -296,25 +301,25 @@ void MinigameScreen::GetWinnerPicture()
 {	
 		std::cout << "all answered" << std::endl;
 		SDL_Surface* WinSurface;
-		if (m_ApressedTimeOne < m_ApressedTimeTwo && m_ApressedTimeOne < m_ApressedTimeThree && m_ApressedTimeOne < m_ApressedTimeFour)
+		if (m_ApressedDistanceOne < m_ApressedDistanceTwo && m_ApressedDistanceOne < m_ApressedDistanceThree && m_ApressedDistanceOne < m_ApressedDistanceFour)
 		{
 			std::cout << "1 wins " << std::endl;
 			WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP1.png");		
 		}
-		else if (m_ApressedTimeTwo < m_ApressedTimeOne && m_ApressedTimeTwo < m_ApressedTimeThree && m_ApressedTimeTwo < m_ApressedTimeFour)
+		else if (m_ApressedDistanceTwo < m_ApressedDistanceOne && m_ApressedDistanceTwo < m_ApressedDistanceThree && m_ApressedDistanceTwo < m_ApressedDistanceFour)
 		{
 			std::cout << "2 wins " << std::endl;
 			WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP2.png");
 
 
 		}
-		else if (m_ApressedTimeThree < m_ApressedTimeOne && m_ApressedTimeThree < m_ApressedTimeTwo && m_ApressedTimeThree < m_ApressedTimeFour)
+		else if (m_ApressedDistanceThree < m_ApressedDistanceOne && m_ApressedDistanceThree < m_ApressedDistanceTwo && m_ApressedDistanceThree < m_ApressedDistanceFour)
 		{
 			std::cout << "3 wins " << std::endl;
 			WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP3.png");
 
 		}
-		else if (m_ApressedTimeFour  < m_ApressedTimeOne && m_ApressedTimeFour < m_ApressedTimeTwo && m_ApressedTimeFour < m_ApressedTimeThree)
+		else if (m_ApressedDistanceFour  < m_ApressedDistanceOne && m_ApressedDistanceFour < m_ApressedDistanceTwo && m_ApressedDistanceFour < m_ApressedDistanceThree)
 		{
 			std::cout << "4 wins " << std::endl;
 			WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP4.png");

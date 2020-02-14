@@ -29,7 +29,7 @@ public:
 	void render(SDL_Renderer* t_renderer);
 	
 	void setPosition(float t_x, float t_y);
-	void getPosition();
+	SDL_Rect getPosition();
 
 	void nodeNavigation(int t_diceRoll);
 
@@ -37,6 +37,7 @@ public:
 
 
 	void rollForMove();
+
 	void AButtonPressed(bool t_state);
 	void BButtonPressed(bool t_state);
 	void XButtonPressed(bool t_state);
@@ -47,9 +48,13 @@ public:
 	bool isXButtonPressed();
 	bool isYButtonPressed();
 
+	int getDiceRoll() { return m_DiceNumber; };
+
 private:
 	
 	int randomNumber(int t_max, int t_min);
+	int m_DiceNumber = 1;
+
 
 	bool m_Abutton = false;
 	bool m_Bbutton = false;

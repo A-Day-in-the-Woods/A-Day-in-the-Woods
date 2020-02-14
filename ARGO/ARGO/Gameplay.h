@@ -34,9 +34,20 @@ public:
 	Player m_player;
 
 private:
+	
 
+
+	void setDiceTexture();	
+
+	//------------ Camera -------------
 
 	std::vector<Tile> m_tile;
+
+	SDL_Texture* m_DiceTexture; // Dice texture
+	SDL_Surface* m_DiceSurface;
+	SDL_Rect m_DiceRect;
+	int m_diceRoll = 1;
+
 
 	// ------ A* stuff ----------
 	void aStar();

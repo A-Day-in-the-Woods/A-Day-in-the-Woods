@@ -35,13 +35,11 @@ private:
 	void GetWinnerPicture();
 
 
-
-	int m_directionX = 0;
-	int m_directionY = 0;
+	SDL_Rect m_direction;
 	int m_angle = 0;
 	
-	int m_velocityX = 0;
-	int m_velocityY = 0;
+	SDL_Rect m_velocity;
+
 	int distance = 0;
 	int magnitude = 0;
 
@@ -52,10 +50,10 @@ private:
 	
 	std::chrono::duration<float> m_randTime;
 
-	std::chrono::duration<float> m_ApressedTimeOne  = std::chrono::seconds(20);
-	std::chrono::duration<float> m_ApressedTimeTwo = std::chrono::seconds(20);
-	std::chrono::duration<float> m_ApressedTimeThree = std::chrono::seconds(20);
-	std::chrono::duration<float> m_ApressedTimeFour = std::chrono::seconds(20);
+	float m_ApressedDistanceOne = NULL;
+	float m_ApressedDistanceTwo = NULL;
+	float m_ApressedDistanceThree = NULL;
+	float m_ApressedDistanceFour = NULL;
 
 	
 	bool m_playerOneAnswerd = false;
@@ -84,9 +82,9 @@ private:
 
 	SDL_Texture* m_WinScreenTexture; // button
 
-	SDL_Rect m_Winsscreen;
-
 	SDL_Texture* m_honeyPotTexture; //honey pot
+	
+	SDL_Rect m_Winsscreen;
 
 	SDL_Rect reticleRectangle;
 	SDL_Rect buttonRectangle;

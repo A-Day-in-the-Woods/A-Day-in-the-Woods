@@ -39,8 +39,9 @@ void Player::setPosition(float t_x, float t_y)
 	rect.y = t_y;
 }
 
-void Player::getPosition()
+SDL_Rect Player::getPosition()
 {
+	return rect;
 }
 
 void Player::nodeNavigation(int t_diceRoll)
@@ -167,9 +168,9 @@ void Player::playerNodeChange(std::list<GraphArc<std::pair<std::string, int>, in
 
 void Player::rollForMove()
 {
-	int tempforcoutdiceRole = randomNumber(6, 1);
-	std::cout << "DICE rolled a " << tempforcoutdiceRole << std::endl;
-	nodeNavigation(tempforcoutdiceRole);
+	m_DiceNumber = randomNumber(6, 1);
+	std::cout << "DICE rolled a " << m_DiceNumber << std::endl;
+	nodeNavigation(m_DiceNumber);
 }
 
 void Player::AButtonPressed(bool t_state)
