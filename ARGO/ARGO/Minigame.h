@@ -52,10 +52,10 @@ private:
 	
 	std::chrono::duration<float> m_randTime;
 
-	std::chrono::duration<float> m_ApressedTimeOne;
-	std::chrono::duration<float> m_ApressedTimeTwo;
-	std::chrono::duration<float> m_ApressedTimeThree;
-	std::chrono::duration<float> m_ApressedTimeFour;
+	std::chrono::duration<float> m_ApressedTimeOne  = std::chrono::seconds(20);
+	std::chrono::duration<float> m_ApressedTimeTwo = std::chrono::seconds(20);
+	std::chrono::duration<float> m_ApressedTimeThree = std::chrono::seconds(20);
+	std::chrono::duration<float> m_ApressedTimeFour = std::chrono::seconds(20);
 
 	
 	bool m_playerOneAnswerd = false;
