@@ -40,7 +40,7 @@ public:
 					if (m_currentState == GameState::Gameplay)
 					{
 						t_player.rollForMove(3);
-						SDL_Delay(500);
+						//SDL_Delay(500);
 						std::cout << "Up ";
 					}
 					else if (m_currentState == GameState::Minigame)
@@ -59,9 +59,17 @@ public:
 					std::cout << "Space ";
 					break;
 				case SDLK_LEFT:
+					if (m_currentState == GameState::Gameplay)
+					{
+						t_player.leftOrRightChoice(0);
+					}
 					std::cout << "Left ";
 					break;
 				case SDLK_RIGHT:
+					if (m_currentState == GameState::Gameplay)
+					{
+						t_player.leftOrRightChoice(1);
+					}
 					std::cout << "Right ";
 					break;
 				case SDLK_a:
