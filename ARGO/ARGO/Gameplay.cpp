@@ -233,7 +233,8 @@ void Gameplay::initNodeFiles()
 	myfile.close();
 
 
-	myfile.open("NodeDistances.txt");	// arcs
+	//myfile.open("NodeDistances.txt");	// arcs
+	myfile.open("NodeLinks.txt");	// arcs
 	while (myfile >> from >> to >> weight) {
 		graph.addArc(nodemap[from], nodemap[to], weight);
 

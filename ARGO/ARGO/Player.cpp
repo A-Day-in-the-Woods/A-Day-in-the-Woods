@@ -46,7 +46,6 @@ void Player::getPosition()
 void Player::nodeNavigation(int t_diceRoll)
 {
 	int temp = t_diceRoll;
-
 	
 	for (int x = 0; x < t_diceRoll; x++)
 	{

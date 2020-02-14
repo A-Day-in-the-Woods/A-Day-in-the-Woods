@@ -10,15 +10,14 @@
 #include <map>
 #include "Graph.h"
 #include "Player.h"
+#include "NPC.h"
 #include "InputSystem.h"
 #include "Entity.h"
 
 class Game;
 
-
 typedef GraphArc<pair<std::string, int>, int> Arc;
 typedef GraphNode<pair<std::string, int>, int> Node;
-
 
 class Gameplay
 {

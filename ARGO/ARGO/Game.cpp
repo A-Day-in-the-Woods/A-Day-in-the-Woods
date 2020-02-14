@@ -24,7 +24,7 @@ Game::Game() :
 
 		//Create the SDL Renderer 
 		m_renderer = SDL_CreateRenderer(m_window, -1, 0);
-		//Check if the renderer was created correclty
+		//Check if the renderer was created correctly
 		if (!m_renderer) throw "Error Loading Renderer";
 
 		// Sets clear colour of renderer to black and the color of any primitives
@@ -122,8 +122,6 @@ void Game::processEvent()
 		{
 			m_isRunning = false;
 		}
-		
-
 
 		switch (m_currentState)
 		{
@@ -144,9 +142,6 @@ void Game::processEvent()
 		default:
 			break;
 		}
-
-
-
 		break;
 
 	default:

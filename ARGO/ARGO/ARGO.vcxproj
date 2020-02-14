@@ -25,6 +25,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="Minigame.cpp" />
+    <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="Minigame.h" />
+    <ClInclude Include="NPC.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PositionComp.h" />
@@ -57,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="NodeDistances.txt" />
+    <Text Include="NodeLinks.txt" />
     <Text Include="Nodes.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
