@@ -33,12 +33,20 @@ public:
 	void setPosition(float t_x, float t_y);
 	void getPosition();
 
-	void nodeNavigation(int t_diceRoll);
+	void nodeNavigation();
 
 	void playerNodeChange(std::list<GraphArc<std::pair<std::string, int>, int>> & newPoint);
 
 
 	void rollForMove(int t_diceRoll);
+
+	bool animateMovingToPoint(float t_DestX, float t_DestY);
+
+	void normalize(float & t_x, float & t_y);
+	float length(float t_x, float t_y);
+
+
+	void leftOrRightChoice(bool t_choice);
 
 private:
 
@@ -50,5 +58,12 @@ private:
 
 
 	SDL_Rect rect;//temp rect for a player square 
+
+	bool choiceLoop;
+	bool LeftOrRight = false;
+
+	bool m_takeingTurn;
+	float m_movementSpeed;
+	int m_diceRoll;
 };
 #endif // !PLAYER_H
