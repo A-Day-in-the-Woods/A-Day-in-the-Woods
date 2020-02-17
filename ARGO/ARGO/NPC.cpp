@@ -23,7 +23,7 @@ NPC::~NPC()
 void NPC::update()
 {
 	decision();
-	SDL_Delay(500);
+	SDL_Delay(100);
 	rollDice();
 	setPosition(m_map[currentGameBoardIndex].getPosition().x, m_map[currentGameBoardIndex].getPosition().y);
 }

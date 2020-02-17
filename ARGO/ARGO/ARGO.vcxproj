@@ -58,6 +58,7 @@
     <ClInclude Include="Tile.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="NewNodes.txt" />
     <Text Include="NodeDistances.txt" />
     <Text Include="NodeLinks.txt" />
     <Text Include="Nodes.txt" />

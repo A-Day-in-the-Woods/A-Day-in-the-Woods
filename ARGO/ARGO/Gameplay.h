@@ -35,12 +35,9 @@ public:
 	NPC m_npcTwo;
 	NPC m_npcThree;
 
-private:
-
-
+private:	
 	std::vector<Tile> m_tile;
-
-
+	
 	// ------ A* stuff ----------
 	void aStar();
 
@@ -53,11 +50,9 @@ private:
 	int posY = 0;
 	int index = 0;
 	ifstream myfile;
-
-
+	
 	string from, to;
 	int weight;
-
 
 	bool startAstar{ false };
 	//------! A* stuff ------------
@@ -68,7 +63,6 @@ private:
 	SDL_Event& m_event;
 
 	InputSystem m_inputSystem;
-
 };
 
 #endif // !GAMEPLAY

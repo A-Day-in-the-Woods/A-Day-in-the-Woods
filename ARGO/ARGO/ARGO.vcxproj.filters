@@ -142,5 +142,6 @@
     <Text Include="NodeDistances.txt" />
     <Text Include="Nodes.txt" />
     <Text Include="NodeLinks.txt" />
+    <Text Include="NewNodes.txt" />
   </ItemGroup>
 </Project>
