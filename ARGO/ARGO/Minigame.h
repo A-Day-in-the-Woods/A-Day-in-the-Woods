@@ -11,7 +11,7 @@
 #include <random>
 #include <math.h>
 #include "Player.h"
-//#include "InputSystem.h"
+#include "InputSystem.h"
 
 class Game;
 
@@ -71,7 +71,7 @@ private:
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;
 
-
-	//InputSystem m_inputSystem;
+	Entity* m_testEntity = new Entity(0);
+	InputSystem m_inputSystem;
 };
 #endif // MINIGAME

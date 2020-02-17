@@ -5,10 +5,14 @@
 /// @date 12/02/2020
 /// </summary>
 
-int Controller::s_noOfControllers = 0;
 
-Controller::Controller()
+
+Controller::Controller(int currentController): joystick_index(currentController)
 {
+	if (connect())
+	{
+		controller = SDL_GameControllerOpen(joystick_index);
+	}
 }
 
 Controller::~Controller()
@@ -17,10 +21,10 @@ Controller::~Controller()
 
 void Controller::update()
 {
-	m_previousState = m_currentState;
-
-	//if (isConnected())
+	if (controller == NULL && connect())
 	{
+		controller = SDL_GameControllerOpen(joystick_index);
+	}
 		//Controller Buttons
 		m_currentState.A = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_A);
 		m_currentState.B = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_B);
@@ -37,48 +41,35 @@ void Controller::update()
 
 
 		//D-pad Right
-		m_currentState.DpadRight = (SDL_CONTROLLER_BUTTON_DPAD_RIGHT > DPAD_THRESHOLD) ? true : false;
+		m_currentState.DpadRight = SDL_GameControllerGetButton(controller,SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
 		//D-pad Left
-		m_currentState.DpadLeft = (SDL_CONTROLLER_BUTTON_DPAD_LEFT < -DPAD_THRESHOLD) ? true : false;
+		m_currentState.DpadLeft = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_LEFT);
 		//D-pad Up
-		m_currentState.DpadUp = (SDL_CONTROLLER_BUTTON_DPAD_UP > DPAD_THRESHOLD) ? true : false;
+		m_currentState.DpadUp = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_UP);
 		//D-pad Down
-		m_currentState.DpadDown = (SDL_CONTROLLER_BUTTON_DPAD_DOWN < -DPAD_THRESHOLD) ? true : false;
+		m_currentState.DpadDown = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_DPAD_DOWN);
 		//Triggers
 		m_currentState.LTrigger = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERLEFT);
 		m_currentState.RTrigger = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
 		//Left Thumbstick
-		m_currentState.LeftThumbStickX = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTX);
-		m_currentState.LeftThumbStickY = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTY);
+		m_currentState.LeftThumbStick.x = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTX);
+		m_currentState.LeftThumbStick.y = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTY);
 		//Right Thumbstick
-		m_currentState.RightThumbStickX = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTX);
-		m_currentState.RightThumbStickY = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTY);
-	}
+		m_currentState.RightThumbStick.x = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTX);
+		m_currentState.RightThumbStick.y = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTY);
+	
 
-}
-
-bool Controller::isConnected()
-{
-	if (joystick_index<0 || joystick_index > SDL_NumJoysticks())
-		return false;
-	else
-		return SDL_IsGameController(joystick_index);
 }
 
 bool Controller::connect()
 {
-
-	for (int index = s_noOfControllers; index < SDL_NumJoysticks(); index++)
+	if (SDL_IsGameController(joystick_index))
 	{
-		if (SDL_IsGameController(index))
-		{
-			joystick_index = index;
-			s_noOfControllers++;
-#ifdef _DEBUG
-			controller = SDL_GameControllerOpen(index);
-#endif // _DEBUG
-			return true;
-		}
+		return true;
 	}
-	return false;
+	else
+	{
+		return false;
+	}
+
 }

@@ -3,8 +3,8 @@
 MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState) :
 	m_game(game),
 	m_event(event),
-	m_renderer(t_renderer)
-	//m_inputSystem(t_currentState)
+	m_renderer(t_renderer),
+	m_inputSystem(t_currentState)
 {
 	
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic4.png");
@@ -51,6 +51,9 @@ MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& 
 
 	honeyRectangle.h = 150;
 	honeyRectangle.w = 150;
+
+	m_testEntity->addComponent(new InputComponent());
+	m_inputSystem.addEntity(m_testEntity);
 }
 
 MinigameScreen::~MinigameScreen()
@@ -59,7 +62,7 @@ MinigameScreen::~MinigameScreen()
 
 void MinigameScreen::processEvent(Player& t_player)
 {
-	//m_inputSystem.update(m_event, t_player);
+	m_inputSystem.update(m_event, t_player);
 }
 
 void MinigameScreen::update()
@@ -87,7 +90,8 @@ void MinigameScreen::update()
 
 
 
-	std::cout << "Minigame update" << std::endl;
+	//std::cout << "Minigame update" << std::endl;
+
 	if (m_event.type == SDL_KEYDOWN)
 	{
 		if (m_event.key.keysym.sym == SDLK_SPACE || m_event.key.keysym.sym == SDLK_RETURN)
@@ -112,7 +116,7 @@ void MinigameScreen::render()
 	SDL_RenderCopy(m_renderer, m_honeyPotTexture, NULL, &honeyRectangle);
 	
 	//SDL_RenderPresent(m_renderer);
-	std::cout << "Minigame render" << std::endl;
+	//std::cout << "Minigame render" << std::endl;
 }
 
 void MinigameScreen::spriteMove()
@@ -183,12 +187,12 @@ void MinigameScreen::startMinGame(int t_mineGameID)
 
 void MinigameScreen::setGameState()
 {
-	m_game.setGameState(GameState::Menu);
+	m_game.setGameState(GameState::Gameplay);
 }
 
 void MinigameScreen::addPlayer(Player& t_player)
 {
-	//m_inputSystem.addEntity(t_player.getEntity());
+	m_inputSystem.addEntity(t_player.getEntity());
 }
 
 int MinigameScreen::randomNumber(int t_max, int t_min)

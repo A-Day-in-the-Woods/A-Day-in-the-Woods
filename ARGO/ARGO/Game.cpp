@@ -48,7 +48,7 @@ Game::Game() :
 		// game doesnt run
 		m_isRunning = false;
 	}
-
+	
 
 
 
@@ -122,9 +122,6 @@ void Game::processEvent()
 		{
 			m_isRunning = false;
 		}
-		
-
-
 		switch (m_currentState)
 		{
 		case GameState::Menu:
@@ -144,13 +141,29 @@ void Game::processEvent()
 		default:
 			break;
 		}
-
-
-
-		break;
-
-	default:
-		break;
+	break;
+	case SDL_CONTROLLERBUTTONDOWN:
+		switch (m_currentState)
+		{
+		case GameState::Menu:
+			break;
+		case GameState::Options:
+			break;
+		case GameState::Gameplay:
+			m_gameplayscreen->processEvent();
+			break;
+		case GameState::Credit:
+			break;
+		case GameState::Minigame:
+			m_minigamescreen->processEvent(m_gameplayscreen->m_player);
+			break;
+		case GameState::Quit:
+			m_isRunning = false;
+		default:
+			break;
+		}
+	break;
+	
 	}
 
 

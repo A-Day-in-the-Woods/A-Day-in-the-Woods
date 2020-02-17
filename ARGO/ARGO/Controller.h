@@ -25,29 +25,25 @@ struct GamePadState
 	bool Back;
 	float RTrigger;
 	float LTrigger;
-	float RightThumbStickX;
-	float RightThumbStickY;
-	float LeftThumbStickX;
-	float LeftThumbStickY;
+	SDL_Point RightThumbStick;
+	SDL_Point LeftThumbStick;
+	
 
 };
 
 class Controller {
 private:
+	
+	const int joystick_index;
+	SDL_GameController* controller;
+public:
 	const int DPAD_THRESHOLD = 8000;
 
-public:
-	static int s_noOfControllers;
-
-	int joystick_index;
-
 	GamePadState m_currentState;
-	GamePadState m_previousState;
-	SDL_GameController* controller = NULL;
-	Controller();
+	
+	Controller(int currentController);
 	~Controller();
 	void update();
-	bool isConnected();
 	bool connect();
 
 };

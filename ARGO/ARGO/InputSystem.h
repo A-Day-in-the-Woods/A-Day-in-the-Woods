@@ -23,20 +23,19 @@ public:
 
 		for (int i = 0; i < InputCheck.size(); i++)
 		{
-			if (InputCheck[i]->getType() == ComponentType::POSITION)
+			if (InputCheck[i]->getType() == ComponentType::INPUT)
 			{
 				m_inputComp.push_back(static_cast<InputComponent*>(InputCheck[i]));
-				//m_inputComp[i]->m_input;
+				m_inputComp[0]->m_input;
 			}
 		}
 	}
 	
 	void update(SDL_Event &event, Player & t_player)
 	{
-		for (int i = 0; i < m_entities.size(); i++)
-		{
-			m_inputComp[i]->m_input.inputHandle(event);
-		}
+		
+		m_inputComp[0]->m_input.inputHandle(event);
+		
 	}
 	
 private:

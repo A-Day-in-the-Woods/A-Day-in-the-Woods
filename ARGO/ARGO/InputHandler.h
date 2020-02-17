@@ -10,27 +10,47 @@
 
 
 #include <CommandManager.h>
+#include <Controller.h>
 #include <stack>
 #include <SDL.h>
+
 
 class InputHandler
 {
 public: 
+	InputHandler();
 	void inputHandle(SDL_Event &event);
 
 private:
 	//Handles the action of the inputs
 	CommandManager m_manager;
+	Controller* m_controller;
 
 	//Each Button used
-	Command* buttonUp = new UpOutput();
+	/*Command* buttonUp = new UpOutput();
 	Command* buttonDown = new DownOutput();
 	Command* buttonEnter = new EnterOutput();
 	Command* buttonSpace = new SpaceOutput();
 	Command* buttonLeft = new LeftOutput();
-	Command* buttonRight = new RightOutput();
-	Command* buttonA = new AOutput();
+	Command* buttonRight = new RightOutput();*/
 	
+	//Controller buttons
+	Command* buttonA = new AOutput();
+	Command* buttonB = new BOutput();
+	Command* buttonX = new XOutput();
+	Command* buttonY = new YOutput();
+	Command* buttonBack = new BackOutput();
+	Command* buttonStart = new StartOutput();
+	Command* leftShoulder = new LeftShoulderOutput();
+	Command* rightShoulder = new RightShoulderOutput();
+	Command* leftStick = new LeftStickOutput();
+	Command* rightStick = new RightStickOutput();
+
+	//Controller dpad
+	Command* DpadUp = new UpOutput();
+	Command* DpadDown = new DownOutput();
+	Command* DpadRight = new RightOutput();
+	Command* DpadLeft = new LeftOutput();
 };
 
 

@@ -27,6 +27,7 @@
 #include "InputComponent.h"
 #include "InputSystem.h"
 #include "Player.h"
+#include <InputHandler.h>
 
 
 class MenuScreen;
@@ -80,6 +81,8 @@ private:
 	
 	HealthSystem m_healthSystem;
 	InputSystem m_inputSystem;
+
+
 };
 
 #endif // !GAME_H
