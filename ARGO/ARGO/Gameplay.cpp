@@ -7,12 +7,14 @@ void visit(Node* node) {
 
 Graph< pair<string, int>, int> graph(172); // A* Graph
 
-
-Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameState& t_currentState) :
+Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState) :
 	m_game(game),
 	m_event(event),
 	m_renderer(t_renderer),
 	m_player(m_tile, graph),
+	m_npcOne(m_tile, graph, 1, visit),
+	m_npcTwo(m_tile, graph, 2, visit),
+	m_npcThree(m_tile, graph, 3, visit),
 	m_inputSystem(t_currentState)
 {
 	m_tile.reserve(200);
@@ -24,18 +26,16 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 
 	m_player.addComponent(new InputComponent());
 	m_inputSystem.addEntity(m_player.getEntity());
+	/*m_npc.addComponent(new InputComponent());
+	m_inputSystem.addEntity(m_npc.getEntity());*/
 }
-
-
 
 Gameplay::~Gameplay()
 {
 }
 
 void Gameplay::update()
-{
-
-	
+{	
 	std::cout << "Gameplay update" << std::endl;
 	if (m_event.type == SDL_KEYDOWN)
 	{
@@ -58,7 +58,9 @@ void Gameplay::update()
 	}
 
 	m_player.update();
-
+	m_npcOne.update();
+	m_npcTwo.update();
+	m_npcThree.update();
 }
 
 void Gameplay::render()
@@ -67,15 +69,11 @@ void Gameplay::render()
 	//SDL_RenderClear(m_renderer);
 	std::cout << "Gameplay render" << std::endl;
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
-
-
-
+	
 	for (int i = 0; i < m_tile.size(); i++)
 	{
 		m_tile[i].render(m_renderer);
 	}
-
-
 
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 
@@ -85,8 +83,7 @@ void Gameplay::render()
 		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
 	}
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(39)->m_x + 5, graph.nodeIndex(39)->m_y+5, graph.nodeIndex(42)->m_x + 5, graph.nodeIndex(42)->m_y+5);
-
-
+	
 	for (int i = 42; i < 54; i++)
 	{
 		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y+5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y+5);
@@ -161,14 +158,12 @@ void Gameplay::render()
 	}
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(148)->m_x + 5, graph.nodeIndex(148)->m_y + 5, graph.nodeIndex(27)->m_x + 5, graph.nodeIndex(27)->m_y + 5);
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(152)->m_x + 5, graph.nodeIndex(152)->m_y + 5, graph.nodeIndex(28)->m_x + 5, graph.nodeIndex(28)->m_y + 5); //weird top right bit
-
-
+	
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(170)->m_x + 5, graph.nodeIndex(170)->m_y + 5, graph.nodeIndex(171)->m_x + 5, graph.nodeIndex(171)->m_y + 5);
 
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(170)->m_x + 5, graph.nodeIndex(170)->m_y + 5, graph.nodeIndex(76)->m_x + 5, graph.nodeIndex(76)->m_y + 5);
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(171)->m_x + 5, graph.nodeIndex(171)->m_y + 5, graph.nodeIndex(129)->m_x + 5, graph.nodeIndex(129)->m_y + 5);
 	
-
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(149)->m_x + 5, graph.nodeIndex(149)->m_y + 5, graph.nodeIndex(153)->m_x + 5, graph.nodeIndex(153)->m_y + 5);
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(153)->m_x + 5, graph.nodeIndex(153)->m_y + 5, graph.nodeIndex(154)->m_x + 5, graph.nodeIndex(154)->m_y + 5);
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(154)->m_x + 5, graph.nodeIndex(154)->m_y + 5, graph.nodeIndex(63)->m_x + 5, graph.nodeIndex(63)->m_y + 5);
@@ -183,6 +178,9 @@ void Gameplay::render()
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 
 	m_player.render(m_renderer);
+	m_npcOne.render(m_renderer);
+	m_npcTwo.render(m_renderer);
+	m_npcThree.render(m_renderer);
 
 	//SDL_RenderPresent(m_renderer);
 }
@@ -190,7 +188,6 @@ void Gameplay::render()
 void Gameplay::processEvent()
 {
 	m_inputSystem.update(m_event,m_player);
-
 }
 
 void Gameplay::setGameState()
@@ -231,8 +228,7 @@ void Gameplay::initNodeFiles()
 		m_tile.push_back(Tile(posX, posY));
 	}
 	myfile.close();
-
-
+	
 	//myfile.open("NodeDistances.txt");	// arcs
 	myfile.open("NodeLinks.txt");	// arcs
 	while (myfile >> from >> to >> weight) {

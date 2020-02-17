@@ -62,11 +62,9 @@ void Player::nodeNavigation(int t_diceRoll)
 
 			while (!ChoicMade)
 			{
-
 				SDL_Event(event);
 				SDL_PollEvent(&event);
-
-
+				
 				if (SDLK_a == event.key.keysym.sym)
 				{
 					choice = false;
@@ -77,12 +75,7 @@ void Player::nodeNavigation(int t_diceRoll)
 					choice = true;
 					ChoicMade = !ChoicMade;
 				}
-
 			}
-
-			
-		
-
 
 			if (!choice)
 			{

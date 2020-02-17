@@ -31,6 +31,9 @@ public:
 
 
 	Player m_player;
+	NPC m_npcOne;
+	NPC m_npcTwo;
+	NPC m_npcThree;
 
 private:
 
@@ -65,7 +68,6 @@ private:
 	SDL_Event& m_event;
 
 	InputSystem m_inputSystem;
-
 
 };
 
