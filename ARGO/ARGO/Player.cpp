@@ -50,9 +50,9 @@ void Player::setPosition(float t_x, float t_y)
 	rect.y = t_y;
 }
 
-void Player::getPosition()
+SDL_Rect Player::getPosition()
 {
-
+	return rect;
 }
 
 void Player::nodeNavigation()
@@ -64,8 +64,7 @@ void Player::nodeNavigation()
 
 		p = m_graph.nodeIndex(CurrentGameBoardIndex)->arcList();
 
-		SDL_Event(event);
-		SDL_PollEvent(&event);
+
 
 
 		if (p.size() > 1)
@@ -161,16 +160,68 @@ void Player::playerNodeChange(std::list<GraphArc<std::pair<std::string, int>, in
 				choiceLoop = true;
 			}
 		}
+
 	}
 }
 
-void Player::rollForMove(int t_diceRoll)
+void Player::rollForMove()
 {
+	m_DiceNumber = randomNumber(6, 1);
+	std::cout << "DICE rolled a " << m_DiceNumber << std::endl;
+	//nodeNavigation(m_DiceNumber);
 	if (!m_takeingTurn)
 	{
-		m_diceRoll = t_diceRoll;
+		m_diceRoll = m_DiceNumber;
 		m_takeingTurn = true;
 	}
+}
+
+void Player::AButtonPressed(bool t_state)
+{
+	m_Abutton = t_state;
+}
+
+void Player::BButtonPressed(bool t_state)
+{
+	m_Bbutton = t_state;
+}
+
+void Player::XButtonPressed(bool t_state)
+{
+	m_Xbutton = t_state;
+}
+
+void Player::YButtonPressed(bool t_state)
+{
+	m_Ybutton = t_state;
+}
+
+bool Player::isAButtonPressed()
+{
+	return m_Abutton;
+}
+
+bool Player::isBButtonPressed()
+{
+	return m_Bbutton;
+}
+
+bool Player::isXButtonPressed()
+{
+	return m_Xbutton;
+}
+
+bool Player::isYButtonPressed()
+{
+	return m_Ybutton;
+}
+
+int Player::randomNumber(int t_max, int t_min)
+{	
+	std::random_device device;
+	std::mt19937 rng(device());
+	std::uniform_int_distribution<std::mt19937::result_type> dist(t_min, t_max);
+	return dist(rng);
 }
 
 bool Player::animateMovingToPoint(float t_DestX, float t_DestY)
@@ -187,6 +238,7 @@ bool Player::animateMovingToPoint(float t_DestX, float t_DestY)
 	rect.y += (tempY * m_movementSpeed);
 	
 	return false;
+	
 }
 
 void Player::normalize(float & t_x, float & t_y) {

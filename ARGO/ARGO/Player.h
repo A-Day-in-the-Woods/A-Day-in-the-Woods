@@ -9,6 +9,7 @@
 #include <iostream>
 #include "Graph.h"
 #include "Entity.h"
+#include <random>
 
 /// <summary>
 /// @Authors:
@@ -31,14 +32,26 @@ public:
 	void render(SDL_Renderer* t_renderer);
 	
 	void setPosition(float t_x, float t_y);
-	void getPosition();
+	SDL_Rect getPosition();
 
 	void nodeNavigation();
 
 	void playerNodeChange(std::list<GraphArc<std::pair<std::string, int>, int>> & newPoint);
 
 
-	void rollForMove(int t_diceRoll);
+	void rollForMove();
+
+	void AButtonPressed(bool t_state);
+	void BButtonPressed(bool t_state);
+	void XButtonPressed(bool t_state);
+	void YButtonPressed(bool t_state);
+
+	bool isAButtonPressed();
+	bool isBButtonPressed();
+	bool isXButtonPressed();
+	bool isYButtonPressed();
+
+	int getDiceRoll() { return m_DiceNumber; };
 
 	bool animateMovingToPoint(float t_DestX, float t_DestY);
 
@@ -49,8 +62,18 @@ public:
 	void leftOrRightChoice(bool t_choice);
 
 private:
+	
+	int randomNumber(int t_max, int t_min);
+	int m_DiceNumber = 1;
+
+
+	bool m_Abutton = false;
+	bool m_Bbutton = false;
+	bool m_Xbutton = false;
+	bool m_Ybutton = false;
 
 	std::vector<Tile> & m_map;
+
 
 	int CurrentGameBoardIndex;
 

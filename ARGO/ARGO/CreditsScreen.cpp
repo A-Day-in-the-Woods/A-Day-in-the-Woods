@@ -17,7 +17,6 @@ CreditScreen::~CreditScreen()
 void CreditScreen::update()
 {
 	
-	std::cout << "Credits update" << std::endl;
 	if (m_event.type == SDL_KEYDOWN)
 	{
 		if (m_event.key.keysym.sym == SDLK_SPACE || m_event.key.keysym.sym == SDLK_RETURN)
@@ -32,7 +31,6 @@ void CreditScreen::render()
 {
 	
 	//SDL_RenderClear(m_renderer);
-	std::cout << "Credits render" << std::endl;
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 }
 
