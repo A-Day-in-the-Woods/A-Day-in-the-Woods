@@ -31,7 +31,7 @@ x y 100
 y z 100
 z aa 100
 aa ab 100
-ab eq 100
+ab ac 100
 ab eq 100
 ac ad 100
 ac eu 100

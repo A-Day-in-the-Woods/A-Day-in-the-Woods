@@ -149,6 +149,12 @@ void NPC::navigateNodes()
 				{	//p2 Left
 					nodeChange(p);
 				}
+
+				if (p.front().node()->m_x > m_graph.nodeIndex(currentGameBoardIndex)->m_x &&
+					p.front().node()->m_y > m_graph.nodeIndex(currentGameBoardIndex)->m_y)
+				{	//p2 Left
+					nodeChange(p);
+				}
 			}
 		}
 		else
