@@ -33,7 +33,7 @@ public:
 	void setGameState();
 
 
-	Player m_player;
+	std::vector<Player*> m_player;
 
 private:
 

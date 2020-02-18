@@ -12,7 +12,6 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_game(game),
 	m_event(event),
 	m_renderer(t_renderer),
-	m_player(1),
 	m_movementSystem(t_currentState, m_tile, graph),
 	m_inputSystem(t_currentState)
 {
@@ -23,10 +22,16 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
 
-	m_player.addComponent(new InputComponent());
-	m_player.addComponent(new MovementComponent());
-	m_inputSystem.addEntity(m_player.getEntity());
-	m_movementSystem.addEntity(m_player.getEntity(), *m_player.getPlayerRectRef());
+	m_player.push_back(new Player(1));
+	m_player.push_back(new Player(2));
+
+	for (int i = 0; i < m_player.size(); i++)
+	{
+		m_player[i]->addComponent(new InputComponent());
+		m_player[i]->addComponent(new MovementComponent());
+		m_inputSystem.addEntity(m_player[i]->getEntity());
+		m_movementSystem.addEntity(m_player[i]->getEntity(), *m_player[i]->getPlayerRectRef());
+	}
 }
 
 
@@ -185,7 +190,10 @@ void Gameplay::render()
 
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 
-	m_player.render(m_renderer);
+	for (int i = 0; i < m_player.size(); i++)
+	{
+		m_player[i]->render(m_renderer);
+	}
 
 	//SDL_RenderPresent(m_renderer);
 }

@@ -186,9 +186,9 @@ void MinigameScreen::setGameState()
 	m_game.setGameState(GameState::Menu);
 }
 
-void MinigameScreen::addPlayer(Player& t_player)
+void MinigameScreen::addPlayer(Player * t_player)
 {
-	m_inputSystem.addEntity(t_player.getEntity());
+	m_inputSystem.addEntity(t_player->getEntity());
 }
 
 int MinigameScreen::randomNumber(int t_max, int t_min)

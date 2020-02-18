@@ -32,6 +32,11 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Input Rolled num and the index of the moveing
+	/// </summary>
+	/// <param name="t_diceRoll"></param>
+	/// <param name="index"></param>
 	void diceRoll(int t_diceRoll, int index)
 	{
 		m_moveComp[index]->rollForMove(t_diceRoll);

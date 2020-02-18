@@ -36,8 +36,11 @@ Game::Game() :
 		m_creditscreen = new CreditScreen(*this, m_renderer, event);
 		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState);
 
-		m_minigamescreen->addPlayer(m_gameplayscreen->m_player);
 
+		for (int i = 0; i < m_gameplayscreen->m_player.size(); i++)
+		{
+			m_minigamescreen->addPlayer(m_gameplayscreen->m_player[i]);
+		}
 		// Game is running
 		m_isRunning = true;
 	}

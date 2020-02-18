@@ -51,6 +51,7 @@ public:
 					}
 					break;	
 				case SDLK_DOWN:
+					t_move.diceRoll(3, 1);
 					std::cout << "Down ";
 					break;
 				case SDLK_RETURN:

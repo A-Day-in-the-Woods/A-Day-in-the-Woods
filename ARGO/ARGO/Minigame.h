@@ -28,7 +28,7 @@ public:
 	void startMinGame(int t_mineGameID);
 	void setGameState();
 
-	void addPlayer(Player & t_player);
+	void addPlayer(Player * t_player);
 
 private:
 	

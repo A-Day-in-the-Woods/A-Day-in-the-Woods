@@ -17,6 +17,10 @@ public:
 		setUp();
 	}
 
+	/// <summary>
+	/// Set the body that will be moved
+	/// </summary>
+	/// <param name="t_rect"></param>
 	void setRect(SDL_Rect & t_rect) {
 		rect = &t_rect;
 	}
