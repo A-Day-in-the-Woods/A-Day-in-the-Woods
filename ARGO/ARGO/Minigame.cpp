@@ -57,9 +57,9 @@ MinigameScreen::~MinigameScreen()
 {
 }
 
-void MinigameScreen::processEvent(Player& t_player)
+void MinigameScreen::processEvent()
 {
-	m_inputSystem.update(m_event, t_player);
+	m_inputSystem.update(m_event);
 }
 
 void MinigameScreen::update()

@@ -21,7 +21,7 @@ public:
 	MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState);
 	~MinigameScreen();
 
-	void processEvent(Player& t_player);
+	void processEvent();
 	void update();
 	void render();
 	void spriteMove();

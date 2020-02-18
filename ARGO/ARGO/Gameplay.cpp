@@ -12,7 +12,8 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_game(game),
 	m_event(event),
 	m_renderer(t_renderer),
-	m_player(m_tile, graph),
+	m_player(1),
+	m_movementSystem(t_currentState, m_tile, graph),
 	m_inputSystem(t_currentState)
 {
 	m_tile.reserve(200);
@@ -23,7 +24,9 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	SDL_FreeSurface(tempSerface);
 
 	m_player.addComponent(new InputComponent());
+	m_player.addComponent(new MovementComponent());
 	m_inputSystem.addEntity(m_player.getEntity());
+	m_movementSystem.addEntity(m_player.getEntity(), *m_player.getPlayerRectRef());
 }
 
 
@@ -57,8 +60,8 @@ void Gameplay::update()
 
 	}
 
-	m_player.update();
-
+	m_movementSystem.update();
+	//m_player.update();
 }
 
 void Gameplay::render()
@@ -189,7 +192,7 @@ void Gameplay::render()
 
 void Gameplay::processEvent()
 {
-	m_inputSystem.update(m_event,m_player);
+	m_inputSystem.update(m_event, m_movementSystem);
 
 }
 

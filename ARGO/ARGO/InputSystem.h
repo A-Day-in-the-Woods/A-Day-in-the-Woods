@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "Entity.h"
 #include "Player.h"
+#include "MovementSystem.h"
 
 
 class InputSystem {
@@ -28,7 +29,7 @@ public:
 		}
 	}
 	
-	void update(SDL_Event &event, Player & t_player)
+	void update(SDL_Event &event, movementSystem & t_move)
 	{
 		for (int i = 0; i < m_entities.size(); i++)
 		{
@@ -39,7 +40,7 @@ public:
 				case SDLK_UP:
 					if (m_currentState == GameState::Gameplay)
 					{
-						t_player.rollForMove(3);
+						t_move.diceRoll(3, 0);
 						//SDL_Delay(500);
 						std::cout << "Up ";
 					}
@@ -61,14 +62,14 @@ public:
 				case SDLK_LEFT:
 					if (m_currentState == GameState::Gameplay)
 					{
-						t_player.leftOrRightChoice(0);
+						t_move.leftOrRightChoice(0, 0);
 					}
 					std::cout << "Left ";
 					break;
 				case SDLK_RIGHT:
 					if (m_currentState == GameState::Gameplay)
 					{
-						t_player.leftOrRightChoice(1);
+						t_move.leftOrRightChoice(1, 0);
 					}
 					std::cout << "Right ";
 					break;
@@ -89,6 +90,13 @@ public:
 		}
 	}
 	
+
+	void update(SDL_Event& event)
+	{
+		
+	}
+
+
 private:
 	GameState & m_currentState;
 

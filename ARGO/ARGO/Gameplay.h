@@ -12,6 +12,8 @@
 #include "Player.h"
 #include "InputSystem.h"
 #include "Entity.h"
+#include "MovementSystem.h"
+#include "MovementComponent.h"
 
 class Game;
 
@@ -66,7 +68,7 @@ private:
 	SDL_Event& m_event;
 
 	InputSystem m_inputSystem;
-
+	movementSystem m_movementSystem;
 
 };
 

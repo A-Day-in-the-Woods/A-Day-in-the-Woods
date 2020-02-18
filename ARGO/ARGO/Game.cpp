@@ -137,7 +137,7 @@ void Game::processEvent()
 		case GameState::Credit:
 			break;
 		case GameState::Minigame:
-			m_minigamescreen->processEvent(m_gameplayscreen->m_player);
+			m_minigamescreen->processEvent();
 			break;
 		case GameState::Quit:
 			m_isRunning = false;

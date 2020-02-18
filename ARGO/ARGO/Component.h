@@ -5,7 +5,8 @@
 enum class ComponentType {
 	HEALTH,
 	POSITION,
-	INPUT
+	INPUT,
+	MOVEMENT
 };
 
 class Component {

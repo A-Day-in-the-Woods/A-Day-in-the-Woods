@@ -131,6 +131,12 @@
     <ClInclude Include="Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MovementComponent.h">
+      <Filter>Header Files\ECS\ComponentList</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementSystem.h">
+      <Filter>Header Files\ECS\ComponentSystems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="NodeDistances.txt" />

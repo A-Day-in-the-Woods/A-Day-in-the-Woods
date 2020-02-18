@@ -1,5 +1,12 @@
 #include "Player.h"
 
+Player::Player(int entityIdNum) :
+	Entity(entityIdNum)
+{
+	SetUp();
+}
+
+/*
 Player::Player(std::vector<Tile> & t_map, Graph< pair<string, int>, int>& t_g):
 	m_map(t_map),
 	m_graph(t_g),
@@ -7,6 +14,7 @@ Player::Player(std::vector<Tile> & t_map, Graph< pair<string, int>, int>& t_g):
 {
 	SetUp();
 }
+*/
 
 Player::~Player()
 {
@@ -19,14 +27,17 @@ void Player::SetUp()
 	rect.w = 20;
 	rect.h = 20;
 
+	/*
 	CurrentGameBoardIndex = 0;
 	m_movementSpeed = -1;
 	m_takeingTurn = false;
 	choiceLoop = true;
+	*/
 }
 
 void Player::update()
 {
+	/*
 	if (m_takeingTurn)
 	{
 		nodeNavigation();
@@ -35,6 +46,7 @@ void Player::update()
 	{
 		setPosition(m_map[CurrentGameBoardIndex].getPosition().x - (rect.w / 4.0f), m_map[CurrentGameBoardIndex].getPosition().y - (rect.h / 4.0f));
 	}
+	*/
 }
 
 void Player::render(SDL_Renderer* t_renderer)
@@ -50,11 +62,16 @@ void Player::setPosition(float t_x, float t_y)
 	rect.y = t_y;
 }
 
-void Player::getPosition()
+SDL_Rect Player::getPlayerRect()
 {
-
+	return rect;
 }
 
+SDL_Rect * Player::getPlayerRectRef()
+{
+	return & rect;
+}
+/*
 void Player::nodeNavigation()
 {
 	if (m_diceRoll > 0)
@@ -208,3 +225,5 @@ void Player::leftOrRightChoice(bool t_choice)
 	LeftOrRight = t_choice;
 	choiceLoop = false;
 };
+
+*/
