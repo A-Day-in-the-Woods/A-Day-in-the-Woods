@@ -19,6 +19,8 @@ Controller::~Controller()
 {
 }
 
+
+
 void Controller::update()
 {
 	if (controller == NULL && connect())
@@ -26,10 +28,10 @@ void Controller::update()
 		controller = SDL_GameControllerOpen(joystick_index);
 	}
 		//Controller Buttons
-		m_currentState.A = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_A);
-		m_currentState.B = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_B);
-		m_currentState.X = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_X);
-		m_currentState.Y = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_Y);
+		m_currentState.A = SDL_GameControllerGetButton(controller, SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_A);
+		m_currentState.B = SDL_GameControllerGetButton(controller, SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_B);
+		m_currentState.X = SDL_GameControllerGetButton(controller, SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_X);
+		m_currentState.Y = SDL_GameControllerGetButton(controller, SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_Y);
 		m_currentState.Back = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_BACK);
 		m_currentState.Start = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_START);
 		m_currentState.LB = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_LEFTSHOULDER);

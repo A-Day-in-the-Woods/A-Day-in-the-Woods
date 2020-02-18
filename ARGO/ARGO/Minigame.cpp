@@ -1,11 +1,15 @@
 #include "Minigame.h"
 
-MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState) :
+MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState, InputSystem& t_inputSystem) :
 	m_game(game),
 	m_event(event),
 	m_renderer(t_renderer),
-	m_inputSystem(t_currentState)
+	m_currentState(t_currentState),
+	m_inputSystem(t_inputSystem)
 {	
+	
+
+
 	SDL_Surface* m_backgroundImage = IMG_Load("ASSETS/IMAGES/BG.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundImage);
 	SDL_FreeSurface(m_backgroundImage);
@@ -78,9 +82,6 @@ MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& 
 
 	honeyRectangle.h = 150;
 	honeyRectangle.w = 150;
-
-	m_testEntity->addComponent(new InputComponent());
-	m_inputSystem.addEntity(m_testEntity);
 }
 
 MinigameScreen::~MinigameScreen()
@@ -309,12 +310,12 @@ void MinigameScreen::setGameState()
 
 void MinigameScreen::addPlayer(Player& t_player)
 {
-	m_inputSystem.addEntity(t_player.getEntity());
+//	m_inputSystem.addEntity(t_player.getEntity());
 }
 
 void MinigameScreen::GetWinnerPicture()
 {	
-		std::cout << "all answered" << std::endl;
+		//std::cout << "all answered" << std::endl;
 		SDL_Surface* WinSurface;
 		if (m_ApressedDistanceOne < m_ApressedDistanceTwo && m_ApressedDistanceOne < m_ApressedDistanceThree && m_ApressedDistanceOne < m_ApressedDistanceFour)
 		{
@@ -341,7 +342,7 @@ void MinigameScreen::GetWinnerPicture()
 		}
 		else
 		{
-			std::cout << "NO ONE Wins" << std::endl;
+			//std::cout << "NO ONE Wins" << std::endl;
 			WinSurface = IMG_Load("ASSETS/IMAGES/pic2Glass.png");
 		}
 		m_WinScreenTexture = SDL_CreateTextureFromSurface(m_renderer, WinSurface);

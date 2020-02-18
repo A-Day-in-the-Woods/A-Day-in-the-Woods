@@ -12,8 +12,7 @@
 
 class InputSystem {
 public:
-	InputSystem(GameState & t_currentState) :
-		m_currentState(t_currentState)
+	InputSystem()
 	{}
 
 	void addEntity(Entity* t_e)
@@ -26,20 +25,22 @@ public:
 			if (InputCheck[i]->getType() == ComponentType::INPUT)
 			{
 				m_inputComp.push_back(static_cast<InputComponent*>(InputCheck[i]));
-				m_inputComp[0]->m_input;
 			}
 		}
 	}
 	
-	void update(SDL_Event &event, Player & t_player)
+	void update(SDL_Event& event, Player& t_player)
 	{
-		
-		m_inputComp[0]->m_input.inputHandle(event);
-		
+		for (int i = 0; i < m_entities.size(); i++)
+		{
+			m_inputComp[i]->m_input.inputHandle(event);
+		}
+
+
 	}
 	
 private:
-	GameState & m_currentState;
+
 
 	//Game& game;
 	std::vector<Entity*> m_entities;

@@ -97,7 +97,6 @@ private:
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;
 
-	InputSystem m_inputSystem;
 
 
 };

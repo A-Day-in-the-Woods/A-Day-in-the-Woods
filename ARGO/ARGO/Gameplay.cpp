@@ -15,8 +15,7 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_event(event),
 	m_renderer(t_renderer),
 	m_window(t_window),
-	m_player(m_tile, graph),
-	m_inputSystem(t_currentState)
+	m_player(m_tile, graph)
 {
 
 	m_tile.reserve(200);
@@ -28,8 +27,6 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
 
-	m_player.addComponent(new InputComponent());
-	m_inputSystem.addEntity(m_player.getEntity());
 
 	m_DiceRect.h = 200;
 	m_DiceRect.w = 200;
@@ -161,7 +158,7 @@ void Gameplay::render()
 
 void Gameplay::processEvent()
 {
-	m_inputSystem.update(m_event, m_player);
+	//m_inputSystem.update(m_event, m_player);
 
 	if (m_event.type == SDL_KEYDOWN)
 	{

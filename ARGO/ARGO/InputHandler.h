@@ -11,28 +11,22 @@
 
 #include <CommandManager.h>
 #include <Controller.h>
+#include <vector>
 #include <stack>
 #include <SDL.h>
 
+static int noOfControl;
 
 class InputHandler
 {
 public: 
 	InputHandler();
 	void inputHandle(SDL_Event &event);
-
+	
 private:
 	//Handles the action of the inputs
 	CommandManager m_manager;
 	Controller* m_controller;
-
-	//Each Button used
-	/*Command* buttonUp = new UpOutput();
-	Command* buttonDown = new DownOutput();
-	Command* buttonEnter = new EnterOutput();
-	Command* buttonSpace = new SpaceOutput();
-	Command* buttonLeft = new LeftOutput();
-	Command* buttonRight = new RightOutput();*/
 	
 	//Controller buttons
 	Command* buttonA = new AOutput();
@@ -51,6 +45,8 @@ private:
 	Command* DpadDown = new DownOutput();
 	Command* DpadRight = new RightOutput();
 	Command* DpadLeft = new LeftOutput();
+	int controlNumber;
+	
 };
 
 

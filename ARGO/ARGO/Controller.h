@@ -39,10 +39,12 @@ private:
 public:
 	const int DPAD_THRESHOLD = 8000;
 
+	
 	GamePadState m_currentState;
 	
 	Controller(int currentController);
 	~Controller();
+	
 	void update();
 	bool connect();
 

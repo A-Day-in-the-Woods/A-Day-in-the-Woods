@@ -52,7 +52,7 @@ public:
 	void setGameState(GameState t_newState) { m_currentState = t_newState; };
 
 	void startMinGame();
-
+	
 private:
 	void processEvent();
 	void update();
@@ -78,7 +78,10 @@ private:
 
 	//---------Entity + Components-----------
 	Entity* m_testEntity = new Entity(0);
-	
+	Entity* m_testEntity1 = new Entity(1);
+	Entity* m_testEntity2 = new Entity(2);
+	Entity* m_testEntity3 = new Entity(3);
+
 	HealthSystem m_healthSystem;
 	InputSystem m_inputSystem;
 

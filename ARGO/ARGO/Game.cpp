@@ -5,9 +5,25 @@
 /// <summary>
 /// Constructor for the game class.
 /// </summary>
-Game::Game() :
-	m_inputSystem(m_currentState)
+Game::Game()
 {
+
+	m_testEntity->addComponent(new HealthComponent());
+	m_testEntity->addComponent(new PositionComponent(SDL_Rect{ 100,100,100,100 }));
+	m_testEntity->addComponent(new InputComponent());
+
+	m_testEntity1->addComponent(new InputComponent());
+
+	m_testEntity2->addComponent(new InputComponent());
+
+	m_testEntity3->addComponent(new InputComponent());
+
+	m_healthSystem.addEntity(m_testEntity);
+
+	m_inputSystem.addEntity(m_testEntity);
+	m_inputSystem.addEntity(m_testEntity1);
+	m_inputSystem.addEntity(m_testEntity2);
+	m_inputSystem.addEntity(m_testEntity3);
 
 
 	try
@@ -34,7 +50,7 @@ Game::Game() :
 		m_optionscreen = new OptionScreen(*this, m_renderer, event);
 		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window);
 		m_creditscreen = new CreditScreen(*this, m_renderer, event);
-		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState);
+		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState, m_inputSystem);
 
 		m_minigamescreen->addPlayer(m_gameplayscreen->m_player);
 
@@ -58,11 +74,6 @@ Game::Game() :
 	SDL_FreeSurface(tempSerface);
 
 
-	m_testEntity->addComponent(new HealthComponent());
-	m_testEntity->addComponent(new PositionComponent(SDL_Rect{ 100,100,100,100 }));
-	m_testEntity->addComponent(new InputComponent());
-	m_healthSystem.addEntity(m_testEntity);
-	m_inputSystem.addEntity(m_testEntity);
 }
 
 /// <summary>
@@ -109,8 +120,6 @@ void Game::processEvent()
 	//SDL_Event(event);
 	
 	SDL_PollEvent(&event);
-
-
 	switch (event.type)
 	{
 	case SDL_QUIT:
@@ -141,35 +150,33 @@ void Game::processEvent()
 		default:
 			break;
 		}
-	break;
-	case SDL_CONTROLLERBUTTONDOWN:
-		switch (m_currentState)
-		{
-		case GameState::Menu:
-			break;
-		case GameState::Options:
-			break;
-		case GameState::Gameplay:
-			m_gameplayscreen->processEvent();
-			break;
-		case GameState::Credit:
-			break;
-		case GameState::Minigame:
-			m_minigamescreen->processEvent(m_gameplayscreen->m_player);
-			break;
-		case GameState::Quit:
-			m_isRunning = false;
-		default:
-			break;
-		}
-	break;
-	
+		break;
 	}
 
+	switch (m_currentState)
+	{
+	case GameState::Menu:
+		break;
+	case GameState::Options:
+		break;
+	case GameState::Gameplay:
+		m_gameplayscreen->processEvent();
+		break;
+	case GameState::Credit:
+		break;
+	case GameState::Minigame:
+		m_minigamescreen->processEvent(m_gameplayscreen->m_player);
+		break;
+	case GameState::Quit:
+		m_isRunning = false;
+	default:
+		break;
+	}
 
 }
 
 /// <summary>
+/// 
 /// Update function
 /// </summary>
 void Game::update()

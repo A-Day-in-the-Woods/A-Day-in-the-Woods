@@ -18,7 +18,7 @@ class Game;
 class MinigameScreen
 {
 public:
-	MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState);
+	MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState , InputSystem& t_inputSystem);
 	~MinigameScreen();
 
 	void processEvent(Player& t_player);
@@ -32,6 +32,10 @@ public:
 
 private:
 	
+	GameState& m_currentState; // can remove
+	InputSystem m_inputSystem;
+
+
 	void GetWinnerPicture();
 
 
@@ -97,6 +101,5 @@ private:
 	SDL_Event& m_event;
 
 	Entity* m_testEntity = new Entity(0);
-	InputSystem m_inputSystem;
 };
 #endif // MINIGAME
