@@ -24,6 +24,9 @@ public:
 	void navigateNodes();
 	void nodeChange(std::list<GraphArc<pair<std::string, int>, int>> newPoint);
 	void rollDice();
+
+	int m_diceNumber;
+	bool turn;
 private:
 	void decision();
 	std::function<void(Node*)> m_visit;
@@ -32,6 +35,5 @@ private:
 	Graph< pair<string, int>, int>& m_graph;
 	int m_aiBehaviour;
 	SDL_Rect npc;
-	int m_diceNumber;
 	int m_pathDecision;
 };

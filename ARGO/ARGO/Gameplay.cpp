@@ -1,14 +1,10 @@
 #include "Gameplay.h"
 
-
-
-
 void visit(Node* node) {
 	std::cout << "Visiting " << node->data().first << std::endl;
 }
 
 Graph< pair<string, int>, int> graph(172); // A* Graph
-
 
 Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameState& t_currentState ,SDL_Window* t_window) :
 	m_game(game),
@@ -25,8 +21,6 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_tile.reserve(200);
 	initNodeFiles();
 
-	
-
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic2.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
@@ -41,7 +35,7 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 
 	cameraBox.w = SDL_GetWindowSurface(m_window)->w;
 	cameraBox.h = SDL_GetWindowSurface(m_window)->h;
-
+	m_npcOne.turn = true;
 }
 
 Gameplay::~Gameplay()
@@ -80,10 +74,34 @@ void Gameplay::update()
 
 	}
 	m_player.update();
-	m_npcOne.update();
-	m_npcTwo.update();
-	m_npcThree.update();
+	if (m_npcOne.turn)
+	{
+		m_npcOne.update();
+	}
+	else if (m_npcTwo.turn)
+	{
+		m_npcTwo.update();
+	}
+	else if (m_npcThree.turn)
+	{
+		m_npcThree.update();
+	}
 
+	if (m_npcOne.turn && m_npcOne.m_diceNumber <= 0)
+	{
+		m_npcOne.turn = false;
+		m_npcTwo.turn = true;
+	}
+	else if (m_npcTwo.turn && m_npcTwo.m_diceNumber <= 0)
+	{
+		m_npcTwo.turn = false;
+		m_npcThree.turn = true;
+	}
+	else if (m_npcThree.turn && m_npcThree.m_diceNumber <= 0)
+	{
+		m_npcThree.turn = false;
+		m_npcOne.turn = true;
+	}
 	// SDL_Rect to focus on
 	focus = camera->focus(&m_player);
 

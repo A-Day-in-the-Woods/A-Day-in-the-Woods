@@ -42,9 +42,7 @@ public:
 	SDL_Rect* focus = new SDL_Rect();
 	// Initialize Offset
 	SDL_Rect* offset = new SDL_Rect();
-
-
-
+	
 	Player m_player;
 	NPC m_npcOne;
 	NPC m_npcTwo;
@@ -62,14 +60,15 @@ private:
 	//------------ Camera -------------
 	SDL_Rect cameraBox = {0,0, 0,0};
 	float scale = 1;
-	
+
 	std::vector<Tile> m_tile;
 
 	SDL_Texture* m_DiceTexture; // Dice texture
 	SDL_Surface* m_DiceSurface;
 	SDL_Rect m_DiceRect;
 	int m_diceRoll = 1;
-	
+
+
 	// ------ A* stuff ----------
 	void aStar();
 

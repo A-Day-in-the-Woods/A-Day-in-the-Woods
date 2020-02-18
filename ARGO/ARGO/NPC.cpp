@@ -5,6 +5,7 @@ NPC::NPC(std::vector<Tile>& t_map, Graph<pair<string, int>, int>& t_g, int t_aiB
 	m_graph(t_g),
 	m_aiBehaviour(t_aiBehaviour),
 	m_visit(t_visit),
+	turn(false),
 	Entity(2)
 {
 	srand((unsigned)time(0));
@@ -13,7 +14,6 @@ NPC::NPC(std::vector<Tile>& t_map, Graph<pair<string, int>, int>& t_g, int t_aiB
 	npc.y = 0;
 	npc.h = 20;
 	npc.w = 20;
-
 }
 
 NPC::~NPC()
@@ -25,6 +25,7 @@ void NPC::update()
 	decision();
 	SDL_Delay(100);
 	rollDice();
+	navigateNodes();
 	setPosition(m_map[currentGameBoardIndex].getPosition().x, m_map[currentGameBoardIndex].getPosition().y);
 }
 
@@ -60,8 +61,7 @@ void NPC::navigateNodes()
 {
 	int temp = 1;
 	m_pathDecision = (rand() % 2) + 1;
-
-	
+		
 	for (int x = 0; x < 1; x++)
 	{
 
@@ -161,6 +161,7 @@ void NPC::navigateNodes()
 		{ // only one way to go
 			nodeChange(p);
 		}
+		m_diceNumber -= 1;
 	}
 }
 
@@ -180,8 +181,10 @@ void NPC::nodeChange(std::list<GraphArc<pair<std::string, int>, int>> newPoint)
 
 void NPC::rollDice()
 {
-	m_diceNumber = (rand() % 6) + 1;
-	navigateNodes();
+	if (m_diceNumber <= 0)
+	{
+		m_diceNumber = (rand() % 6) + 1;
+	}
 }
 
 void NPC::decision()

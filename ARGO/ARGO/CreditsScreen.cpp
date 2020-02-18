@@ -28,8 +28,7 @@ void CreditScreen::update()
 }
 
 void CreditScreen::render()
-{
-	
+{	
 	//SDL_RenderClear(m_renderer);
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 }
