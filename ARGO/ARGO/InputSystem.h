@@ -37,26 +37,13 @@ public:
 				switch (event.key.keysym.sym)
 				{
 				case SDLK_UP:
-					if (m_currentState == GameState::Gameplay)
-					{
-						t_player.rollForMove(3);
-						SDL_Delay(500);
-						std::cout << "Up ";
-					}
-					else if (m_currentState == GameState::Minigame)
-					{
-						std::cout << "l";
-						//input?
-					}
-					break;	
+					std::cout << "up ";
+					break;
 				case SDLK_DOWN:
 					std::cout << "Down ";
 					break;
 				case SDLK_RETURN:
 					std::cout << "Enter ";
-					break;
-				case SDLK_SPACE:
-					std::cout << "Space ";
 					break;
 				case SDLK_LEFT:
 					std::cout << "Left ";
@@ -64,14 +51,36 @@ public:
 				case SDLK_RIGHT:
 					std::cout << "Right ";
 					break;
-				case SDLK_a:
-					switch (m_currentState)
+				case SDLK_SPACE:
+					std::cout << "space ";
+					if (m_currentState == GameState::Gameplay)
 					{
-					case GameState::Minigame:
-						
-						break;
-					default:
-						break;
+						t_player.rollForMove();
+						SDL_Delay(500);
+					}
+					break;
+				case SDLK_z:
+					if (m_currentState == GameState::Minigame)
+					{
+						t_player.AButtonPressed(true);
+					}					
+					break;
+				case SDLK_c:
+					if (m_currentState == GameState::Minigame)
+					{
+						t_player.BButtonPressed(true);
+					}
+					break;
+				case SDLK_b:
+					if (m_currentState == GameState::Minigame)
+					{
+						t_player.XButtonPressed(true);
+					}
+					break;
+				case SDLK_m:
+					if (m_currentState == GameState::Minigame)
+					{
+						t_player.YButtonPressed(true);
 					}
 					break;
 				default:

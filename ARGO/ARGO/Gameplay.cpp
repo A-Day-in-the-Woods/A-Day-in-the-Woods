@@ -1,24 +1,31 @@
 #include "Gameplay.h"
 
 
+
+
 void visit(Node* node) {
 	std::cout << "Visiting " << node->data().first << std::endl;
 }
 
 Graph< pair<string, int>, int> graph(172); // A* Graph
 
-Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState) :
+
+Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameState& t_currentState ,SDL_Window* t_window) :
 	m_game(game),
 	m_event(event),
 	m_renderer(t_renderer),
+	m_window(t_window),
 	m_player(m_tile, graph),
 	m_npcOne(m_tile, graph, 1, visit),
 	m_npcTwo(m_tile, graph, 2, visit),
 	m_npcThree(m_tile, graph, 3, visit),
 	m_inputSystem(t_currentState)
 {
+
 	m_tile.reserve(200);
 	initNodeFiles();
+
+	
 
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic2.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
@@ -26,8 +33,15 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameS
 
 	m_player.addComponent(new InputComponent());
 	m_inputSystem.addEntity(m_player.getEntity());
-	/*m_npc.addComponent(new InputComponent());
-	m_inputSystem.addEntity(m_npc.getEntity());*/
+
+	m_DiceRect.h = 200;
+	m_DiceRect.w = 200;
+	m_DiceRect.x = 100;
+	m_DiceRect.y = 100;
+
+	cameraBox.w = SDL_GetWindowSurface(m_window)->w;
+	cameraBox.h = SDL_GetWindowSurface(m_window)->h;
+
 }
 
 Gameplay::~Gameplay()
@@ -35,11 +49,20 @@ Gameplay::~Gameplay()
 }
 
 void Gameplay::update()
-{	
-	std::cout << "Gameplay update" << std::endl;
+{
+	m_diceRoll = m_player.getDiceRoll();
+	setDiceTexture();
+
+
+	focus = camera->focus(&m_player);
+
+	// Update Camera based on new focus
+	camera->update(focus);
+
+
 	if (m_event.type == SDL_KEYDOWN)
 	{
-		if (m_event.key.keysym.sym == SDLK_SPACE || m_event.key.keysym.sym == SDLK_RETURN)
+		if ( m_event.key.keysym.sym == SDLK_RETURN)
 		{
 			SDL_Delay(200);
 			setGameState();
@@ -56,24 +79,158 @@ void Gameplay::update()
 		//m_testEntity->removeComponent(ComponentType::HEALTH);
 
 	}
-
 	m_player.update();
 	m_npcOne.update();
 	m_npcTwo.update();
 	m_npcThree.update();
+
+	// SDL_Rect to focus on
+	focus = camera->focus(&m_player);
+
+	// Update Camera based on new focus
+	camera->update(focus);
+
 }
 
 void Gameplay::render()
 {
 
-	//SDL_RenderClear(m_renderer);
-	std::cout << "Gameplay render" << std::endl;
-	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
+	SDL_RenderClear(m_renderer);
+	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL );
+	SDL_RenderCopy(m_renderer, m_DiceTexture, NULL, &m_DiceRect);
+
+	float width = (float)camera->getLookAt()->w;
+	float height = (float)camera->getLookAt()->h;
+	float max_width = ((float)SCREEN_WIDTH / (float)camera->getLookAt()->w) * 0.75;
+	float max_height = ((float)SCREEN_HEIGHT / (float)camera->getLookAt()->h) * 0.75;
+
+	float ratio = calculateScale(width, height, max_width, max_height);
+	SDL_RenderSetScale(m_renderer, scale, scale);
+
+
+	drawLines();
+
+
+	offset->x = focus->x - camera->getCamera()->x;
+	offset->y = focus->y - camera->getCamera()->y;
+	offset->w = focus->w;
+	offset->h = focus->h;
 	
-	for (int i = 0; i < m_tile.size(); i++)
-	{
-		m_tile[i].render(m_renderer);
+	
+	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0x00, 0x00, 0xFF);
+	SDL_RenderDrawRect(m_renderer, offset);
+
+
+	// Little target Box in middle of Focus
+	offset->w = CHARACTER_WIDTH;
+	offset->h = CHARACTER_HEIGHT;
+	offset->x = ((focus->x + focus->w / 2) - offset->w / 2) - camera->getCamera()->x;
+	offset->y = ((focus->y + focus->h / 2) - offset->h / 2) - camera->getCamera()->y;
+	SDL_RenderDrawRect(m_renderer, offset);
+
+	for (int i = 0; i < SCREEN_HEIGHT; i += 4) {
+		SDL_RenderDrawPoint(m_renderer, SCREEN_WIDTH / 2, i);
 	}
+
+	for (int i = 0; i < SCREEN_WIDTH; i += 4) {
+		SDL_RenderDrawPoint(m_renderer, i, SCREEN_HEIGHT / 2);
+	}
+
+	// Level Crosshairs
+	for (int i = 0; i < LEVEL_HEIGHT; i += 4) {
+		SDL_RenderDrawPoint(m_renderer, LEVEL_WIDTH / 2 - camera->getCamera()->x, i);
+	}
+
+	for (int i = 0; i < LEVEL_WIDTH; i += 4) {
+		SDL_RenderDrawPoint(m_renderer, i, LEVEL_HEIGHT / 2 - camera->getCamera()->y);
+	}
+
+	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+
+
+
+
+
+	
+
+
+	for (int i = 0; i < m_tile.size(); i++) {m_tile[i].render(m_renderer);}
+
+
+	m_player.render(m_renderer);
+	m_npcOne.render(m_renderer);
+	m_npcTwo.render(m_renderer);
+	m_npcThree.render(m_renderer);
+	SDL_RenderPresent(m_renderer);
+}
+
+void Gameplay::processEvent()
+{
+	m_inputSystem.update(m_event, m_player);
+
+	if (m_event.type == SDL_KEYDOWN)
+	{
+		//if (SDLK_UP == m_event.key.keysym.sym)
+		//{
+		//	cameraBox.y += 10;			
+		//	SDL_RenderSetViewport(m_renderer, &cameraBox);
+		//}
+
+		//if (SDLK_DOWN== m_event.key.keysym.sym)
+		//{
+		//	cameraBox.y -= 10;
+		//	SDL_RenderSetViewport(m_renderer, &cameraBox);
+		//}
+
+		//if (SDLK_LEFT == m_event.key.keysym.sym)
+		//{
+		//	cameraBox.h -= 90;
+		//	cameraBox.w -= 144;
+		//	cameraBox.x += 10;
+		//}
+
+		//if (SDLK_RIGHT == m_event.key.keysym.sym)
+		//{
+		//	cameraBox.h -= 90;
+		//	cameraBox.w -= 144;
+		//	cameraBox.x -= 10;
+		//}
+
+
+	/*	cameraBox.x = m_player.getPosition().x;
+		cameraBox.y = m_player.getPosition().y;
+		SDL_RenderSetViewport(m_renderer, &cameraBox);*/
+
+
+		if (SDLK_w == m_event.key.keysym.sym) 
+		{
+			scale += .01;
+			if (scale > 2) { scale = 2; }
+		}
+		if (SDLK_s == m_event.key.keysym.sym) 
+		{
+
+			scale -= .01;
+			if (scale < 1) { scale = 1; }
+		}
+
+
+		std::cout << scale << std::endl;
+
+		
+	}
+}
+
+void Gameplay::setGameState()
+{
+	SDL_RenderSetScale(m_renderer, 1, 1);
+
+	m_game.startMinGame();
+	m_game.setGameState(GameState::Minigame);
+}
+
+void Gameplay::drawLines()
+{
 
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 
@@ -174,26 +331,49 @@ void Gameplay::render()
 	}
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(166)->m_x + 5, graph.nodeIndex(166)->m_y + 5, graph.nodeIndex(26)->m_x + 5, graph.nodeIndex(26)->m_y + 5);
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(162)->m_x + 5, graph.nodeIndex(162)->m_y + 5, graph.nodeIndex(75)->m_x + 5, graph.nodeIndex(75)->m_y + 5);
-
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 
-	m_player.render(m_renderer);
-	m_npcOne.render(m_renderer);
-	m_npcTwo.render(m_renderer);
-	m_npcThree.render(m_renderer);
-
-	//SDL_RenderPresent(m_renderer);
 }
 
-void Gameplay::processEvent()
+float Gameplay::calculateScale(float width, float height, float maxWidth, float maxHeight)
 {
-	m_inputSystem.update(m_event,m_player);
+	return max(maxWidth / width, maxHeight / height);
 }
 
-void Gameplay::setGameState()
+void Gameplay::setDiceTexture()
 {
-	m_game.startMinGame();
-	m_game.setGameState(GameState::Minigame);
+	switch (m_diceRoll)
+	{
+	default:
+		break;
+
+	case 1:
+		m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceOne.png");
+
+		break;
+	case 2:
+		m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceTwo.png");
+
+		break;
+	case 3:
+		m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceThree.png");
+
+		break;
+	case 4:
+		m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceFour.png");
+
+		break;
+	case 5:
+		m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceFive.png");
+
+		break;
+	case 6:
+		m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceSix.png");
+
+		break;
+	}
+	m_DiceTexture = SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface);
+	SDL_FreeSurface(m_DiceSurface);
 }
 
 
@@ -238,3 +418,6 @@ void Gameplay::initNodeFiles()
 
 	myfile.close();
 }
+
+
+

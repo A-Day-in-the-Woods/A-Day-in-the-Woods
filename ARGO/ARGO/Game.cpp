@@ -17,7 +17,7 @@ Game::Game() :
 
 		// Create SDL Window Centred in Middle Of Screen
 
-		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, NULL);
+		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1820, 980, NULL);
 
 		// Check if window was created correctly
 		if (!m_window) throw "Error Loading Window";
@@ -32,7 +32,7 @@ Game::Game() :
 
 		m_menuscreen = new MenuScreen(*this, m_renderer, event);
 		m_optionscreen = new OptionScreen(*this, m_renderer, event);
-		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState);
+		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window);
 		m_creditscreen = new CreditScreen(*this, m_renderer, event);
 		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState);
 

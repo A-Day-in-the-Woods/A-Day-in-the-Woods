@@ -39,8 +39,9 @@ void Player::setPosition(float t_x, float t_y)
 	rect.y = t_y;
 }
 
-void Player::getPosition()
+SDL_Rect Player::getPosition()
 {
+	return rect;
 }
 
 void Player::nodeNavigation(int t_diceRoll)
@@ -53,7 +54,6 @@ void Player::nodeNavigation(int t_diceRoll)
 		std::list<GraphArc<std::pair<std::string, int>, int>> p;
 
 		p = m_graph.nodeIndex(CurrentGameBoardIndex)->arcList();
-
 
 		if (p.size() > 1)
 		{ // direction choice
@@ -154,10 +154,61 @@ void Player::playerNodeChange(std::list<GraphArc<std::pair<std::string, int>, in
 			CurrentGameBoardIndex = i;
 			//setPosition(m_map[CurrentGameBoardIndex].getPosition().x - (rect.w / 4.0f), m_map[CurrentGameBoardIndex].getPosition().y - (rect.h / 4.0f));
 		}
+
 	}
 }
 
-void Player::rollForMove(int t_diceRoll)
+void Player::rollForMove()
 {
-	nodeNavigation(t_diceRoll);
+	m_DiceNumber = randomNumber(6, 1);
+	std::cout << "DICE rolled a " << m_DiceNumber << std::endl;
+	nodeNavigation(m_DiceNumber);
+}
+
+void Player::AButtonPressed(bool t_state)
+{
+	m_Abutton = t_state;
+}
+
+void Player::BButtonPressed(bool t_state)
+{
+	m_Bbutton = t_state;
+}
+
+void Player::XButtonPressed(bool t_state)
+{
+	m_Xbutton = t_state;
+}
+
+void Player::YButtonPressed(bool t_state)
+{
+	m_Ybutton = t_state;
+}
+
+bool Player::isAButtonPressed()
+{
+	return m_Abutton;
+}
+
+bool Player::isBButtonPressed()
+{
+	return m_Bbutton;
+}
+
+bool Player::isXButtonPressed()
+{
+	return m_Xbutton;
+}
+
+bool Player::isYButtonPressed()
+{
+	return m_Ybutton;
+}
+
+int Player::randomNumber(int t_max, int t_min)
+{
+	std::random_device device;
+	std::mt19937 rng(device());
+	std::uniform_int_distribution<std::mt19937::result_type> dist(t_min, t_max);
+	return dist(rng);
 }
