@@ -57,9 +57,6 @@ public:
 				case SDLK_RETURN:
 					std::cout << "Enter ";
 					break;
-				case SDLK_SPACE:
-					std::cout << "Space ";
-					break;
 				case SDLK_LEFT:
 					if (m_currentState == GameState::Gameplay)
 					{
@@ -74,14 +71,36 @@ public:
 					}
 					std::cout << "Right ";
 					break;
-				case SDLK_a:
-					switch (m_currentState)
+				case SDLK_SPACE:
+					std::cout << "space ";
+					if (m_currentState == GameState::Gameplay)
 					{
-					case GameState::Minigame:
-						
-						break;
-					default:
-						break;
+						t_player.rollForMove();
+						SDL_Delay(500);
+					}
+					break;
+				case SDLK_z:
+					if (m_currentState == GameState::Minigame)
+					{
+						t_player.AButtonPressed(true);
+					}					
+					break;
+				case SDLK_c:
+					if (m_currentState == GameState::Minigame)
+					{
+						t_player.BButtonPressed(true);
+					}
+					break;
+				case SDLK_b:
+					if (m_currentState == GameState::Minigame)
+					{
+						t_player.XButtonPressed(true);
+					}
+					break;
+				case SDLK_m:
+					if (m_currentState == GameState::Minigame)
+					{
+						t_player.YButtonPressed(true);
 					}
 					break;
 				default:

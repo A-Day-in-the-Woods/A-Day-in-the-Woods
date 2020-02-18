@@ -39,3 +39,51 @@ SDL_Rect * Player::getPlayerRectRef()
 {
 	return & rect;
 }
+
+void Player::AButtonPressed(bool t_state)
+{
+	m_Abutton = t_state;
+}
+
+void Player::BButtonPressed(bool t_state)
+{
+	m_Bbutton = t_state;
+}
+
+void Player::XButtonPressed(bool t_state)
+{
+	m_Xbutton = t_state;
+}
+
+void Player::YButtonPressed(bool t_state)
+{
+	m_Ybutton = t_state;
+}
+
+bool Player::isAButtonPressed()
+{
+	return m_Abutton;
+}
+
+bool Player::isBButtonPressed()
+{
+	return m_Bbutton;
+}
+
+bool Player::isXButtonPressed()
+{
+	return m_Xbutton;
+}
+
+bool Player::isYButtonPressed()
+{
+	return m_Ybutton;
+}
+
+int Player::randomNumber(int t_max, int t_min)
+{
+	std::random_device device;
+	std::mt19937 rng(device());
+	std::uniform_int_distribution<std::mt19937::result_type> dist(t_min, t_max);
+	return dist(rng);
+}

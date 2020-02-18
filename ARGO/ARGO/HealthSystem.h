@@ -61,7 +61,7 @@ public:
 	void update() {
 		for (int i = 0; i < m_entities.size(); i++)
 		{
-			std::cout << "ID : " << m_entities[i]->getId() << "  Health : " << m_healthComp[i]->getHealth() << std::endl;
+		//	std::cout << "ID : " << m_entities[i]->getId() << "  Health : " << m_healthComp[i]->getHealth() << std::endl;
 		}
 	}
 
