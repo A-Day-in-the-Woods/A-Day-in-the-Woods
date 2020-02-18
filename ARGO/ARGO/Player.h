@@ -32,6 +32,7 @@ public:
 	void setPosition(float t_x, float t_y);
 	SDL_Rect * getPlayerRectRef();
 
+	SDL_Rect getPosition() { return rect; };
 
 	/*
 	void nodeNavigation();

@@ -37,9 +37,10 @@ public:
 	/// </summary>
 	/// <param name="t_diceRoll"></param>
 	/// <param name="index"></param>
-	void diceRoll(int t_diceRoll, int index)
+	void diceRoll(int index)
 	{
-		m_moveComp[index]->rollForMove(t_diceRoll);
+		m_DiceNumber = randomNumber(6, 1);
+		m_moveComp[index]->rollForMove(m_DiceNumber);
 	}
 
 	void leftOrRightChoice(bool t_b, int index)
@@ -54,6 +55,20 @@ public:
 		}
 	}
 
+
+	int randomNumber(int t_max, int t_min)
+	{
+		std::random_device device;
+		std::mt19937 rng(device());
+		std::uniform_int_distribution<std::mt19937::result_type> dist(t_min, t_max);
+		return dist(rng);
+	}
+
+	int getDiceRoll()
+	{
+		return m_DiceNumber;
+	}
+
 private:
 
 	GameState & m_gameState;
@@ -63,4 +78,5 @@ private:
 
 	Graph< pair<string, int>, int>& m_graph;
 	std::vector<Tile>& m_map;
+	int m_DiceNumber{ 1 };
 };

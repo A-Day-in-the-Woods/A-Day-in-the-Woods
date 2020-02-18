@@ -40,18 +40,13 @@ public:
 				case SDLK_UP:
 					if (m_currentState == GameState::Gameplay)
 					{
-						t_move.diceRoll(3, 0);
-						//SDL_Delay(500);
-						std::cout << "Up ";
 					}
 					else if (m_currentState == GameState::Minigame)
 					{
-						std::cout << "l";
-						//input?
 					}
 					break;	
 				case SDLK_DOWN:
-					t_move.diceRoll(3, 1);
+					t_move.diceRoll(1);
 					std::cout << "Down ";
 					break;
 				case SDLK_RETURN:
@@ -75,32 +70,32 @@ public:
 					std::cout << "space ";
 					if (m_currentState == GameState::Gameplay)
 					{
-						t_player.rollForMove();
+						t_move.diceRoll(0);
 						SDL_Delay(500);
 					}
 					break;
 				case SDLK_z:
 					if (m_currentState == GameState::Minigame)
 					{
-						t_player.AButtonPressed(true);
+						//t_player.AButtonPressed(true);
 					}					
 					break;
 				case SDLK_c:
 					if (m_currentState == GameState::Minigame)
 					{
-						t_player.BButtonPressed(true);
+						//t_player.BButtonPressed(true);
 					}
 					break;
 				case SDLK_b:
 					if (m_currentState == GameState::Minigame)
 					{
-						t_player.XButtonPressed(true);
+						//t_player.XButtonPressed(true);
 					}
 					break;
 				case SDLK_m:
 					if (m_currentState == GameState::Minigame)
 					{
-						t_player.YButtonPressed(true);
+						//t_player.YButtonPressed(true);
 					}
 					break;
 				default:

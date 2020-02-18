@@ -90,7 +90,7 @@ void MinigameScreen::processEvent()
 
 	m_direction.x = (honeyRectangle.x - reticleRectangle.x);
 	m_direction.y = (honeyRectangle.y - reticleRectangle.y);
-
+	/*
 	if(t_player.isAButtonPressed() == true && m_playerOneAnswerd == false)
 	{
 
@@ -122,7 +122,7 @@ void MinigameScreen::processEvent()
 		SDL_SetTextureColorMod(m_AbuttonTextureFour, 100, 100, 100);
 
 	}
-
+	*/
 
 	if (EndPictureminiGame == true)
 	{

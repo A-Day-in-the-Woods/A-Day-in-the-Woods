@@ -40,6 +40,7 @@ SDL_Rect * Player::getPlayerRectRef()
 	return & rect;
 }
 
+/*
 void Player::AButtonPressed(bool t_state)
 {
 	m_Abutton = t_state;
@@ -87,3 +88,5 @@ int Player::randomNumber(int t_max, int t_min)
 	std::uniform_int_distribution<std::mt19937::result_type> dist(t_min, t_max);
 	return dist(rng);
 }
+
+*/

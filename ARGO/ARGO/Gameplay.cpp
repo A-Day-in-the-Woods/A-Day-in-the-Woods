@@ -55,11 +55,11 @@ Gameplay::~Gameplay()
 
 void Gameplay::update()
 {
-	m_diceRoll = m_player.getDiceRoll();
+	m_diceRoll = m_movementSystem.getDiceRoll();
 	setDiceTexture();
 
 
-	focus = camera->focus(&m_player);
+	focus = camera->focus(m_player[0]);
 
 	// Update Camera based on new focus
 	camera->update(focus);
@@ -89,7 +89,7 @@ void Gameplay::update()
 	//m_player.update();
 
 	// SDL_Rect to focus on
-	focus = camera->focus(&m_player);
+	focus = camera->focus(m_player[0]);
 
 	// Update Camera based on new focus
 	camera->update(focus);
@@ -161,13 +161,17 @@ void Gameplay::render()
 	for (int i = 0; i < m_tile.size(); i++) {m_tile[i].render(m_renderer);}
 
 
-	m_player.render(m_renderer);
+	for (int i = 0; i < m_player.size(); i++)
+	{
+		m_player[i]->render(m_renderer);
+	}
+
 	SDL_RenderPresent(m_renderer);
 }
 
 void Gameplay::processEvent()
 {
-	m_inputSystem.update(m_event, m_player);
+	m_inputSystem.update(m_event, m_movementSystem);
 
 	if (m_event.type == SDL_KEYDOWN)
 	{
