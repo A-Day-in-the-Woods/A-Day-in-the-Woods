@@ -20,22 +20,16 @@
 class Game;
 
 
-typedef GraphArc<pair<std::string, int>, int> Arc;
-typedef GraphNode<pair<std::string, int>, int> Node;
-
-
-
-
 class Gameplay
 {
 public:
-	Gameplay(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState , SDL_Window* t_window);
+	Gameplay(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState , SDL_Window* t_window, InputSystem& t_input);
 	~Gameplay();
-	void update();
-	void render();
-	void processEvent();
+	void update(movementSystem& t_move);
+	void render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, Graph< pair<string, int>, int>& graph);
+	void processEvent(movementSystem& t_move);
 	void setGameState();
-	void drawLines();
+	void drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player);
 
 
 	//camera
@@ -47,7 +41,7 @@ public:
 
 
 
-	std::vector<Player*> m_player;
+
 
 private:
 	
@@ -65,7 +59,7 @@ private:
 
 
 
-	std::vector<Tile> m_tile;
+	
 
 	SDL_Texture* m_DiceTexture; // Dice texture
 	SDL_Surface* m_DiceSurface;
@@ -74,21 +68,10 @@ private:
 
 
 	// ------ A* stuff ----------
-	void aStar();
-
-	void initNodeFiles();
-
-	map<string, int> nodemap;
-	pair<string, int> nodeLabel;
-
-	int posX = 0;
-	int posY = 0;
-	int index = 0;
-	ifstream myfile;
+	//void aStar();
 
 
-	string from, to;
-	int weight;
+	
 
 
 	bool startAstar{ false };
@@ -99,9 +82,7 @@ private:
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;
 
-	InputSystem m_inputSystem;
-	movementSystem m_movementSystem;
-
+	InputSystem & m_inputSystem;
 };
 
 #endif // !GAMEPLAY

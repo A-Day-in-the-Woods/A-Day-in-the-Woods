@@ -136,6 +136,7 @@
     </ClInclude>
     <ClInclude Include="MovementSystem.h">
       <Filter>Header Files\ECS\ComponentSystems</Filter>
+    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>

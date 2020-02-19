@@ -2,13 +2,36 @@
 
 
 
+
+void visit(Node* node) {
+	std::cout << "Visiting " << node->data().first << std::endl;
+}
+
+Graph< pair<string, int>, int> graph(172); // A* Graph
+
+
 /// <summary>
 /// Constructor for the game class.
 /// </summary>
 Game::Game() :
-	m_inputSystem(m_currentState)
+	m_inputSystem(m_currentState),
+	m_movementSystem(m_currentState, m_tile, graph)
 {
+	m_tile.reserve(200);
+	initNodeFiles();
 
+
+	m_player.push_back(new Player(1));
+	m_player.push_back(new Player(2));
+
+	for (int i = 0; i < m_player.size(); i++)
+	{
+		m_player[i]->addComponent(new InputComponent());
+		m_player[i]->addComponent(new MovementComponent());
+		m_inputSystem.addEntity(m_player[i]->getEntity());
+		m_movementSystem.addEntity(m_player[i]->getEntity(), *m_player[i]->getPlayerRectRef());
+		m_inputSystem.addEntity(m_player[i]);
+	}
 
 	try
 	{
@@ -32,14 +55,14 @@ Game::Game() :
 
 		m_menuscreen = new MenuScreen(*this, m_renderer, event);
 		m_optionscreen = new OptionScreen(*this, m_renderer, event);
-		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window);
+		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window, m_inputSystem);
 		m_creditscreen = new CreditScreen(*this, m_renderer, event);
 		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState);
 
 
-		for (int i = 0; i < m_gameplayscreen->m_player.size(); i++)
+		for (int i = 0; i < m_player.size(); i++)
 		{
-			m_minigamescreen->addPlayer(m_gameplayscreen->m_player[i]);
+			m_minigamescreen->addPlayer(m_player[i]);
 		}
 		// Game is running
 		m_isRunning = true;
@@ -135,7 +158,7 @@ void Game::processEvent()
 		case GameState::Options:
 			break;
 		case GameState::Gameplay:
-			m_gameplayscreen->processEvent();
+			m_gameplayscreen->processEvent(m_movementSystem);
 			break;
 		case GameState::Credit:
 			break;
@@ -176,7 +199,7 @@ void Game::update()
 		m_optionscreen->update();
 		break;
 	case GameState::Gameplay:
-		m_gameplayscreen->update();
+		m_gameplayscreen->update(m_movementSystem);
 		break;
 	case GameState::Credit:
 		m_creditscreen->update();
@@ -209,7 +232,7 @@ void Game::render()
 		m_optionscreen->render();
 		break;
 	case GameState::Gameplay:
-		m_gameplayscreen->render();
+		m_gameplayscreen->render(m_tile, m_player, graph);
 		break;
 	case GameState::Credit:
 		m_creditscreen->render();
@@ -239,3 +262,29 @@ void Game::clean()
 	SDL_QUIT;
 }
 
+
+/// <summary>
+/// Loades in files for A*
+/// </summary>
+void Game::initNodeFiles()
+{
+	myfile.open("Nodes.txt");	// nodes
+	while (myfile >> nodeLabel.first >> posX >> posY)
+	{
+		graph.addNode(nodeLabel, posX, posY, index);
+		nodemap[nodeLabel.first] = index;
+		index++;
+
+		m_tile.push_back(Tile(posX, posY));
+	}
+	myfile.close();
+
+
+	myfile.open("NodeDistances.txt");	// arcs
+	while (myfile >> from >> to >> weight) {
+		graph.addArc(nodemap[from], nodemap[to], weight);
+
+	}
+
+	myfile.close();
+}
