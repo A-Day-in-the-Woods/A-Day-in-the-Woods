@@ -192,6 +192,10 @@ public:
 	}
 
 
+	bool getTakeingTurn(){
+		return m_takeingTurn;
+	}
+
 private:
 
 

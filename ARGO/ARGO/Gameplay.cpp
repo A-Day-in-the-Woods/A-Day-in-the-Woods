@@ -55,9 +55,9 @@ Gameplay::~Gameplay()
 
 void Gameplay::update()
 {
+
 	m_diceRoll = m_movementSystem.getDiceRoll();
 	setDiceTexture();
-
 
 	focus = camera->focus(m_player[0]);
 
@@ -172,6 +172,8 @@ void Gameplay::render()
 void Gameplay::processEvent()
 {
 	m_inputSystem.update(m_event, m_movementSystem);
+
+	
 
 	if (m_event.type == SDL_KEYDOWN)
 	{

@@ -71,7 +71,7 @@ public:
 					if (m_currentState == GameState::Gameplay)
 					{
 						t_move.diceRoll(0);
-						SDL_Delay(500);
+						//SDL_Delay(500);
 					}
 					break;
 				case SDLK_z:

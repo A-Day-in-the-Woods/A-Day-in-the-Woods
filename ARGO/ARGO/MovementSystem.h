@@ -39,8 +39,11 @@ public:
 	/// <param name="index"></param>
 	void diceRoll(int index)
 	{
-		m_DiceNumber = randomNumber(6, 1);
-		m_moveComp[index]->rollForMove(m_DiceNumber);
+		if (!m_moveComp[index]->getTakeingTurn())
+		{
+			m_DiceNumber = randomNumber(6, 1);
+			m_moveComp[index]->rollForMove(m_DiceNumber);
+		}
 	}
 
 	void leftOrRightChoice(bool t_b, int index)
