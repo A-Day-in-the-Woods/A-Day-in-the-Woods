@@ -88,13 +88,13 @@ MinigameScreen::~MinigameScreen()
 {
 }
 
-void MinigameScreen::processEvent(Player& t_player)
+void MinigameScreen::processEvent()
 {
-	m_inputSystem.update(m_event, t_player, m_currentState);
+	m_inputSystem.update(m_event);
 
 	m_direction.x = (honeyRectangle.x - reticleRectangle.x);
 	m_direction.y = (honeyRectangle.y - reticleRectangle.y);
-
+	/*
 	if(t_player.isAButtonPressed() == true && m_playerOneAnswerd == false)
 	{
 
@@ -126,7 +126,7 @@ void MinigameScreen::processEvent(Player& t_player)
 		SDL_SetTextureColorMod(m_AbuttonTextureFour, 100, 100, 100);
 
 	}
-
+	*/
 
 	if (EndPictureminiGame == true)
 	{
@@ -307,9 +307,9 @@ void MinigameScreen::setGameState()
 	m_game.setGameState(GameState::Gameplay);
 }
 
-void MinigameScreen::addPlayer(Player& t_player)
+void MinigameScreen::addPlayer(Player * t_player)
 {
-//	m_inputSystem.addEntity(t_player.getEntity());
+	m_inputSystem.addEntity(t_player->getEntity());
 }
 
 void MinigameScreen::GetWinnerPicture()

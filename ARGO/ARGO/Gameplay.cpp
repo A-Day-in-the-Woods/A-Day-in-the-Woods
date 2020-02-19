@@ -3,26 +3,15 @@
 
 
 
-void visit(Node* node) {
-	std::cout << "Visiting " << node->data().first << std::endl;
-}
 
-Graph< pair<string, int>, int> graph(172); // A* Graph
-
-
-Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameState& t_currentState ,SDL_Window* t_window) :
+Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameState& t_currentState ,SDL_Window* t_window, InputSystem & t_input) :
 	m_game(game),
 	m_event(event),
 	m_renderer(t_renderer),
 	m_window(t_window),
 	m_player(m_tile, graph)
+	m_inputSystem(t_input)
 {
-
-	m_tile.reserve(200);
-	initNodeFiles();
-
-	
-
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic2.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
@@ -32,10 +21,6 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_DiceRect.w = 200;
 	m_DiceRect.x = 100;
 	m_DiceRect.y = 100;
-
-	cameraBox.w = SDL_GetWindowSurface(m_window)->w;
-	cameraBox.h = SDL_GetWindowSurface(m_window)->h;
-
 }
 
 
@@ -44,13 +29,13 @@ Gameplay::~Gameplay()
 {
 }
 
-void Gameplay::update()
+void Gameplay::update(movementSystem & t_move)
 {
-	m_diceRoll = m_player.getDiceRoll();
+
+	m_diceRoll = t_move.getDiceRoll();
 	setDiceTexture();
 
-
-	focus = camera->focus(&m_player);
+	//focus = camera->focus(m_player[0]);
 
 	// Update Camera based on new focus
 	camera->update(focus);
@@ -67,27 +52,19 @@ void Gameplay::update()
 		}
 	}
 
-	if (!startAstar)
-	{
 
-		aStar();
-		startAstar = !startAstar;
-
-		//m_healthSystem.removeEntityFromSystem(0);
-		//m_testEntity->removeComponent(ComponentType::HEALTH);
-
-	}
-	m_player.update();
+	t_move.update();
+	//m_player.update();
 
 	// SDL_Rect to focus on
-	focus = camera->focus(&m_player);
+	//focus = camera->focus(m_player[0]);
 
 	// Update Camera based on new focus
 	camera->update(focus);
-
+	
+	m_inputSystem.update(m_event, t_move);
 }
-
-void Gameplay::render()
+void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, Graph< pair<string, int>, int>& graph)
 {
 
 	SDL_RenderClear(m_renderer);
@@ -103,7 +80,7 @@ void Gameplay::render()
 	SDL_RenderSetScale(m_renderer, scale, scale);
 
 
-	drawLines();
+	drawLines(graph, t_player);
 
 
 	offset->x = focus->x - camera->getCamera()->x;
@@ -145,20 +122,22 @@ void Gameplay::render()
 
 
 
-
-	
-
-
-	for (int i = 0; i < m_tile.size(); i++) {m_tile[i].render(m_renderer);}
+	for (int i = 0; i < t_tile.size(); i++) {t_tile[i].render(m_renderer);}
 
 
-	m_player.render(m_renderer);
+	for (int i = 0; i < t_player.size(); i++)
+	{
+		t_player[i]->render(m_renderer);
+	}
+
 	SDL_RenderPresent(m_renderer);
 }
 
-void Gameplay::processEvent()
+void Gameplay::processEvent(movementSystem & t_move)
 {
-	//m_inputSystem.update(m_event, m_player);
+	m_inputSystem.update(m_event, t_move);
+
+	
 
 	if (m_event.type == SDL_KEYDOWN)
 	{
@@ -221,7 +200,7 @@ void Gameplay::setGameState()
 	m_game.setGameState(GameState::Minigame);
 }
 
-void Gameplay::drawLines()
+void Gameplay::drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player)
 {
 
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
@@ -328,6 +307,12 @@ void Gameplay::drawLines()
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(162)->m_x + 5, graph.nodeIndex(162)->m_y + 5, graph.nodeIndex(75)->m_x + 5, graph.nodeIndex(75)->m_y + 5);
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 
+	for (int i = 0; i < t_player.size(); i++)
+	{
+		t_player[i]->render(m_renderer);
+	}
+
+	//SDL_RenderPresent(m_renderer);
 }
 
 float Gameplay::calculateScale(float width, float height, float maxWidth, float maxHeight)
@@ -370,49 +355,3 @@ void Gameplay::setDiceTexture()
 	m_DiceTexture = SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface);
 	SDL_FreeSurface(m_DiceSurface);
 }
-
-
-/// <summary>
-/// Uses A* From one node to another
-/// </summary>
-void Gameplay::aStar()
-{
-	vector<Node*> nodeVector;
-	graph.aStar(graph.nodeIndex(nodemap["a"]), graph.nodeIndex(nodemap["d"]), visit, nodeVector);
-
-	cout << "The node path taken is :" << endl;
-
-	for (int i = nodeVector.size() - 1; i > -1; i--)
-	{
-		cout << nodeVector[i]->data().first << endl;
-	}
-}
-
-/// <summary>
-/// Loades in files for A*
-/// </summary>
-void Gameplay::initNodeFiles()
-{
-	myfile.open("Nodes.txt");	// nodes
-	while (myfile >> nodeLabel.first >> posX >> posY)
-	{
-		graph.addNode(nodeLabel, posX, posY, index);
-		nodemap[nodeLabel.first] = index;
-		index++;
-
-		m_tile.push_back(Tile(posX, posY));
-	}
-	myfile.close();
-
-
-	myfile.open("NodeDistances.txt");	// arcs
-	while (myfile >> from >> to >> weight) {
-		graph.addArc(nodemap[from], nodemap[to], weight);
-
-	}
-
-	myfile.close();
-}
-
-
-

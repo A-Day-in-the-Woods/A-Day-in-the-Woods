@@ -54,6 +54,8 @@
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="Minigame.h" />
+    <ClInclude Include="MovementComponent.h" />
+    <ClInclude Include="MovementSystem.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PositionComp.h" />

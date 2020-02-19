@@ -21,14 +21,14 @@ public:
 	MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState , InputSystem& t_inputSystem);
 	~MinigameScreen();
 
-	void processEvent(Player& t_player);
+	void processEvent();
 	void update();
 	void render();
 	void spriteMove();
 	void startMinGame(int t_mineGameID);
 	void setGameState();
 
-	void addPlayer(Player & t_player);
+	void addPlayer(Player * t_player);
 
 private:
 	
