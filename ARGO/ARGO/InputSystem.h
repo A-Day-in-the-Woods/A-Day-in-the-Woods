@@ -29,14 +29,13 @@ public:
 		}
 	}
 	
-	void update(SDL_Event& event, Player& t_player)
+	void update(SDL_Event& event, Player& t_player , GameState& t_currentState)
 	{
+
 		for (int i = 0; i < m_entities.size(); i++)
 		{
-			m_inputComp[i]->m_input.inputHandle(event);
+			m_inputComp[i]->m_input.inputHandle(event, t_currentState);
 		}
-
-
 	}
 	
 private:

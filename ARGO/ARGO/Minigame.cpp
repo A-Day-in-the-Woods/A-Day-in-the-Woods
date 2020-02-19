@@ -90,7 +90,7 @@ MinigameScreen::~MinigameScreen()
 
 void MinigameScreen::processEvent(Player& t_player)
 {
-	m_inputSystem.update(m_event, t_player);
+	m_inputSystem.update(m_event, t_player, m_currentState);
 
 	m_direction.x = (honeyRectangle.x - reticleRectangle.x);
 	m_direction.y = (honeyRectangle.y - reticleRectangle.y);
@@ -147,7 +147,6 @@ void MinigameScreen::processEvent(Player& t_player)
 
 void MinigameScreen::update()
 {
-	
 
 
 	switch (m_miniGameID)

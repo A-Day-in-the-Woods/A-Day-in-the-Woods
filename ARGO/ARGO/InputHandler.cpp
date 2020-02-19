@@ -9,14 +9,30 @@ InputHandler::InputHandler()
 
 }
 
-void InputHandler::inputHandle(SDL_Event& event)
+void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState)
 {
 
 	m_controller->update();
 
 	if(m_controller->m_currentState.A)
 	{
-		m_manager.addCmd(buttonA);
+		switch (t_currentState)
+		{
+		case GameState::Menu:
+			break;
+		case GameState::Options:
+			break;
+		case GameState::Gameplay:
+			break;
+		case GameState::Credit:
+			break;
+		case GameState::Minigame:
+			m_manager.addCmd(buttonA);
+			break;
+		default:
+			break;
+		}
+
 	}
 
 	if(m_controller->m_currentState.B)

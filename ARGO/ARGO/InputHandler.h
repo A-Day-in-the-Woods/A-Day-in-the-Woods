@@ -8,12 +8,14 @@
 
 #define INPUTHANDLER_H
 
-
+#include "GameStates.h"
 #include <CommandManager.h>
 #include <Controller.h>
 #include <vector>
 #include <stack>
 #include <SDL.h>
+
+
 
 static int noOfControl;
 
@@ -21,7 +23,7 @@ class InputHandler
 {
 public: 
 	InputHandler();
-	void inputHandle(SDL_Event &event);
+	void inputHandle(SDL_Event &event, GameState& t_currentState);
 	
 private:
 	//Handles the action of the inputs
