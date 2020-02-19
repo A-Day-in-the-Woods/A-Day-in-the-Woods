@@ -118,7 +118,6 @@ void NPC::navigateNodes()
 				{	//p1 Left
 					nodeChange(p);
 				}
-
 			}
 			else if(m_aiBehaviour == 1 || (m_aiBehaviour >= 3 && m_pathDecision == 1))
 			{
@@ -129,7 +128,6 @@ void NPC::navigateNodes()
 					p.front().node()->m_y > m_graph.nodeIndex(currentGameBoardIndex)->m_y)
 				{	// p2 Down
 					nodeChange(p);
-
 				}
 
 				if (p.front().node()->m_x == m_graph.nodeIndex(currentGameBoardIndex)->m_x &&

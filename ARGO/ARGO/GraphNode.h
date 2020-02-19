@@ -58,6 +58,7 @@ public:
 
 	ArcType m_x;
 	ArcType m_y;
+	ArcType m_type;
 
 	ArcType m_heuristic;
 

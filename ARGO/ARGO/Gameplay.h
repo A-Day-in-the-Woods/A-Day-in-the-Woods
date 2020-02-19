@@ -79,6 +79,7 @@ private:
 
 	int posX = 0;
 	int posY = 0;
+	int type = 0;
 	int index = 0;
 	ifstream myfile;
 	

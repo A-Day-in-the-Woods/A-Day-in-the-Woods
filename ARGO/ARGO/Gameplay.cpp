@@ -74,7 +74,7 @@ void Gameplay::update()
 
 	}
 	m_player.update();
-	if (m_npcOne.turn)
+	/*if (m_npcOne.turn)
 	{
 		m_npcOne.update();
 	}
@@ -85,7 +85,7 @@ void Gameplay::update()
 	else if (m_npcThree.turn)
 	{
 		m_npcThree.update();
-	}
+	}*/
 
 	if (m_npcOne.turn && m_npcOne.m_diceNumber <= 0)
 	{
@@ -107,7 +107,6 @@ void Gameplay::update()
 
 	// Update Camera based on new focus
 	camera->update(focus);
-
 }
 
 void Gameplay::render()
@@ -417,13 +416,13 @@ void Gameplay::aStar()
 void Gameplay::initNodeFiles()
 {
 	myfile.open("Nodes.txt");	// nodes
-	while (myfile >> nodeLabel.first >> posX >> posY)
+	while (myfile >> nodeLabel.first >> posX >> posY >> type)
 	{
-		graph.addNode(nodeLabel, posX, posY, index);
+		graph.addNode(nodeLabel, posX, posY, type, index);
 		nodemap[nodeLabel.first] = index;
 		index++;
 
-		m_tile.push_back(Tile(posX, posY));
+		m_tile.push_back(Tile(posX, posY, type));
 	}
 	myfile.close();
 	
@@ -436,6 +435,3 @@ void Gameplay::initNodeFiles()
 
 	myfile.close();
 }
-
-
-
