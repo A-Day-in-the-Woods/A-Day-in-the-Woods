@@ -157,6 +157,7 @@ void Player::playerNodeChange(std::list<GraphArc<std::pair<std::string, int>, in
 	{
 		if (newPoint.front().node()->m_x == m_graph.nodeIndex(i)->m_x &&
 			newPoint.front().node()->m_y == m_graph.nodeIndex(i)->m_y)
+
 		{
 			// this is then the next tile index to go to
 			CurrentGameBoardIndex = i;
@@ -169,7 +170,6 @@ void Player::playerNodeChange(std::list<GraphArc<std::pair<std::string, int>, in
 void Player::rollForMove()
 {
 	m_DiceNumber = randomNumber(6, 1);
-	std::cout << "DICE rolled a " << m_DiceNumber << std::endl;
 	nodeNavigation(m_DiceNumber);
 }
 

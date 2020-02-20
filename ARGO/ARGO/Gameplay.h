@@ -34,18 +34,13 @@ public:
 	void processEvent();
 	void setGameState();
 	void drawLines();
-
-
-	//camera
-	Camera * camera = new Camera();
-	// Initialize Focus, where camera will look
-	SDL_Rect* focus = new SDL_Rect();
-	// Initialize Offset
-	SDL_Rect* offset = new SDL_Rect();
+	int randomNumber(int t_max, int t_min);
 
 
 
-	Player m_player;
+	int m_numberPlayers = 4;
+	Player* m_players[4];
+
 
 private:
 	
@@ -54,23 +49,46 @@ private:
 
 	SDL_Window* m_window;
 
-	void setDiceTexture();	
+	void setDiceTexture(int m_playerID);
 
 	//------------ Camera -------------
-	SDL_Rect cameraBox = {0,0, 0,0};
-	float scale = 1;
-
-
+	float scale = .9f;
+	Camera * camera = new Camera();	//camera
+	SDL_Rect* focus = new SDL_Rect();
+	SDL_Rect* offset = new SDL_Rect();
 
 
 	std::vector<Tile> m_tile;
+	std::vector<SDL_Rect> m_clouds;
 
-	SDL_Texture* m_DiceTexture; // Dice texture
-	SDL_Surface* m_DiceSurface;
-	SDL_Rect m_DiceRect;
-	int m_diceRoll = 1;
+	//background
+	SDL_Surface* m_backgroundSurface;
+	SDL_Texture* m_backgroundTexture;
+	SDL_Rect m_backgroundRect;
+
+	SDL_Texture* m_backgroundTextureTwo;
 
 
+	//Dice
+	std::vector <SDL_Texture*> m_DiceTexture; // Dice texture
+	std::vector<SDL_Rect> m_DiceRect;
+	std::vector <SDL_Surface*> m_DiceSurface;
+	int m_diceRoll{1};
+
+	//player UI
+	std::vector<SDL_Texture*>m_PlayerUITexture; // Player UI texture
+	std::vector<SDL_Rect> m_PlayerUIRect;
+	SDL_Surface* m_PlayerUISurface;
+	
+
+	//tile
+	SDL_Texture* m_TileTexture; // tile texture
+	SDL_Surface* m_TileSurface;
+
+	//Clouds
+	SDL_Texture* m_CloudTexture; // tile texture
+	SDL_Surface* m_CloudSurface;
+	
 	// ------ A* stuff ----------
 	void aStar();
 
@@ -79,9 +97,9 @@ private:
 	map<string, int> nodemap;
 	pair<string, int> nodeLabel;
 
-	int posX = 0;
-	int posY = 0;
-	int index = 0;
+	int posX{0};
+	int posY{0};
+	int index{0};
 	ifstream myfile;
 
 
@@ -93,7 +111,6 @@ private:
 	//------! A* stuff ------------
 
 	Game& m_game;
-	SDL_Texture* m_TestingTexture;
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;
 
