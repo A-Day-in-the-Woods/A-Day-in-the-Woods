@@ -22,8 +22,6 @@ typedef GraphArc<pair<std::string, int>, int> Arc;
 typedef GraphNode<pair<std::string, int>, int> Node;
 
 
-
-
 class Gameplay
 {
 public:

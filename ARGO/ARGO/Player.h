@@ -1,10 +1,10 @@
 #pragma once
 #include "SDL.h"
 
-#include<vector>
-#include"Tile.h"
+#include <vector>
+#include "Tile.h"
 #include "iostream"
-#include"Graph.h"
+#include "Graph.h"
 #include "Entity.h"
 #include <random>
 
@@ -50,6 +50,8 @@ public:
 
 	int getDiceRoll() { return m_DiceNumber; };
 
+	void addItem();
+	void removeItem();
 private:
 	
 	int randomNumber(int t_max, int t_min);
@@ -63,7 +65,7 @@ private:
 
 	std::vector<Tile> & m_map;
 
-
+	int items;
 	int CurrentGameBoardIndex;
 
 	Graph< pair<string, int>, int>& m_graph;

@@ -7,6 +7,7 @@ Player::Player(std::vector<Tile> & t_map, Graph< pair<string, int>, int>& t_g):
 {
 	SetUp();
 	CurrentGameBoardIndex = 0;
+	items = 5;
 }
 
 Player::~Player()
@@ -203,6 +204,16 @@ bool Player::isXButtonPressed()
 bool Player::isYButtonPressed()
 {
 	return m_Ybutton;
+}
+
+void Player::addItem()
+{
+	items += 1;
+}
+
+void Player::removeItem()
+{
+	items -= 1;
 }
 
 int Player::randomNumber(int t_max, int t_min)

@@ -25,6 +25,9 @@ public:
 	void nodeChange(std::list<GraphArc<pair<std::string, int>, int>> newPoint);
 	void rollDice();
 
+	void addItem();
+	void removeItem();
+
 	int m_diceNumber;
 	bool turn;
 private:
@@ -35,5 +38,6 @@ private:
 	Graph< pair<string, int>, int>& m_graph;
 	int m_aiBehaviour;
 	SDL_Rect npc;
+	int items;
 	int m_pathDecision;
 };

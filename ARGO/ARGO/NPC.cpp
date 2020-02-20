@@ -14,6 +14,7 @@ NPC::NPC(std::vector<Tile>& t_map, Graph<pair<string, int>, int>& t_g, int t_aiB
 	npc.y = 0;
 	npc.h = 20;
 	npc.w = 20;
+
 }
 
 NPC::~NPC()
@@ -183,6 +184,16 @@ void NPC::rollDice()
 	{
 		m_diceNumber = (rand() % 6) + 1;
 	}
+}
+
+void NPC::addItem()
+{
+	items += 1;
+}
+
+void NPC::removeItem()
+{
+	items -= 1;
 }
 
 void NPC::decision()
