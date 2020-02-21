@@ -9,11 +9,12 @@
 #include <Component.h>
 #include <InputHandler.h>
 
+
 class InputComponent : public Component
 {
 public:
-	InputComponent(): Component(ComponentType::INPUT){}
 	InputHandler m_input;
+	InputComponent(): Component(ComponentType::INPUT){}
 	
 };
 #endif // !INPUTCOMPONENT_H

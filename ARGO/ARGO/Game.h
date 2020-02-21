@@ -102,16 +102,9 @@ private:
 
 
 	//---------Entity + Components-----------
-	Entity* m_testEntity = new Entity(0);
-	Entity* m_testEntity1 = new Entity(1);
-	Entity* m_testEntity2 = new Entity(2);
-	Entity* m_testEntity3 = new Entity(3);
-
 	HealthSystem m_healthSystem;
 	InputSystem m_inputSystem;
-
-
-	movementSystem m_movementSystem;
+	MovementSystem m_movementSystem;
 };
 
 #endif // !GAME_H

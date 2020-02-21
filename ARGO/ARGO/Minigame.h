@@ -18,7 +18,7 @@ class Game;
 class MinigameScreen
 {
 public:
-	MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState , InputSystem& t_inputSystem);
+	MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState , InputSystem& t_inputSystem, std::vector<Player*> t_entity);
 	~MinigameScreen();
 
 	void processEvent();
@@ -28,13 +28,13 @@ public:
 	void startMinGame(int t_mineGameID);
 	void setGameState();
 
-	void addPlayer(Player * t_player);
+
 
 private:
 	
 	GameState& m_currentState; // can remove
 	InputSystem m_inputSystem;
-
+	std::vector<Player*> m_entity;
 
 	void GetWinnerPicture();
 
@@ -100,6 +100,6 @@ private:
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;
 
-	Entity* m_testEntity = new Entity(0);
+	
 };
 #endif // MINIGAME

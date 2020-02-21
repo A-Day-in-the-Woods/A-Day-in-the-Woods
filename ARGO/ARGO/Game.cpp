@@ -14,41 +14,30 @@ Graph< pair<string, int>, int> graph(172); // A* Graph
 /// Constructor for the game class.
 /// </summary>
 Game::Game() :
-	m_inputSystem(m_currentState),
+	m_inputSystem(),
 	m_movementSystem(m_currentState, m_tile, graph)
 {
 	m_tile.reserve(200);
 	initNodeFiles();
 
 
-	m_testEntity->addComponent(new HealthComponent());
-	m_testEntity->addComponent(new PositionComponent(SDL_Rect{ 100,100,100,100 }));
-	m_testEntity->addComponent(new InputComponent());
-
-	m_testEntity1->addComponent(new InputComponent());
-
-	m_testEntity2->addComponent(new InputComponent());
-
-	m_testEntity3->addComponent(new InputComponent());
-
-	m_healthSystem.addEntity(m_testEntity);
-
-	m_inputSystem.addEntity(m_testEntity);
-	m_inputSystem.addEntity(m_testEntity1);
-	m_inputSystem.addEntity(m_testEntity2);
-	m_inputSystem.addEntity(m_testEntity3);
-
+	m_player.push_back(new Player(0));
 	m_player.push_back(new Player(1));
 	m_player.push_back(new Player(2));
+	m_player.push_back(new Player(3));
+
 
 	for (int i = 0; i < m_player.size(); i++)
 	{
 		m_player[i]->addComponent(new InputComponent());
 		m_player[i]->addComponent(new MovementComponent());
-		m_inputSystem.addEntity(m_player[i]->getEntity());
+		
 		m_movementSystem.addEntity(m_player[i]->getEntity(), *m_player[i]->getPlayerRectRef());
 		m_inputSystem.addEntity(m_player[i]);
+	
 	}
+
+	
 
 	try
 	{
@@ -72,15 +61,10 @@ Game::Game() :
 
 		m_menuscreen = new MenuScreen(*this, m_renderer, event);
 		m_optionscreen = new OptionScreen(*this, m_renderer, event);
-		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window, m_inputSystem);
+		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window, m_inputSystem,m_player);
 		m_creditscreen = new CreditScreen(*this, m_renderer, event);
-		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState, m_inputSystem);
+		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState, m_inputSystem,m_player);
 
-
-		for (int i = 0; i < m_player.size(); i++)
-		{
-			m_minigamescreen->addPlayer(m_player[i]);
-		}
 		// Game is running
 		m_isRunning = true;
 	}
@@ -165,7 +149,7 @@ void Game::processEvent()
 		case GameState::Options:
 			break;
 		case GameState::Gameplay:
-			m_gameplayscreen->processEvent(m_movementSystem);
+			m_gameplayscreen->processEvent();
 			break;
 		case GameState::Credit:
 			break;
@@ -192,7 +176,7 @@ void Game::processEvent()
 	case GameState::Credit:
 		break;
 	case GameState::Minigame:
-		m_minigamescreen->processEvent(m_gameplayscreen->m_player);
+		m_minigamescreen->processEvent();
 		break;
 	case GameState::Quit:
 		m_isRunning = false;
@@ -220,7 +204,7 @@ void Game::update()
 		m_optionscreen->update();
 		break;
 	case GameState::Gameplay:
-		m_gameplayscreen->update(m_movementSystem);
+		m_gameplayscreen->update(m_player,m_movementSystem);
 		break;
 	case GameState::Credit:
 		m_creditscreen->update();

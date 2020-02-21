@@ -6,15 +6,17 @@
 #define COMMANDMANGER_H
 
 #include <stack>
-
 #include <ConcreteCommands.h>
+#include <MovementComponent.h>
 
 class CommandManager
 {
-public: 
-	virtual void addCmd(Command* t_input);
-	virtual void execute();
+public:
 
+	CommandManager();
+	void addCmd(Command* t_input, Entity* t_entity);
+	void execute();
+	Entity* m_entity;
 private: 
 	std::stack<Command*> m_commands;
 	

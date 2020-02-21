@@ -10,6 +10,8 @@
 
 #include "GameStates.h"
 #include <CommandManager.h>
+#include <Player.h>
+
 #include <Controller.h>
 #include <vector>
 #include <stack>
@@ -23,15 +25,18 @@ class InputHandler
 {
 public: 
 	InputHandler();
-	void inputHandle(SDL_Event &event, GameState& t_currentState);
+
+	void inputHandle(SDL_Event &event, GameState& t_currentState, Player* t_entity);
 	
 private:
 	//Handles the action of the inputs
-	CommandManager m_manager;
-	Controller* m_controller;
+	CommandManager* m_manager;
+    Controller* m_controller;
+	
 	
 	//Controller buttons
-	Command* buttonA = new AOutput();
+	Command* diceRoll = new DiceRoll();
+	Command* buttonA = new AButton();
 	Command* buttonB = new BOutput();
 	Command* buttonX = new XOutput();
 	Command* buttonY = new YOutput();
@@ -45,8 +50,8 @@ private:
 	//Controller dpad
 	Command* DpadUp = new UpOutput();
 	Command* DpadDown = new DownOutput();
-	Command* DpadRight = new RightOutput();
-	Command* DpadLeft = new LeftOutput();
+	Command* moveRight = new MoveRight();
+	Command* moveLeft = new MoveLeft();
 	int controlNumber;
 	
 };

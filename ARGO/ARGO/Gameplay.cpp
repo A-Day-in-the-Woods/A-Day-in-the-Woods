@@ -4,13 +4,14 @@
 
 
 
-Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameState& t_currentState ,SDL_Window* t_window, InputSystem & t_input) :
+Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameState& t_currentState ,SDL_Window* t_window, InputSystem & t_input, std::vector<Player*> t_entity):
 	m_game(game),
 	m_event(event),
 	m_renderer(t_renderer),
 	m_window(t_window),
-	m_player(m_tile, graph)
-	m_inputSystem(t_input)
+	m_inputSystem(t_input),
+	m_entity(t_entity),
+	m_currentState(t_currentState)
 {
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic2.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
@@ -29,11 +30,14 @@ Gameplay::~Gameplay()
 {
 }
 
-void Gameplay::update(movementSystem & t_move)
+void Gameplay::update(std::vector<Player*>& t_player, MovementSystem & t_move)
 {
 
-	m_diceRoll = t_move.getDiceRoll();
-	setDiceTexture();
+	t_move.update();
+
+	
+	//m_diceRoll = m_moveSystem.getDiceRoll();
+	//setDiceTexture();
 
 	//focus = camera->focus(m_player[0]);
 
@@ -53,7 +57,7 @@ void Gameplay::update(movementSystem & t_move)
 	}
 
 
-	t_move.update();
+	//m_moveSystem.update();
 	//m_player.update();
 
 	// SDL_Rect to focus on
@@ -62,7 +66,7 @@ void Gameplay::update(movementSystem & t_move)
 	// Update Camera based on new focus
 	camera->update(focus);
 	
-	m_inputSystem.update(m_event, t_move);
+	//m_inputSystem.update(m_event, t_move, m_currentState);
 }
 void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, Graph< pair<string, int>, int>& graph)
 {
@@ -133,10 +137,12 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	SDL_RenderPresent(m_renderer);
 }
 
-void Gameplay::processEvent(movementSystem & t_move)
+void Gameplay::processEvent()
 {
-	m_inputSystem.update(m_event, t_move);
-
+	for (int i = 0; i < m_entity.size(); i++)
+	{
+		m_inputSystem.update(m_event, m_currentState, m_entity[i]);
+	}
 	
 
 	if (m_event.type == SDL_KEYDOWN)

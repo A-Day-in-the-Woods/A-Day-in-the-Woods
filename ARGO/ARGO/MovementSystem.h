@@ -6,10 +6,10 @@
 #include "GameStates.h"
 
 
-class movementSystem
+class MovementSystem
 {
 public:
-	movementSystem(GameState& t_currentState, std::vector<Tile>& t_map, Graph< pair<string, int>, int>& t_g ) :
+	MovementSystem(GameState& t_currentState, std::vector<Tile>& t_map, Graph< pair<string, int>, int>& t_g ) :
 		m_gameState(t_currentState),
 		m_map(t_map),
 		m_graph(t_g)
@@ -37,13 +37,18 @@ public:
 	/// </summary>
 	/// <param name="t_diceRoll"></param>
 	/// <param name="index"></param>
-	void diceRoll(int index)
+	//void diceRoll(int t_index, int t_rolledNumber)
+	//{
+	//	if (!m_moveComp[t_index]->getTakeingTurn())
+	//	{
+	//		m_DiceNumber = t_rolledNumber;
+	//		m_moveComp[t_index]->rollForMove();
+	//	}
+	//}
+
+	bool IsThePlayerMoving(int t_i)
 	{
-		if (!m_moveComp[index]->getTakeingTurn())
-		{
-			m_DiceNumber = randomNumber(6, 1);
-			m_moveComp[index]->rollForMove(m_DiceNumber);
-		}
+		return m_moveComp[t_i]->getTakeingTurn();
 	}
 
 	void leftOrRightChoice(bool t_b, int index)
@@ -56,15 +61,6 @@ public:
 		{
 			m_moveComp[i]->update(m_map, m_graph);
 		}
-	}
-
-
-	int randomNumber(int t_max, int t_min)
-	{
-		std::random_device device;
-		std::mt19937 rng(device());
-		std::uniform_int_distribution<std::mt19937::result_type> dist(t_min, t_max);
-		return dist(rng);
 	}
 
 	int getDiceRoll()

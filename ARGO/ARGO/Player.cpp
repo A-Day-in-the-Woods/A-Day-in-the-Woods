@@ -39,4 +39,3 @@ SDL_Rect * Player::getPlayerRectRef()
 {
 	return & rect;
 }
-

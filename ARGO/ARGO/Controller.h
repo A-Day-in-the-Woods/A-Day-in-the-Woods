@@ -47,6 +47,7 @@ public:
 	
 	void update();
 	bool connect();
+	int ReturnID();
 
 };
 

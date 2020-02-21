@@ -23,11 +23,11 @@ class Game;
 class Gameplay
 {
 public:
-	Gameplay(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState , SDL_Window* t_window, InputSystem& t_input);
+	Gameplay(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState , SDL_Window* t_window, InputSystem& t_input, std::vector<Player*> t_entity);
 	~Gameplay();
-	void update(movementSystem& t_move);
+	void update(std::vector<Player*>& t_player, MovementSystem & t_move);
 	void render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, Graph< pair<string, int>, int>& graph);
-	void processEvent(movementSystem& t_move);
+	void processEvent();
 	void setGameState();
 	void drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player);
 
@@ -82,9 +82,9 @@ private:
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;
 
-
-
-	InputSystem & m_inputSystem;
+	std::vector<Player*> m_entity;
+	GameState& m_currentState;
+	InputSystem& m_inputSystem;
 };
 
 #endif // !GAMEPLAY

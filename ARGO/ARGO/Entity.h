@@ -23,6 +23,16 @@ public:
 	}
 
 	std::vector<Component*> getComponents() { return m_components; }
+	Component* getComponent(ComponentType t_type)
+	{
+		for (int i = 0; i < m_components.size(); i++)
+		{
+			if (m_components[i]->getType() == t_type)
+			{
+				return m_components[i];
+			}
+		}
+	}
 	int getId() { return m_id; }
 
 	Entity * getEntity(){

@@ -1,10 +1,11 @@
 #include "Minigame.h"
 
-MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState, InputSystem& t_inputSystem) :
+MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState, InputSystem& t_inputSystem, std::vector<Player*> t_entity) :
 	m_game(game),
 	m_event(event),
 	m_renderer(t_renderer),
 	m_currentState(t_currentState),
+	m_entity(t_entity),
 	m_inputSystem(t_inputSystem)
 {	
 	
@@ -90,7 +91,10 @@ MinigameScreen::~MinigameScreen()
 
 void MinigameScreen::processEvent()
 {
-	m_inputSystem.update(m_event);
+	for (int i = 0; i < m_entity.size(); i++)
+	{
+		m_inputSystem.update(m_event, m_currentState, m_entity[i]);
+	}
 
 	m_direction.x = (honeyRectangle.x - reticleRectangle.x);
 	m_direction.y = (honeyRectangle.y - reticleRectangle.y);
@@ -307,10 +311,6 @@ void MinigameScreen::setGameState()
 	m_game.setGameState(GameState::Gameplay);
 }
 
-void MinigameScreen::addPlayer(Player * t_player)
-{
-	m_inputSystem.addEntity(t_player->getEntity());
-}
 
 void MinigameScreen::GetWinnerPicture()
 {	

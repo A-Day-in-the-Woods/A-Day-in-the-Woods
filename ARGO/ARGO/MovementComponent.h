@@ -155,10 +155,13 @@ public:
 		}
 	}
 
-	void rollForMove(int t_diceRoll) {
+	void rollForMove() {
+
+		//whossss trurn is it ??
 		if (!m_takeingTurn)
 		{
-			m_diceRoll = t_diceRoll;
+			m_diceRoll = randomNumber(6, 1);
+			std::cout << m_diceRoll << std::endl;
 			m_takeingTurn = true;
 		}
 	}
@@ -194,6 +197,16 @@ public:
 
 	bool getTakeingTurn(){
 		return m_takeingTurn;
+	}
+
+
+
+	int randomNumber(int t_max, int t_min)
+	{
+		std::random_device device;
+		std::mt19937 rng(device());
+		std::uniform_int_distribution<std::mt19937::result_type> dist(t_min, t_max);
+		return dist(rng);
 	}
 
 private:

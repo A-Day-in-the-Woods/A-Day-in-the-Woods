@@ -65,8 +65,11 @@ public:
 	void leftOrRightChoice(bool t_choice);
 	*/
 
+
 private:
 	SDL_Rect rect;//temp rect for a player square 
+
+	int m_diceValue{ 0 };
 
 	/*
 	

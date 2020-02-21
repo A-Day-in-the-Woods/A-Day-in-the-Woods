@@ -75,3 +75,10 @@ bool Controller::connect()
 	}
 
 }
+
+int Controller::ReturnID()
+{
+	return joystick_index;
+}
+
+
