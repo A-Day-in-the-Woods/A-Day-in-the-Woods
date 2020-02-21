@@ -1,4 +1,5 @@
-#pragma once
+#ifndef HEALTHCOMP_H
+#define HEALTHCOMP_H
 
 #include "Component.h"
 
@@ -15,3 +16,5 @@ public:
 private:
 	int m_health;
 };
+
+#endif // !HEALTHCOMP_H

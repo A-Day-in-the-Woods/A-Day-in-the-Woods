@@ -1,4 +1,4 @@
-#pragma once
+
 #ifndef MENU
 #define MENU
 

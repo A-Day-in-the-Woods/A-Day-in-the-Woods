@@ -1,4 +1,4 @@
-#pragma once
+
 #ifndef MINIGAME
 #define MINIGAME
 
@@ -18,20 +18,23 @@ class Game;
 class MinigameScreen
 {
 public:
-	MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState);
+	MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState , InputSystem& t_inputSystem, std::vector<Player*> t_entity);
 	~MinigameScreen();
 
-	void processEvent(Player* t_players[]);
+	void processEvent();
 	void update();
 	void render();
 	void spriteMove();
 	void startMinGame(int t_mineGameID);
 	void setGameState();
 
-	void addPlayer(Player* t_players[]);
 
 private:
 	
+	GameState& m_currentState; // can remove
+	InputSystem m_inputSystem;
+	std::vector<Player*> m_entity;
+
 	void GetWinnerPicture();
 
 
@@ -96,7 +99,6 @@ private:
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;
 
-
-	InputSystem m_inputSystem;
+	
 };
 #endif // MINIGAME

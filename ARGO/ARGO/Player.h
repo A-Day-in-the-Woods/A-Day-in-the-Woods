@@ -1,11 +1,15 @@
-#pragma once
-#include "SDL.h"
+
+#ifndef PLAYER_H
+#define PLAYER_H
+
+
+#include <SDL.h>
 #include <SDL_image.h>
 
-#include<vector>
-#include"Tile.h"
-#include "iostream"
-#include"Graph.h"
+#include <vector>
+#include "Tile.h"
+#include <iostream>
+#include "Graph.h"
 #include "Entity.h"
 #include <random>
 
@@ -21,6 +25,7 @@
 class Player : public Entity 
 {
 public:
+	Player(int entityIdNum);
 	Player(std::vector<Tile> & t_map, Graph< pair<string, int>, int> & t_g);
 	~Player();
 
@@ -30,12 +35,14 @@ public:
 	void render(SDL_Renderer* t_renderer);
 	
 	void setPosition(float t_x, float t_y);
-	SDL_Rect getPosition();
+	SDL_Rect * getPlayerRectRef();
 
-	void nodeNavigation(int t_diceRoll);
+	SDL_Rect getPosition() { return rect; };
+
+	/*
+	void nodeNavigation();
 
 	void playerNodeChange(std::list<GraphArc<std::pair<std::string, int>, int>> & newPoint);
-
 
 	void rollForMove();
 
@@ -51,25 +58,21 @@ public:
 
 	int getDiceRoll() { return m_DiceNumber; };
 
+	bool animateMovingToPoint(float t_DestX, float t_DestY);
+
+	void normalize(float & t_x, float & t_y);
+	float length(float t_x, float t_y);
+
+
+	void leftOrRightChoice(bool t_choice);
+	*/
+
+
 private:
-	
-	int randomNumber(int t_max, int t_min);
-	int m_DiceNumber = 1;
-
-
-	bool m_Abutton = false;
-	bool m_Bbutton = false;
-	bool m_Xbutton = false;
-	bool m_Ybutton = false;
-
-	std::vector<Tile> & m_map;
-	//player UI
-	SDL_Texture* m_PlayerTexture; // Player UI texture
-
-	int CurrentGameBoardIndex;
-
-	Graph< pair<string, int>, int>& m_graph;
-
-
 	SDL_Rect rect;//temp rect for a player square 
+
+	int m_diceValue{ 0 };
+
+
 };
+#endif // !PLAYER_H

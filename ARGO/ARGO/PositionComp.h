@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef POSTIONCOMPONENT_H
+#define POSTIONCOMPONENT_H
 
 #include "Component.h"
 
@@ -19,3 +19,4 @@ public:
 private:
 	SDL_Rect m_pos;
 };
+#endif // !POSTIONCOMPONENT_H

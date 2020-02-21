@@ -19,9 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CommandManager.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="CreditsScreen.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gameplay.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="Minigame.cpp" />
@@ -35,6 +38,7 @@
     <ClInclude Include="CommandManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConcreteCommands.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
@@ -50,6 +54,8 @@
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="Minigame.h" />
+    <ClInclude Include="MovementComponent.h" />
+    <ClInclude Include="MovementSystem.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PositionComp.h" />
@@ -112,7 +118,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\SDL2\include;C:\SDL2_image-2.0.5\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);C:\SDL2\include;C:\SDL2_image-2.0.5\include;$(IncludePath)</IncludePath>
     <LibraryWPath>C:\SDL2_image-2.0.5\lib\x86;C:\SDL2\lib\x86;$(LibraryWPath)</LibraryWPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

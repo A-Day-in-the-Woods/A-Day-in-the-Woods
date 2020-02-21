@@ -1,4 +1,7 @@
-#pragma once
+#ifndef GAME_H
+
+#define GAME_H
+
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -24,6 +27,9 @@
 #include "InputComponent.h"
 #include "InputSystem.h"
 #include "Player.h"
+#include "MovementSystem.h"
+#include "MovementComponent.h"
+
 
 
 class MenuScreen;
@@ -33,7 +39,8 @@ class CreditScreen;
 class MinigameScreen;
 
 
-
+typedef GraphArc<pair<std::string, int>, int> Arc;
+typedef GraphNode<pair<std::string, int>, int> Node;
 
 /// <summary>
 /// Main Game Class
@@ -48,7 +55,7 @@ public:
 	void setGameState(GameState t_newState) { m_currentState = t_newState; };
 
 	void startMinGame();
-
+	
 private:
 	void processEvent();
 	void update();
@@ -72,10 +79,32 @@ private:
 
 
 
+
+	void initNodeFiles();
+	map<string, int> nodemap;
+	pair<string, int> nodeLabel;
+
+
+	int posX = 0;
+	int posY = 0;
+	int index = 0;
+	ifstream myfile;
+
+
+	string from, to;
+	int weight;
+
+
+
+	std::vector<Tile> m_tile;
+
+	std::vector<Player*> m_player;
+
+
 	//---------Entity + Components-----------
-	Entity* m_testEntity = new Entity(0);
-	
 	HealthSystem m_healthSystem;
 	InputSystem m_inputSystem;
+	MovementSystem m_movementSystem;
 };
 
+#endif // !GAME_H

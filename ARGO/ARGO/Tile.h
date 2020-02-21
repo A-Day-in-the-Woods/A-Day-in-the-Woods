@@ -1,5 +1,5 @@
-#pragma once
-#include "SDL.h"
+#ifndef TILE_H
+#define TILE_H
 
 /// <summary>
 /// @Authors:
@@ -7,6 +7,7 @@
 /// </summary>
 /// 
 /// 
+#include <SDL.h>
 
 class Tile
 {
@@ -31,3 +32,5 @@ private:
 
 
 };
+
+#endif // !TILE_H

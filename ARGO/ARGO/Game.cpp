@@ -2,13 +2,42 @@
 
 
 
+
+void visit(Node* node) {
+	std::cout << "Visiting " << node->data().first << std::endl;
+}
+
+Graph< pair<string, int>, int> graph(172); // A* Graph
+
+
 /// <summary>
 /// Constructor for the game class.
 /// </summary>
 Game::Game() :
-	m_inputSystem(m_currentState)
+	m_inputSystem(),
+	m_movementSystem(m_currentState, m_tile, graph)
 {
+	m_tile.reserve(200);
+	initNodeFiles();
 
+
+	m_player.push_back(new Player(0));
+	m_player.push_back(new Player(1));
+	m_player.push_back(new Player(2));
+	m_player.push_back(new Player(3));
+
+
+	for (int i = 0; i < m_player.size(); i++)
+	{
+		m_player[i]->addComponent(new InputComponent());
+		m_player[i]->addComponent(new MovementComponent());
+		
+		m_movementSystem.addEntity(m_player[i]->getEntity(), *m_player[i]->getPlayerRectRef());
+		m_inputSystem.addEntity(m_player[i]);
+	
+	}
+
+	
 
 	try
 	{
@@ -32,11 +61,9 @@ Game::Game() :
 
 		m_menuscreen = new MenuScreen(*this, m_renderer, event);
 		m_optionscreen = new OptionScreen(*this, m_renderer, event);
-		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window);
+		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window, m_inputSystem,m_player);
 		m_creditscreen = new CreditScreen(*this, m_renderer, event);
-		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState);
-
-		m_minigamescreen->addPlayer(m_gameplayscreen->m_players);
+		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState, m_inputSystem,m_player);
 
 		// Game is running
 		m_isRunning = true;
@@ -48,7 +75,7 @@ Game::Game() :
 		// game doesnt run
 		m_isRunning = false;
 	}
-
+	
 
 
 
@@ -58,11 +85,6 @@ Game::Game() :
 	SDL_FreeSurface(tempSerface);
 
 
-	m_testEntity->addComponent(new HealthComponent());
-	m_testEntity->addComponent(new PositionComponent(SDL_Rect{ 100,100,100,100 }));
-	m_testEntity->addComponent(new InputComponent());
-	m_healthSystem.addEntity(m_testEntity);
-	m_inputSystem.addEntity(m_testEntity);
 }
 
 /// <summary>
@@ -109,8 +131,6 @@ void Game::processEvent()
 	//SDL_Event(event);
 	
 	SDL_PollEvent(&event);
-
-
 	switch (event.type)
 	{
 	case SDL_QUIT:
@@ -122,9 +142,6 @@ void Game::processEvent()
 		{
 			m_isRunning = false;
 		}
-		
-
-
 		switch (m_currentState)
 		{
 		case GameState::Menu:
@@ -137,26 +154,40 @@ void Game::processEvent()
 		case GameState::Credit:
 			break;
 		case GameState::Minigame:
-			m_minigamescreen->processEvent(m_gameplayscreen->m_players);
+			m_minigamescreen->processEvent();
 			break;
 		case GameState::Quit:
 			m_isRunning = false;
 		default:
 			break;
 		}
-
-
-
 		break;
+	}
 
+	switch (m_currentState)
+	{
+	case GameState::Menu:
+		break;
+	case GameState::Options:
+		break;
+	case GameState::Gameplay:
+		m_gameplayscreen->processEvent();
+		break;
+	case GameState::Credit:
+		break;
+	case GameState::Minigame:
+		m_minigamescreen->processEvent();
+		break;
+	case GameState::Quit:
+		m_isRunning = false;
 	default:
 		break;
 	}
 
-
 }
 
 /// <summary>
+/// 
 /// Update function
 /// </summary>
 void Game::update()
@@ -173,7 +204,7 @@ void Game::update()
 		m_optionscreen->update();
 		break;
 	case GameState::Gameplay:
-		m_gameplayscreen->update();
+		m_gameplayscreen->update(m_player,m_movementSystem);
 		break;
 	case GameState::Credit:
 		m_creditscreen->update();
@@ -206,7 +237,7 @@ void Game::render()
 		m_optionscreen->render();
 		break;
 	case GameState::Gameplay:
-		m_gameplayscreen->render();
+		m_gameplayscreen->render(m_tile, m_player, graph);
 		break;
 	case GameState::Credit:
 		m_creditscreen->render();
@@ -236,3 +267,29 @@ void Game::clean()
 	SDL_QUIT;
 }
 
+
+/// <summary>
+/// Loades in files for A*
+/// </summary>
+void Game::initNodeFiles()
+{
+	myfile.open("Nodes.txt");	// nodes
+	while (myfile >> nodeLabel.first >> posX >> posY)
+	{
+		graph.addNode(nodeLabel, posX, posY, index);
+		nodemap[nodeLabel.first] = index;
+		index++;
+
+		m_tile.push_back(Tile(posX, posY));
+	}
+	myfile.close();
+
+
+	myfile.open("NodeDistances.txt");	// arcs
+	while (myfile >> from >> to >> weight) {
+		graph.addArc(nodemap[from], nodemap[to], weight);
+
+	}
+
+	myfile.close();
+}

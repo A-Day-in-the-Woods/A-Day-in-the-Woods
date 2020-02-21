@@ -1,4 +1,4 @@
-#pragma once
+
 #ifndef GAMEPLAY
 #define GAMEPLAY
 #include <SDL.h>
@@ -10,38 +10,32 @@
 #include <map>
 #include "Graph.h"
 #include "Player.h"
-#include "InputSystem.h"
+#include <InputSystem.h>
 #include "Entity.h"
+#include "MovementSystem.h"
+#include "MovementComponent.h"
 #include "Camera.h"
 
 
 class Game;
 
 
-typedef GraphArc<pair<std::string, int>, int> Arc;
-typedef GraphNode<pair<std::string, int>, int> Node;
-
-
-
-
 class Gameplay
 {
 public:
-	Gameplay(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState , SDL_Window* t_window);
+	Gameplay(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState , SDL_Window* t_window, InputSystem& t_input, std::vector<Player*> t_entity);
 	~Gameplay();
-	void update();
-	void render();
+	void update(std::vector<Player*>& t_player, MovementSystem & t_move);
+	void render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, Graph< pair<string, int>, int>& graph);
 	void processEvent();
 	void setGameState();
-	void drawLines();
 	int randomNumber(int t_max, int t_min);
+	void drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player);
 
 
 
 	int m_numberPlayers = 4;
 	Player* m_players[4];
-
-
 private:
 	
 	float calculateScale(float width, float height, float maxWidth, float maxHeight);
@@ -68,6 +62,7 @@ private:
 
 	SDL_Texture* m_backgroundTextureTwo;
 
+	
 
 	//Dice
 	std::vector <SDL_Texture*> m_DiceTexture; // Dice texture
@@ -90,21 +85,10 @@ private:
 	SDL_Surface* m_CloudSurface;
 	
 	// ------ A* stuff ----------
-	void aStar();
-
-	void initNodeFiles();
-
-	map<string, int> nodemap;
-	pair<string, int> nodeLabel;
-
-	int posX{0};
-	int posY{0};
-	int index{0};
-	ifstream myfile;
+	//void aStar();
 
 
-	string from, to;
-	int weight;
+	
 
 
 	bool startAstar{ false };
@@ -114,9 +98,9 @@ private:
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;
 
-	InputSystem m_inputSystem;
-
-
+	std::vector<Player*> m_entity;
+	GameState& m_currentState;
+	InputSystem& m_inputSystem;
 };
 
 #endif // !GAMEPLAY

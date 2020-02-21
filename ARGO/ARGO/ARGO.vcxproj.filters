@@ -28,6 +28,9 @@
     <Filter Include="Header Files\ECS\ComponentSystems">
       <UniqueIdentifier>{f596f7fb-2461-4cdd-bf75-cb1cde1924bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\CommandPattern">
+      <UniqueIdentifier>{b17cdf14-cb7d-42f7-afdd-01f3a9d0d1b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -56,6 +59,15 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputHandler.cpp">
+      <Filter>Source Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandManager.cpp">
+      <Filter>Source Files\CommandPattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +142,15 @@
     </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementComponent.h">
+      <Filter>Header Files\ECS\ComponentList</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementSystem.h">
+      <Filter>Header Files\ECS\ComponentSystems</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
