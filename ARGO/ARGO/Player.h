@@ -1,5 +1,6 @@
 #pragma once
 #include "SDL.h"
+#include <SDL_image.h>
 
 #include<vector>
 #include"Tile.h"
@@ -23,7 +24,7 @@ public:
 	Player(std::vector<Tile> & t_map, Graph< pair<string, int>, int> & t_g);
 	~Player();
 
-
+	void assignSprite(SDL_Texture* t_PlayerTexture);
 	void SetUp();
 	void update();
 	void render(SDL_Renderer* t_renderer);
@@ -62,7 +63,8 @@ private:
 	bool m_Ybutton = false;
 
 	std::vector<Tile> & m_map;
-
+	//player UI
+	SDL_Texture* m_PlayerTexture; // Player UI texture
 
 	int CurrentGameBoardIndex;
 
