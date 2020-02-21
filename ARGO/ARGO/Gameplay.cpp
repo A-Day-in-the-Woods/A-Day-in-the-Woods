@@ -74,34 +74,74 @@ void Gameplay::update()
 
 	}
 	m_player.update();
-	/*if (m_npcOne.turn)
+	if (m_npcOne.turn)
 	{
 		m_npcOne.update();
+
+		if (m_npcOne.m_diceNumber == 0)
+		{
+			if (m_tile[m_npcOne.currentGameBoardIndex].count == 0)
+			{
+				std::cout << "npc 1 tile" << std::endl;
+				m_tile[m_npcOne.currentGameBoardIndex].count++;
+				m_tile[m_npcOne.currentGameBoardIndex].update();
+				SDL_Delay(500);
+			}
+			if (!m_npcOne.stuck)
+			{
+				m_tile[m_npcOne.currentGameBoardIndex].count = 0;
+			}
+			m_npcOne.turn = false;
+			m_npcTwo.turn = true;
+		}
 	}
 	else if (m_npcTwo.turn)
 	{
 		m_npcTwo.update();
+
+		if (m_npcTwo.m_diceNumber == 0)
+		{
+			if (m_tile[m_npcTwo.currentGameBoardIndex].count == 0)
+			{
+				std::cout << "npc 2 tile" << std::endl;
+				m_tile[m_npcTwo.currentGameBoardIndex].count++;
+				m_tile[m_npcTwo.currentGameBoardIndex].update();
+				SDL_Delay(500);
+			}
+			if (!m_npcTwo.stuck)
+			{
+				m_tile[m_npcTwo.currentGameBoardIndex].count = 0;
+			}
+			m_npcTwo.turn = false;
+			m_npcThree.turn = true;
+
+		}
 	}
 	else if (m_npcThree.turn)
 	{
 		m_npcThree.update();
-	}*/
 
-	if (m_npcOne.turn && m_npcOne.m_diceNumber <= 0)
-	{
-		m_npcOne.turn = false;
-		m_npcTwo.turn = true;
+		if (m_npcThree.m_diceNumber == 0)
+		{
+			if (m_tile[m_npcThree.currentGameBoardIndex].count == 0)
+			{
+				std::cout << "npc 3 tile" << std::endl;
+				m_tile[m_npcThree.currentGameBoardIndex].count++;
+				m_tile[m_npcThree.currentGameBoardIndex].update();
+				SDL_Delay(500);
+			}
+
+			if (!m_npcThree.stuck)
+			{
+				m_tile[m_npcThree.currentGameBoardIndex].count = 0;
+			}
+			m_npcThree.turn = false;
+			m_npcOne.turn = true;
+
+		}
 	}
-	else if (m_npcTwo.turn && m_npcTwo.m_diceNumber <= 0)
-	{
-		m_npcTwo.turn = false;
-		m_npcThree.turn = true;
-	}
-	else if (m_npcThree.turn && m_npcThree.m_diceNumber <= 0)
-	{
-		m_npcThree.turn = false;
-		m_npcOne.turn = true;
-	}
+
+	
 	// SDL_Rect to focus on
 	focus = camera->focus(&m_player);
 

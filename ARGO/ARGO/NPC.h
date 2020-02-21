@@ -9,7 +9,7 @@
 #include "Graph.h"
 #include "Entity.h"
 
-
+class Tile;
 typedef GraphArc<pair<std::string, int>, int> Arc;
 typedef GraphNode<pair<std::string, int>, int> Node;
 
@@ -28,16 +28,17 @@ public:
 	void addItem();
 	void removeItem();
 
+	int currentGameBoardIndex;
 	int m_diceNumber;
+	int items;
 	bool turn;
+	bool stuck;
 private:
 	void decision();
 	std::function<void(Node*)> m_visit;
 	std::vector<Tile>& m_map;
-	int currentGameBoardIndex;
 	Graph< pair<string, int>, int>& m_graph;
 	int m_aiBehaviour;
 	SDL_Rect npc;
-	int items;
 	int m_pathDecision;
 };

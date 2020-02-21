@@ -6,6 +6,7 @@ NPC::NPC(std::vector<Tile>& t_map, Graph<pair<string, int>, int>& t_g, int t_aiB
 	m_aiBehaviour(t_aiBehaviour),
 	m_visit(t_visit),
 	turn(false),
+	stuck(false),
 	Entity(2)
 {
 	srand((unsigned)time(0));
@@ -14,7 +15,7 @@ NPC::NPC(std::vector<Tile>& t_map, Graph<pair<string, int>, int>& t_g, int t_aiB
 	npc.y = 0;
 	npc.h = 20;
 	npc.w = 20;
-
+	items = 5;
 }
 
 NPC::~NPC()

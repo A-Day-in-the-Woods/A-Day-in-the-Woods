@@ -16,41 +16,39 @@ void Tile::SetUp()
 {
 	rect.w = 10;
 	rect.h = 10;
+	count = 0;
 }
 
 void Tile::update()
 {
-	if (m_type == 1)
+	switch (m_type)
 	{
+	case 1:
 		green();
-	}
-	else if (m_type == 2)
-	{
+		break;
+	case 2:
 		purple();
-	}
-	else if (m_type == 3)
-	{
+		break;
+	case 3:
 		pink();
-	}
-	else if (m_type == 4)
-	{
+		break;
+	case 4:
 		blue();
-	}
-	else if (m_type == 5)
-	{
+		break;
+	case 5:
 		navy();
-	}
-	else if (m_type == 6)
-	{
+		break;
+	case 6:
 		orange();
-	}
-	else if (m_type == 7)
-	{
+		break;
+	case 7:
 		red();
-	}
-	else
-	{
+		break;
+	case 8:
 		yellow();
+		break;
+	default:
+		break;
 	}
 }
 
@@ -128,19 +126,17 @@ void Tile::purple()
 void Tile::pink()
 {
 	std::cout << "honey item square" << std::endl;
-	//items += 1;
 }
 
 void Tile::blue()
 {
 	std::cout << "dice square" << std::endl;
-	/*rolldice();
-	count++;*/
 }
 
 void Tile::navy()
 {
 	std::cout << "bounce square" << std::endl;
+
 }
 
 void Tile::orange()
@@ -152,7 +148,6 @@ void Tile::orange()
 void Tile::red()
 {
 	std::cout << "bee square" << std::endl;
-	//items -= 1;
 }
 
 void Tile::yellow()
