@@ -1,4 +1,4 @@
-#pragma once
+
 #ifndef GAMEPLAY
 #define GAMEPLAY
 #include <SDL.h>
@@ -11,27 +11,26 @@
 #include "Graph.h"
 #include "Player.h"
 #include "NPC.h"
-#include "InputSystem.h"
+#include <InputSystem.h>
 #include "Entity.h"
+#include "MovementSystem.h"
+#include "MovementComponent.h"
 #include "Camera.h"
 
 
 class Game;
 
-typedef GraphArc<pair<std::string, int>, int> Arc;
-typedef GraphNode<pair<std::string, int>, int> Node;
-
 
 class Gameplay
 {
 public:
-	Gameplay(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState , SDL_Window* t_window);
+	Gameplay(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState , SDL_Window* t_window, InputSystem& t_input, std::vector<Player*> t_entity);
 	~Gameplay();
-	void update();
-	void render();
+	void update(std::vector<Player*>& t_player, MovementSystem & t_move);
+	void render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, Graph< pair<string, int>, int>& graph);
 	void processEvent();
 	void setGameState();
-	void drawLines();
+	void drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player);
 
 
 	//camera
@@ -41,10 +40,13 @@ public:
 	// Initialize Offset
 	SDL_Rect* offset = new SDL_Rect();
 	
-	Player m_player;
 	NPC m_npcOne;
 	NPC m_npcTwo;
 	NPC m_npcThree;
+
+
+
+
 
 private:
 	
@@ -59,7 +61,6 @@ private:
 	SDL_Rect cameraBox = {0,0, 0,0};
 	float scale = 1;
 
-	std::vector<Tile> m_tile;
 
 	SDL_Texture* m_DiceTexture; // Dice texture
 	SDL_Surface* m_DiceSurface;
@@ -68,21 +69,10 @@ private:
 
 
 	// ------ A* stuff ----------
-	void aStar();
+	//void aStar();
 
-	void initNodeFiles();
 
-	map<string, int> nodemap;
-	pair<string, int> nodeLabel;
-
-	int posX = 0;
-	int posY = 0;
-	int type = 0;
-	int index = 0;
-	ifstream myfile;
 	
-	string from, to;
-	int weight;
 
 	bool startAstar{ false };
 	//------! A* stuff ------------
@@ -92,7 +82,9 @@ private:
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;
 
-	InputSystem m_inputSystem;
+	std::vector<Player*> m_entity;
+	GameState& m_currentState;
+	InputSystem& m_inputSystem;
 };
 
 #endif // !GAMEPLAY

@@ -2,32 +2,25 @@
 /// @author Jack Fennell
 /// @date 06/02/2020
 /// </summary>
-#pragma once
+#ifndef COMMANDMANGER_H
+#define COMMANDMANGER_H
 
-#include "ConcreteCommands.h"
 #include <stack>
+#include <ConcreteCommands.h>
+#include <MovementComponent.h>
 
 class CommandManager
 {
-public: 
-	virtual void addCmd(Command* t_input);
-	virtual void execute();
+public:
 
+	CommandManager();
+	void addCmd(Command* t_input, Entity* t_entity);
+	void execute();
+	Entity* m_entity;
 private: 
 	std::stack<Command*> m_commands;
 	
 };
 
 
-void CommandManager::addCmd(Command* t_input)
-{
-	//push onto stack then execute
-	m_commands.push(t_input);
-	execute();
-}
-
-
-void CommandManager::execute()
-{
-	m_commands.top()->execute();
-}
+#endif // !COMMANDMANGER_H

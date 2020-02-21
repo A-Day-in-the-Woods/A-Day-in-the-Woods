@@ -1,11 +1,16 @@
 #include "Minigame.h"
 
-MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState) :
+MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState, InputSystem& t_inputSystem, std::vector<Player*> t_entity) :
 	m_game(game),
 	m_event(event),
 	m_renderer(t_renderer),
-	m_inputSystem(t_currentState)
+	m_currentState(t_currentState),
+	m_entity(t_entity),
+	m_inputSystem(t_inputSystem)
 {	
+	
+
+
 	SDL_Surface* m_backgroundImage = IMG_Load("ASSETS/IMAGES/BG.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundImage);
 	SDL_FreeSurface(m_backgroundImage);
@@ -84,13 +89,16 @@ MinigameScreen::~MinigameScreen()
 {
 }
 
-void MinigameScreen::processEvent(Player& t_player)
+void MinigameScreen::processEvent()
 {
-	m_inputSystem.update(m_event, t_player);
+	for (int i = 0; i < m_entity.size(); i++)
+	{
+		m_inputSystem.update(m_event, m_currentState, m_entity[i]);
+	}
 
 	m_direction.x = (honeyRectangle.x - reticleRectangle.x);
 	m_direction.y = (honeyRectangle.y - reticleRectangle.y);
-
+	/*
 	if(t_player.isAButtonPressed() == true && m_playerOneAnswerd == false)
 	{
 
@@ -122,7 +130,7 @@ void MinigameScreen::processEvent(Player& t_player)
 		SDL_SetTextureColorMod(m_AbuttonTextureFour, 100, 100, 100);
 
 	}
-
+	*/
 
 	if (EndPictureminiGame == true)
 	{
@@ -143,7 +151,6 @@ void MinigameScreen::processEvent(Player& t_player)
 
 void MinigameScreen::update()
 {
-	
 
 
 	switch (m_miniGameID)
@@ -178,6 +185,19 @@ void MinigameScreen::update()
 		break;
 	case 3:
 		break;
+	}
+
+
+
+	//std::cout << "Minigame update" << std::endl;
+
+	if (m_event.type == SDL_KEYDOWN)
+	{
+		if (m_event.key.keysym.sym == SDLK_SPACE || m_event.key.keysym.sym == SDLK_RETURN)
+		{
+			SDL_Delay(200);
+			setGameState();
+		}
 	}
 }
 
@@ -288,18 +308,13 @@ void MinigameScreen::startMinGame(int t_mineGameID)
 
 void MinigameScreen::setGameState()
 {
-	m_game.setGameState(GameState::Menu);
-
+	m_game.setGameState(GameState::Gameplay);
 }
 
-void MinigameScreen::addPlayer(Player& t_player)
-{
-	m_inputSystem.addEntity(t_player.getEntity());
-}
 
 void MinigameScreen::GetWinnerPicture()
 {	
-		std::cout << "all answered" << std::endl;
+		//std::cout << "all answered" << std::endl;
 		SDL_Surface* WinSurface;
 		if (m_ApressedDistanceOne < m_ApressedDistanceTwo && m_ApressedDistanceOne < m_ApressedDistanceThree && m_ApressedDistanceOne < m_ApressedDistanceFour)
 		{
@@ -326,7 +341,7 @@ void MinigameScreen::GetWinnerPicture()
 		}
 		else
 		{
-			std::cout << "NO ONE Wins" << std::endl;
+			//std::cout << "NO ONE Wins" << std::endl;
 			WinSurface = IMG_Load("ASSETS/IMAGES/pic2Glass.png");
 		}
 		m_WinScreenTexture = SDL_CreateTextureFromSurface(m_renderer, WinSurface);

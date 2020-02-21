@@ -35,6 +35,7 @@ void MenuScreen::update()
 {
 	
 	
+	
 
 	if (m_event.type == SDL_KEYDOWN)
 	{
@@ -85,7 +86,7 @@ void MenuScreen::update()
 		m_buttonPos.x = 700;
 		m_buttonPos.y = 700;
 	}
-	std::cout << button << std::endl;
+	
 
 }
 
@@ -93,6 +94,7 @@ void MenuScreen::render()
 {
 	
 	//SDL_RenderClear(m_renderer);
+	
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 	
 	SDL_RenderCopy(m_renderer, m_buttonTexture, NULL, &m_buttonPos);

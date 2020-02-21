@@ -1,7 +1,5 @@
-#pragma once
-#include "SDL.h"
-#include <iostream>
-#include "NPC.h"
+#ifndef TILE_H
+#define TILE_H
 
 /// <summary>
 /// @Authors:
@@ -9,7 +7,7 @@
 /// </summary>
 /// 
 /// 
-class NPC;
+#include <SDL.h>
 
 class Tile
 {
@@ -40,3 +38,5 @@ private:
 	void red();
 	void yellow();
 };
+
+#endif // !TILE_H

@@ -1,4 +1,7 @@
-#pragma once
+#ifndef GRAPHNODE_H
+#define GRAPHNODE_H
+
+
 
 #include <list>
 
@@ -157,3 +160,5 @@ void GraphNode<NodeType, ArcType>::removeArc(Node* node) {
 }
 
 #include "GraphArc.h"
+
+#endif // !GRAPHNODE_H

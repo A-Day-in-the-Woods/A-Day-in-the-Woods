@@ -1,11 +1,15 @@
-#pragma once
+#ifndef COMPONENT_H
+
+#define COMPONENT_H
+
 
 #include <SDL.h>
 
 enum class ComponentType {
 	HEALTH,
 	POSITION,
-	INPUT
+	INPUT,
+	MOVEMENT
 };
 
 class Component {
@@ -20,3 +24,5 @@ public:
 private:
 	ComponentType m_compType;
 };
+
+#endif // !COMPONENT_H
