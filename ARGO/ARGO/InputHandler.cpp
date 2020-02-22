@@ -25,12 +25,14 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 				case GameState::Options:
 					break;
 				case GameState::Gameplay:
-					m_manager->addCmd(diceRoll, t_entity);
+		
+					
+					m_manager->addCmd(diceRoll, t_entity ,t_entity->randomNumber(6, 1));
 					break;
 				case GameState::Credit:
 					break;
 				case GameState::Minigame:
-					m_manager->addCmd(buttonA, t_entity);
+					m_manager->addCmd(buttonA, t_entity, NULL);
 					break;
 				default:
 					break;
@@ -40,57 +42,57 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 
 			if (m_controller->m_currentState.B)
 			{
-				m_manager->addCmd(buttonB, t_entity);
+				m_manager->addCmd(buttonB, t_entity, NULL);
 			}
 
 			if (m_controller->m_currentState.X)
 			{
-				m_manager->addCmd(buttonX, t_entity);
+				m_manager->addCmd(buttonX, t_entity, NULL);
 			}
 
 			if (m_controller->m_currentState.Y)
 			{
-				m_manager->addCmd(buttonY, t_entity);
+				m_manager->addCmd(buttonY, t_entity, NULL);
 			}
 
 			if (m_controller->m_currentState.Back)
 			{
-				m_manager->addCmd(buttonBack, t_entity);
+				m_manager->addCmd(buttonBack, t_entity, NULL);
 			}
 
 			if (m_controller->m_currentState.Start)
 			{
-				m_manager->addCmd(buttonStart, t_entity);
+				m_manager->addCmd(buttonStart, t_entity, NULL);
 			}
 
 			if (m_controller->m_currentState.LB)
 			{
-				m_manager->addCmd(leftShoulder, t_entity);
+				m_manager->addCmd(leftShoulder, t_entity, NULL);
 			}
 
 			if (m_controller->m_currentState.RB)
 			{
-				m_manager->addCmd(rightShoulder, t_entity);
+				m_manager->addCmd(rightShoulder, t_entity, NULL);
 			}
 
 			if (m_controller->m_currentState.LeftThumbStickClick)
 			{
-				m_manager->addCmd(leftStick, t_entity);
+				m_manager->addCmd(leftStick, t_entity, NULL);
 			}
 
 			if (m_controller->m_currentState.RightThumbStickClick)
 			{
-				m_manager->addCmd(rightStick, t_entity);
+				m_manager->addCmd(rightStick, t_entity, NULL);
 			}
 
 			if (m_controller->m_currentState.DpadUp)
 			{
-				m_manager->addCmd(DpadUp, t_entity);
+				m_manager->addCmd(DpadUp, t_entity, NULL);
 			}
 
 			if (m_controller->m_currentState.DpadDown)
 			{
-				m_manager->addCmd(DpadDown, t_entity);
+				m_manager->addCmd(DpadDown, t_entity, NULL);
 			}
 
 			if (m_controller->m_currentState.DpadRight)
@@ -102,7 +104,7 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 				case GameState::Options:
 					break;
 				case GameState::Gameplay:
-					m_manager->addCmd(moveRight, t_entity);
+					m_manager->addCmd(moveRight, t_entity, NULL);
 					break;
 				case GameState::Credit:
 					break;
@@ -123,7 +125,7 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 				case GameState::Options:
 					break;
 				case GameState::Gameplay:
-					m_manager->addCmd(moveLeft, t_entity);
+					m_manager->addCmd(moveLeft, t_entity, NULL);
 					break;
 				case GameState::Credit:
 					break;

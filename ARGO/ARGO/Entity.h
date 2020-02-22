@@ -39,9 +39,16 @@ public:
 		return this;
 	}
 
+	void setRoll(int roll) { m_diceValue = roll; }
+	int getRoll() { return m_diceValue; };
+
 private:
+
 	std::vector<Component*> m_components;
 	int m_id;
+
+
+	int m_diceValue{ 0 };
 };
 
 #endif // !ENTITY_H

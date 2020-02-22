@@ -54,7 +54,7 @@ public:
 	SDL_Rect* getLookAt() { return this->lookAt; }
 
 	// The SDL_Rect enclosing the four players
-	SDL_Rect* focus(Player* t_players[])
+	SDL_Rect* focus(std::vector<Player*> t_players)
 	{
 		min_x = t_players[0]->getPosition().x;
 		min_y = t_players[0]->getPosition().y;

@@ -37,6 +37,7 @@ public:
 	/// </summary>
 	/// <param name="t_diceRoll"></param>
 	/// <param name="index"></param>
+	/// 
 	//void diceRoll(int t_index, int t_rolledNumber)
 	//{
 	//	if (!m_moveComp[t_index]->getTakeingTurn())
@@ -63,10 +64,7 @@ public:
 		}
 	}
 
-	int getDiceRoll()
-	{
-		return m_DiceNumber;
-	}
+
 
 private:
 
@@ -77,5 +75,4 @@ private:
 
 	Graph< pair<string, int>, int>& m_graph;
 	std::vector<Tile>& m_map;
-	int m_DiceNumber{ 1 };
 };

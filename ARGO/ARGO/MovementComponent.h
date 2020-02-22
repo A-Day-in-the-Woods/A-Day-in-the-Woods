@@ -155,13 +155,11 @@ public:
 		}
 	}
 
-	void rollForMove() {
+	void rollForMove(int t_diceRolled) {
 
-		//whossss trurn is it ??
 		if (!m_takeingTurn)
 		{
-			m_diceRoll = randomNumber(6, 1);
-			std::cout << m_diceRoll << std::endl;
+			m_diceRoll = t_diceRolled;
 			m_takeingTurn = true;
 		}
 	}
@@ -170,7 +168,7 @@ public:
 		float tempX = rect->x - t_DestX;
 		float tempY = rect->y - t_DestY;
 
-		if (rect->x == t_DestX && rect->y == t_DestY)
+		if (rect->x <= t_DestX && rect->y <= t_DestY) // change from == to <==
 			return true;
 
 		normalize(tempX, tempY);
@@ -201,14 +199,6 @@ public:
 
 
 
-	int randomNumber(int t_max, int t_min)
-	{
-		std::random_device device;
-		std::mt19937 rng(device());
-		std::uniform_int_distribution<std::mt19937::result_type> dist(t_min, t_max);
-		return dist(rng);
-	}
-
 private:
 
 
@@ -222,5 +212,6 @@ private:
 
 	bool m_takeingTurn;
 	float m_movementSpeed;
+
 	int m_diceRoll;
 };

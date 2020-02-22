@@ -35,12 +35,10 @@ public:
 
 
 	int m_numberPlayers = 4;
-	Player* m_players[4];
+
 private:
 	
 	float calculateScale(float width, float height, float maxWidth, float maxHeight);
-
-
 	SDL_Window* m_window;
 
 	void setDiceTexture(int m_playerID);
@@ -68,7 +66,6 @@ private:
 	std::vector <SDL_Texture*> m_DiceTexture; // Dice texture
 	std::vector<SDL_Rect> m_DiceRect;
 	std::vector <SDL_Surface*> m_DiceSurface;
-	int m_diceRoll{1};
 
 	//player UI
 	std::vector<SDL_Texture*>m_PlayerUITexture; // Player UI texture
@@ -99,6 +96,7 @@ private:
 	SDL_Event& m_event;
 
 	std::vector<Player*> m_entity;
+
 	GameState& m_currentState;
 	InputSystem& m_inputSystem;
 };

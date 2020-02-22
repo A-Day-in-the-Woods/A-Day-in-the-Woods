@@ -26,52 +26,32 @@ class Player : public Entity
 {
 public:
 	Player(int entityIdNum);
-	Player(std::vector<Tile> & t_map, Graph< pair<string, int>, int> & t_g);
 	~Player();
 
 	void assignSprite(SDL_Texture* t_PlayerTexture);
 	void SetUp();
 	void update();
 	void render(SDL_Renderer* t_renderer);
-	
 	void setPosition(float t_x, float t_y);
+
+	int randomNumber(int t_max, int t_min)
+	{
+		std::random_device device;
+		std::mt19937 rng(device());
+		std::uniform_int_distribution<std::mt19937::result_type> dist(t_min, t_max);
+		diceRoll = dist(rng);
+		return dist(rng);
+	}
+
 	SDL_Rect * getPlayerRectRef();
 
 	SDL_Rect getPosition() { return rect; };
-
-	/*
-	void nodeNavigation();
-
-	void playerNodeChange(std::list<GraphArc<std::pair<std::string, int>, int>> & newPoint);
-
-	void rollForMove();
-
-	void AButtonPressed(bool t_state);
-	void BButtonPressed(bool t_state);
-	void XButtonPressed(bool t_state);
-	void YButtonPressed(bool t_state);
-
-	bool isAButtonPressed();
-	bool isBButtonPressed();
-	bool isXButtonPressed();
-	bool isYButtonPressed();
-
-	int getDiceRoll() { return m_DiceNumber; };
-
-	bool animateMovingToPoint(float t_DestX, float t_DestY);
-
-	void normalize(float & t_x, float & t_y);
-	float length(float t_x, float t_y);
-
-
-	void leftOrRightChoice(bool t_choice);
-	*/
-
-
+	int getDiceRoll() { return diceRoll; };
 private:
-	SDL_Rect rect;//temp rect for a player square 
 
-	int m_diceValue{ 0 };
+	SDL_Rect rect;//temp rect for a player square 
+	SDL_Texture* m_PlayerTexture;
+	int diceRoll{2};
 
 
 };

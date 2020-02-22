@@ -26,7 +26,6 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	// Initialize GameObject Positions
 	for (int i = 0; i < m_numberPlayers; i++) {
 
-		m_players[i] = new Player(m_tile, graph);
 		m_PlayerUIRect.push_back(SDL_Rect{ 10,i * 250,200,300 });
 		m_DiceRect.push_back(SDL_Rect{ 200,i * 250,300,300 });
 
@@ -50,7 +49,7 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 		m_PlayerUITexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_PlayerUISurface));
 		m_DiceTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface[0]));
 
-		m_players[i]->assignSprite(m_PlayerUITexture[i]);
+		m_entity[i]->assignSprite(m_PlayerUITexture[i]);
 
 	}
 	
@@ -67,7 +66,6 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_CloudTexture = SDL_CreateTextureFromSurface(m_renderer, m_CloudSurface);
 
 	m_tile.reserve(200);
-	initNodeFiles();	
 
 	m_backgroundSurface = IMG_Load("ASSETS/IMAGES/Board.jpg");
 	m_backgroundTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
@@ -94,13 +92,13 @@ void Gameplay::update(std::vector<Player*>& t_player, MovementSystem & t_move)
 
 	t_move.update();
 
-	
+
 	//m_diceRoll = m_moveSystem.getDiceRoll();
 	//setDiceTexture();
 
 	for (int i = 0; i < m_numberPlayers; i++)
 	{
-		m_players[i]->update();
+		m_entity[i]->update();
 	}
 
 
@@ -121,6 +119,7 @@ void Gameplay::update(std::vector<Player*>& t_player, MovementSystem & t_move)
 	
 	if (m_event.type == SDL_KEYDOWN)
 	{
+
 		if ( m_event.key.keysym.sym == SDLK_RETURN)
 		{
 			SDL_Delay(200);
@@ -129,9 +128,11 @@ void Gameplay::update(std::vector<Player*>& t_player, MovementSystem & t_move)
 	}
 
 	// SDL_Rect to focus on
-	focus = camera->focus(m_players);
+	focus = camera->focus(m_entity);
 	// Update Camera based on new focus
 	camera->update(focus);
+
+
 }
 void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, Graph< pair<string, int>, int>& graph)
 {
@@ -182,10 +183,13 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 	for (int i = 0; i < m_numberPlayers; i++)
 	{
-		m_players[i]->render(m_renderer);
-		SDL_RenderCopy(m_renderer, m_PlayerUITexture[i], NULL, &m_PlayerUIRect[i]);
+		m_entity[i]->render(m_renderer);
+		SDL_RenderCopy(m_renderer, m_PlayerUITexture[i], NULL, &m_PlayerUIRect[i]);	
+
+		setDiceTexture(i);
 		SDL_RenderCopy(m_renderer, m_DiceTexture[i], NULL, &m_DiceRect[i]);
 	}
+
 	for (int i = 0; i < m_clouds.size(); i++) {SDL_RenderCopy(m_renderer, m_CloudTexture, NULL, &m_clouds[i]);}
 
 	SDL_RenderPresent(m_renderer);
@@ -200,7 +204,6 @@ void Gameplay::processEvent()
 void Gameplay::setGameState()
 {
 	SDL_RenderSetScale(m_renderer, 1, 1);
-
 	m_game.startMinGame();
 	m_game.setGameState(GameState::Minigame);
 }
@@ -326,9 +329,8 @@ float Gameplay::calculateScale(float width, float height, float maxWidth, float 
 }
 
 void Gameplay::setDiceTexture(int m_playerID)
-{
-
-	m_DiceTexture[m_playerID] = SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface[(m_diceRoll-1)]);
+{	
+	m_DiceTexture[m_playerID] = SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface[m_entity[m_playerID]->getDiceRoll()-1]);
 }
 
 int Gameplay::randomNumber(int t_max, int t_min)
