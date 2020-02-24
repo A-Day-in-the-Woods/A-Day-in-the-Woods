@@ -202,7 +202,7 @@ void Game::update()
 		m_optionscreen->update();
 		break;
 	case GameState::Gameplay:
-		m_gameplayscreen->update(m_player,m_npc, m_movementSystem);
+		m_gameplayscreen->update(m_tile, m_player, m_npc, m_movementSystem);
 		break;
 	case GameState::Credit:
 		m_creditscreen->update();

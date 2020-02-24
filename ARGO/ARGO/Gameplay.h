@@ -26,14 +26,13 @@ class Gameplay
 public:
 	Gameplay(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState , SDL_Window* t_window, InputSystem& t_input, std::vector<Player*> t_entity);
 	~Gameplay();
-	void update(std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem & t_move);
+	void update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem & t_move);
 	void render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, Graph< pair<string, int>, int>& graph);
 	void processEvent();
 	void setGameState();
 	int randomNumber(int t_max, int t_min);
 	void drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc);
-
-
+	
 	int m_numberPlayers = 4;
 
 private:

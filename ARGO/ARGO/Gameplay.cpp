@@ -80,7 +80,7 @@ Gameplay::~Gameplay()
 {
 }
 
-void Gameplay::update(std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem & t_move)
+void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem & t_move)
 {
 
 	if (!setUp)
@@ -133,19 +133,19 @@ void Gameplay::update(std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, 
 			t_npc[i]->update();
 			if (t_npc[i]->m_diceNumber == 0)
 			{
-				if (m_tile[t_npc[i]->currentGameBoardIndex].count == 0)
+				if (t_tile[t_npc[i]->currentGameBoardIndex].count == 0)
 				{
 					std::cout << "npc 1 tile" << std::endl;
-					m_tile[t_npc[i]->currentGameBoardIndex].count++;
-					m_tile[t_npc[i]->currentGameBoardIndex].update();
+					t_tile[t_npc[i]->currentGameBoardIndex].count++;
+					t_tile[t_npc[i]->currentGameBoardIndex].update();
 					SDL_Delay(500);
 				}
 				if (!t_npc[i]->stuck)
 				{
-					m_tile[t_npc[i]->currentGameBoardIndex].count = 0;
+					t_tile[t_npc[i]->currentGameBoardIndex].count = 0;
 				}
-				t_npc[i]->turn = false;
-				t_npc[i+1]->turn = true;
+				t_npc[0]->turn = false;
+				t_npc[1]->turn = true;
 			}
 		}
 		else if (t_npc[1]->turn)
@@ -153,19 +153,19 @@ void Gameplay::update(std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, 
 			t_npc[i]->update();
 			if (t_npc[i]->m_diceNumber == 0)
 			{
-				if (m_tile[t_npc[i]->currentGameBoardIndex].count == 0)
+				if (t_tile[t_npc[i]->currentGameBoardIndex].count == 0)
 				{
 					std::cout << "npc 2 tile" << std::endl;
-					m_tile[t_npc[i]->currentGameBoardIndex].count++;
-					m_tile[t_npc[i]->currentGameBoardIndex].update();
+					t_tile[t_npc[i]->currentGameBoardIndex].count++;
+					t_tile[t_npc[i]->currentGameBoardIndex].update();
 					SDL_Delay(500);
 				}
 				if (!t_npc[i]->stuck)
 				{
-					m_tile[t_npc[i]->currentGameBoardIndex].count = 0;
+					t_tile[t_npc[i]->currentGameBoardIndex].count = 0;
 				}
-				t_npc[i]->turn = false;
-				t_npc[i + 1]->turn = true;
+				t_npc[1]->turn = false;
+				t_npc[2]->turn = true;
 			}
 		}
 		else if (t_npc[2]->turn)
@@ -173,24 +173,23 @@ void Gameplay::update(std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, 
 			t_npc[i]->update();
 			if (t_npc[i]->m_diceNumber == 0)
 			{
-				if (m_tile[t_npc[i]->currentGameBoardIndex].count == 0)
+				if (t_tile[t_npc[i]->currentGameBoardIndex].count == 0)
 				{
 					std::cout << "npc 3 tile" << std::endl;
-					m_tile[t_npc[i]->currentGameBoardIndex].count++;
-					m_tile[t_npc[i]->currentGameBoardIndex].update();
+					t_tile[t_npc[i]->currentGameBoardIndex].count++;
+					t_tile[t_npc[i]->currentGameBoardIndex].update();
 					SDL_Delay(500);
 				}
 				if (!t_npc[i]->stuck)
 				{
-					m_tile[t_npc[i]->currentGameBoardIndex].count = 0;
+					t_tile[t_npc[i]->currentGameBoardIndex].count = 0;
 				}
-				t_npc[i]->turn = false;
+				t_npc[2]->turn = false;
 				t_npc[0]->turn = true;
 			}
 		}
 	}
 
-	
 	// SDL_Rect to focus on
 	focus = camera->focus(m_entity);
 	// Update Camera based on new focus
