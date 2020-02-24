@@ -30,6 +30,7 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 				case GameState::Credit:
 					break;
 				case GameState::Minigame:
+					t_entity->setLastButton(1);
 					m_manager->addCmd(buttonA, t_entity, NULL);
 					break;
 				default:
@@ -85,11 +86,13 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 
 			if (m_controller->m_currentState.DpadUp)
 			{
+				t_entity->setLastButton(2);
 				m_manager->addCmd(DpadUp, t_entity, NULL);
 			}
 
 			if (m_controller->m_currentState.DpadDown)
 			{
+				t_entity->setLastButton(3);
 				m_manager->addCmd(DpadDown, t_entity, NULL);
 			}
 

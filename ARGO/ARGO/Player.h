@@ -21,8 +21,6 @@
 /// 
 /// 
 
-
-
 class Player : public Entity 
 {
 public:
@@ -34,7 +32,8 @@ public:
 	void update(MovementSystem & t_move);
 	void render(SDL_Renderer* t_renderer);
 	void setPosition(float t_x, float t_y);
-
+	
+	
 	int randomNumber(int t_max, int t_min)
 	{
 		if (!m_takingTurn)
@@ -48,9 +47,12 @@ public:
 	}
 
 	SDL_Rect * getPlayerRectRef();
-
+	
 	SDL_Rect getPosition() { return rect; };
 	int getDiceRoll() { return diceRoll; };
+	int m_lastButtonPressed {NULL};
+	void setLastButton(int t_button) { m_lastButtonPressed = t_button; };
+	int getLastButtonPressed() { return m_lastButtonPressed; };
 private:
 
 
@@ -59,6 +61,8 @@ private:
 	SDL_Rect m_spriteBody;
 	SDL_Texture* m_PlayerTexture;
 	int diceRoll{2};
+
+	
 
 	bool m_takingTurn;
 

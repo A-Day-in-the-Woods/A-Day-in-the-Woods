@@ -11,7 +11,7 @@
 #include "GameStates.h"
 #include <CommandManager.h>
 #include <Player.h>
-
+#include <iostream>
 #include <Controller.h>
 #include <vector>
 #include <stack>
