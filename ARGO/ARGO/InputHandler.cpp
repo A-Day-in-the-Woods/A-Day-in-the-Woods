@@ -21,6 +21,8 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 				switch (t_currentState)
 				{
 				case GameState::Menu:
+					t_entity->setLastButton(1);
+					m_manager->addCmd(buttonA, t_entity, NULL);
 					break;
 				case GameState::Options:
 					break;
@@ -30,6 +32,7 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 				case GameState::Credit:
 					break;
 				case GameState::Minigame:
+					t_entity->setLastButton(1);
 					m_manager->addCmd(buttonA, t_entity, NULL);
 					break;
 				default:
@@ -40,7 +43,27 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 
 			if (m_controller->m_currentState.B)
 			{
-				m_manager->addCmd(buttonB, t_entity, NULL);
+				switch (t_currentState)
+				{
+				case GameState::Menu:
+					break;
+				case GameState::Options:
+					t_entity->setLastButton(4);
+					m_manager->addCmd(buttonB, t_entity, NULL);
+					break;
+				case GameState::Gameplay:
+					break;
+				case GameState::Credit:
+					t_entity->setLastButton(4);
+					m_manager->addCmd(buttonB, t_entity, NULL);
+					break;
+				case GameState::Minigame:
+					break;
+				default:
+					break;
+				}
+
+				
 			}
 
 			if (m_controller->m_currentState.X)
@@ -85,12 +108,46 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 
 			if (m_controller->m_currentState.DpadUp)
 			{
-				m_manager->addCmd(DpadUp, t_entity, NULL);
+				switch (t_currentState)
+				{
+				case GameState::Menu:
+					t_entity->setLastButton(2);
+					m_manager->addCmd(DpadUp, t_entity, NULL);
+					break;
+				case GameState::Options:
+					break;
+				case GameState::Gameplay:
+					break;
+				case GameState::Credit:
+					break;
+				case GameState::Minigame:
+					break;
+				default:
+					break;
+				}
 			}
 
 			if (m_controller->m_currentState.DpadDown)
 			{
-				m_manager->addCmd(DpadDown, t_entity, NULL);
+				
+				switch (t_currentState)
+				{
+				case GameState::Menu:
+					t_entity->setLastButton(3);
+					m_manager->addCmd(DpadDown, t_entity, NULL);
+					break;
+				case GameState::Options:
+					break;
+				case GameState::Gameplay:
+					break;
+				case GameState::Credit:
+					break;
+				case GameState::Minigame:
+					break;
+				default:
+					break;
+				}
+				
 			}
 
 			if (m_controller->m_currentState.DpadRight)

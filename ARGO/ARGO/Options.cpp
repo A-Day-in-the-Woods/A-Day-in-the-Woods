@@ -1,9 +1,12 @@
 #include "Options.h"
 
-OptionScreen::OptionScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event) :
+OptionScreen::OptionScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState, InputSystem& t_inputSystem, std::vector<Player*> t_entity) :
 	m_game(game),
 	m_event(event),
-	m_renderer(t_renderer)
+	m_renderer(t_renderer),
+	m_inputSystem(t_inputSystem),
+	m_currentState(t_currentState),
+	m_entity(t_entity)
 {
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic1.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
@@ -17,14 +20,11 @@ OptionScreen::~OptionScreen()
 void OptionScreen::update()
 {
 	
-	std::cout << "Options update" << std::endl;
-	if (m_event.type == SDL_KEYDOWN)
+	if (m_entity[0]->m_lastButtonPressed == 4)
 	{
-		if (m_event.key.keysym.sym == SDLK_SPACE || m_event.key.keysym.sym == SDLK_RETURN)
-		{
-			SDL_Delay(200);
-			setGameState();
-		}
+		m_entity[0]->setLastButton(NULL);
+		SDL_Delay(200);
+		setGameState();
 	}
 }
 
@@ -34,6 +34,14 @@ void OptionScreen::render()
 	//SDL_RenderClear(m_renderer);
 	std::cout << "Options render" << std::endl;
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
+}
+
+void OptionScreen::processEvent()
+{
+	for (int i = 0; i < m_entity.size(); i++)
+	{
+		m_inputSystem.update(m_event, m_currentState, m_entity[i]);
+	}
 }
 
 void OptionScreen::setGameState()

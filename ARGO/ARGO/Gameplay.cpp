@@ -68,13 +68,13 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 
 	m_tile.reserve(200);
 
-	m_backgroundSurface = IMG_Load("ASSETS/IMAGES/Board.jpg");
+	m_backgroundSurface = IMG_Load("ASSETS/IMAGES/Board.png");
 	m_backgroundTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
 
-	m_backgroundRect.h = 1300;
-	m_backgroundRect.w = 900;
-	m_backgroundRect.x = 550;
-	m_backgroundRect.y = -100;
+	m_backgroundRect.h = 1080;
+	m_backgroundRect.w = 1920;
+	m_backgroundRect.x = 75;
+	m_backgroundRect.y = -10;
 
 	m_backgroundSurface = IMG_Load("ASSETS/IMAGES/pic2.png");
 	m_backgroundTextureTwo = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);

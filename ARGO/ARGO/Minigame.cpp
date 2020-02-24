@@ -96,6 +96,7 @@ void MinigameScreen::processEvent()
 		m_inputSystem.update(m_event, m_currentState, m_entity[i]);
 	}
 
+
 	m_direction.x = (honeyRectangle.x - reticleRectangle.x);
 	m_direction.y = (honeyRectangle.y - reticleRectangle.y);
 	
@@ -119,7 +120,11 @@ void MinigameScreen::processEvent()
 
 void MinigameScreen::update()
 {
-
+	if (m_entity[0]->m_lastButtonPressed == 1)
+	{
+		std::cout << "A pressed in Minigame " << std::endl;
+		m_entity[0]->setLastButton(NULL);
+	}
 
 	switch (m_miniGameID)
 	{

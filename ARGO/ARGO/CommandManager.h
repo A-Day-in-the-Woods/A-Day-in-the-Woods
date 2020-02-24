@@ -17,6 +17,7 @@ public:
 	void addCmd(Command* t_input, Entity* t_entity, int t_randomNumber);
 
 
+
 	void execute();
 	Entity* m_entity;
 private: 
