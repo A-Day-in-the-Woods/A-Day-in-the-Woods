@@ -9,7 +9,6 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_entity(t_entity),
 	m_currentState(t_currentState)
 {
-
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceOne.png"));
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceTwo.png"));
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceThree.png"));
@@ -17,11 +16,9 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceFive.png"));
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceSix.png"));
 
-
-
 	// Initialize GameObject Positions
-	for (int i = 0; i < m_numberPlayers; i++) {
-
+	for (int i = 0; i < m_numberPlayers; i++) 
+	{
 		m_PlayerUIRect.push_back(SDL_Rect{ 10,i * 250,200,300 });
 		m_DiceRect.push_back(SDL_Rect{ 200,i * 250,300,300 });
 
@@ -42,21 +39,18 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 			m_PlayerUISurface = IMG_Load("ASSETS/IMAGES/Players/bear4.png");
 			break;
 		}
+
 		m_PlayerUITexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_PlayerUISurface));
 		m_DiceTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface[0]));
 
 		m_entity[i]->assignSprite(m_PlayerUITexture[i]);
-
 	}
-	
-
 
 	m_clouds.reserve(100);
 	for (int i = 0; i < 100; i++)
 	{
 		m_clouds.push_back(SDL_Rect{ randomNumber(1300,500),randomNumber(900,100),150,100 });
 	}
-
 
 	m_CloudSurface = IMG_Load("ASSETS/IMAGES/cloud.png");
 	//m_CloudTexture = SDL_CreateTextureFromSurface(m_renderer, m_CloudSurface);
@@ -73,23 +67,20 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 
 	m_backgroundSurface = IMG_Load("ASSETS/IMAGES/pic2.png");
 	m_backgroundTextureTwo = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
-
 }
 
 Gameplay::~Gameplay()
 {
 }
 
-void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem & t_move)
+void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem& t_move)
 {
-
 	if (!setUp)
 	{
 		t_npc[0]->turn = true;
 		setUp = true;
 	}
 	t_move.update();
-
 
 	//m_diceRoll = m_moveSystem.getDiceRoll();
 	//setDiceTexture();
@@ -99,7 +90,6 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		m_entity[i]->update(t_move);
 	}
 
-
 	for (int i = 0; i < m_clouds.size(); i++)
 	{
 		int temp = randomNumber(80, 0);
@@ -107,120 +97,115 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		{
 			m_clouds[i].x += 5;
 		}
-		else if(temp == 1)
+		else if (temp == 1)
 		{
 			m_clouds[i].x -= 5;
 		}
 
 	}
-	
-	
+
 	if (m_event.type == SDL_KEYDOWN)
 	{
-
-		if ( m_event.key.keysym.sym == SDLK_RETURN)
+		if (m_event.key.keysym.sym == SDLK_RETURN)
 		{
 			SDL_Delay(200);
 			setGameState();
 		}
 	}
 
-	
-	for (int i = 0; i < t_npc.size(); i++)
+	if (t_npc[0]->turn)
 	{
-		if (t_npc[0]->turn)
+		t_npc[m_npcCount]->update();
+		if (t_npc[m_npcCount]->m_diceNumber == 0)
 		{
-			t_npc[i]->update();
-			if (t_npc[i]->m_diceNumber == 0)
+			if (t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count == 0)
 			{
-				if (t_tile[t_npc[i]->currentGameBoardIndex].count == 0)
-				{
-					std::cout << "npc 1 tile" << std::endl;
-					t_tile[t_npc[i]->currentGameBoardIndex].count++;
-					t_tile[t_npc[i]->currentGameBoardIndex].update();
-					SDL_Delay(500);
-				}
-				if (!t_npc[i]->stuck)
-				{
-					t_tile[t_npc[i]->currentGameBoardIndex].count = 0;
-				}
-				t_npc[0]->turn = false;
-				t_npc[1]->turn = true;
+				std::cout << "npc 1 tile" << std::endl;
+				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count++;
+				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].update();
+				SDL_Delay(200);
 			}
+			if (!t_npc[m_npcCount]->stuck)
+			{
+				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count = 0;
+			}
+			t_npc[0]->turn = false;
+			t_npc[1]->turn = true;
+			m_npcCount++;
 		}
-		else if (t_npc[1]->turn)
+	}
+	else if (t_npc[1]->turn)
+	{
+		t_npc[m_npcCount]->update();
+		if (t_npc[m_npcCount]->m_diceNumber == 0)
 		{
-			t_npc[i]->update();
-			if (t_npc[i]->m_diceNumber == 0)
+			if (t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count == 0)
 			{
-				if (t_tile[t_npc[i]->currentGameBoardIndex].count == 0)
-				{
-					std::cout << "npc 2 tile" << std::endl;
-					t_tile[t_npc[i]->currentGameBoardIndex].count++;
-					t_tile[t_npc[i]->currentGameBoardIndex].update();
-					SDL_Delay(500);
-				}
-				if (!t_npc[i]->stuck)
-				{
-					t_tile[t_npc[i]->currentGameBoardIndex].count = 0;
-				}
-				t_npc[1]->turn = false;
-				t_npc[2]->turn = true;
+				std::cout << "npc 2 tile" << std::endl;
+				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count++;
+				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].update();
+				SDL_Delay(200);
 			}
+			if (!t_npc[m_npcCount]->stuck)
+			{
+				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count = 0;
+			}
+			t_npc[1]->turn = false;
+			t_npc[2]->turn = true;
+			m_npcCount++;
 		}
-		else if (t_npc[2]->turn)
+	}
+	else if (t_npc[2]->turn)
+	{
+		t_npc[m_npcCount]->update();
+		if (t_npc[m_npcCount]->m_diceNumber == 0)
 		{
-			t_npc[i]->update();
-			if (t_npc[i]->m_diceNumber == 0)
+			if (t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count == 0)
 			{
-				if (t_tile[t_npc[i]->currentGameBoardIndex].count == 0)
-				{
-					std::cout << "npc 3 tile" << std::endl;
-					t_tile[t_npc[i]->currentGameBoardIndex].count++;
-					t_tile[t_npc[i]->currentGameBoardIndex].update();
-					SDL_Delay(500);
-				}
-				if (!t_npc[i]->stuck)
-				{
-					t_tile[t_npc[i]->currentGameBoardIndex].count = 0;
-				}
-				t_npc[2]->turn = false;
-				t_npc[0]->turn = true;
+				std::cout << "npc 3 tile" << std::endl;
+				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count++;
+				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].update();
+				SDL_Delay(200);
 			}
+			if (!t_npc[m_npcCount]->stuck)
+			{
+				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count = 0;
+			}
+			t_npc[2]->turn = false;
+			t_npc[0]->turn = true;
+			m_npcCount++;
 		}
+	}
+
+	if (m_npcCount >= t_npc.size())
+	{
+		m_npcCount = 0;
 	}
 
 	// SDL_Rect to focus on
 	focus = camera->focus(m_entity);
 	// Update Camera based on new focus
 	camera->update(focus);
-
-
 }
 
 void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, Graph< pair<string, int>, int>& graph)
 {
-
 	SDL_RenderClear(m_renderer);
 	SDL_RenderSetScale(m_renderer, scale, scale);
 
 	SDL_RenderCopy(m_renderer, m_backgroundTextureTwo, NULL, NULL);
-	SDL_RenderCopy(m_renderer, m_backgroundTexture,NULL, &m_backgroundRect);
+	SDL_RenderCopy(m_renderer, m_backgroundTexture, NULL, &m_backgroundRect);
 
 	drawLines(graph, t_player, t_npc);
-
 
 	offset->x = focus->x - camera->getCamera()->x;
 	offset->y = focus->y - camera->getCamera()->y;
 	offset->w = focus->w;
 	offset->h = focus->h;
 	
-	
 	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0x00, 0x00, 0xFF);
 	SDL_RenderDrawRect(m_renderer, offset);
-
-
-
+	
 	for (int i = 0; i < m_clouds.size(); i++)
 	{
 		if ((m_clouds[i].x > offset->x) + m_clouds[i].w/2)
@@ -256,14 +241,12 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 	for (int i = 0; i < m_clouds.size(); i++) {SDL_RenderCopy(m_renderer, m_CloudTexture, NULL, &m_clouds[i]);}
 
-	
 	SDL_RenderPresent(m_renderer);
 }
 
 void Gameplay::processEvent()
 {
 	for (int i = 0; i < m_entity.size(); i++) {m_inputSystem.update(m_event, m_currentState, m_entity[i]);}
-	
 }
 
 void Gameplay::setGameState()
@@ -275,7 +258,6 @@ void Gameplay::setGameState()
 
 void Gameplay::drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc)
 {
-
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 
 	for (int i = 0; i < 41; i ++)
@@ -306,7 +288,6 @@ void Gameplay::drawLines(Graph< pair<string, int>, int>& graph, std::vector<Play
 	{
 		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
 	}
-
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(106)->m_x + 5, graph.nodeIndex(106)->m_y + 5, graph.nodeIndex(99)->m_x + 5, graph.nodeIndex(99)->m_y + 5);
 
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(127)->m_x + 5, graph.nodeIndex(127)->m_y + 5, graph.nodeIndex(97)->m_x + 5, graph.nodeIndex(97)->m_y + 5);

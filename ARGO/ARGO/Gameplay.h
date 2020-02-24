@@ -34,7 +34,7 @@ public:
 	void drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc);
 	
 	int m_numberPlayers = 4;
-
+	int m_npcCount = 0;
 private:
 	
 	float calculateScale(float width, float height, float maxWidth, float maxHeight);

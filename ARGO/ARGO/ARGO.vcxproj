@@ -34,6 +34,7 @@
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BehaviourTree.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CommandInterface.h" />
     <ClInclude Include="CommandManager.h" />
