@@ -63,7 +63,7 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 
 
 	m_CloudSurface = IMG_Load("ASSETS/IMAGES/cloud.png");
-	//m_CloudTexture = SDL_CreateTextureFromSurface(m_renderer, m_CloudSurface);
+	m_CloudTexture = SDL_CreateTextureFromSurface(m_renderer, m_CloudSurface);
 
 	m_tile.reserve(200);
 
