@@ -24,7 +24,7 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 					break;
 				case GameState::Options:
 					break;
-				case GameState::Gameplay:
+				case GameState::Gameplay:				
 					m_manager->addCmd(diceRoll, t_entity ,t_entity->randomNumber(6, 1));
 					break;
 				case GameState::Credit:
