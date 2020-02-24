@@ -8,11 +8,12 @@
 /// 
 /// 
 #include <SDL.h>
+#include <iostream>
 
 class Tile
 {
 public:
-	Tile(float t_x , float t_y);
+	Tile(float t_x , float t_y, int t_type);
 	~Tile();
 
 
@@ -23,14 +24,20 @@ public:
 	void setPosition();
 	SDL_Rect & getPosition();
 
+	int count;
 private:
 
-
-
-
 	SDL_Rect rect;//temp rect for a tile square 
+	int m_type;
 
-
+	void green();
+	void purple();
+	void pink();
+	void blue();
+	void navy();
+	void orange();
+	void red();
+	void yellow();
 };
 
 #endif // !TILE_H

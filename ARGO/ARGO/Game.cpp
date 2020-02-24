@@ -26,6 +26,9 @@ Game::Game() :
 	m_player.push_back(new Player(2));
 	m_player.push_back(new Player(3));
 
+	m_npc.push_back(new NPC(m_tile, graph, 1));
+	m_npc.push_back(new NPC(m_tile, graph, 2));
+	m_npc.push_back(new NPC(m_tile, graph, 3));
 
 	for (int i = 0; i < m_player.size(); i++)
 	{
@@ -43,14 +46,14 @@ Game::Game() :
 
 		// Create SDL Window Centred in Middle Of Screen
 
-		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, NULL);
+		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1820, 980, NULL);
 
 		// Check if window was created correctly
 		if (!m_window) throw "Error Loading Window";
 
 		//Create the SDL Renderer 
 		m_renderer = SDL_CreateRenderer(m_window, -1, 0);
-		//Check if the renderer was created correclty
+		//Check if the renderer was created correctly
 		if (!m_renderer) throw "Error Loading Renderer";
 
 		// Sets clear colour of renderer to black and the color of any primitives
@@ -73,9 +76,7 @@ Game::Game() :
 		m_isRunning = false;
 	}
 	
-
-
-
+	
 
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
@@ -207,7 +208,7 @@ void Game::update()
 		m_optionscreen->update();
 		break;
 	case GameState::Gameplay:
-		m_gameplayscreen->update(m_player,m_movementSystem);
+		m_gameplayscreen->update(m_tile, m_player, m_npc, m_movementSystem);
 		break;
 	case GameState::Credit:
 		m_creditscreen->update();
@@ -240,7 +241,7 @@ void Game::render()
 		m_optionscreen->render();
 		break;
 	case GameState::Gameplay:
-		m_gameplayscreen->render(m_tile, m_player, graph);
+		m_gameplayscreen->render(m_tile, m_player, m_npc, graph);
 		break;
 	case GameState::Credit:
 		m_creditscreen->render();
@@ -277,18 +278,18 @@ void Game::clean()
 void Game::initNodeFiles()
 {
 	myfile.open("Nodes.txt");	// nodes
-	while (myfile >> nodeLabel.first >> posX >> posY)
+	while (myfile >> nodeLabel.first >> posX >> posY >> type)
 	{
-		graph.addNode(nodeLabel, posX, posY, index);
+		graph.addNode(nodeLabel, posX, posY, type, index);
 		nodemap[nodeLabel.first] = index;
 		index++;
 
-		m_tile.push_back(Tile(posX, posY));
+		m_tile.push_back(Tile(posX, posY, type));
 	}
 	myfile.close();
 
 
-	myfile.open("NodeDistances.txt");	// arcs
+	myfile.open("NodeLinks.txt");	// arcs
 	while (myfile >> from >> to >> weight) {
 		graph.addArc(nodemap[from], nodemap[to], weight);
 

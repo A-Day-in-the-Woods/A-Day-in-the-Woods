@@ -55,7 +55,7 @@ public:
 
 	// Public member functions.
 	bool addNode(NodeType data, int index);
-	bool addNode(NodeType data, int xpos, int ypos, int index);
+	bool addNode(NodeType data, int xpos, int ypos, int type, int index);
 	void removeNode(int index);
 	bool addArc(int from, int to, ArcType weight);
 	void removeArc(int from, int to);
@@ -127,7 +127,7 @@ bool Graph<NodeType, ArcType>::addNode(NodeType data, int index) {
 //  Return Value:   true if successful
 // ----------------------------------------------------------------
 template<class NodeType, class ArcType>
-bool Graph<NodeType, ArcType>::addNode(NodeType data, int xpos, int ypos, int index) {
+bool Graph<NodeType, ArcType>::addNode(NodeType data, int xpos, int ypos, int type, int index) {
 	bool nodeNotPresent = false;
 	// find out if a node does not exist at that index.
 	if (nullptr == m_nodes.at(index)) {
@@ -138,6 +138,7 @@ bool Graph<NodeType, ArcType>::addNode(NodeType data, int xpos, int ypos, int in
 		m_nodes.at(index)->setMarked(false);
 		m_nodes.at(index)->m_x = xpos;
 		m_nodes.at(index)->m_y = ypos;
+		m_nodes.at(index)->m_type = type;
 	}
 
 	return nodeNotPresent;

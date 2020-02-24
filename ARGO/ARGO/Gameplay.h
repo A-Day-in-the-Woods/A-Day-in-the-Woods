@@ -10,6 +10,7 @@
 #include <map>
 #include "Graph.h"
 #include "Player.h"
+#include "NPC.h"
 #include <InputSystem.h>
 #include "Entity.h"
 #include "MovementSystem.h"
@@ -25,16 +26,15 @@ class Gameplay
 public:
 	Gameplay(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState , SDL_Window* t_window, InputSystem& t_input, std::vector<Player*> t_entity);
 	~Gameplay();
-	void update(std::vector<Player*>& t_player, MovementSystem & t_move);
-	void render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, Graph< pair<string, int>, int>& graph);
+	void update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem & t_move);
+	void render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, Graph< pair<string, int>, int>& graph);
 	void processEvent(MovementSystem& t_move);
 	void setGameState();
 	int randomNumber(int t_max, int t_min);
-	void drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player);
-
-
-
+	void drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc);
+	
 	int m_numberPlayers = 4;
+	int m_npcCount = 0;
 
 	int m_turnOrder{ 0 };
 
@@ -87,6 +87,8 @@ private:
 	//void aStar();
 
 
+	
+	bool setUp{ false };
 	bool startAstar{ false };
 	//------! A* stuff ------------
 

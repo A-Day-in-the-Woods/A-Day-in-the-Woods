@@ -27,6 +27,7 @@
 #include "InputComponent.h"
 #include "InputSystem.h"
 #include "Player.h"
+#include "NPC.h"
 #include "MovementSystem.h"
 #include "MovementComponent.h"
 
@@ -87,6 +88,7 @@ private:
 
 	int posX = 0;
 	int posY = 0;
+	int type = 0;
 	int index = 0;
 	ifstream myfile;
 
@@ -99,7 +101,7 @@ private:
 	std::vector<Tile> m_tile;
 
 	std::vector<Player*> m_player;
-
+	std::vector<NPC*> m_npc;
 
 	//---------Entity + Components-----------
 	HealthSystem m_healthSystem;
