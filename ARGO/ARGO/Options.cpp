@@ -8,6 +8,7 @@ OptionScreen::OptionScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& even
 	m_currentState(t_currentState),
 	m_entity(t_entity)
 {
+	m_numberPlayers = m_entity.size();
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic1.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
@@ -38,7 +39,7 @@ void OptionScreen::render()
 
 void OptionScreen::processEvent()
 {
-	for (int i = 0; i < m_entity.size(); i++)
+	for (int i = 0; i < m_numberPlayers ;i++)
 	{
 		m_inputSystem.update(m_event, m_currentState, m_entity[i]);
 	}

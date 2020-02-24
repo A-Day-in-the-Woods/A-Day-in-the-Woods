@@ -30,7 +30,7 @@ public:
 
 
 private:
-	
+	int m_numberPlayers;
 	GameState& m_currentState; // can remove
 	InputSystem m_inputSystem;
 	std::vector<Player*> m_entity;

@@ -8,6 +8,7 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 	m_currentState(t_currentState),
 	m_entity(t_entity)
 {
+	m_numberPlayers = m_entity.size();
 	m_backgroundSurface = IMG_Load("ASSETS\\IMAGES\\pic3.png");
 	m_backgroundTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
 
@@ -110,7 +111,7 @@ void MenuScreen::render()
 
 void MenuScreen::processEvent()
 {
-	for (int i = 0; i < m_entity.size(); i++)
+	for (int i = 0; i < m_numberPlayers ; i++)
 	{
 		m_inputSystem.update(m_event, m_currentState, m_entity[i]);
 	}
@@ -124,18 +125,23 @@ void MenuScreen::setGameState()
 	default:
 		m_game.setGameState(GameState::Gameplay);
 		std::cout << "error on Menu select" << std::endl;
+		m_entity[0]->setLastButton(NULL);
 		break;
 	case 0:
 		m_game.setGameState(GameState::Gameplay);
+		m_entity[0]->setLastButton(NULL);
 		break;
 	case 1:
 		m_game.setGameState(GameState::Options);
+		m_entity[0]->setLastButton(NULL);
 		break;
 	case 2:
 		m_game.setGameState(GameState::Credit);
+		m_entity[0]->setLastButton(NULL);
 		break;
 	case 3:
 		m_game.setGameState(GameState::Quit);
+		m_entity[0]->setLastButton(NULL);
 		break;
 	}
 }

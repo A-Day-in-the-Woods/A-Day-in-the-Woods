@@ -8,7 +8,7 @@ MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& 
 	m_entity(t_entity),
 	m_inputSystem(t_inputSystem)
 {	
-
+	m_numberPlayers = m_entity.size();
 	m_ApressedDistance.push_back(NULL);
 	m_ApressedDistance.push_back(NULL);
 	m_ApressedDistance.push_back(NULL);
@@ -93,7 +93,7 @@ MinigameScreen::~MinigameScreen()
 
 void MinigameScreen::processEvent()
 {
-	for (int i = 0; i < m_entity.size(); i++)
+	for (int i = 0; i < m_numberPlayers ;i++)
 	{
 		m_inputSystem.update(m_event, m_currentState, m_entity[i]);
 	}
@@ -113,7 +113,7 @@ void MinigameScreen::processEvent()
 
 void MinigameScreen::update()
 {
-	for (int i = 0; i < m_entity.size(); i++)
+	for (int i = 0; i < m_numberPlayers ;i++)
 	{
 		if (m_entity[i]->m_lastButtonPressed == 1)
 		{
@@ -192,7 +192,7 @@ void MinigameScreen::render()
 
 	SDL_RenderCopy(m_renderer, m_reticleTexture, NULL, &reticleRectangle);
 
-	for (int i = 0; i < m_entity.size(); i++)
+	for (int i = 0; i < m_numberPlayers ;i++)
 	{
 		SDL_RenderCopy(m_renderer, m_AbuttonTexture[i], NULL, &m_buttonRectangle[i]);
 	}
@@ -232,7 +232,7 @@ void MinigameScreen::startMinGame(int t_mineGameID)
 		m_randomNumber = randomNumber(5, 1);
 		m_randTime = std::chrono::seconds(m_randomNumber);
 
-		for (int i = 0; i < m_entity.size(); i++)
+		for (int i = 0; i < m_numberPlayers ;i++)
 		{
 			SDL_SetTextureColorMod(m_AbuttonTexture[i], 255, 255, 255);
 			m_playerAns[i] = false;

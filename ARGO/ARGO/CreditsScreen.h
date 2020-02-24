@@ -20,6 +20,8 @@ public:
 	void processEvent();
 	void setGameState();
 private:
+	int m_numberPlayers;
+
 	Game& m_game;
 	SDL_Texture* m_TestingTexture;
 	SDL_Renderer* m_renderer;	// game renderer

@@ -23,6 +23,7 @@ public:
 	void setGameState();
 
 private:
+	int m_numberPlayers;
 	Game& m_game;
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;

@@ -9,6 +9,9 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_entity(t_entity),
 	m_currentState(t_currentState)
 {
+	m_numberPlayers = m_entity.size();
+
+
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceOne.png"));
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceTwo.png"));
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceThree.png"));
@@ -16,12 +19,19 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceFive.png"));
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceSix.png"));
 
-	// Initialize GameObject Positions
-	for (int i = 0; i < m_numberPlayers; i++) 
-	{
-		m_PlayerUIRect.push_back(SDL_Rect{ 10,i * 250,200,300 });
-		m_DiceRect.push_back(SDL_Rect{ 200,i * 250,300,300 });
+	m_PlayerUIRect.push_back(SDL_Rect{ 100,0,300,400 });
+	m_PlayerUIRect.push_back(SDL_Rect{ 1600,0,300,400 });
+	m_PlayerUIRect.push_back(SDL_Rect{ 100,600,300,400 });
+	m_PlayerUIRect.push_back(SDL_Rect{ 1600,600,300,400 });
 
+	m_DiceRect.push_back(SDL_Rect{ 195,210,120,120 });
+	m_DiceRect.push_back(SDL_Rect{ 1695,210,120,120 });
+	m_DiceRect.push_back(SDL_Rect{ 195,810,120,120 });
+	m_DiceRect.push_back(SDL_Rect{ 1695,810,120,120 });
+
+	// Initialize GameObject Positions
+	for (int i = 0; i < m_numberPlayers ;i++) 
+	{
 		switch (i)
 		{
 		default:
@@ -39,33 +49,45 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 			m_PlayerUISurface = IMG_Load("ASSETS/IMAGES/Players/bear4.png");
 			break;
 		}
-
 		m_PlayerUITexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_PlayerUISurface));
 		m_DiceTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface[0]));
 
 		m_entity[i]->assignSprite(m_PlayerUITexture[i]);
-
-		m_turnOrder = 0;
 	}
+		m_turnOrder = 0;
 
 	m_clouds.reserve(100);
+	m_tile.reserve(200);
 	for (int i = 0; i < 100; i++)
 	{
 		m_clouds.push_back(SDL_Rect{ randomNumber(1300,500),randomNumber(900,100),150,100 });
 	}
 
+	for (int i = 0; i < 4 ; i++)
+	{
+		m_outLine.push_back(SDL_Rect{ -60,(i*200)-100,200,700 });
+		m_outLine.push_back(SDL_Rect{ 1860,(i * 200)-100,250,700 });
+	}
+
+
+	for (int i = 0; i < 4; i++)
+	{
+		m_outLine.push_back(SDL_Rect{ i*550,820 - 100,150,700 });
+	}
+
 	m_CloudSurface = IMG_Load("ASSETS/IMAGES/cloud.png");
 	m_CloudTexture = SDL_CreateTextureFromSurface(m_renderer, m_CloudSurface);
 
-	m_tile.reserve(200);
+
+	m_outLineSurface = IMG_Load("ASSETS/IMAGES/UI/hedge.png");
+	m_outLineTexture = SDL_CreateTextureFromSurface(m_renderer, m_outLineSurface);
+	
 
 	m_backgroundSurface = IMG_Load("ASSETS/IMAGES/Board.png");
 	m_backgroundTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
 
-	m_backgroundRect.h = 1080;
-	m_backgroundRect.w = 1920;
-	m_backgroundRect.x = 75;
-	m_backgroundRect.y = -10;
+	m_backgroundRect={ 75,-10,1920,1080};
+
 
 	m_backgroundSurface = IMG_Load("ASSETS/IMAGES/pic2.png");
 	m_backgroundTextureTwo = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
@@ -83,7 +105,7 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		setUp = true;
 	}
 	
-	for (int i = 0; i < m_entity.size(); i++)
+	for (int i = 0; i < m_numberPlayers ;i++)
 	{
 		t_move.update(i);
 		m_entity[i]->update(t_move);
@@ -108,7 +130,6 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	{
 		if (m_event.key.keysym.sym == SDLK_RETURN)
 		{
-			SDL_Delay(200);
 			setGameState();
 		}
 	}
@@ -198,33 +219,28 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	SDL_RenderCopy(m_renderer, m_backgroundTextureTwo, NULL, NULL);
 	SDL_RenderCopy(m_renderer, m_backgroundTexture, NULL, &m_backgroundRect);
 
-	drawLines(graph, t_player, t_npc);
+
+	//drawLines(graph, t_player, t_npc);// can remove --------------
 
 	offset->x = focus->x - camera->getCamera()->x;
 	offset->y = focus->y - camera->getCamera()->y;
 	offset->w = focus->w;
 	offset->h = focus->h;
 	
-	SDL_SetRenderDrawColor(m_renderer, 0xFF, 0x00, 0x00, 0xFF);
-	SDL_RenderDrawRect(m_renderer, offset);
+	//SDL_SetRenderDrawColor(m_renderer, 0xFF, 0x00, 0x00, 0xFF); // can remove --------------
+	//SDL_RenderDrawRect(m_renderer, offset);
 	
 	for (int i = 0; i < m_clouds.size(); i++)
 	{
-		if ((m_clouds[i].x > offset->x) + m_clouds[i].w/2)
-		{
-			if(m_clouds[i].x < (offset->x + offset->w))
-			{
-				if (m_clouds[i].y > (offset->y) - m_clouds[i].h / 1.9)
-				{
-					if (m_clouds[i].y < (offset->y + offset->h))
-					{
-						m_clouds.erase(m_clouds.begin() + i);
-
-					}
-				}
-			}
-		}
+		if ((m_clouds[i].x > offset->x) + m_clouds[i].w/2){
+			if(m_clouds[i].x < (offset->x + offset->w)){
+				if (m_clouds[i].y > (offset->y) - m_clouds[i].h / 1.9){
+					if (m_clouds[i].y < (offset->y + offset->h)) {m_clouds.erase(m_clouds.begin() + i);}}}}
 	}
+
+	for (int i = 0; i < m_outLine.size()-4; i++) { SDL_RenderCopy(m_renderer, m_outLineTexture, NULL, &m_outLine[i]); }
+	for (int i = m_outLine.size() - 4; i < m_outLine.size(); i++) {SDL_RenderCopyEx(m_renderer, m_outLineTexture, NULL, &m_outLine[i],90, NULL, SDL_FLIP_NONE);}
+
 
 	// Little target Box in middle of Focus
 	//offset->w = CHARACTER_WIDTH ;
@@ -233,12 +249,12 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	//offset->y = (((focus->y + focus->h / 2) - offset->h / 2) - camera->getCamera()->y);
 	//SDL_RenderDrawRect(m_renderer, offset);
 
-	for (int i = 0; i < m_numberPlayers; i++)
+	for (int i = 0; i < m_numberPlayers ;i++)
 	{
 		m_entity[i]->render(m_renderer);
 		SDL_RenderCopy(m_renderer, m_PlayerUITexture[i], NULL, &m_PlayerUIRect[i]);	
 
-		setDiceTexture(i);
+		if (i == m_turnOrder) {setDiceTexture(i);}		
 		SDL_RenderCopy(m_renderer, m_DiceTexture[i], NULL, &m_DiceRect[i]);
 	}
 
@@ -249,7 +265,7 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 void Gameplay::processEvent(MovementSystem & t_move)
 {
-	for (int i = 0; i < m_entity.size(); i++)
+	for (int i = 0; i < m_numberPlayers ;i++)
 	{
 		if (m_turnOrder == m_entity[i]->getId())
 		{
@@ -258,7 +274,7 @@ void Gameplay::processEvent(MovementSystem & t_move)
 			if (m_entity[i]->getLastButtonPressed() == 1 && !t_move.IsThePlayerMoving(i))
 			{
 				m_turnOrder++;
-				if (m_turnOrder == 4)
+				if (m_turnOrder == m_entity.size())
 					m_turnOrder = 0;
 				m_entity[i]->setLastButton(NULL);
 			}
