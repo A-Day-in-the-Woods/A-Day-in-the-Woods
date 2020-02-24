@@ -48,68 +48,22 @@ MenuScreen::~MenuScreen()
 
 void MenuScreen::update()
 {
+
+		if (flip)
+		{
+			m_buttonSelectorRect[m_currentButton].w += 1;
+			m_buttonSelectorRect[m_currentButton].h += 1;
+			if (m_buttonSelectorRect[m_currentButton].w >= 450 || m_buttonSelectorRect[m_currentButton].h >= 250) { flip = false; }
+		}
+		else
+		{
+			m_buttonSelectorRect[m_currentButton].w -= 1;
+			m_buttonSelectorRect[m_currentButton].h -= 1;
+			if (m_buttonSelectorRect[m_currentButton].w >= 400 || m_buttonSelectorRect[m_currentButton].h <= 200) { flip = true; }
+		}
 	
-	switch (m_currentButton)
-	{
-	default:
-		break;
-	case 0:
-		if (flip)
-		{
-			m_buttonSelectorRect[0].w += 1;
-			m_buttonSelectorRect[0].h += 1;
-			if (m_buttonSelectorRect[0].w >= 450 || m_buttonSelectorRect[0].h >= 250) { flip = false; }
-		}
-		else
-		{
-			m_buttonSelectorRect[0].w -= 1;
-			m_buttonSelectorRect[0].h -= 1;
-			if (m_buttonSelectorRect[0].w >= 400 || m_buttonSelectorRect[0].h <= 200) { flip = true; }
-		}
-		break;
-	case 1:
-		if (flip)
-		{
-			m_buttonSelectorRect[1].w += 1;
-			m_buttonSelectorRect[1].h += 1;
-			if (m_buttonSelectorRect[1].w >= 450 || m_buttonSelectorRect[1].h >= 250) { flip = false; }
-		}
-		else
-		{
-			m_buttonSelectorRect[1].w -= 1;
-			m_buttonSelectorRect[1].h -= 1;
-			if (m_buttonSelectorRect[1].w >= 400 || m_buttonSelectorRect[1].h <= 200) { flip = true; }
-		}
-		break;
-	case 2:
-		if (flip)
-		{
-			m_buttonSelectorRect[2].w += 1;
-			m_buttonSelectorRect[2].h += 1;
-			if (m_buttonSelectorRect[2].w >= 450 || m_buttonSelectorRect[2].h >= 250) { flip = false; }
-		}
-		else
-		{
-			m_buttonSelectorRect[2].w -= 1;
-			m_buttonSelectorRect[2].h -= 1;
-			if (m_buttonSelectorRect[2].w >= 400 || m_buttonSelectorRect[2].h <= 200) { flip = true; }
-		}
-		break;
-	case 3:
-		if (flip)
-		{
-			m_buttonSelectorRect[3].w += 1;
-			m_buttonSelectorRect[3].h += 1;
-			if (m_buttonSelectorRect[3].w >= 450 || m_buttonSelectorRect[3].h >= 250) { flip = false; }
-		}
-		else
-		{
-			m_buttonSelectorRect[3].w -= 1;
-			m_buttonSelectorRect[3].h -= 1;
-			if (m_buttonSelectorRect[3].w >= 400 || m_buttonSelectorRect[3].h <= 200) { flip = true; }
-		}
-		break;
-	}
+	
+	
 
 
 		if (m_entity[0]->m_lastButtonPressed == 1)
