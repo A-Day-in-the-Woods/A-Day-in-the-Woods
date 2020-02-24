@@ -47,6 +47,22 @@ public:
 	//	}
 	//}
 
+	/*
+	bool getFinishedTurn(int t_index)
+	{
+		return m_moveComp[t_index]->getFinishedTurn();
+	}
+
+	void resetFinishedTurn()
+	{
+		for (int i = 0; i < m_moveComp.size(); i++)
+		{
+			m_moveComp[i]->setFinishedTurn(0);
+		}
+	}
+	*/
+
+
 	bool IsThePlayerMoving(int t_i)
 	{
 		return m_moveComp[t_i]->getTakeingTurn();
@@ -57,13 +73,17 @@ public:
 		m_moveComp[index]->leftOrRightChoice(t_b);
 	}
 
-	void update() {
+
+	void updateAll() {
 		for (int i = 0; i < m_moveComp.size(); i++)
 		{
 			m_moveComp[i]->update(m_map, m_graph);
 		}
 	}
 
+	void update(int t_index) {
+		m_moveComp[t_index]->update(m_map, m_graph);
+	}
 
 
 private:

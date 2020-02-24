@@ -36,6 +36,8 @@ public:
 
 	int m_numberPlayers = 4;
 
+	int m_turnOrder{ 0 };
+
 private:
 	
 	float calculateScale(float width, float height, float maxWidth, float maxHeight);
@@ -85,9 +87,6 @@ private:
 	//void aStar();
 
 
-	
-
-
 	bool startAstar{ false };
 	//------! A* stuff ------------
 
@@ -99,6 +98,8 @@ private:
 
 	GameState& m_currentState;
 	InputSystem& m_inputSystem;
+
+	
 };
 
 #endif // !GAMEPLAY
