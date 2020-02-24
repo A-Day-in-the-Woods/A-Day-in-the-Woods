@@ -8,8 +8,20 @@ MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& 
 	m_entity(t_entity),
 	m_inputSystem(t_inputSystem)
 {	
-	
 
+	m_ApressedDistance.push_back(NULL);
+	m_ApressedDistance.push_back(NULL);
+	m_ApressedDistance.push_back(NULL);
+	m_ApressedDistance.push_back(NULL);
+	m_playerAns.push_back(false);
+	m_playerAns.push_back(false);
+	m_playerAns.push_back(false);
+	m_playerAns.push_back(false);
+
+	m_buttonRectangle.push_back(SDL_Rect{40,600,400,400, });
+	m_buttonRectangle.push_back(SDL_Rect{420,600,400,400 });
+	m_buttonRectangle.push_back(SDL_Rect{1000,600,400,400 });
+	m_buttonRectangle.push_back(SDL_Rect{1380,600,400,400 });
 
 	SDL_Surface* m_backgroundImage = IMG_Load("ASSETS/IMAGES/BG.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundImage);
@@ -25,26 +37,36 @@ MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& 
 	m_reticleTexture = SDL_CreateTextureFromSurface(m_renderer, reticleSurface);
 	SDL_FreeSurface(reticleSurface);
 
-	SDL_Surface* buttonSurfaceOne = IMG_Load("ASSETS/IMAGES/buttons/ABluePawButton.png");
-	m_AbuttonTextureOne = SDL_CreateTextureFromSurface(m_renderer, buttonSurfaceOne);
-	SDL_SetTextureBlendMode(m_AbuttonTextureOne, SDL_BLENDMODE_BLEND);
-	SDL_FreeSurface(buttonSurfaceOne);
+	buttonSurface = IMG_Load("ASSETS/IMAGES/buttons/ABluePawButton.png");
+	m_AbuttonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, buttonSurface));
+	SDL_SetTextureBlendMode(m_AbuttonTexture[0], SDL_BLENDMODE_BLEND);
 
-	SDL_Surface* buttonSurfaceTwo = IMG_Load("ASSETS/IMAGES/buttons/AGreenPawButton.png");
-	SDL_SetTextureBlendMode(m_AbuttonTextureTwo, SDL_BLENDMODE_BLEND);
-	m_AbuttonTextureTwo = SDL_CreateTextureFromSurface(m_renderer, buttonSurfaceTwo);
-	SDL_FreeSurface(buttonSurfaceTwo);
+	buttonSurface = IMG_Load("ASSETS/IMAGES/buttons/AGreenPawButton.png");
+	m_AbuttonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, buttonSurface));
+	SDL_SetTextureBlendMode(m_AbuttonTexture[1], SDL_BLENDMODE_BLEND);
 
-	SDL_Surface* buttonSurfaceThree = IMG_Load("ASSETS/IMAGES/buttons/APinkPawButton.png");
-	SDL_SetTextureBlendMode(m_AbuttonTextureThree, SDL_BLENDMODE_BLEND);
-	m_AbuttonTextureThree = SDL_CreateTextureFromSurface(m_renderer, buttonSurfaceThree);
-	SDL_FreeSurface(buttonSurfaceThree);
+	buttonSurface = IMG_Load("ASSETS/IMAGES/buttons/APinkPawButton.png");
+	m_AbuttonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, buttonSurface));
+	SDL_SetTextureBlendMode(m_AbuttonTexture[2], SDL_BLENDMODE_BLEND);
 
-	SDL_Surface* buttonSurfaceFour = IMG_Load("ASSETS/IMAGES/buttons/APurplePawButton.png");
-	SDL_SetTextureBlendMode(m_AbuttonTextureFour, SDL_BLENDMODE_BLEND);
-	m_AbuttonTextureFour = SDL_CreateTextureFromSurface(m_renderer, buttonSurfaceFour);
-	SDL_FreeSurface(buttonSurfaceFour);
+	buttonSurface = IMG_Load("ASSETS/IMAGES/buttons/APurplePawButton.png");
+	m_AbuttonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, buttonSurface));
+	SDL_SetTextureBlendMode(m_AbuttonTexture[3], SDL_BLENDMODE_BLEND);
 
+
+
+
+	SDL_Surface* WinSurface;
+		WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP1.png");
+		m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
+		WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP2.png");
+		m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
+		WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP3.png");
+		m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
+		WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP4.png");
+		m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
+		WinSurface = IMG_Load("ASSETS/IMAGES/pic2Glass.png");
+		m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
 
 
 	SDL_Surface* potSurface = IMG_Load("ASSETS/IMAGES/HoneyBig.png");
@@ -60,26 +82,6 @@ MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& 
 	reticleRectangle.w = 200;
 	reticleRectangle.x = 800;
 	reticleRectangle.y = 350;
-
-	buttonRectangle.h = 400;
-	buttonRectangle.w = 400;
-	buttonRectangle.x = 40;
-	buttonRectangle.y = 600;
-
-	buttonRectangle2.h = 400;
-	buttonRectangle2.w = 400;
-	buttonRectangle2.x = 420;
-	buttonRectangle2.y = 600;
-
-	buttonRectangle3.h = 400;
-	buttonRectangle3.w = 400;
-	buttonRectangle3.x = 1000;
-	buttonRectangle3.y = 600;
-	
-	buttonRectangle4.h = 400;
-	buttonRectangle4.w = 400;
-	buttonRectangle4.x = 1380;
-	buttonRectangle4.y = 600;
 
 	honeyRectangle.h = 150;
 	honeyRectangle.w = 150;
@@ -107,10 +109,7 @@ void MinigameScreen::processEvent()
 		{
 			if (m_event.key.keysym.sym == SDLK_SPACE)
 			{
-				m_playerFourAnswerd = false;
-				m_playerThreeAnswerd = false;
-				m_playerTwoAnswerd = false;
-				m_playerOneAnswerd = false;
+
 				EndPictureminiGame = false;
 				setGameState();
 			}
@@ -120,22 +119,15 @@ void MinigameScreen::processEvent()
 
 void MinigameScreen::update()
 {
-	if (m_entity[0]->m_lastButtonPressed == 1)
+	for (int i = 0; i < m_entity.size(); i++)
 	{
-		std::cout << "A 1 pressed in Minigame " << std::endl;
-		m_playerOneAnswerd = true;
-		m_ApressedDistanceOne = sqrt((m_direction.x) * (m_direction.x) + (m_direction.y) * (m_direction.y));
-		std::cout << m_ApressedDistanceOne <<std::endl;
-		m_entity[0]->setLastButton(NULL);
-	}
-
-	if (m_entity[1]->m_lastButtonPressed == 1)
-	{
-		std::cout << "A 2 pressed in Minigame " << std::endl;
-		m_playerTwoAnswerd = true;
-		m_ApressedDistanceTwo = sqrt((m_direction.x) * (m_direction.x) + (m_direction.y) * (m_direction.y));
-		std::cout << m_ApressedDistanceTwo << std::endl;
-		m_entity[1]->setLastButton(NULL);
+		if (m_entity[i]->m_lastButtonPressed == 1)
+		{
+			m_playerAns[i] = true;
+			m_ApressedDistance[i] = sqrt((m_direction.x) * (m_direction.x) + (m_direction.y) * (m_direction.y));
+			SDL_SetTextureColorMod(m_AbuttonTexture[i], 120, 120, 120);
+			m_entity[i]->setLastButton(NULL);
+		}
 	}
 
 	switch (m_miniGameID)
@@ -147,7 +139,7 @@ void MinigameScreen::update()
 		m_runningTime = std::chrono::high_resolution_clock::now() - m_startTime;
 
 	
-		if (m_playerFourAnswerd == true && m_playerThreeAnswerd == true && m_playerTwoAnswerd == true && m_playerOneAnswerd == true)
+		if (m_playerAns[3]== true && m_playerAns[2] == true && m_playerAns[1] == true && m_playerAns[0] == true)
 		{
 			SDL_Delay(500);
 			GetWinnerPicture();
@@ -193,7 +185,7 @@ void MinigameScreen::render()
 	
 	if (EndPictureminiGame == true)
 	{		
-		SDL_RenderCopy(m_renderer, m_WinScreenTexture, NULL, &m_Winsscreen);
+		SDL_RenderCopy(m_renderer, m_WinScreenTexture[winnerIndex], NULL, &m_Winsscreen);
 	}
 
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
@@ -206,10 +198,11 @@ void MinigameScreen::render()
 
 	SDL_RenderCopy(m_renderer, m_reticleTexture, NULL, &reticleRectangle);
 
-	SDL_RenderCopy(m_renderer, m_AbuttonTextureOne, NULL, &buttonRectangle);
-	SDL_RenderCopy(m_renderer, m_AbuttonTextureTwo, NULL, &buttonRectangle2);
-	SDL_RenderCopy(m_renderer, m_AbuttonTextureThree, NULL, &buttonRectangle3);
-	SDL_RenderCopy(m_renderer, m_AbuttonTextureFour, NULL, &buttonRectangle4);
+	for (int i = 0; i < m_entity.size(); i++)
+	{
+		SDL_RenderCopy(m_renderer, m_AbuttonTexture[i], NULL, &m_buttonRectangle[i]);
+	}
+
 
 
 }
@@ -244,10 +237,13 @@ void MinigameScreen::startMinGame(int t_mineGameID)
 		m_spawn = randomNumber(4, 1);
 		m_randomNumber = randomNumber(5, 1);
 		m_randTime = std::chrono::seconds(m_randomNumber);
-		SDL_SetTextureColorMod(m_AbuttonTextureOne, 255, 255, 255);
-		SDL_SetTextureColorMod(m_AbuttonTextureTwo, 255, 255, 255);
-		SDL_SetTextureColorMod(m_AbuttonTextureThree, 255, 255, 255);
-		SDL_SetTextureColorMod(m_AbuttonTextureFour, 255, 255, 255);
+
+		for (int i = 0; i < m_entity.size(); i++)
+		{
+			SDL_SetTextureColorMod(m_AbuttonTexture[i], 255, 255, 255);
+			m_playerAns[i] = false;
+		}
+
 
 
 
@@ -298,38 +294,24 @@ void MinigameScreen::setGameState()
 
 void MinigameScreen::GetWinnerPicture()
 {	
-		//std::cout << "all answered" << std::endl;
-		SDL_Surface* WinSurface;
-		if (m_ApressedDistanceOne < m_ApressedDistanceTwo && m_ApressedDistanceOne < m_ApressedDistanceThree && m_ApressedDistanceOne < m_ApressedDistanceFour)
-		{
-			std::cout << "1 wins " << std::endl;
-			WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP1.png");		
-		}
-		else if (m_ApressedDistanceTwo < m_ApressedDistanceOne && m_ApressedDistanceTwo < m_ApressedDistanceThree && m_ApressedDistanceTwo < m_ApressedDistanceFour)
-		{
-			std::cout << "2 wins " << std::endl;
-			WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP2.png");
 
 
-		}
-		else if (m_ApressedDistanceThree < m_ApressedDistanceOne && m_ApressedDistanceThree < m_ApressedDistanceTwo && m_ApressedDistanceThree < m_ApressedDistanceFour)
+		winnerIndex=4;
+		float startNUM = 999999;
+		for(int i = 0; i < m_entity.size()-1 ; i++ )
 		{
-			std::cout << "3 wins " << std::endl;
-			WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP3.png");
+			if (m_playerAns[i] == true)
+			{
+				if (startNUM > m_ApressedDistance[i]) 
+				{
+					startNUM = m_ApressedDistance[i];
+					winnerIndex = i;
+				}
+			}		
+		}
+		std::cout << winnerIndex << std::endl;
 
-		}
-		else if (m_ApressedDistanceFour  < m_ApressedDistanceOne && m_ApressedDistanceFour < m_ApressedDistanceTwo && m_ApressedDistanceFour < m_ApressedDistanceThree)
-		{
-			std::cout << "4 wins " << std::endl;
-			WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP4.png");
-		}
-		else
-		{
-			//std::cout << "NO ONE Wins" << std::endl;
-			WinSurface = IMG_Load("ASSETS/IMAGES/pic2Glass.png");
-		}
-		m_WinScreenTexture = SDL_CreateTextureFromSurface(m_renderer, WinSurface);
-		SDL_FreeSurface(WinSurface);
+
 }
 
 int MinigameScreen::randomNumber(int t_max, int t_min)

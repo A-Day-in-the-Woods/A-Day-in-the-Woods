@@ -35,6 +35,8 @@ private:
 	InputSystem m_inputSystem;
 	std::vector<Player*> m_entity;
 
+
+
 	void GetWinnerPicture();
 
 
@@ -50,51 +52,48 @@ private:
 
 	std::chrono::time_point<std::chrono::steady_clock> m_startTime;
 	std::chrono::duration<float> m_runningTime;
-	
 	std::chrono::duration<float> m_randTime;
 
-	float m_ApressedDistanceOne = NULL;
-	float m_ApressedDistanceTwo = NULL;
-	float m_ApressedDistanceThree = NULL;
-	float m_ApressedDistanceFour = NULL;
-
-	
-	bool m_playerOneAnswerd = false;
-	bool m_playerTwoAnswerd = false;
-	bool m_playerThreeAnswerd = false;
-	bool m_playerFourAnswerd = false;
-
+	//end mini game bools
 	bool EndPictureminiGame = false;
 
 
+
+	//snapShot 
 	int m_randomNumber;
 	int m_spawn;
+	SDL_Texture* m_reticleTexture; //camera reticle
 
 
+	//id for mini game 
 	int m_miniGameID = 0;
 
 	Game& m_game;
 	SDL_Texture* m_TestingTexture;
 	SDL_Texture* m_TestingTextureTwo;
-	SDL_Texture* m_reticleTexture; //camera reticle
 
-	SDL_Texture* m_AbuttonTextureOne; // button
-	SDL_Texture* m_AbuttonTextureTwo; // button 
-	SDL_Texture* m_AbuttonTextureThree; // button 
-	SDL_Texture* m_AbuttonTextureFour; // button 
 
-	SDL_Texture* m_WinScreenTexture; // button
-
-	SDL_Texture* m_honeyPotTexture; //honey pot
 	
+
+
+	SDL_Surface* buttonSurface;
+	std::vector< SDL_Texture*> m_AbuttonTexture;
+	std::vector< SDL_Rect> m_buttonRectangle;
+	std::vector<float> m_ApressedDistance;
+	std::vector<bool> m_playerAns;
+
+
+
+
+
+	int winnerIndex = 0;
+	std::vector <SDL_Texture*> m_WinScreenTexture; // win screen
 	SDL_Rect m_Winsscreen;
 
+	SDL_Texture* m_honeyPotTexture; //honey pot
 	SDL_Rect reticleRectangle;
-	SDL_Rect buttonRectangle;
-	SDL_Rect buttonRectangle2;
-	SDL_Rect buttonRectangle3;
-	SDL_Rect buttonRectangle4;
 	SDL_Rect honeyRectangle;
+
 
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;
