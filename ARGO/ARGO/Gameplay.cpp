@@ -89,15 +89,6 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		m_entity[i]->update(t_move);
 	}
 
-	//m_diceRoll = m_moveSystem.getDiceRoll();
-	//setDiceTexture();
-	
-	/*
-	for (int i = 0; i < m_numberPlayers; i++)
-	{
-		m_entity[i]->update(t_move);
-	}
-	*/
 
 	for (int i = 0; i < m_clouds.size(); i++)
 	{
@@ -228,6 +219,7 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 					if (m_clouds[i].y < (offset->y + offset->h))
 					{
 						m_clouds.erase(m_clouds.begin() + i);
+
 					}
 				}
 			}
@@ -268,7 +260,7 @@ void Gameplay::processEvent(MovementSystem & t_move)
 				m_turnOrder++;
 				if (m_turnOrder == 4)
 					m_turnOrder = 0;
-				m_entity[i]->setLastButton(1);
+				m_entity[i]->setLastButton(NULL);
 			}
 		}
 	}
