@@ -11,6 +11,7 @@
 #include <iostream>
 #include "Graph.h"
 #include "Entity.h"
+#include "MovementSystem.h"
 #include <random>
 
 /// <summary>
@@ -30,17 +31,20 @@ public:
 
 	void assignSprite(SDL_Texture* t_PlayerTexture);
 	void SetUp();
-	void update();
+	void update(MovementSystem & t_move);
 	void render(SDL_Renderer* t_renderer);
 	void setPosition(float t_x, float t_y);
 
 	int randomNumber(int t_max, int t_min)
 	{
-		std::random_device device;
-		std::mt19937 rng(device());
-		std::uniform_int_distribution<std::mt19937::result_type> dist(t_min, t_max);
-		diceRoll = dist(rng);
-		return dist(rng);
+		if (!m_takingTurn)
+		{
+			std::random_device device;
+			std::mt19937 rng(device());
+			std::uniform_int_distribution<std::mt19937::result_type> dist(t_min, t_max);
+			diceRoll = dist(rng);
+		}
+		return diceRoll;
 	}
 
 	SDL_Rect * getPlayerRectRef();
@@ -49,10 +53,14 @@ public:
 	int getDiceRoll() { return diceRoll; };
 private:
 
-	SDL_Rect rect;//temp rect for a player square 
+
+
+	SDL_Rect rect;//temp rect for a player square
+	SDL_Rect m_spriteBody;
 	SDL_Texture* m_PlayerTexture;
 	int diceRoll{2};
 
+	bool m_takingTurn;
 
 };
 #endif // !PLAYER_H

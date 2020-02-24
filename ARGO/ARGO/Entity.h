@@ -48,7 +48,7 @@ private:
 	int m_id;
 
 
-	int m_diceValue{ 0 };
+	int m_diceValue{ 1 };
 };
 
 #endif // !ENTITY_H

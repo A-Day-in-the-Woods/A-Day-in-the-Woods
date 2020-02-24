@@ -19,18 +19,27 @@ void Player::SetUp()
 {
 	rect.x = 0;
 	rect.y = 0;
-	rect.w = 30;
-	rect.h = 40;
+	rect.w = 20;
+	rect.h = 20;
+
+	m_spriteBody.x = 0;
+	m_spriteBody.y = 0;
+	m_spriteBody.w = 30;
+	m_spriteBody.h = 40;
 }
 
-void Player::update()
+void Player::update(MovementSystem & t_move)
 {
+	m_spriteBody.x = rect.x - 5.0f;
+	m_spriteBody.y = rect.y - 20.0f;
+
+	m_takingTurn = t_move.IsThePlayerMoving(this->getEntity()->getId());
 }
 
 void Player::render(SDL_Renderer* t_renderer)
 {
 	SDL_SetRenderDrawColor(t_renderer, 0, 155, 255, 255);
-	SDL_RenderCopy(t_renderer, m_PlayerTexture, NULL, &rect);
+	SDL_RenderCopy(t_renderer, m_PlayerTexture, NULL, &m_spriteBody);
 	SDL_SetRenderDrawColor(t_renderer, 0, 0, 0, 255);
 }
 

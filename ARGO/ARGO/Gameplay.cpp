@@ -98,7 +98,7 @@ void Gameplay::update(std::vector<Player*>& t_player, MovementSystem & t_move)
 
 	for (int i = 0; i < m_numberPlayers; i++)
 	{
-		m_entity[i]->update();
+		m_entity[i]->update(t_move);
 	}
 
 
