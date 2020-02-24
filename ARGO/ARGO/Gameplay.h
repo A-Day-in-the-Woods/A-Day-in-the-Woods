@@ -27,7 +27,7 @@ public:
 	~Gameplay();
 	void update(std::vector<Player*>& t_player, MovementSystem & t_move);
 	void render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, Graph< pair<string, int>, int>& graph);
-	void processEvent();
+	void processEvent(MovementSystem& t_move);
 	void setGameState();
 	int randomNumber(int t_max, int t_min);
 	void drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player);

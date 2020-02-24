@@ -148,7 +148,7 @@ void Game::processEvent()
 			m_optionscreen->processEvent();
 			break;
 		case GameState::Gameplay:
-			m_gameplayscreen->processEvent();
+			m_gameplayscreen->processEvent(m_movementSystem);
 			break;
 		case GameState::Credit:
 			m_creditscreen->processEvent();
@@ -173,7 +173,7 @@ void Game::processEvent()
 		m_optionscreen->processEvent();
 		break;
 	case GameState::Gameplay:
-		m_gameplayscreen->processEvent();
+		m_gameplayscreen->processEvent(m_movementSystem);
 		break;
 	case GameState::Credit:
 		m_creditscreen->processEvent();

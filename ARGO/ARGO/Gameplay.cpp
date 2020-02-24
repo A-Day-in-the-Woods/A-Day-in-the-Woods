@@ -223,19 +223,21 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	SDL_RenderPresent(m_renderer);
 }
 
-void Gameplay::processEvent()
+void Gameplay::processEvent(MovementSystem & t_move)
 {
 	for (int i = 0; i < m_entity.size(); i++)
 	{
 		if (m_turnOrder == m_entity[i]->getId())
 		{
 			m_inputSystem.update(m_event, m_currentState, m_entity[i]);
-		/*	if (m_entity[i].getlatestbutton() == 1)
+
+			if (m_entity[i]->getLastButtonPressed() == 1 && !t_move.IsThePlayerMoving(i))
 			{
 				m_turnOrder++;
 				if (m_turnOrder == 4)
 					m_turnOrder = 0;
-			}*/
+				m_entity[i]->setLastButton(1);
+			}
 		}
 	}
 
