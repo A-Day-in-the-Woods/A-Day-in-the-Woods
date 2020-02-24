@@ -62,16 +62,19 @@ public:
 	//placeholder for actual function prints out to command window
 	virtual void execute(Entity& t_entity) {
 	MovementComponent* movePlay = static_cast<MovementComponent*>(t_entity.getComponent(ComponentType::MOVEMENT));
-	
+		
 		movePlay->rollForMove(t_entity.getRoll());
-
+		
 	 }
 };
 class AButton : public Command
 {
 public:
 	//placeholder for actual function prints out to command window
-	virtual void execute(Entity& t_entity) { std::cout << "A Controller " << std::endl; }
+	virtual void execute(Entity& t_entity) { 
+	
+	std::cout << "A Controller " << std::endl; 
+	}
 };
 class BOutput : public Command
 {

@@ -20,8 +20,6 @@
 /// 
 /// 
 
-
-
 class Player : public Entity 
 {
 public:
@@ -33,7 +31,8 @@ public:
 	void update();
 	void render(SDL_Renderer* t_renderer);
 	void setPosition(float t_x, float t_y);
-
+	
+	
 	int randomNumber(int t_max, int t_min)
 	{
 		std::random_device device;
@@ -44,14 +43,19 @@ public:
 	}
 
 	SDL_Rect * getPlayerRectRef();
-
+	
 	SDL_Rect getPosition() { return rect; };
 	int getDiceRoll() { return diceRoll; };
+	int m_lastButtonPressed {NULL};
+	void setLastButton(int t_button) { m_lastButtonPressed = t_button; };
+	int getLastButtonPressed() { return m_lastButtonPressed; };
 private:
 
 	SDL_Rect rect;//temp rect for a player square 
 	SDL_Texture* m_PlayerTexture;
 	int diceRoll{2};
+
+	
 
 
 };
