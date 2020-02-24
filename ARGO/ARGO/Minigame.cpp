@@ -105,15 +105,9 @@ void MinigameScreen::processEvent()
 
 	if (EndPictureminiGame == true)
 	{
-		if (m_event.type == SDL_KEYDOWN)
-		{
-			if (m_event.key.keysym.sym == SDLK_SPACE)
-			{
 
-				EndPictureminiGame = false;
-				setGameState();
-			}
-		}
+		EndPictureminiGame = false;
+		setGameState();
 	}
 }
 

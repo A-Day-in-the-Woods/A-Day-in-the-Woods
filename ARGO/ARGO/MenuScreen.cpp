@@ -115,14 +115,12 @@ void MenuScreen::update()
 		if (m_entity[0]->m_lastButtonPressed == 1)
 		{
 			m_entity[0]->setLastButton(NULL);
-			SDL_Delay(200);
 			setGameState();
 		}
 	
 		if (m_entity[0]->m_lastButtonPressed == 3)
 		{
 			m_entity[0]->setLastButton(NULL);
-			SDL_Delay(200);
 			m_currentButton++;
 			if (m_currentButton >= 4) {m_currentButton = 0;}
 		}
@@ -130,7 +128,6 @@ void MenuScreen::update()
 		if (m_entity[0]->m_lastButtonPressed == 2)
 		{
 			m_entity[0]->setLastButton(NULL);
-			SDL_Delay(200);
 			m_currentButton--;
 			if (m_currentButton <= -1) {m_currentButton = 3;}
 		}
