@@ -43,7 +43,7 @@ Game::Game() :
 
 		// Create SDL Window Centred in Middle Of Screen
 
-		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1820, 980, NULL);
+		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, NULL);
 
 		// Check if window was created correctly
 		if (!m_window) throw "Error Loading Window";
@@ -56,10 +56,10 @@ Game::Game() :
 		// Sets clear colour of renderer to black and the color of any primitives
 		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 
-		m_menuscreen = new MenuScreen(*this, m_renderer, event);
-		m_optionscreen = new OptionScreen(*this, m_renderer, event);
+		m_menuscreen = new MenuScreen(*this, m_renderer, event,m_currentState, m_inputSystem,m_player);
+		m_optionscreen = new OptionScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
 		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window, m_inputSystem,m_player);
-		m_creditscreen = new CreditScreen(*this, m_renderer, event);
+		m_creditscreen = new CreditScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
 		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState, m_inputSystem,m_player);
 
 		// Game is running
@@ -142,13 +142,16 @@ void Game::processEvent()
 		switch (m_currentState)
 		{
 		case GameState::Menu:
+			m_menuscreen->processEvent();
 			break;
 		case GameState::Options:
+			m_optionscreen->processEvent();
 			break;
 		case GameState::Gameplay:
 			m_gameplayscreen->processEvent();
 			break;
 		case GameState::Credit:
+			m_creditscreen->processEvent();
 			break;
 		case GameState::Minigame:
 			m_minigamescreen->processEvent();
@@ -164,13 +167,16 @@ void Game::processEvent()
 	switch (m_currentState)
 	{
 	case GameState::Menu:
+		m_menuscreen->processEvent();
 		break;
 	case GameState::Options:
+		m_optionscreen->processEvent();
 		break;
 	case GameState::Gameplay:
 		m_gameplayscreen->processEvent();
 		break;
 	case GameState::Credit:
+		m_creditscreen->processEvent();
 		break;
 	case GameState::Minigame:
 		m_minigamescreen->processEvent();

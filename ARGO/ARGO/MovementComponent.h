@@ -25,10 +25,11 @@ public:
 		rect = &t_rect;
 	}
 
-	void setDice(int& dice)
-	{
+	//void setTurnIndex(int & t_turnIndex)
+	//{
+	//	m_turnIndex = &t_turnIndex;
+	//}
 
-	}
 
 	void setUp(){
 		CurrentGameBoardIndex = 0;
@@ -134,6 +135,11 @@ public:
 		}
 		else
 		{
+			//if (m_takeingTurn)
+			//{
+			//	m_finishedTurn = true;
+			//}
+
 			m_takeingTurn = false;
 		}
 	}
@@ -166,6 +172,7 @@ public:
 		{
 			m_diceRoll = t_diceRolled;
 			m_takeingTurn = true;
+			//m_finishedTurn = false;
 		}
 	}
 
@@ -173,7 +180,7 @@ public:
 		float tempX = rect->x - t_DestX;
 		float tempY = rect->y - t_DestY;
 
-		if (rect->x == t_DestX && rect->y == t_DestY) // change from == to <==
+		if (rect->x == t_DestX && rect->y == t_DestY)
 			return true;
 
 		normalize(tempX, tempY);
@@ -202,7 +209,16 @@ public:
 		return m_takeingTurn;
 	}
 
+	/*
+	bool getFinishedTurn() {
+		return m_finishedTurn;
+	}
 
+	void setFinishedTurn(bool t_b)
+	{
+		m_finishedTurn = t_b;
+	}
+	*/
 
 private:
 
@@ -216,7 +232,11 @@ private:
 	bool LeftOrRight = false;
 
 	bool m_takeingTurn;
+	//bool m_finishedTurn;
+
 	float m_movementSpeed;
 
 	int m_diceRoll;
+
+	//int * m_turnIndex;
 };

@@ -51,6 +51,7 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 
 		m_entity[i]->assignSprite(m_PlayerUITexture[i]);
 
+		m_turnOrder = 0;
 	}
 	
 
@@ -89,18 +90,45 @@ Gameplay::~Gameplay()
 
 void Gameplay::update(std::vector<Player*>& t_player, MovementSystem & t_move)
 {
+	//if (m_numberPlayers != 1)
+	//{
+	//	for (int i = 0; i < m_numberPlayers; i++)
+	//	{
+	//		if (m_turnOrder == i)
+	//		{
+	//			t_move.update(i);
+	//			m_entity[i]->update(t_move);
 
-	t_move.update();
+	//			if (t_move.getFinishedTurn(m_turnOrder))
+	//			{
+	//				m_turnOrder++;
 
+	//				if (m_turnOrder == 4)
+	//				{
+	//					m_turnOrder = 0;
+	//					t_move.resetFinishedTurn();
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+
+	//
+	for (int i = 0; i < m_entity.size(); i++)
+	{
+		t_move.update(i);
+		m_entity[i]->update(t_move);
+	}
 
 	//m_diceRoll = m_moveSystem.getDiceRoll();
 	//setDiceTexture();
-
+	
+	/*
 	for (int i = 0; i < m_numberPlayers; i++)
 	{
 		m_entity[i]->update(t_move);
 	}
-
+	*/
 
 	for (int i = 0; i < m_clouds.size(); i++)
 	{
@@ -197,8 +225,20 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 void Gameplay::processEvent()
 {
-	for (int i = 0; i < m_entity.size(); i++) {m_inputSystem.update(m_event, m_currentState, m_entity[i]);}
-	
+	for (int i = 0; i < m_entity.size(); i++)
+	{
+		if (m_turnOrder == m_entity[i]->getId())
+		{
+			m_inputSystem.update(m_event, m_currentState, m_entity[i]);
+		/*	if (m_entity[i].getlatestbutton() == 1)
+			{
+				m_turnOrder++;
+				if (m_turnOrder == 4)
+					m_turnOrder = 0;
+			}*/
+		}
+	}
+
 }
 
 void Gameplay::setGameState()
@@ -322,6 +362,7 @@ void Gameplay::drawLines(Graph< pair<string, int>, int>& graph, std::vector<Play
 
 	//SDL_RenderPresent(m_renderer);
 }
+
 
 float Gameplay::calculateScale(float width, float height, float maxWidth, float maxHeight)
 {
