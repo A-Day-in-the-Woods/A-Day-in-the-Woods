@@ -1,10 +1,9 @@
 #include "NPC.h"
 
-NPC::NPC(std::vector<Tile>& t_map, Graph<pair<string, int>, int>& t_g, int t_aiBehaviour, std::function<void(Node*)> t_visit) :
+NPC::NPC(std::vector<Tile>& t_map, Graph<pair<string, int>, int>& t_g, int t_aiBehaviour) :
 	m_map(t_map),
 	m_graph(t_g),
 	m_aiBehaviour(t_aiBehaviour),
-	m_visit(t_visit),
 	turn(false),
 	stuck(false),
 	Entity(2)
@@ -202,16 +201,16 @@ void NPC::decision()
 	if (m_aiBehaviour == 1)
 	{
 		std::vector<Node*> path;
-		m_graph.aStar(m_graph.nodeIndex(0), m_graph.nodeIndex(41), m_visit, path);
+		//m_graph.aStar(m_graph.nodeIndex(0), m_graph.nodeIndex(41), path);
 	}
 	else if (m_aiBehaviour == 2)
 	{
 		//std::vector<Node*> path;
-		m_graph.adaptedBreadthFirst(m_graph.nodeIndex(0), m_graph.nodeIndex(41));
+		//m_graph.adaptedBreadthFirst(m_graph.nodeIndex(0), m_graph.nodeIndex(41));
 	}
 	else 
 	{
 		std::vector<Node*> path;
-		m_graph.aStar(m_graph.nodeIndex(0), m_graph.nodeIndex(41), m_visit, path);
+		//m_graph.aStar(m_graph.nodeIndex(0), m_graph.nodeIndex(41), m_visit, path);
 	}
 }

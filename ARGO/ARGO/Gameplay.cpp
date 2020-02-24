@@ -1,17 +1,10 @@
 #include "Gameplay.h"
 
-
-
-
-
 Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameState& t_currentState ,SDL_Window* t_window, InputSystem & t_input, std::vector<Player*> t_entity):
 	m_game(game),
 	m_event(event),
 	m_renderer(t_renderer),
 	m_window(t_window),
-	m_npcOne(m_tile, graph, 1, visit),
-	m_npcTwo(m_tile, graph, 2, visit),
-	m_npcThree(m_tile, graph, 3, visit),	
 	m_inputSystem(t_input),
 	m_entity(t_entity),
 	m_currentState(t_currentState)
@@ -81,20 +74,20 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_backgroundSurface = IMG_Load("ASSETS/IMAGES/pic2.png");
 	m_backgroundTextureTwo = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
 
-
-
-
-
-	m_npcOne.turn = true;
 }
 
 Gameplay::~Gameplay()
 {
 }
 
-void Gameplay::update(std::vector<Player*>& t_player, MovementSystem & t_move)
+void Gameplay::update(std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem & t_move)
 {
 
+	if (!setUp)
+	{
+		t_npc[0]->turn = true;
+		setUp = true;
+	}
 	t_move.update();
 
 
@@ -132,74 +125,68 @@ void Gameplay::update(std::vector<Player*>& t_player, MovementSystem & t_move)
 		}
 	}
 
-
-		
-	if (m_npcOne.turn)
+	
+	for (int i = 0; i < t_npc.size(); i++)
 	{
-		m_npcOne.update();
-
-		if (m_npcOne.m_diceNumber == 0)
+		if (t_npc[0]->turn)
 		{
-			if (m_tile[m_npcOne.currentGameBoardIndex].count == 0)
+			t_npc[i]->update();
+			if (t_npc[i]->m_diceNumber == 0)
 			{
-				std::cout << "npc 1 tile" << std::endl;
-				m_tile[m_npcOne.currentGameBoardIndex].count++;
-				m_tile[m_npcOne.currentGameBoardIndex].update();
-				SDL_Delay(500);
+				if (m_tile[t_npc[i]->currentGameBoardIndex].count == 0)
+				{
+					std::cout << "npc 1 tile" << std::endl;
+					m_tile[t_npc[i]->currentGameBoardIndex].count++;
+					m_tile[t_npc[i]->currentGameBoardIndex].update();
+					SDL_Delay(500);
+				}
+				if (!t_npc[i]->stuck)
+				{
+					m_tile[t_npc[i]->currentGameBoardIndex].count = 0;
+				}
+				t_npc[i]->turn = false;
+				t_npc[i+1]->turn = true;
 			}
-			if (!m_npcOne.stuck)
-			{
-				m_tile[m_npcOne.currentGameBoardIndex].count = 0;
-			}
-			m_npcOne.turn = false;
-			m_npcTwo.turn = true;
 		}
-	}
-	else if (m_npcTwo.turn)
-	{
-		m_npcTwo.update();
-
-		if (m_npcTwo.m_diceNumber == 0)
+		else if (t_npc[1]->turn)
 		{
-			if (m_tile[m_npcTwo.currentGameBoardIndex].count == 0)
+			t_npc[i]->update();
+			if (t_npc[i]->m_diceNumber == 0)
 			{
-				std::cout << "npc 2 tile" << std::endl;
-				m_tile[m_npcTwo.currentGameBoardIndex].count++;
-				m_tile[m_npcTwo.currentGameBoardIndex].update();
-				SDL_Delay(500);
+				if (m_tile[t_npc[i]->currentGameBoardIndex].count == 0)
+				{
+					std::cout << "npc 2 tile" << std::endl;
+					m_tile[t_npc[i]->currentGameBoardIndex].count++;
+					m_tile[t_npc[i]->currentGameBoardIndex].update();
+					SDL_Delay(500);
+				}
+				if (!t_npc[i]->stuck)
+				{
+					m_tile[t_npc[i]->currentGameBoardIndex].count = 0;
+				}
+				t_npc[i]->turn = false;
+				t_npc[i + 1]->turn = true;
 			}
-			if (!m_npcTwo.stuck)
-			{
-				m_tile[m_npcTwo.currentGameBoardIndex].count = 0;
-			}
-			m_npcTwo.turn = false;
-			m_npcThree.turn = true;
-
 		}
-	}
-	else if (m_npcThree.turn)
-	{
-		m_npcThree.update();
-	//m_moveSystem.update();
-	//m_player.update();
-
-		if (m_npcThree.m_diceNumber == 0)
+		else if (t_npc[2]->turn)
 		{
-			if (m_tile[m_npcThree.currentGameBoardIndex].count == 0)
+			t_npc[i]->update();
+			if (t_npc[i]->m_diceNumber == 0)
 			{
-				std::cout << "npc 3 tile" << std::endl;
-				m_tile[m_npcThree.currentGameBoardIndex].count++;
-				m_tile[m_npcThree.currentGameBoardIndex].update();
-				SDL_Delay(500);
+				if (m_tile[t_npc[i]->currentGameBoardIndex].count == 0)
+				{
+					std::cout << "npc 3 tile" << std::endl;
+					m_tile[t_npc[i]->currentGameBoardIndex].count++;
+					m_tile[t_npc[i]->currentGameBoardIndex].update();
+					SDL_Delay(500);
+				}
+				if (!t_npc[i]->stuck)
+				{
+					m_tile[t_npc[i]->currentGameBoardIndex].count = 0;
+				}
+				t_npc[i]->turn = false;
+				t_npc[0]->turn = true;
 			}
-
-			if (!m_npcThree.stuck)
-			{
-				m_tile[m_npcThree.currentGameBoardIndex].count = 0;
-			}
-			m_npcThree.turn = false;
-			m_npcOne.turn = true;
-
 		}
 	}
 
@@ -211,7 +198,8 @@ void Gameplay::update(std::vector<Player*>& t_player, MovementSystem & t_move)
 
 
 }
-void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, Graph< pair<string, int>, int>& graph)
+
+void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, Graph< pair<string, int>, int>& graph)
 {
 
 	SDL_RenderClear(m_renderer);
@@ -220,7 +208,7 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	SDL_RenderCopy(m_renderer, m_backgroundTextureTwo, NULL, NULL);
 	SDL_RenderCopy(m_renderer, m_backgroundTexture,NULL, &m_backgroundRect);
 
-	drawLines(graph, t_player);
+	drawLines(graph, t_player, t_npc);
 
 
 	offset->x = focus->x - camera->getCamera()->x;
@@ -269,9 +257,7 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 	for (int i = 0; i < m_clouds.size(); i++) {SDL_RenderCopy(m_renderer, m_CloudTexture, NULL, &m_clouds[i]);}
 
-	m_npcOne.render(m_renderer);
-	m_npcTwo.render(m_renderer);
-	m_npcThree.render(m_renderer);
+	
 	SDL_RenderPresent(m_renderer);
 }
 
@@ -288,14 +274,13 @@ void Gameplay::setGameState()
 	m_game.setGameState(GameState::Minigame);
 }
 
-void Gameplay::drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player)
+void Gameplay::drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc)
 {
 
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 
 	for (int i = 0; i < 41; i ++)
 	{
-
 		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
 	}
 	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(39)->m_x + 5, graph.nodeIndex(39)->m_y+5, graph.nodeIndex(42)->m_x + 5, graph.nodeIndex(42)->m_y+5);
@@ -397,6 +382,10 @@ void Gameplay::drawLines(Graph< pair<string, int>, int>& graph, std::vector<Play
 		t_player[i]->render(m_renderer);
 	}
 
+	for (int i = 0; i < t_npc.size(); i++)
+	{
+		t_npc[i]->render(m_renderer);
+	}
 	//SDL_RenderPresent(m_renderer);
 }
 
@@ -417,5 +406,3 @@ int Gameplay::randomNumber(int t_max, int t_min)
 	std::uniform_int_distribution<std::mt19937::result_type> dist(t_min, t_max);
 	return dist(rng);
 }
-
-

@@ -16,7 +16,7 @@ typedef GraphNode<pair<std::string, int>, int> Node;
 class NPC : public Entity
 {
 public:
-	NPC(std::vector<Tile>& t_map, Graph< pair<string, int>, int>& t_g, int t_aiBehaviour, std::function<void(Node*)> f_visit);
+	NPC(std::vector<Tile>& t_map, Graph< pair<string, int>, int>& t_g, int t_aiBehaviour);
 	~NPC();
 	void update();
 	void render(SDL_Renderer* t_renderer);
@@ -35,7 +35,6 @@ public:
 	bool stuck;
 private:
 	void decision();
-	std::function<void(Node*)> m_visit;
 	std::vector<Tile>& m_map;
 	Graph< pair<string, int>, int>& m_graph;
 	int m_aiBehaviour;

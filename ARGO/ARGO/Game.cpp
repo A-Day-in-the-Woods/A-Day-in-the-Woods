@@ -26,6 +26,9 @@ Game::Game() :
 	m_player.push_back(new Player(2));
 	m_player.push_back(new Player(3));
 
+	m_npc.push_back(new NPC(m_tile, graph, 1));
+	m_npc.push_back(new NPC(m_tile, graph, 2));
+	m_npc.push_back(new NPC(m_tile, graph, 3));
 
 	for (int i = 0; i < m_player.size(); i++)
 	{
@@ -58,9 +61,9 @@ Game::Game() :
 
 		m_menuscreen = new MenuScreen(*this, m_renderer, event);
 		m_optionscreen = new OptionScreen(*this, m_renderer, event);
-		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window, m_inputSystem,m_player);
+		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window, m_inputSystem, m_player);
 		m_creditscreen = new CreditScreen(*this, m_renderer, event);
-		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState, m_inputSystem,m_player);
+		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
 
 		// Game is running
 		m_isRunning = true;
@@ -73,9 +76,7 @@ Game::Game() :
 		m_isRunning = false;
 	}
 	
-
-
-
+	
 
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
@@ -201,7 +202,7 @@ void Game::update()
 		m_optionscreen->update();
 		break;
 	case GameState::Gameplay:
-		m_gameplayscreen->update(m_player,m_movementSystem);
+		m_gameplayscreen->update(m_player,m_npc, m_movementSystem);
 		break;
 	case GameState::Credit:
 		m_creditscreen->update();
@@ -234,7 +235,7 @@ void Game::render()
 		m_optionscreen->render();
 		break;
 	case GameState::Gameplay:
-		m_gameplayscreen->render(m_tile, m_player, graph);
+		m_gameplayscreen->render(m_tile, m_player, m_npc, graph);
 		break;
 	case GameState::Credit:
 		m_creditscreen->render();
@@ -271,13 +272,13 @@ void Game::clean()
 void Game::initNodeFiles()
 {
 	myfile.open("Nodes.txt");	// nodes
-	while (myfile >> nodeLabel.first >> posX >> posY)
+	while (myfile >> nodeLabel.first >> posX >> posY >> type)
 	{
-		graph.addNode(nodeLabel, posX, posY, index);
+		graph.addNode(nodeLabel, posX, posY, type, index);
 		nodemap[nodeLabel.first] = index;
 		index++;
 
-		m_tile.push_back(Tile(posX, posY));
+		m_tile.push_back(Tile(posX, posY, type));
 	}
 	myfile.close();
 

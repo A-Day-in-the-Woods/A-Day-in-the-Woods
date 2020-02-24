@@ -8,6 +8,7 @@
 /// 
 /// 
 #include <SDL.h>
+#include <iostream>
 
 class Tile
 {
