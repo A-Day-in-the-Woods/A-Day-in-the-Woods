@@ -85,6 +85,8 @@ public:
 		m_moveComp[t_index]->update(m_map, m_graph);
 	}
 
+	
+
 
 private:
 

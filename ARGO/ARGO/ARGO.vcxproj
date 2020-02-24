@@ -28,11 +28,13 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="Minigame.cpp" />
+    <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BehaviourTree.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CommandInterface.h" />
     <ClInclude Include="CommandManager.h" />
@@ -54,6 +56,7 @@
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="Minigame.h" />
+    <ClInclude Include="NPC.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="MovementSystem.h" />
     <ClInclude Include="Options.h" />
@@ -63,7 +66,9 @@
     <ClInclude Include="Tile.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="NewNodes.txt" />
     <Text Include="NodeDistances.txt" />
+    <Text Include="NodeLinks.txt" />
     <Text Include="Nodes.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
