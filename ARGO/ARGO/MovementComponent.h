@@ -25,6 +25,11 @@ public:
 		rect = &t_rect;
 	}
 
+	void setDice(int& dice)
+	{
+
+	}
+
 	void setUp(){
 		CurrentGameBoardIndex = 0;
 		m_movementSpeed = -1;
@@ -168,7 +173,7 @@ public:
 		float tempX = rect->x - t_DestX;
 		float tempY = rect->y - t_DestY;
 
-		if (rect->x <= t_DestX && rect->y <= t_DestY) // change from == to <==
+		if (rect->x == t_DestX && rect->y == t_DestY) // change from == to <==
 			return true;
 
 		normalize(tempX, tempY);
