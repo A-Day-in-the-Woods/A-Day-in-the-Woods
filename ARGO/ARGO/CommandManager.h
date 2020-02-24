@@ -14,11 +14,14 @@ class CommandManager
 public:
 
 	CommandManager();
-	void addCmd(Command* t_input, Entity* t_entity);
+	void addCmd(Command* t_input, Entity* t_entity, int t_randomNumber);
+
+
 	void execute();
 	Entity* m_entity;
 private: 
 	std::stack<Command*> m_commands;
+	int m_randNumber;
 	
 };
 

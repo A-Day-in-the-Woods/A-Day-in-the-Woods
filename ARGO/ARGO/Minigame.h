@@ -29,7 +29,6 @@ public:
 	void setGameState();
 
 
-
 private:
 	
 	GameState& m_currentState; // can remove

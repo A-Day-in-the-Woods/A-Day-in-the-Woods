@@ -5,26 +5,38 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event) :
 	m_event(event),
 	m_renderer(t_renderer)
 {
-	SDL_Surface* tempSerface = IMG_Load("ASSETS\\IMAGES\\pic.png");
-	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
-	SDL_FreeSurface(tempSerface);
+	m_backgroundSurface = IMG_Load("ASSETS\\IMAGES\\pic3.png");
+	m_backgroundTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
 
-	SDL_Surface* tempButton = IMG_Load("ASSETS\\IMAGES\\temp_button.png");
-	m_buttonTexture = SDL_CreateTextureFromSurface(m_renderer, tempButton);
-	SDL_FreeSurface(tempButton);
-	m_buttonPos = { 50,50,100,100 };
 
-	
-	menu[0] = IMG_Load("ASSETS\\IMAGES\\game.png");
-	menu[1] = IMG_Load("ASSETS\\IMAGES\\options.png");
-	menu[2] = IMG_Load("ASSETS\\IMAGES\\credits.png");
-	menu[3] = IMG_Load("ASSETS\\IMAGES\\quit.png");
+	m_menuButtonSurface = IMG_Load("ASSETS\\IMAGES\\game.png");
+	m_menuButtonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_menuButtonSurface));
+	m_menuButtonSurface = IMG_Load("ASSETS\\IMAGES\\options.png");
+	m_menuButtonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_menuButtonSurface));
+	m_menuButtonSurface = IMG_Load("ASSETS\\IMAGES\\credits.png");
+	m_menuButtonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_menuButtonSurface));
+	m_menuButtonSurface = IMG_Load("ASSETS\\IMAGES\\quit.png");
+	m_menuButtonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_menuButtonSurface));
+
+	m_buttonSelectorSurface = IMG_Load("ASSETS/IMAGES/buttons/ABluePawButton.png");
+	m_buttonSelectorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
+	m_buttonSelectorSurface = IMG_Load("ASSETS/IMAGES/buttons/AGreenPawButton.png");
+	m_buttonSelectorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
+	m_buttonSelectorSurface = IMG_Load("ASSETS/IMAGES/buttons/APinkPawButton.png");
+	m_buttonSelectorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
+	m_buttonSelectorSurface = IMG_Load("ASSETS/IMAGES/buttons/APurplePawButton.png");
+	m_buttonSelectorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
+
 
 	for (int i = 0; i < MENU_NUM; i++)
 	{
-		m_menuTexture[i] = SDL_CreateTextureFromSurface(m_renderer, menu[i]);
-		SDL_FreeSurface(menu[i]);
+		m_buttonSelectorRect.push_back(SDL_Rect{ 550 ,(i*250),200,200 });
+		m_menuButtonPositionSelected.push_back(SDL_Rect{ 750 ,(i * 250),400,200 });
+		m_menuButtonPosition.push_back(SDL_Rect{ 750 ,(i * 250),350,150 });
 	}
+	
+
+
 }
 
 MenuScreen::~MenuScreen()
@@ -34,8 +46,67 @@ MenuScreen::~MenuScreen()
 void MenuScreen::update()
 {
 	
-	
-	
+	switch (m_currentButton)
+	{
+	default:
+		break;
+	case 0:
+		if (flip)
+		{
+			m_buttonSelectorRect[0].w += 1;
+			m_buttonSelectorRect[0].h += 1;
+			if (m_buttonSelectorRect[0].w >= 450 || m_buttonSelectorRect[0].h >= 250) { flip = false; }
+		}
+		else
+		{
+			m_buttonSelectorRect[0].w -= 1;
+			m_buttonSelectorRect[0].h -= 1;
+			if (m_buttonSelectorRect[0].w >= 400 || m_buttonSelectorRect[0].h <= 200) { flip = true; }
+		}
+		break;
+	case 1:
+		if (flip)
+		{
+			m_buttonSelectorRect[1].w += 1;
+			m_buttonSelectorRect[1].h += 1;
+			if (m_buttonSelectorRect[1].w >= 450 || m_buttonSelectorRect[1].h >= 250) { flip = false; }
+		}
+		else
+		{
+			m_buttonSelectorRect[1].w -= 1;
+			m_buttonSelectorRect[1].h -= 1;
+			if (m_buttonSelectorRect[1].w >= 400 || m_buttonSelectorRect[1].h <= 200) { flip = true; }
+		}
+		break;
+	case 2:
+		if (flip)
+		{
+			m_buttonSelectorRect[2].w += 1;
+			m_buttonSelectorRect[2].h += 1;
+			if (m_buttonSelectorRect[2].w >= 450 || m_buttonSelectorRect[2].h >= 250) { flip = false; }
+		}
+		else
+		{
+			m_buttonSelectorRect[2].w -= 1;
+			m_buttonSelectorRect[2].h -= 1;
+			if (m_buttonSelectorRect[2].w >= 400 || m_buttonSelectorRect[2].h <= 200) { flip = true; }
+		}
+		break;
+	case 3:
+		if (flip)
+		{
+			m_buttonSelectorRect[3].w += 1;
+			m_buttonSelectorRect[3].h += 1;
+			if (m_buttonSelectorRect[3].w >= 450 || m_buttonSelectorRect[3].h >= 250) { flip = false; }
+		}
+		else
+		{
+			m_buttonSelectorRect[3].w -= 1;
+			m_buttonSelectorRect[3].h -= 1;
+			if (m_buttonSelectorRect[3].w >= 400 || m_buttonSelectorRect[3].h <= 200) { flip = true; }
+		}
+		break;
+	}
 
 	if (m_event.type == SDL_KEYDOWN)
 	{
@@ -48,79 +119,59 @@ void MenuScreen::update()
 		if (m_event.key.keysym.sym == SDLK_DOWN)
 		{
 			SDL_Delay(200);
-			button++;
-			if (button >= 4)
-			{
-				button = 0;
-			}
+			m_currentButton++;
+			if (m_currentButton >= 4) {m_currentButton = 0;}
 		}
 		
 		if (m_event.key.keysym.sym == SDLK_UP)
 		{
 			SDL_Delay(200);
-			button--;
-			if (button <= -1)
-			{
-				button = 3;
-			}
+			m_currentButton--;
+			if (m_currentButton <= -1) {m_currentButton = 3;}
 		}
-	}
-
-	if (button == 0)
-	{
-		m_buttonPos.x = 650;
-		m_buttonPos.y = 100;
-	}
-	else if (button == 1)
-	{
-		m_buttonPos.x = 650;
-		m_buttonPos.y = 300;
-	}
-	else if (button == 2)
-	{
-		m_buttonPos.x = 650;
-		m_buttonPos.y = 500;
-	}
-	else if (button == 3)
-	{
-		m_buttonPos.x = 700;
-		m_buttonPos.y = 700;
-	}
-	
-
+	}	
 }
 
 void MenuScreen::render()
 {
+	SDL_RenderCopy(m_renderer, m_backgroundTexture, NULL, NULL);
 	
-	//SDL_RenderClear(m_renderer);
-	
-	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
-	
-	SDL_RenderCopy(m_renderer, m_buttonTexture, NULL, &m_buttonPos);
 	for (int i = 0; i < MENU_NUM; i++)
 	{
-		SDL_RenderCopy(m_renderer, m_menuTexture[i], NULL, &m_textPos[i]);
+		if (i == m_currentButton)
+		{
+			SDL_RenderCopy(m_renderer, m_menuButtonTexture[i], NULL, &m_menuButtonPositionSelected[i]);
+		}
+		else
+		{
+			SDL_RenderCopy(m_renderer, m_menuButtonTexture[i], NULL, &m_menuButtonPosition[i]);
+		}
 	}
+
+	SDL_RenderCopyEx(m_renderer, m_buttonSelectorTexture[m_currentButton], NULL, &m_buttonSelectorRect[m_currentButton], 90, NULL, SDL_FLIP_NONE);
+
 }
 
 void MenuScreen::setGameState()
 {
-	if (button == 0)
+
+	switch (m_currentButton)
 	{
+	default:
 		m_game.setGameState(GameState::Gameplay);
-	
-	}
-	else if (button == 1)
-	{
+		std::cout << "error on Menu select" << std::endl;
+		break;
+	case 0:
+		m_game.setGameState(GameState::Gameplay);
+		break;
+	case 1:
 		m_game.setGameState(GameState::Options);
-	}
-	else if (button == 2)
-	{
+		break;
+	case 2:
 		m_game.setGameState(GameState::Credit);
-	}
-	else if (button == 3)
-	{
+		break;
+	case 3:
 		m_game.setGameState(GameState::Quit);
+		break;
 	}
 }

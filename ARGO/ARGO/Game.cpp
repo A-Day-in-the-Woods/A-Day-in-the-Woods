@@ -31,13 +31,10 @@ Game::Game() :
 	{
 		m_player[i]->addComponent(new InputComponent());
 		m_player[i]->addComponent(new MovementComponent());
-		
 		m_movementSystem.addEntity(m_player[i]->getEntity(), *m_player[i]->getPlayerRectRef());
 		m_inputSystem.addEntity(m_player[i]);
-	
 	}
 
-	
 
 	try
 	{

@@ -63,8 +63,7 @@ public:
 	virtual void execute(Entity& t_entity) {
 	MovementComponent* movePlay = static_cast<MovementComponent*>(t_entity.getComponent(ComponentType::MOVEMENT));
 	
-	
-		movePlay->rollForMove();
+		movePlay->rollForMove(t_entity.getRoll());
 
 	 }
 };
@@ -136,4 +135,9 @@ public:
 	//placeholder for actual function prints out to command window
 	virtual void execute(Entity& t_entity) { std::cout << "Right Stick Controller " << std::endl; }
 };
+
+
+
+
+
 #endif // !CONCRETECOMMANDS_H

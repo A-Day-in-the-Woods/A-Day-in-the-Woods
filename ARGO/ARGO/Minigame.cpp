@@ -98,39 +98,7 @@ void MinigameScreen::processEvent()
 
 	m_direction.x = (honeyRectangle.x - reticleRectangle.x);
 	m_direction.y = (honeyRectangle.y - reticleRectangle.y);
-	/*
-	if(t_player.isAButtonPressed() == true && m_playerOneAnswerd == false)
-	{
-
-		m_playerOneAnswerd = true;
-		m_ApressedDistanceOne = sqrt((m_direction.x) * (m_direction.x)+(m_direction.y) * (m_direction.y));
-		SDL_SetTextureColorMod(m_AbuttonTextureOne, 100, 100, 100);
-
-	}
 	
-	else if (t_player.isBButtonPressed() == true && m_playerTwoAnswerd == false)
-	{
-
-		m_playerTwoAnswerd = true;
-		m_ApressedDistanceTwo = sqrt((m_direction.x) * (m_direction.x) + (m_direction.y) * (m_direction.y));
-		SDL_SetTextureColorMod(m_AbuttonTextureTwo, 100, 100, 100);
-		
-	}
-	else if (t_player.isXButtonPressed() == true && m_playerThreeAnswerd == false)
-	{
-		m_playerThreeAnswerd = true;
-		m_ApressedDistanceThree = sqrt((m_direction.x) * (m_direction.x) + (m_direction.y) * (m_direction.y));
-		SDL_SetTextureColorMod(m_AbuttonTextureThree, 100, 100, 100);
-
-	}
-	else if (t_player.isYButtonPressed() == true && m_playerFourAnswerd == false)
-	{
-		m_playerFourAnswerd = true;
-		m_ApressedDistanceFour = sqrt((m_direction.x) * (m_direction.x) + (m_direction.y) * (m_direction.y));
-		SDL_SetTextureColorMod(m_AbuttonTextureFour, 100, 100, 100);
-
-	}
-	*/
 
 	if (EndPictureminiGame == true)
 	{
@@ -310,7 +278,6 @@ void MinigameScreen::setGameState()
 {
 	m_game.setGameState(GameState::Gameplay);
 }
-
 
 void MinigameScreen::GetWinnerPicture()
 {	
