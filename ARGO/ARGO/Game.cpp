@@ -59,11 +59,11 @@ Game::Game() :
 		// Sets clear colour of renderer to black and the color of any primitives
 		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 
-		m_menuscreen = new MenuScreen(*this, m_renderer, event);
-		m_optionscreen = new OptionScreen(*this, m_renderer, event);
-		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window, m_inputSystem, m_player);
-		m_creditscreen = new CreditScreen(*this, m_renderer, event);
-		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
+		m_menuscreen = new MenuScreen(*this, m_renderer, event,m_currentState, m_inputSystem,m_player);
+		m_optionscreen = new OptionScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
+		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window, m_inputSystem,m_player);
+		m_creditscreen = new CreditScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
+		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState, m_inputSystem,m_player);
 
 		// Game is running
 		m_isRunning = true;
@@ -143,13 +143,16 @@ void Game::processEvent()
 		switch (m_currentState)
 		{
 		case GameState::Menu:
+			m_menuscreen->processEvent();
 			break;
 		case GameState::Options:
+			m_optionscreen->processEvent();
 			break;
 		case GameState::Gameplay:
 			m_gameplayscreen->processEvent();
 			break;
 		case GameState::Credit:
+			m_creditscreen->processEvent();
 			break;
 		case GameState::Minigame:
 			m_minigamescreen->processEvent();
@@ -165,13 +168,16 @@ void Game::processEvent()
 	switch (m_currentState)
 	{
 	case GameState::Menu:
+		m_menuscreen->processEvent();
 		break;
 	case GameState::Options:
+		m_optionscreen->processEvent();
 		break;
 	case GameState::Gameplay:
 		m_gameplayscreen->processEvent();
 		break;
 	case GameState::Credit:
+		m_creditscreen->processEvent();
 		break;
 	case GameState::Minigame:
 		m_minigamescreen->processEvent();

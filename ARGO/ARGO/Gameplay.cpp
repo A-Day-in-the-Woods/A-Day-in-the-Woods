@@ -44,6 +44,8 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 		m_DiceTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface[0]));
 
 		m_entity[i]->assignSprite(m_PlayerUITexture[i]);
+
+		m_turnOrder = 0;
 	}
 
 	m_clouds.reserve(100);
@@ -53,7 +55,7 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	}
 
 	m_CloudSurface = IMG_Load("ASSETS/IMAGES/cloud.png");
-	//m_CloudTexture = SDL_CreateTextureFromSurface(m_renderer, m_CloudSurface);
+	m_CloudTexture = SDL_CreateTextureFromSurface(m_renderer, m_CloudSurface);
 
 	m_tile.reserve(200);
 
@@ -80,15 +82,22 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		t_npc[0]->turn = true;
 		setUp = true;
 	}
-	t_move.update();
+	
+	for (int i = 0; i < m_entity.size(); i++)
+	{
+		t_move.update(i);
+		m_entity[i]->update(t_move);
+	}
 
 	//m_diceRoll = m_moveSystem.getDiceRoll();
 	//setDiceTexture();
-
+	
+	/*
 	for (int i = 0; i < m_numberPlayers; i++)
 	{
 		m_entity[i]->update(t_move);
 	}
+	*/
 
 	for (int i = 0; i < m_clouds.size(); i++)
 	{
@@ -246,7 +255,20 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 void Gameplay::processEvent()
 {
-	for (int i = 0; i < m_entity.size(); i++) {m_inputSystem.update(m_event, m_currentState, m_entity[i]);}
+	for (int i = 0; i < m_entity.size(); i++)
+	{
+		if (m_turnOrder == m_entity[i]->getId())
+		{
+			m_inputSystem.update(m_event, m_currentState, m_entity[i]);
+		/*	if (m_entity[i].getlatestbutton() == 1)
+			{
+				m_turnOrder++;
+				if (m_turnOrder == 4)
+					m_turnOrder = 0;
+			}*/
+		}
+	}
+
 }
 
 void Gameplay::setGameState()
@@ -368,6 +390,7 @@ void Gameplay::drawLines(Graph< pair<string, int>, int>& graph, std::vector<Play
 	}
 	//SDL_RenderPresent(m_renderer);
 }
+
 
 float Gameplay::calculateScale(float width, float height, float maxWidth, float maxHeight)
 {

@@ -1,9 +1,12 @@
 #include "MenuScreen.h"
 
-MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event) :
+MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState, InputSystem& t_inputSystem, std::vector<Player*> t_entity) :
 	m_game(game),
 	m_event(event),
-	m_renderer(t_renderer)
+	m_renderer(t_renderer),
+	m_inputSystem(t_inputSystem),
+	m_currentState(t_currentState),
+	m_entity(t_entity)
 {
 	m_backgroundSurface = IMG_Load("ASSETS\\IMAGES\\pic3.png");
 	m_backgroundTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
@@ -108,28 +111,27 @@ void MenuScreen::update()
 		break;
 	}
 
-	if (m_event.type == SDL_KEYDOWN)
-	{
-		if (m_event.key.keysym.sym == SDLK_SPACE || m_event.key.keysym.sym == SDLK_RETURN)
+
+		if (m_entity[0]->m_lastButtonPressed == 1)
 		{
-			SDL_Delay(200);
+			m_entity[0]->setLastButton(NULL);
 			setGameState();
 		}
-		
-		if (m_event.key.keysym.sym == SDLK_DOWN)
+	
+		if (m_entity[0]->m_lastButtonPressed == 3)
 		{
-			SDL_Delay(200);
+			m_entity[0]->setLastButton(NULL);
 			m_currentButton++;
 			if (m_currentButton >= 4) {m_currentButton = 0;}
 		}
 		
-		if (m_event.key.keysym.sym == SDLK_UP)
+		if (m_entity[0]->m_lastButtonPressed == 2)
 		{
-			SDL_Delay(200);
+			m_entity[0]->setLastButton(NULL);
 			m_currentButton--;
 			if (m_currentButton <= -1) {m_currentButton = 3;}
 		}
-	}	
+		
 }
 
 void MenuScreen::render()
@@ -150,6 +152,14 @@ void MenuScreen::render()
 
 	SDL_RenderCopyEx(m_renderer, m_buttonSelectorTexture[m_currentButton], NULL, &m_buttonSelectorRect[m_currentButton], 90, NULL, SDL_FLIP_NONE);
 
+}
+
+void MenuScreen::processEvent()
+{
+	for (int i = 0; i < m_entity.size(); i++)
+	{
+		m_inputSystem.update(m_event, m_currentState, m_entity[i]);
+	}
 }
 
 void MenuScreen::setGameState()
