@@ -43,7 +43,7 @@ private:
 	
 	SDL_Rect m_velocity;
 
-	int distance = 0;
+	float distance = 0;
 	int magnitude = 0;
 
 	int randomNumber(int t_max, int t_min);

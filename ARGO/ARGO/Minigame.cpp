@@ -122,8 +122,20 @@ void MinigameScreen::update()
 {
 	if (m_entity[0]->m_lastButtonPressed == 1)
 	{
-		std::cout << "A pressed in Minigame " << std::endl;
+		std::cout << "A 1 pressed in Minigame " << std::endl;
+		m_playerOneAnswerd = true;
+		m_ApressedDistanceOne = sqrt((m_direction.x) * (m_direction.x) + (m_direction.y) * (m_direction.y));
+		std::cout << m_ApressedDistanceOne <<std::endl;
 		m_entity[0]->setLastButton(NULL);
+	}
+
+	if (m_entity[1]->m_lastButtonPressed == 1)
+	{
+		std::cout << "A 2 pressed in Minigame " << std::endl;
+		m_playerTwoAnswerd = true;
+		m_ApressedDistanceTwo = sqrt((m_direction.x) * (m_direction.x) + (m_direction.y) * (m_direction.y));
+		std::cout << m_ApressedDistanceTwo << std::endl;
+		m_entity[1]->setLastButton(NULL);
 	}
 
 	switch (m_miniGameID)
