@@ -145,7 +145,7 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	}
 
 
-	/*
+/*
 	if (t_npc[0]->turn)
 	{
 		t_npc[m_npcCount]->update();
