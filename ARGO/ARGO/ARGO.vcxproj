@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ClientIni.cpp" />
     <ClCompile Include="CommandManager.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="CreditsScreen.cpp" />
@@ -30,12 +32,17 @@
     <ClCompile Include="Minigame.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Options.cpp" />
+    <ClCompile Include="Packet.cpp" />
+    <ClCompile Include="PacketManager.cpp" />
+    <ClCompile Include="PacketStructs.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SendGetMethods.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BehaviourTree.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Client.h" />
     <ClInclude Include="CommandInterface.h" />
     <ClInclude Include="CommandManager.h" />
     <ClInclude Include="Component.h" />
@@ -43,6 +50,7 @@
     <ClInclude Include="Controller.h" />
     <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="FileTransferData.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gameplay.h" />
     <ClInclude Include="GameStates.h" />
@@ -60,6 +68,10 @@
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="MovementSystem.h" />
     <ClInclude Include="Options.h" />
+    <ClInclude Include="Packet.h" />
+    <ClInclude Include="PacketManager.h" />
+    <ClInclude Include="PacketStructs.h" />
+    <ClInclude Include="PacketType.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PositionComp.h" />
     <ClInclude Include="RenderSystem.h" />
