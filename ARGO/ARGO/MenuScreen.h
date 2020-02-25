@@ -41,7 +41,10 @@ private:
 
 	//Selector for Buttons 
 	std::vector <SDL_Texture*> m_buttonSelectorTexture; // button texture
+	std::vector <SDL_Texture*> m_buttonSelectorTextureTwo; // button texture
 	std::vector<SDL_Rect> m_buttonSelectorRect;
+	std::vector<SDL_Rect> m_buttonSelectorRectTwo;
+
 	SDL_Surface* m_buttonSelectorSurface;
 
 	bool flip{true};

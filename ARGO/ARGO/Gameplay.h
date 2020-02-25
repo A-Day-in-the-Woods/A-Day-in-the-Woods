@@ -45,6 +45,17 @@ private:
 
 	void setDiceTexture(int m_playerID);
 
+
+
+
+	int m_rotation = 0;
+
+
+
+
+
+
+
 	//------------ Camera -------------
 	float scale = .9f;
 	Camera * camera = new Camera();	//camera
@@ -73,6 +84,9 @@ private:
 	std::vector<SDL_Rect> m_PlayerUIRect;
 	SDL_Surface* m_PlayerUISurface;
 	
+	std::vector<SDL_Texture*>m_PlayerShadowUITexture; // Player Shadow UI texture
+	std::vector<SDL_Rect> m_PlayerShadowUIRect;
+	SDL_Surface* m_PlayerShadowUISurface;
 
 	//tile	
 	std::vector<Tile> m_tile;
@@ -106,6 +120,8 @@ private:
 
 	GameState& m_currentState;
 	InputSystem& m_inputSystem;
+
+
 
 	
 };

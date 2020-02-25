@@ -23,7 +23,9 @@ Game::Game() :
 
 	m_player.push_back(new Player(0));
 	m_player.push_back(new Player(1));
-	m_player.push_back(new Player(2));
+	//m_player.push_back(new Player(2));
+	//m_player.push_back(new Player(3));
+
 
 	m_npc.push_back(new NPC(m_tile, graph, 1));
 	m_npc.push_back(new NPC(m_tile, graph, 2));
@@ -256,6 +258,11 @@ void Game::render()
 
 	//SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 
+	SDL_RenderPresent(m_renderer);
+
+}
+void Game::renderNOW()
+{
 	SDL_RenderPresent(m_renderer);
 
 }

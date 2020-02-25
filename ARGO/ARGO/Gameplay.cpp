@@ -24,11 +24,17 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_PlayerUIRect.push_back(SDL_Rect{ 100,600,300,400 });
 	m_PlayerUIRect.push_back(SDL_Rect{ 1600,600,300,400 });
 
+	m_PlayerShadowUIRect.push_back(SDL_Rect{ 110,10,300,400 });
+	m_PlayerShadowUIRect.push_back(SDL_Rect{ 1610,10,300,400 });
+	m_PlayerShadowUIRect.push_back(SDL_Rect{ 110,610,300,400 });
+	m_PlayerShadowUIRect.push_back(SDL_Rect{ 1610,610,300,400 });
+
 	m_DiceRect.push_back(SDL_Rect{ 195,210,120,120 });
 	m_DiceRect.push_back(SDL_Rect{ 1695,210,120,120 });
 	m_DiceRect.push_back(SDL_Rect{ 195,810,120,120 });
 	m_DiceRect.push_back(SDL_Rect{ 1695,810,120,120 });
 
+	m_PlayerShadowUISurface = IMG_Load("ASSETS/IMAGES/Players/bearShadow.png");
 	// Initialize GameObject Positions
 	for (int i = 0; i < m_numberPlayers ;i++) 
 	{
@@ -50,10 +56,15 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 			break;
 		}
 		m_PlayerUITexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_PlayerUISurface));
+		m_PlayerShadowUITexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_PlayerShadowUISurface));
+
 		m_DiceTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface[0]));
 
 		m_entity[i]->assignSprite(m_PlayerUITexture[i]);
 	}
+	
+
+
 		m_turnOrder = 0;
 
 	m_clouds.reserve(100);
@@ -68,7 +79,6 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 		m_outLine.push_back(SDL_Rect{ -60,(i*200)-100,200,700 });
 		m_outLine.push_back(SDL_Rect{ 1860,(i * 200)-100,250,700 });
 	}
-
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -249,13 +259,24 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	//offset->y = (((focus->y + focus->h / 2) - offset->h / 2) - camera->getCamera()->y);
 	//SDL_RenderDrawRect(m_renderer, offset);
 
+
+
+	m_rotation = m_rotation + 1;
+	
+
+
 	for (int i = 0; i < m_numberPlayers ;i++)
 	{
 		m_entity[i]->render(m_renderer);
-		SDL_RenderCopy(m_renderer, m_PlayerUITexture[i], NULL, &m_PlayerUIRect[i]);	
+		SDL_RenderCopyEx(m_renderer, m_PlayerShadowUITexture[i], NULL, &m_PlayerShadowUIRect[i], 0, NULL, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(m_renderer, m_PlayerUITexture[i], NULL, &m_PlayerUIRect[i], 0, NULL, SDL_FLIP_NONE);
 
-		if (i == m_turnOrder) {setDiceTexture(i);}		
-		SDL_RenderCopy(m_renderer, m_DiceTexture[i], NULL, &m_DiceRect[i]);
+		if (i == m_turnOrder) {
+			setDiceTexture(i);
+			SDL_RenderCopyEx(m_renderer, m_DiceTexture[i], NULL, &m_DiceRect[i], m_rotation, NULL, SDL_FLIP_NONE);
+		}
+		else
+		{SDL_RenderCopyEx(m_renderer, m_DiceTexture[i], NULL, &m_DiceRect[i], 0, NULL, SDL_FLIP_NONE);}
 	}
 
 	for (int i = 0; i < m_clouds.size(); i++) {SDL_RenderCopy(m_renderer, m_CloudTexture, NULL, &m_clouds[i]);}

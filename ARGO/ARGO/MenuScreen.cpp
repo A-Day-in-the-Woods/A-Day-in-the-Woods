@@ -24,17 +24,23 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 
 	m_buttonSelectorSurface = IMG_Load("ASSETS/IMAGES/buttons/ABluePawButton.png");
 	m_buttonSelectorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
+	m_buttonSelectorTextureTwo.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
 	m_buttonSelectorSurface = IMG_Load("ASSETS/IMAGES/buttons/AGreenPawButton.png");
 	m_buttonSelectorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
+	m_buttonSelectorTextureTwo.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
 	m_buttonSelectorSurface = IMG_Load("ASSETS/IMAGES/buttons/APinkPawButton.png");
 	m_buttonSelectorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
+	m_buttonSelectorTextureTwo.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
 	m_buttonSelectorSurface = IMG_Load("ASSETS/IMAGES/buttons/APurplePawButton.png");
 	m_buttonSelectorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
+	m_buttonSelectorTextureTwo.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
 
 
 	for (int i = 0; i < MENU_NUM; i++)
 	{
 		m_buttonSelectorRect.push_back(SDL_Rect{ 550 ,(i*250),200,200 });
+		m_buttonSelectorRectTwo.push_back(SDL_Rect{ 1150 ,(i * 250),200,200 });
+
 		m_menuButtonPositionSelected.push_back(SDL_Rect{ 750 ,(i * 250),400,200 });
 		m_menuButtonPosition.push_back(SDL_Rect{ 750 ,(i * 250),350,150 });
 	}
@@ -54,12 +60,21 @@ void MenuScreen::update()
 		{
 			m_buttonSelectorRect[m_currentButton].w += 1;
 			m_buttonSelectorRect[m_currentButton].h += 1;
+			m_buttonSelectorRectTwo[m_currentButton].w += 1;
+			m_buttonSelectorRectTwo[m_currentButton].h += 1;
+			m_menuButtonPositionSelected[m_currentButton].w += 1;
+			m_menuButtonPositionSelected[m_currentButton].h += 1;
+
 			if (m_buttonSelectorRect[m_currentButton].w >= 450 || m_buttonSelectorRect[m_currentButton].h >= 250) { flip = false; }
 		}
 		else
 		{
 			m_buttonSelectorRect[m_currentButton].w -= 1;
 			m_buttonSelectorRect[m_currentButton].h -= 1;
+			m_buttonSelectorRectTwo[m_currentButton].w -= 1;
+			m_buttonSelectorRectTwo[m_currentButton].h -= 1;
+			m_menuButtonPositionSelected[m_currentButton].h -= 1;
+			m_menuButtonPositionSelected[m_currentButton].w -= 1;
 			if (m_buttonSelectorRect[m_currentButton].w >= 400 || m_buttonSelectorRect[m_currentButton].h <= 200) { flip = true; }
 		}
 	
@@ -106,6 +121,8 @@ void MenuScreen::render()
 	}
 
 	SDL_RenderCopyEx(m_renderer, m_buttonSelectorTexture[m_currentButton], NULL, &m_buttonSelectorRect[m_currentButton], 90, NULL, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(m_renderer, m_buttonSelectorTextureTwo[m_currentButton], NULL, &m_buttonSelectorRectTwo[m_currentButton], 270, NULL, SDL_FLIP_NONE);
+
 
 }
 
