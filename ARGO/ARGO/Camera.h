@@ -61,7 +61,7 @@ public:
 		max_x = t_players[0]->getPosition().x;
 		max_y = t_players[0]->getPosition().y;
 
-		for (int i = 1; i < 4; i++)
+		for (int i = 1; i < t_players.size(); i++)
 		{
 
 			(min_x > t_players[i]->getPosition().x) ? min_x = t_players[i]->getPosition().x : NULL;
