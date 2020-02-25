@@ -16,6 +16,8 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 
 		if (event.type == SDL_CONTROLLERBUTTONDOWN)
 		{
+			MovementComponent* movePlay = static_cast<MovementComponent*>(t_entity->getEntity()->getComponent(ComponentType::MOVEMENT));
+
 			if (m_controller->m_currentState.A)
 			{
 				switch (t_currentState)
@@ -27,8 +29,16 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 				case GameState::Options:
 					break;
 				case GameState::Gameplay:	
-					t_entity->setLastButton(1);
-					m_manager->addCmd(diceRoll, t_entity ,t_entity->randomNumber(6, 1));
+						t_entity->setLastButton(1);
+						
+						if (movePlay->getTakeingTurn())
+						{
+							m_manager->addCmd(DirectionDown, t_entity, NULL);
+						}
+						else
+						{
+							m_manager->addCmd(diceRoll, t_entity, t_entity->randomNumber(6, 1));
+						}
 					break;
 				case GameState::Credit:
 					break;
@@ -39,7 +49,6 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 				default:
 					break;
 				}
-
 			}
 
 			if (m_controller->m_currentState.B)
@@ -53,6 +62,8 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 					m_manager->addCmd(buttonB, t_entity, NULL);
 					break;
 				case GameState::Gameplay:
+					t_entity->setLastButton(4);
+					m_manager->addCmd(DirectionRight, t_entity, NULL);
 					break;
 				case GameState::Credit:
 					t_entity->setLastButton(4);
@@ -69,12 +80,48 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 
 			if (m_controller->m_currentState.X)
 			{
-				m_manager->addCmd(buttonX, t_entity, NULL);
+				switch (t_currentState)
+				{
+				case GameState::Menu:
+					m_manager->addCmd(buttonA, t_entity, NULL);
+					break;
+				case GameState::Options:
+					break;
+				case GameState::Gameplay:
+					t_entity->setLastButton(5);
+					m_manager->addCmd(DirectionLeft, t_entity, NULL);
+					break;
+				case GameState::Credit:
+					break;
+				case GameState::Minigame:
+					m_manager->addCmd(buttonA, t_entity, NULL);
+					break;
+				default:
+					break;
+				}
 			}
 
 			if (m_controller->m_currentState.Y)
 			{
-				m_manager->addCmd(buttonY, t_entity, NULL);
+				switch (t_currentState)
+				{
+				case GameState::Menu:
+					m_manager->addCmd(buttonA, t_entity, NULL);
+					break;
+				case GameState::Options:
+					break;
+				case GameState::Gameplay:
+					t_entity->setLastButton(6);
+					m_manager->addCmd(DirectionUp, t_entity, NULL);
+					break;
+				case GameState::Credit:
+					break;
+				case GameState::Minigame:
+					m_manager->addCmd(buttonA, t_entity, NULL);
+					break;
+				default:
+					break;
+				}
 			}
 
 			if (m_controller->m_currentState.Back)

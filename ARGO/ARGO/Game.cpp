@@ -22,12 +22,12 @@ Game::Game() :
 
 
 	m_player.push_back(new Player(0));
-	m_player.push_back(new Player(1));
-	m_player.push_back(new Player(2));
+	//m_player.push_back(new Player(1));
+	//m_player.push_back(new Player(2));
 
 	m_npc.push_back(new NPC(m_tile, graph, 1));
-	m_npc.push_back(new NPC(m_tile, graph, 2));
-	m_npc.push_back(new NPC(m_tile, graph, 3));
+	//m_npc.push_back(new NPC(m_tile, graph, 2));
+	//m_npc.push_back(new NPC(m_tile, graph, 3));
 
 	for (int i = 0; i < m_player.size(); i++)
 	{
