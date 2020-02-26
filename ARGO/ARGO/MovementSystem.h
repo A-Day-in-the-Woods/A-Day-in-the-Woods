@@ -17,7 +17,7 @@ public:
 	}
 
 
-	void addEntity(Entity* t_e, SDL_Rect & t_rect)
+	void addEntity(Entity* t_e, SDL_Rect & t_rect,bool & t_IsAi)
 	{
 		std::vector<Component*> InputCheck = t_e->getComponents();
 
@@ -28,6 +28,7 @@ public:
 				m_entities.push_back(t_e);
 				m_moveComp.push_back(static_cast<MovementComponent*>(InputCheck[i]));
 				m_moveComp.back()->setRect(t_rect);
+				m_moveComp.back()->setAiCheck(t_IsAi);
 			}
 		}
 	}

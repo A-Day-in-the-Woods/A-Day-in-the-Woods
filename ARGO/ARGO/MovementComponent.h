@@ -5,7 +5,7 @@
 #include "Tile.h"
 #include "iostream"
 #include "Graph.h"
-
+#include <random>
 
 class MovementComponent : public Component
 {
@@ -24,8 +24,18 @@ public:
 	void setRect(SDL_Rect & t_rect) {
 		rect = &t_rect;
 	}
+	void setAiCheck(bool &t_IsAi) {
+		m_IsAi = &t_IsAi;
+	}
 
 
+	int randomNumber(int t_max, int t_min)
+	{
+		std::random_device device;
+		std::mt19937 rng(device());
+		std::uniform_int_distribution<std::mt19937::result_type> dist(t_min, t_max);
+		return dist(rng);
+	}
 
 	void setUp(){
 		CurrentGameBoardIndex = 0;
@@ -60,9 +70,15 @@ public:
 
 			if (p.size() > 1)
 			{ // direction choice
-
+				if (*m_IsAi == true && choiceLoop ==true)
+				{
+					m_DirectionChoiceNum = randomNumber(6,1);
+					choiceLoop = false;
+				}
 				if (!choiceLoop)
 				{
+		
+
 					if (m_DirectionChoiceNum == nodeDirectionCheck(
 							p.front().node()->m_x,
 							p.front().node()->m_y,
@@ -71,8 +87,14 @@ public:
 					{
 						playerNodeChange(p, t_map, t_g);
 					}
+					else if (*m_IsAi == true)
+					{
+						m_DirectionChoiceNum = randomNumber(6, 1);
+
+					}
 					else
 					{
+			
 						p.reverse();
 						if (m_DirectionChoiceNum == nodeDirectionCheck(
 							p.front().node()->m_x,
@@ -92,7 +114,7 @@ public:
 		}
 		else
 		{
-			m_takeingTurn = false;
+			m_takeingTurn = false;			
 		}
 	}
 
@@ -198,6 +220,7 @@ private:
 
 
 	SDL_Rect * rect;
+	bool * m_IsAi;
 
 	bool choiceLoop;
 	bool LeftOrRight = false;
