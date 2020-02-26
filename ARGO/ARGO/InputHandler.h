@@ -25,6 +25,7 @@ class InputHandler
 {
 public: 
 	InputHandler();
+	void ForceAButton(GameState& t_currentState, Player* t_entity);
 
 	void inputHandle(SDL_Event &event, GameState& t_currentState, Player* t_entity);
 	
