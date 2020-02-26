@@ -54,6 +54,9 @@ public:
 	int m_lastButtonPressed {NULL};
 	void setLastButton(int t_button) { m_lastButtonPressed = t_button; };
 	int getLastButtonPressed() { return m_lastButtonPressed; };
+
+	bool IsAI{ false };
+
 private:
 
 
@@ -63,7 +66,6 @@ private:
 	SDL_Texture* m_PlayerTexture;
 	int diceRoll{2};
 
-	
 
 	bool m_takingTurn;
 

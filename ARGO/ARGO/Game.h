@@ -56,11 +56,12 @@ public:
 	void setGameState(GameState t_newState) { m_currentState = t_newState; };
 
 	void startMinGame();
-	
+	void renderNOW();
 private:
 	void processEvent();
 	void update();
 	void render();
+
 	void clean();
 
 	MenuScreen* m_menuscreen;
@@ -95,8 +96,6 @@ private:
 
 	string from, to;
 	int weight;
-
-
 
 	std::vector<Tile> m_tile;
 
