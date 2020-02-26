@@ -310,28 +310,21 @@ void Gameplay::renderWin(int index)
 	{
 	case 1:
 		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
-		SDL_Delay(500);
-		//setGameState();
 		break;
 	case 2:
 		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
-		SDL_Delay(500);
-		//setGameState();
 		break;
 	case 3:
 		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
-		SDL_Delay(500);
-		//setGameState();
 		break;
 	case 4:
 		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
-		SDL_Delay(500);
-		//setGameState();
 		break;
 	default:
 		break;
 	}
-
+	SDL_Delay(500);
+	setGameState();
 	SDL_RenderPresent(m_renderer);
 }
 
@@ -364,8 +357,8 @@ void Gameplay::processEvent(MovementSystem & t_move)
 
 void Gameplay::setGameState()
 {
-	SDL_RenderSetScale(m_renderer, 1, 1);
-	m_game.startMinGame();
+	//SDL_RenderSetScale(m_renderer, 1, 1);
+	//m_game.startMinGame();
 	m_game.setGameState(GameState::Menu);
 }
 
