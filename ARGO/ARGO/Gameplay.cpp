@@ -116,7 +116,7 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	{
 		t_move.update(i);
 		m_entity[i]->update(t_move);
-		m_entity[i]->setTileType(t_tile[t_move.getIndex(i)].getType(), t_move.getIndex(i));
+		//m_entity[i]->setTileType(t_tile[t_move.getIndex(i)].getType(), t_move.getIndex(i));
 	}
 
 	for (int i = 0; i < m_clouds.size(); i++)
@@ -257,8 +257,11 @@ void Gameplay::processEvent(MovementSystem & t_move)
 	{
 		if (m_turnOrder == m_entity[i]->getId())
 		{
+			if (t_move.getPlayerDiceValue(i) == -2 )
+			{
+				m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
 
-			
+			}
 
 			if (t_move.getPlayerDiceValue(i) == -1 && !t_move.IsThePlayerMoving(i))
 			{

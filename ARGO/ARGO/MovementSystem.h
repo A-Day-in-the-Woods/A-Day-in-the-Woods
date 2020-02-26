@@ -16,7 +16,6 @@ public:
 	{
 	}
 
-
 	void addEntity(Entity* t_e, SDL_Rect & t_rect,bool & t_IsAi)
 	{
 		std::vector<Component*> InputCheck = t_e->getComponents();

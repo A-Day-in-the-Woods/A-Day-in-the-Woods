@@ -34,6 +34,10 @@ void Player::update(MovementSystem & t_move)
 	m_spriteBody.y = rect.y - 20.0f;
 
 	m_takingTurn = t_move.IsThePlayerMoving(this->getEntity()->getId());
+	/*if (m_takingTurn)
+	{
+		tileBehaviour();
+	}*/
 }
 
 void Player::render(SDL_Renderer* t_renderer)

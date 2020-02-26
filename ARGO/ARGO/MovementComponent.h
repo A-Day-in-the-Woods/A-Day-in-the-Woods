@@ -114,10 +114,65 @@ public:
 		}
 		else
 		{
-			m_takeingTurn = false;
-			std::cout << m_diceRoll << std::endl;
-			m_diceRoll = -1;
-			choiceLoop = false;
+			if (m_takeingTurn)
+			{
+				switch (tileBehaviour(t_map))
+				{
+				case 0:
+					m_takeingTurn = false;
+					std::cout << m_diceRoll << std::endl;
+					m_diceRoll = -1;
+					choiceLoop = false; 
+					break;
+				case 10:
+					m_takeingTurn = false;
+					std::cout << m_diceRoll << std::endl;
+					m_diceRoll = -1;
+					choiceLoop = false;
+					break;
+				case 11:
+					m_takeingTurn = false;
+					std::cout << m_diceRoll << std::endl;
+					m_diceRoll = -1;
+					choiceLoop = false;
+					break;
+				case 12:
+					m_takeingTurn = false;
+					std::cout << m_diceRoll << std::endl;
+					m_diceRoll = -1;
+					choiceLoop = false;
+					break;
+				case 13:
+					m_takeingTurn = false;
+					std::cout << m_diceRoll << std::endl;
+					m_diceRoll = -1;
+					choiceLoop = false;
+					break;
+				case 2:
+					m_diceRoll = 1;
+					break;
+				case 3:
+					m_takeingTurn = false;
+					std::cout << m_diceRoll << std::endl;
+					m_diceRoll = -1;
+					choiceLoop = false;
+					break;
+				case 4://+ 1 turn
+					m_takeingTurn = false;
+					std::cout << m_diceRoll << std::endl;
+					m_diceRoll = -2;
+					choiceLoop = false;
+					break;
+				case 5:// - 1 turn
+					m_takeingTurn = false;
+					std::cout << m_diceRoll << std::endl;
+					m_diceRoll = -1;
+					choiceLoop = false;
+					break;
+				}
+			}
+
+
 		}
 	}
 
@@ -230,6 +285,67 @@ public:
 		return CurrentGameBoardIndex;
 	}
 
+	int tileBehaviour(std::vector<Tile>& t_map)
+	{
+		switch (t_map[CurrentGameBoardIndex].getType())
+		{
+		case 1:
+			//SDL_Delay(500);
+			std::cout << "good square" << std::endl;
+			return 0;
+			break;
+		case 2:
+			switch (CurrentGameBoardIndex)
+			{
+			case 32:
+				//SDL_Delay(500);
+				std::cout << "story 1" << std::endl;
+				return 10;
+				break;
+			case 62:
+				//SDL_Delay(500);
+				std::cout << "story 2" << std::endl;
+				return 11;
+				break;
+			case 104:
+				//SDL_Delay(500);
+				std::cout << "story 3" << std::endl;
+				return 12;
+				break;
+			case 125:
+				//SDL_Delay(500);
+				std::cout << "story 4" << std::endl;
+				return 13;
+				break;
+			default:
+				break;
+			}
+			break;
+		case 3:
+			//SDL_Delay(500);
+			std::cout << "bounce square" << std::endl;
+			return 2;
+			break;
+		case 4:
+			//SDL_Delay(500);
+			std::cout << "dice square" << std::endl;
+			return 3;
+			break;
+		case 5:
+			//SDL_Delay(500);
+			std::cout << "honey puddle square" << std::endl;
+			return 4;
+			break;
+		case 6:
+			//SDL_Delay(500);
+			std::cout << "tumble square" << std::endl;
+			return 5;
+			break;
+		default:
+			break;
+		}
+	}
+
 private:
 
 
@@ -241,7 +357,7 @@ private:
 
 	bool choiceLoop;
 	bool LeftOrRight = false;
-
+	bool useTile = false;
 	bool m_takeingTurn;
 
 	float m_movementSpeed;
