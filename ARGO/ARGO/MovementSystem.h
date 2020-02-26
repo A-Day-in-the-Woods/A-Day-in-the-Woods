@@ -54,6 +54,8 @@ public:
 		return m_moveComp[t_i]->getEndGame();
 	}
 
+	
+
 	void leftOrRightChoice(bool t_b, int index)
 	{
 		m_moveComp[index]->leftOrRightChoice(t_b);

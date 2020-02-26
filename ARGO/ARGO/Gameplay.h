@@ -29,6 +29,8 @@ public:
 	~Gameplay();
 	void update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem & t_move);
 	void render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, Graph< pair<string, int>, int>& graph);
+	void renderWin(int index);
+	
 	void processEvent(MovementSystem& t_move);
 	void setGameState();
 	int randomNumber(int t_max, int t_min);
@@ -104,6 +106,10 @@ private:
 	SDL_Texture* m_outLineTexture; // outline texture
 	SDL_Surface* m_outLineSurface;
 	
+
+	//Winner Screen
+	std::vector <SDL_Texture*> m_WinScreenTexture; // win screen
+	SDL_Rect m_Winsscreen;
 	// ------ A* stuff ----------
 	//void aStar();
 

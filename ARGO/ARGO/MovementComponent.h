@@ -132,6 +132,7 @@ public:
 			{
 				std::cout << "Game Won " << std::endl;
 				gameWin = true;
+				
 			}
 
 			if (gameWin)
@@ -164,6 +165,8 @@ public:
 	{
 		return gameWin;
 	}
+
+	
 
 	void rollForMove(int t_diceRolled) {
 
@@ -260,6 +263,8 @@ private:
 	bool LeftOrRight = false;
 
 	bool gameWin = false;
+	int playerWon;
+
 	bool m_takeingTurn;
 
 	float m_movementSpeed;

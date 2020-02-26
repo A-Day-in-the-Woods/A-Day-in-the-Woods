@@ -34,6 +34,23 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_DiceRect.push_back(SDL_Rect{ 205,820,100,100 });
 	m_DiceRect.push_back(SDL_Rect{ 1705,820,100,100 });
 
+	SDL_Surface* WinSurface;
+	WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP1.png");
+	m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
+	WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP2.png");
+	m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
+	WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP3.png");
+	m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
+	WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP4.png");
+	m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
+	WinSurface = IMG_Load("ASSETS/IMAGES/pic2Glass.png");
+	m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
+
+	m_Winsscreen.h = 1080;
+	m_Winsscreen.w = 1920;
+	m_Winsscreen.x = 0;
+	m_Winsscreen.y = 0;
+
 	m_PlayerShadowUISurface = IMG_Load("ASSETS/IMAGES/Players/bearShadow.png");
 	// Initialize GameObject Positions
 	for (int i = 0; i < m_numberPlayers ;i++) 
@@ -285,6 +302,40 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	SDL_RenderPresent(m_renderer);
 }
 
+void Gameplay::renderWin(int index)
+{
+	SDL_RenderClear(m_renderer);
+
+	switch (index)
+	{
+	case 1:
+		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
+		SDL_Delay(500);
+		//setGameState();
+		break;
+	case 2:
+		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
+		SDL_Delay(500);
+		//setGameState();
+		break;
+	case 3:
+		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
+		SDL_Delay(500);
+		//setGameState();
+		break;
+	case 4:
+		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
+		SDL_Delay(500);
+		//setGameState();
+		break;
+	default:
+		break;
+	}
+
+	SDL_RenderPresent(m_renderer);
+}
+
+
 void Gameplay::processEvent(MovementSystem & t_move)
 {
 	for (int i = 0; i < m_numberPlayers ;i++)
@@ -315,7 +366,7 @@ void Gameplay::setGameState()
 {
 	SDL_RenderSetScale(m_renderer, 1, 1);
 	m_game.startMinGame();
-	m_game.setGameState(GameState::Minigame);
+	m_game.setGameState(GameState::Menu);
 }
 
 void Gameplay::drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc)
