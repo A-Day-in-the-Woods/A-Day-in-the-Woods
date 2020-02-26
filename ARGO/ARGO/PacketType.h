@@ -1,3 +1,6 @@
+#ifndef PACKETTYPE 
+#define PACKETTYPE
+
 enum class PacketType
 {
 	ChatMessage,
@@ -6,3 +9,4 @@ enum class PacketType
 	FileTransferByteBuffer, //Sent before sending a byte buffer for file transfer
 	FileTransferRequestNextBuffer //Sent to request the next buffer for file
 };
+#endif // !PACKETTYPE

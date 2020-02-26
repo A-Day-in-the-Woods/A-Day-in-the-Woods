@@ -3,9 +3,6 @@
 /// @date 06/02/2020
 /// </summary>
 #ifndef INPUTHANDLER_H
-
-
-
 #define INPUTHANDLER_H
 
 #include "GameStates.h"

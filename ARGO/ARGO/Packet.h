@@ -1,3 +1,7 @@
+#ifndef PACKET_H
+#define PACKET_H
+
+
 #include "PacketType.h"
 #include <cstdint>
 #include <vector>
@@ -18,3 +22,5 @@ public:
 
 	std::vector<int8_t> m_buffer; //Packet Buffer	
 };
+
+#endif // !PACKET_H

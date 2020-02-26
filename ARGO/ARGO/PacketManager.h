@@ -1,4 +1,7 @@
-#pragma once
+#ifndef PACKETMANAGER_H
+#define PACKETMANAGER_H
+
+
 #include "Packet.h" //for Packet
 #include <queue> //for std::queue
 #include <mutex> //for std::mutex
@@ -15,3 +18,4 @@ public:
 	void Append(std::shared_ptr<Packet> p);
 	std::shared_ptr<Packet> Retrieve();
 };
+#endif // !PACKETMANAGER_H

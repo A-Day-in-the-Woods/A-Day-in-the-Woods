@@ -1,4 +1,7 @@
-#pragma once
+#ifndef NPC_H
+#define NPC_H
+
+
 #include "SDL.h"
 
 #include <cstdlib>
@@ -41,3 +44,5 @@ private:
 	SDL_Rect npc;
 	int m_pathDecision;
 };
+
+#endif // !NPC_H

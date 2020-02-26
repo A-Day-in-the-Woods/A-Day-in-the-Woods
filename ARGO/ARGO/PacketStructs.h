@@ -1,3 +1,5 @@
+#ifndef PACKETSTRUCTS_H
+#define PACKETSTRUCTS_H
 
 #include "PacketType.h"
 #include "Packet.h"
@@ -23,3 +25,4 @@ namespace PS //Packet Structures Namespace
 		int m_size; //size of data buffer
 	};
 }
+#endif // !PACKETSTRUCTS_H
