@@ -15,8 +15,7 @@ public:
 		m_graph(t_g)
 	{
 	}
-
-
+	
 	void addEntity(Entity* t_e, SDL_Rect & t_rect)
 	{
 		std::vector<Component*> InputCheck = t_e->getComponents();
@@ -31,9 +30,7 @@ public:
 			}
 		}
 	}
-
-
-
+	
 	bool IsThePlayerMoving(int t_i)
 	{
 		return m_moveComp[t_i]->getTakeingTurn();
@@ -43,8 +40,7 @@ public:
 	{
 		m_moveComp[index]->leftOrRightChoice(t_b);
 	}
-
-
+	
 	void updateAll() {
 		for (int i = 0; i < m_moveComp.size(); i++)
 		{
@@ -56,11 +52,12 @@ public:
 		m_moveComp[t_index]->update(m_map, m_graph);
 	}
 
+	int getIndex(int t_index)
+	{
+		return m_moveComp[t_index]->getCurrentIndex();
+	}
 	
-
-
 private:
-
 	GameState & m_gameState;
 
 	std::vector<Entity*> m_entities;

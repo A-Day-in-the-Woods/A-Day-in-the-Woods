@@ -33,7 +33,7 @@ public:
 	void update(MovementSystem & t_move);
 	void render(SDL_Renderer* t_renderer);
 	void setPosition(float t_x, float t_y);
-	
+	void setTileType(int t_type, int t_index);
 	
 	int randomNumber(int t_max, int t_min)
 	{
@@ -58,14 +58,14 @@ public:
 	bool IsAI{ false };
 
 private:
-
-
-
+	void tileBehaviour();
 	SDL_Rect rect;//temp rect for a player square
 	SDL_Rect m_spriteBody;
 	SDL_Texture* m_PlayerTexture;
 	int diceRoll{2};
-
+	int tileType;
+	int currentIndex;
+	bool stuck{ false };
 
 	bool m_takingTurn;
 

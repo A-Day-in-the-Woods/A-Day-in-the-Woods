@@ -25,8 +25,6 @@ public:
 		rect = &t_rect;
 	}
 
-
-
 	void setUp(){
 		CurrentGameBoardIndex = 0;
 		m_movementSpeed = -1;
@@ -190,6 +188,10 @@ public:
 		return -1;
 	}
 
+	int getCurrentIndex()
+	{
+		return CurrentGameBoardIndex;
+	}
 
 private:
 

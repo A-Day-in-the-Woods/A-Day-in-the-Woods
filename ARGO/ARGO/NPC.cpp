@@ -24,16 +24,11 @@ NPC::~NPC()
 
 void NPC::update()
 {
-	
-		decision();
-		SDL_Delay(100);
-		rollDice();
-		navigateNodes();
-		setPosition(m_map[currentGameBoardIndex].getPosition().x, m_map[currentGameBoardIndex].getPosition().y);
-
-		updateTile();
-	
-	
+	SDL_Delay(500);
+	rollDice();
+	navigateNodes();
+	updateTile();
+	setPosition(m_map[currentGameBoardIndex].getPosition().x, m_map[currentGameBoardIndex].getPosition().y);
 }
 
 void NPC::render(SDL_Renderer* t_renderer)
@@ -178,8 +173,11 @@ void NPC::nodeChange(std::list<GraphArc<pair<std::string, int>, int>> newPoint)
 			newPoint.front().node()->m_y == m_graph.nodeIndex(i)->m_y)
 		{
 			// this is then the next tile index to go to
+
+			std::cout << "prev: " << previousIndex << std::endl;
 			previousIndex = currentGameBoardIndex;
 			currentGameBoardIndex = i;
+			std::cout << "curr: " << currentGameBoardIndex << std::endl;
 			//setPosition(m_map[CurrentGameBoardIndex].getPosition().x - (rect.w / 4.0f), m_map[CurrentGameBoardIndex].getPosition().y - (rect.h / 4.0f));
 		}
 	}
@@ -203,24 +201,6 @@ void NPC::removeItem()
 	items -= 1;
 }
 
-void NPC::decision()
-{
-	if (m_aiBehaviour == 1)
-	{
-		std::vector<Node*> path;
-		//m_graph.aStar(m_graph.nodeIndex(0), m_graph.nodeIndex(41), path);
-	}
-	else if (m_aiBehaviour == 2)
-	{
-		//std::vector<Node*> path;
-		//m_graph.adaptedBreadthFirst(m_graph.nodeIndex(0), m_graph.nodeIndex(41));
-	}
-	else 
-	{
-		std::vector<Node*> path;
-		//m_graph.aStar(m_graph.nodeIndex(0), m_graph.nodeIndex(41), m_visit, path);
-	}
-}
 
 void NPC::updateTile()
 {
@@ -240,8 +220,7 @@ void NPC::updateTile()
 		{
 			m_map[currentGameBoardIndex].count = 0;
 		}
-
-		 
+				 
 		if (end)
 		{
 			turn = false;
@@ -310,6 +289,7 @@ void NPC::tileBehaviour()
 		SDL_Delay(500);
 		std::cout << "tumble square" << std::endl;
 		currentGameBoardIndex = previousIndex;
+		std::cout << "tumble curr: " << currentGameBoardIndex << std::endl;
 		setPosition(m_map[currentGameBoardIndex].getPosition().x, m_map[currentGameBoardIndex].getPosition().y);
 		end = true;
 		break;

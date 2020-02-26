@@ -36,7 +36,6 @@ public:
 	bool stuck;
 	bool end;
 private:
-	void decision();
 	void updateTile();
 	void tileBehaviour();
 	std::vector<Tile>& m_map;

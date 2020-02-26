@@ -116,6 +116,7 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	{
 		t_move.update(i);
 		m_entity[i]->update(t_move);
+		m_entity[i]->setTileType(t_tile[t_move.getIndex(i)].getType(), t_move.getIndex(i));
 	}
 
 	for (int i = 0; i < m_clouds.size(); i++)
@@ -129,7 +130,6 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		{
 			m_clouds[i].x -= 5;
 		}
-
 	}
 
 	if (m_event.type == SDL_KEYDOWN)
@@ -140,22 +140,20 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		}
 	}
 
-
-/*
-	if (t_npc[0]->turn)
+	/*if (t_npc[m_npcCount]->turn)
 	{
-		t_npc[0]->update();
-		if (t_npc[0]->end)
+		t_npc[m_npcCount]->update();
+		if (t_npc[m_npcCount]->end)
 		{
-			/*m_npcCount++;
+			m_npcCount++;
 			if (m_npcCount >= t_npc.size())
 			{
 				m_npcCount = 0;
-			}*/
-			t_npc[0]->end = false;
-			t_npc[0]->turn = true;
+			}
+			t_npc[m_npcCount]->end = false;
+			t_npc[m_npcCount]->turn = true;
 		}
-	}
+	}*/
 	
 	// SDL_Rect to focus on
 	focus = camera->focus(m_entity);
@@ -365,10 +363,10 @@ void Gameplay::drawLines(Graph< pair<string, int>, int>& graph, std::vector<Play
 		t_player[i]->render(m_renderer);
 	}
 
-	for (int i = 0; i < t_npc.size(); i++)
+	/*for (int i = 0; i < t_npc.size(); i++)
 	{
 		t_npc[i]->render(m_renderer);
-	}
+	}*/
 	//SDL_RenderPresent(m_renderer);
 }
 

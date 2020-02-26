@@ -49,7 +49,66 @@ void Player::setPosition(float t_x, float t_y)
 	rect.y = t_y;
 }
 
+void Player::setTileType(int t_type, int t_index)
+{
+	tileType = t_type;
+	currentIndex = t_index;
+}
+
 SDL_Rect * Player::getPlayerRectRef()
 {
 	return & rect;
+}
+
+void Player::tileBehaviour()
+{
+	switch (tileType)
+	{
+	case 1:
+		SDL_Delay(500);
+		std::cout << "good square" << std::endl;
+		break;
+	case 2:
+		switch (currentIndex)
+		{
+		case 32:
+			SDL_Delay(500);
+			std::cout << "story 1" << std::endl;
+			break;
+		case 62:
+			SDL_Delay(500);
+			std::cout << "story 2" << std::endl;
+			break;
+		case 104:
+			SDL_Delay(500);
+			std::cout << "story 3" << std::endl;
+			break;
+		case 125:
+			SDL_Delay(500);
+			std::cout << "story 4" << std::endl;
+			break;
+		default:
+			break;
+		}
+		break;
+	case 3:
+		SDL_Delay(500);
+		std::cout << "bounce square" << std::endl;
+		break;
+	case 4:
+		SDL_Delay(500);
+		std::cout << "dice square" << std::endl;
+		break;
+	case 5:
+		SDL_Delay(500);
+		std::cout << "honey puddle square" << std::endl;
+		stuck = true;
+		break;
+	case 6:
+		SDL_Delay(500);
+		std::cout << "tumble square" << std::endl;
+		break;
+	default:
+		break;
+	}
 }
