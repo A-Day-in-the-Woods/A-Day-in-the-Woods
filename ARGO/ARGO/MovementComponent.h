@@ -83,68 +83,6 @@ public:
 							playerNodeChange(p, t_map, t_g);
 						}
 					}
-
-
-					/*
-					if (!LeftOrRight)
-					{
-						//----------------------------Point 1 ------------------------------------------
-						if (p.front().node()->m_x == t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y > t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	// p1 Down
-							playerNodeChange(p, t_map, t_g);
-						}
-
-						if (p.front().node()->m_x == t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y < t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	// p1 Up
-							playerNodeChange(p, t_map, t_g);
-						}
-
-						if (p.front().node()->m_x > t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y == t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	//p1 Right
-							playerNodeChange(p, t_map, t_g);
-						}
-
-						if (p.front().node()->m_x < t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y == t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	//p1 Left
-							playerNodeChange(p, t_map, t_g);
-						}
-
-					}
-					else
-					{
-						p.reverse();
-
-						//----------------------------Point 2 ------------------------------------------
-						if (p.front().node()->m_x == t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y > t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	// p2 Down
-							playerNodeChange(p, t_map, t_g);
-
-						}
-
-						if (p.front().node()->m_x == t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y < t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	// p2 Up
-							playerNodeChange(p, t_map, t_g);
-						}
-
-						if (p.front().node()->m_x > t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y == t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	//p2 Right
-							playerNodeChange(p, t_map, t_g);
-						}
-
-						if (p.front().node()->m_x < t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y == t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	//p2 Left
-							playerNodeChange(p, t_map, t_g);
-						}
-					}
-					*/
 				}
 			}
 			else

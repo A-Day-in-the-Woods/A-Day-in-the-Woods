@@ -19,7 +19,6 @@ void InputHandler::ForceAButton(GameState& t_currentState, Player* t_entity)
 		break;
 	case GameState::Gameplay:
 		t_entity->setLastButton(1);
-		//m_manager->addCmd(diceRoll, t_entity, t_entity->randomNumber(6, 1));
 		m_manager->addCmd(diceRoll, t_entity, t_entity->randomNumber(6, 1));
 
 		break;
@@ -233,7 +232,6 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 				case GameState::Options:
 					break;
 				case GameState::Gameplay:
-					m_manager->addCmd(moveRight, t_entity, NULL);
 					break;
 				case GameState::Credit:
 					break;
@@ -254,7 +252,6 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 				case GameState::Options:
 					break;
 				case GameState::Gameplay:
-					m_manager->addCmd(moveLeft, t_entity, NULL);
 					break;
 				case GameState::Credit:
 					break;

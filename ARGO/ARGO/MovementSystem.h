@@ -32,35 +32,6 @@ public:
 		}
 	}
 
-	/// <summary>
-	/// Input Rolled num and the index of the moveing
-	/// </summary>
-	/// <param name="t_diceRoll"></param>
-	/// <param name="index"></param>
-	/// 
-	//void diceRoll(int t_index, int t_rolledNumber)
-	//{
-	//	if (!m_moveComp[t_index]->getTakeingTurn())
-	//	{
-	//		m_DiceNumber = t_rolledNumber;
-	//		m_moveComp[t_index]->rollForMove();
-	//	}
-	//}
-
-	/*
-	bool getFinishedTurn(int t_index)
-	{
-		return m_moveComp[t_index]->getFinishedTurn();
-	}
-
-	void resetFinishedTurn()
-	{
-		for (int i = 0; i < m_moveComp.size(); i++)
-		{
-			m_moveComp[i]->setFinishedTurn(0);
-		}
-	}
-	*/
 
 
 	bool IsThePlayerMoving(int t_i)
