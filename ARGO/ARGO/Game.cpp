@@ -20,24 +20,12 @@ Game::Game() :
 	m_tile.reserve(200);
 	initNodeFiles();
 
-
-	m_player.push_back(new Player(0));
-	m_player.push_back(new Player(1));
-	//m_player.push_back(new Player(2));
-	//m_player.push_back(new Player(3));
+	//Check for joysticks
+	
 
 
-	m_npc.push_back(new NPC(m_tile, graph, 1));
-	m_npc.push_back(new NPC(m_tile, graph, 2));
-	m_npc.push_back(new NPC(m_tile, graph, 3));
 
-	for (int i = 0; i < m_player.size(); i++)
-	{
-		m_player[i]->addComponent(new InputComponent());
-		m_player[i]->addComponent(new MovementComponent());
-		m_movementSystem.addEntity(m_player[i]->getEntity(), *m_player[i]->getPlayerRectRef());
-		m_inputSystem.addEntity(m_player[i]);
-	}
+
 
 
 	try
@@ -60,6 +48,36 @@ Game::Game() :
 		// Sets clear colour of renderer to black and the color of any primitives
 		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 
+
+
+		for (int i = 0; i < SDL_NumJoysticks(); i++)
+		{
+			m_player.push_back(new Player(i));
+		}
+		for (int i = m_player.size(); i < 4; i++)
+		{
+
+			//add ai here 
+			m_player.push_back(new Player(i));
+			m_player[i]->IsAI = true;
+				
+		}
+
+
+		m_npc.push_back(new NPC(m_tile, graph, 1));
+		m_npc.push_back(new NPC(m_tile, graph, 2));
+		m_npc.push_back(new NPC(m_tile, graph, 3));
+
+
+
+		for (int i = 0; i < m_player.size(); i++)
+		{
+			m_player[i]->addComponent(new InputComponent());
+			m_player[i]->addComponent(new MovementComponent());
+			m_movementSystem.addEntity(m_player[i]->getEntity(), *m_player[i]->getPlayerRectRef());
+			m_inputSystem.addEntity(m_player[i]);
+		}
+
 		m_menuscreen = new MenuScreen(*this, m_renderer, event,m_currentState, m_inputSystem,m_player);
 		m_optionscreen = new OptionScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
 		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window, m_inputSystem,m_player);
@@ -77,7 +95,8 @@ Game::Game() :
 		m_isRunning = false;
 	}
 	
-	
+
+
 
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);

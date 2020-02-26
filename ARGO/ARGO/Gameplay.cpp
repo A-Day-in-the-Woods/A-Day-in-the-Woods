@@ -290,7 +290,6 @@ void Gameplay::processEvent(MovementSystem & t_move)
 	{
 		if (m_turnOrder == m_entity[i]->getId())
 		{
-			m_inputSystem.update(m_event, m_currentState, m_entity[i]);
 
 			if (m_entity[i]->getLastButtonPressed() == 1 && !t_move.IsThePlayerMoving(i))
 			{
@@ -298,6 +297,11 @@ void Gameplay::processEvent(MovementSystem & t_move)
 				if (m_turnOrder == m_entity.size())
 					m_turnOrder = 0;
 				m_entity[i]->setLastButton(NULL);
+			}
+			else
+			{
+				m_inputSystem.update(m_event, m_currentState, m_entity[i]);
+
 			}
 		}
 	}

@@ -8,6 +8,32 @@ InputHandler::InputHandler()
 	
 }
 
+void InputHandler::ForceAButton(GameState& t_currentState, Player* t_entity)
+{
+
+	switch (t_currentState)
+	{
+	case GameState::Menu:
+		break;
+	case GameState::Options:
+		break;
+	case GameState::Gameplay:
+		t_entity->setLastButton(1);
+		//m_manager->addCmd(diceRoll, t_entity, t_entity->randomNumber(6, 1));
+		m_manager->addCmd(diceRoll, t_entity, t_entity->randomNumber(6, 1));
+
+		break;
+	case GameState::Credit:
+		break;
+	case GameState::Minigame:
+
+		break;
+	default:
+		break;
+	}
+
+}
+
 void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Player* t_entity)
 {
 	if (controlNumber == t_entity->getId())
