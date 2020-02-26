@@ -37,6 +37,11 @@ private:
 	
 	//Controller buttons
 	Command* diceRoll = new DiceRoll();
+	Command* DirectionUp = new MoveUp();
+	Command* DirectionDown = new MoveDown();
+	Command* DirectionLeft = new MoveLeft();
+	Command* DirectionRight = new MoveRight();
+
 	Command* buttonA = new AButton();
 	Command* buttonB = new BOutput();
 	Command* buttonX = new XOutput();

@@ -34,8 +34,11 @@
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bee.h" />
     <ClInclude Include="BehaviourTree.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterFactory.h" />
     <ClInclude Include="CommandInterface.h" />
     <ClInclude Include="CommandManager.h" />
     <ClInclude Include="Component.h" />
@@ -43,6 +46,7 @@
     <ClInclude Include="Controller.h" />
     <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Factory.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gameplay.h" />
     <ClInclude Include="GameStates.h" />

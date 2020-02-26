@@ -40,7 +40,7 @@ public:
 
 	virtual void execute(Entity& t_entity) {	
 	MovementComponent* movePlay = static_cast<MovementComponent*>(t_entity.getComponent(ComponentType::MOVEMENT)); 
-	movePlay->leftOrRightChoice(0);
+	movePlay->directionChoice(5);
 	 }
 };
 
@@ -51,9 +51,36 @@ public:
 
 	virtual void execute(Entity& t_entity) { 
 	MovementComponent* movePlay = static_cast<MovementComponent*>(t_entity.getComponent(ComponentType::MOVEMENT)); 
-	movePlay->leftOrRightChoice(1);
+	movePlay->directionChoice(4);
 	 }
 };
+
+
+class MoveUp : public Command
+{
+public:
+	//placeholder for actual function prints out to command window
+
+
+	virtual void execute(Entity& t_entity) {
+		MovementComponent* movePlay = static_cast<MovementComponent*>(t_entity.getComponent(ComponentType::MOVEMENT));
+		movePlay->directionChoice(6);
+	}
+};
+
+
+class MoveDown : public Command
+{
+public:
+	//placeholder for actual function prints out to command window
+
+
+	virtual void execute(Entity& t_entity) {
+		MovementComponent* movePlay = static_cast<MovementComponent*>(t_entity.getComponent(ComponentType::MOVEMENT));
+		movePlay->directionChoice(1);
+	}
+};
+
 
 //Controller Commands
 class DiceRoll : public Command
@@ -62,10 +89,8 @@ public:
 	//placeholder for actual function prints out to command window
 	virtual void execute(Entity& t_entity) {
 	MovementComponent* movePlay = static_cast<MovementComponent*>(t_entity.getComponent(ComponentType::MOVEMENT));
-		
 		movePlay->rollForMove(t_entity.getRoll());
-		
-	 }
+	}
 };
 class AButton : public Command
 {

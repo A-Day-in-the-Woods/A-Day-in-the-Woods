@@ -20,13 +20,6 @@ Game::Game() :
 	m_tile.reserve(200);
 	initNodeFiles();
 
-	//Check for joysticks
-	
-
-
-
-
-
 
 	try
 	{
