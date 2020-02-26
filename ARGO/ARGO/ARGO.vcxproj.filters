@@ -75,6 +75,9 @@
     <ClCompile Include="CommandManager.cpp">
       <Filter>Source Files\CommandPattern</Filter>
     </ClCompile>
+    <ClCompile Include="MovementComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">

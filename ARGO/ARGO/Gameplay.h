@@ -113,6 +113,9 @@ private:
 	bool startAstar{ false };
 	//------! A* stuff ------------
 
+
+	bool m_flipUIBear{ false };
+
 	Game& m_game;
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;
