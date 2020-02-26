@@ -19,7 +19,7 @@ public:
 	}
 
 
-	void addEntity(Entity* t_e, SDL_Rect & t_rect)
+	void addEntity(Entity* t_e, SDL_Rect & t_rect,bool & t_IsAi)
 	{
 		std::vector<Component*> InputCheck = t_e->getComponents();
 
@@ -30,40 +30,20 @@ public:
 				m_entities.push_back(t_e);
 				m_moveComp.push_back(static_cast<MovementComponent*>(InputCheck[i]));
 				m_moveComp.back()->setRect(t_rect);
+				m_moveComp.back()->setAiCheck(t_IsAi);
 			}
 		}
 	}
 
-	/// <summary>
-	/// Input Rolled num and the index of the moveing
-	/// </summary>
-	/// <param name="t_diceRoll"></param>
-	/// <param name="index"></param>
-	/// 
-	//void diceRoll(int t_index, int t_rolledNumber)
-	//{
-	//	if (!m_moveComp[t_index]->getTakeingTurn())
-	//	{
-	//		m_DiceNumber = t_rolledNumber;
-	//		m_moveComp[t_index]->rollForMove();
-	//	}
-	//}
-
-	/*
-	bool getFinishedTurn(int t_index)
+	int getPlayerDiceValue(int t_index)
 	{
-		return m_moveComp[t_index]->getFinishedTurn();
+		return m_moveComp[t_index]->getDiceValue();
 	}
 
-	void resetFinishedTurn()
+	void setPlayerDiceValue(int t_index, int num)
 	{
-		for (int i = 0; i < m_moveComp.size(); i++)
-		{
-			m_moveComp[i]->setFinishedTurn(0);
-		}
+		m_moveComp[t_index]->setDiceValue(num);
 	}
-	*/
-
 
 	bool IsThePlayerMoving(int t_i)
 	{

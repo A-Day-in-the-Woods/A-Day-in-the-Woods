@@ -22,6 +22,7 @@ class InputHandler
 {
 public: 
 	InputHandler();
+	void ForceAButton(GameState& t_currentState, Player* t_entity);
 
 	void inputHandle(SDL_Event &event, GameState& t_currentState, Player* t_entity);
 	
@@ -33,6 +34,11 @@ private:
 	
 	//Controller buttons
 	Command* diceRoll = new DiceRoll();
+	Command* DirectionUp = new MoveUp();
+	Command* DirectionDown = new MoveDown();
+	Command* DirectionLeft = new MoveLeft();
+	Command* DirectionRight = new MoveRight();
+
 	Command* buttonA = new AButton();
 	Command* buttonB = new BOutput();
 	Command* buttonX = new XOutput();

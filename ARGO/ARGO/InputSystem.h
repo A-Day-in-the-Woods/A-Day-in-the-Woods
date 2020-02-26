@@ -34,10 +34,22 @@ public:
 	void update(SDL_Event &event, GameState &t_currentState, Player* t_entity)
 	{
 
-		for (int i = 0; i < m_entities.size(); i++)
+		if (t_entity->IsAI == true)
 		{
-			m_inputComp[i]->m_input.inputHandle(event, t_currentState,t_entity);
+			m_inputComp[t_entity->getId()]->m_input.ForceAButton(t_currentState,t_entity);
 		}
+		else{m_inputComp[t_entity->getId()]->m_input.inputHandle(event, t_currentState, t_entity);}
+		
+	}
+
+
+	void update(SDL_Event& event, GameState& t_currentState, Player* t_entity, int t_index)
+	{
+		if (t_entity->IsAI == true)
+		{
+			m_inputComp[t_entity->getId()]->m_input.ForceAButton(t_currentState, t_entity);
+		}
+		else {m_inputComp[t_index]->m_input.inputHandle(event, t_currentState, t_entity);}
 	}
 
 private:

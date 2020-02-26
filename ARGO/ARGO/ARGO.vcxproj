@@ -30,6 +30,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="Minigame.cpp" />
+    <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Packet.cpp" />
@@ -40,9 +41,12 @@
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bee.h" />
     <ClInclude Include="BehaviourTree.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterFactory.h" />
     <ClInclude Include="CommandInterface.h" />
     <ClInclude Include="CommandManager.h" />
     <ClInclude Include="Component.h" />
@@ -51,6 +55,7 @@
     <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FileTransferData.h" />
+    <ClInclude Include="Factory.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gameplay.h" />
     <ClInclude Include="GameStates.h" />

@@ -7,7 +7,7 @@
 #include "Tile.h"
 #include "iostream"
 #include "Graph.h"
-
+#include <random>
 
 class MovementComponent : public Component
 {
@@ -26,12 +26,18 @@ public:
 	void setRect(SDL_Rect & t_rect) {
 		rect = &t_rect;
 	}
+	void setAiCheck(bool &t_IsAi) {
+		m_IsAi = &t_IsAi;
+	}
 
-	//void setTurnIndex(int & t_turnIndex)
-	//{
-	//	m_turnIndex = &t_turnIndex;
-	//}
 
+	int randomNumber(int t_max, int t_min)
+	{
+		std::random_device device;
+		std::mt19937 rng(device());
+		std::uniform_int_distribution<std::mt19937::result_type> dist(t_min, t_max);
+		return dist(rng);
+	}
 
 	void setUp(){
 		CurrentGameBoardIndex = 0;
@@ -66,65 +72,38 @@ public:
 
 			if (p.size() > 1)
 			{ // direction choice
-
+				if (*m_IsAi == true && choiceLoop ==true)
+				{
+					m_DirectionChoiceNum = randomNumber(6,1);
+					choiceLoop = false;
+				}
 				if (!choiceLoop)
 				{
+		
 
-					if (!LeftOrRight)
+					if (m_DirectionChoiceNum == nodeDirectionCheck(
+							p.front().node()->m_x,
+							p.front().node()->m_y,
+							t_g.nodeIndex(CurrentGameBoardIndex)->m_x,
+							t_g.nodeIndex(CurrentGameBoardIndex)->m_y))
 					{
-						//----------------------------Point 1 ------------------------------------------
-						if (p.front().node()->m_x == t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y > t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	// p1 Down
-							playerNodeChange(p, t_map, t_g);
-						}
-
-						if (p.front().node()->m_x == t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y < t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	// p1 Up
-							playerNodeChange(p, t_map, t_g);
-						}
-
-						if (p.front().node()->m_x > t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y == t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	//p1 Right
-							playerNodeChange(p, t_map, t_g);
-						}
-
-						if (p.front().node()->m_x < t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y == t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	//p1 Left
-							playerNodeChange(p, t_map, t_g);
-						}
+						playerNodeChange(p, t_map, t_g);
+					}
+					else if (*m_IsAi == true)
+					{
+						m_DirectionChoiceNum = randomNumber(6, 1);
 
 					}
 					else
 					{
+			
 						p.reverse();
-
-						//----------------------------Point 2 ------------------------------------------
-						if (p.front().node()->m_x == t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y > t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	// p2 Down
-							playerNodeChange(p, t_map, t_g);
-
-						}
-
-						if (p.front().node()->m_x == t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y < t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	// p2 Up
-							playerNodeChange(p, t_map, t_g);
-						}
-
-						if (p.front().node()->m_x > t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y == t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	//p2 Right
-							playerNodeChange(p, t_map, t_g);
-						}
-
-						if (p.front().node()->m_x < t_g.nodeIndex(CurrentGameBoardIndex)->m_x &&
-							p.front().node()->m_y == t_g.nodeIndex(CurrentGameBoardIndex)->m_y)
-						{	//p2 Left
+						if (m_DirectionChoiceNum == nodeDirectionCheck(
+							p.front().node()->m_x,
+							p.front().node()->m_y,
+							t_g.nodeIndex(CurrentGameBoardIndex)->m_x,
+							t_g.nodeIndex(CurrentGameBoardIndex)->m_y))
+						{
 							playerNodeChange(p, t_map, t_g);
 						}
 					}
@@ -137,12 +116,10 @@ public:
 		}
 		else
 		{
-			//if (m_takeingTurn)
-			//{
-			//	m_finishedTurn = true;
-			//}
-
 			m_takeingTurn = false;
+			std::cout << m_diceRoll << std::endl;
+			m_diceRoll = -1;
+			choiceLoop = false;
 		}
 	}
 
@@ -163,6 +140,7 @@ public:
 					CurrentGameBoardIndex = i;
 					m_diceRoll--;
 					choiceLoop = true;
+					// direction check here;
 				}
 			}
 		}
@@ -206,21 +184,49 @@ public:
 		choiceLoop = false;
 	}
 
+	void directionChoice(int t_choice) {
+		m_DirectionChoiceNum = t_choice;
+		choiceLoop = false;
+	}
+
 
 	bool getTakeingTurn(){
 		return m_takeingTurn;
 	}
 
-	/*
-	bool getFinishedTurn() {
-		return m_finishedTurn;
+	int getDiceValue()
+	{
+		return m_diceRoll;
 	}
 
-	void setFinishedTurn(bool t_b)
+	void setDiceValue(int i)
 	{
-		m_finishedTurn = t_b;
+		m_diceRoll = i;
 	}
-	*/
+
+
+	int nodeDirectionCheck(int x1, int y1, int x2, int y2)
+	{
+		if (x1 == x2 && y1 > y2)
+		{	// p2 Down
+			return 1;
+		}
+		else if (x1 == x2 && y1 < y2)
+		{	// p2 Up
+			return 6;
+		}
+		else if (x1 > x2 && y1 == y2)
+		{	// p2 Right
+			return 4;
+		}
+		else if (x1 < x2 && y1 == y2)
+		{	// p2 Left
+			return 5;
+		}
+
+		return -1;
+	}
+
 
 private:
 
@@ -229,17 +235,19 @@ private:
 
 
 	SDL_Rect * rect;
+	bool * m_IsAi;
 
 	bool choiceLoop;
 	bool LeftOrRight = false;
 
 	bool m_takeingTurn;
-	//bool m_finishedTurn;
 
 	float m_movementSpeed;
 
 	int m_diceRoll;
-
+	int m_DirectionChoiceNum = -1;
 	//int * m_turnIndex;
 };
 #endif // !MOVEMENTCOMPONENT_H
+	
+

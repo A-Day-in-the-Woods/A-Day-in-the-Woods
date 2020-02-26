@@ -24,8 +24,8 @@ void Player::SetUp()
 
 	m_spriteBody.x = 0;
 	m_spriteBody.y = 0;
-	m_spriteBody.w = 30;
-	m_spriteBody.h = 40;
+	m_spriteBody.w = 40;
+	m_spriteBody.h = 50;
 }
 
 void Player::update(MovementSystem & t_move)
