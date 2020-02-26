@@ -12,6 +12,7 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_numberPlayers = m_entity.size();
 
 
+
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceOne.png"));
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceTwo.png"));
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceThree.png"));
@@ -65,7 +66,7 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	
 
 
-		m_turnOrder = 0;
+	m_turnOrder = 0;
 
 	m_clouds.reserve(100);
 	m_tile.reserve(200);
@@ -109,6 +110,7 @@ Gameplay::~Gameplay()
 
 void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem& t_move)
 {
+
 	if (!setUp)
 	{
 		t_npc[0]->turn = true;
@@ -215,6 +217,7 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, Graph< pair<string, int>, int>& graph)
 {
+
 	SDL_RenderClear(m_renderer);
 	SDL_RenderSetScale(m_renderer, scale, scale);
 
@@ -259,8 +262,7 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	else
 	{
 		m_rotation += 1;
-		if (m_rotation >5) { m_flipUIBear = true; }
-
+		if (m_rotation > 5) { m_flipUIBear = true; }
 	}
 
 	for (int i = 0; i < m_numberPlayers ;i++)
@@ -268,7 +270,10 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		m_entity[i]->render(m_renderer);
 
 		if (i == m_turnOrder) {
-			setDiceTexture(i);
+			if(m_entity[m_turnOrder]->getLastButtonPressed() == 1)
+			{
+				setDiceTexture(i);
+			}
 			SDL_RenderCopyEx(m_renderer, m_PlayerShadowUITexture[i], NULL, &m_PlayerShadowUIRect[i], m_rotation, NULL, SDL_FLIP_NONE);
 			SDL_RenderCopyEx(m_renderer, m_PlayerUITexture[i], NULL, &m_PlayerUIRect[i], m_rotation, NULL, SDL_FLIP_NONE);
 			SDL_RenderCopyEx(m_renderer, m_DiceTexture[i], NULL, &m_DiceRect[i], m_rotation, NULL, SDL_FLIP_NONE);
@@ -287,16 +292,15 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 void Gameplay::processEvent(MovementSystem & t_move)
 {
-	for (int i = 0; i < m_numberPlayers ;i++)
+
+	for (int i = 0; i < m_numberPlayers; i++)
 	{
 		if (m_turnOrder == m_entity[i]->getId())
 		{
 
-			
-
 			if (t_move.getPlayerDiceValue(i) == -1 && !t_move.IsThePlayerMoving(i))
 			{
-				t_move.setPlayerDiceValue(i,0);
+				t_move.setPlayerDiceValue(i, 0);
 				m_turnOrder++;
 				if (m_turnOrder == m_entity.size())
 					m_turnOrder = 0;

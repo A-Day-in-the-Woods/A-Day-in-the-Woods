@@ -63,7 +63,7 @@ private:
 	SDL_Rect rect;//temp rect for a player square
 	SDL_Rect m_spriteBody;
 	SDL_Texture* m_PlayerTexture;
-	int diceRoll{2};
+	int diceRoll{-1};
 
 
 	bool m_takingTurn;

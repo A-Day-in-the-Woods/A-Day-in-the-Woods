@@ -67,17 +67,25 @@ public:
 			SDL_Event(event);
 			SDL_PollEvent(&event);
 
+		
 
 			if (p.size() > 1)
 			{ // direction choice
-				if (*m_IsAi == true && choiceLoop ==true)
+
+				if (m_choicesMade >= 1 && m_randomDirectionDecided == true)
+				{
+					m_randomDirectionDecided = false;
+				}
+
+				if (*m_IsAi == true && choiceLoop ==true && m_randomDirectionDecided == false)
 				{
 					m_DirectionChoiceNum = randomNumber(6,1);
 					choiceLoop = false;
 				}
+
 				if (!choiceLoop)
 				{
-		
+					
 
 					if (m_DirectionChoiceNum == nodeDirectionCheck(
 							p.front().node()->m_x,
@@ -86,11 +94,8 @@ public:
 							t_g.nodeIndex(CurrentGameBoardIndex)->m_y))
 					{
 						playerNodeChange(p, t_map, t_g);
-					}
-					else if (*m_IsAi == true)
-					{
-						m_DirectionChoiceNum = randomNumber(6, 1);
-
+						m_randomDirectionDecided = true;
+						m_randomDirectionDecided++;
 					}
 					else
 					{
@@ -103,7 +108,13 @@ public:
 							t_g.nodeIndex(CurrentGameBoardIndex)->m_y))
 						{
 							playerNodeChange(p, t_map, t_g);
+							m_randomDirectionDecided = true;
+							m_choicesMade++;
 						}
+					}
+					if (!m_randomDirectionDecided)
+					{
+						m_DirectionChoiceNum = randomNumber(6, 1);
 					}
 				}
 			}
@@ -117,7 +128,9 @@ public:
 			m_takeingTurn = false;
 			std::cout << m_diceRoll << std::endl;
 			m_diceRoll = -1;
+			m_choicesMade = 0;
 			choiceLoop = false;
+
 		}
 	}
 
@@ -137,6 +150,7 @@ public:
 				{
 					CurrentGameBoardIndex = i;
 					m_diceRoll--;
+					m_randomDirectionDecided = false;
 					choiceLoop = true;
 					// direction check here;
 				}
@@ -205,6 +219,7 @@ public:
 
 	int nodeDirectionCheck(int x1, int y1, int x2, int y2)
 	{
+
 		if (x1 == x2 && y1 > y2)
 		{	// p2 Down
 			return 1;
@@ -235,6 +250,8 @@ private:
 	SDL_Rect * rect;
 	bool * m_IsAi;
 
+	bool m_randomDirectionDecided{false};
+	int m_choicesMade{ 0 };
 	bool choiceLoop;
 	bool LeftOrRight = false;
 
@@ -242,7 +259,7 @@ private:
 
 	float m_movementSpeed;
 
-	int m_diceRoll;
+	int m_diceRoll{-1};
 
 	int m_DirectionChoiceNum = -1;
 };
