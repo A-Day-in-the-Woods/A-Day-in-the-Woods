@@ -95,6 +95,11 @@ SDL_Rect& Tile::getPosition()
 	return rect;
 }
 
+int& Tile::getType()
+{
+	return m_type;
+}
+
 void Tile::green()
 {
 	std::cout << "good square" << std::endl;

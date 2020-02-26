@@ -23,7 +23,7 @@ public:
 
 	void setPosition();
 	SDL_Rect & getPosition();
-
+	int &getType();
 	int count;
 private:
 

@@ -68,8 +68,7 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 		m_outLine.push_back(SDL_Rect{ -60,(i*200)-100,200,700 });
 		m_outLine.push_back(SDL_Rect{ 1860,(i * 200)-100,250,700 });
 	}
-
-
+	
 	for (int i = 0; i < 4; i++)
 	{
 		m_outLine.push_back(SDL_Rect{ i*550,820 - 100,150,700 });
@@ -77,12 +76,10 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 
 	m_CloudSurface = IMG_Load("ASSETS/IMAGES/cloud.png");
 	m_CloudTexture = SDL_CreateTextureFromSurface(m_renderer, m_CloudSurface);
-
-
+	
 	m_outLineSurface = IMG_Load("ASSETS/IMAGES/UI/hedge.png");
 	m_outLineTexture = SDL_CreateTextureFromSurface(m_renderer, m_outLineSurface);
 	
-
 	m_backgroundSurface = IMG_Load("ASSETS/IMAGES/Board.png");
 	m_backgroundTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
 
@@ -111,7 +108,6 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		m_entity[i]->update(t_move);
 	}
 
-
 	for (int i = 0; i < m_clouds.size(); i++)
 	{
 		int temp = randomNumber(80, 0);
@@ -133,78 +129,22 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 			setGameState();
 		}
 	}
-
-
-	/*
+	
 	if (t_npc[0]->turn)
 	{
-		t_npc[m_npcCount]->update();
-		if (t_npc[m_npcCount]->m_diceNumber == 0)
+		t_npc[0]->update();
+		if (t_npc[0]->end)
 		{
-			if (t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count == 0)
+			/*m_npcCount++;
+			if (m_npcCount >= t_npc.size())
 			{
-				std::cout << "npc 1 tile" << std::endl;
-				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count++;
-				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].update();
-				SDL_Delay(200);
-			}
-			if (!t_npc[m_npcCount]->stuck)
-			{
-				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count = 0;
-			}
-			t_npc[0]->turn = false;
-			t_npc[1]->turn = true;
-			m_npcCount++;
-		}
-	}
-	else if (t_npc[1]->turn)
-	{
-		t_npc[m_npcCount]->update();
-		if (t_npc[m_npcCount]->m_diceNumber == 0)
-		{
-			if (t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count == 0)
-			{
-				std::cout << "npc 2 tile" << std::endl;
-				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count++;
-				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].update();
-				SDL_Delay(200);
-			}
-			if (!t_npc[m_npcCount]->stuck)
-			{
-				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count = 0;
-			}
-			t_npc[1]->turn = false;
-			t_npc[2]->turn = true;
-			m_npcCount++;
-		}
-	}
-	else if (t_npc[2]->turn)
-	{
-		t_npc[m_npcCount]->update();
-		if (t_npc[m_npcCount]->m_diceNumber == 0)
-		{
-			if (t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count == 0)
-			{
-				std::cout << "npc 3 tile" << std::endl;
-				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count++;
-				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].update();
-				SDL_Delay(200);
-			}
-			if (!t_npc[m_npcCount]->stuck)
-			{
-				t_tile[t_npc[m_npcCount]->currentGameBoardIndex].count = 0;
-			}
-			t_npc[2]->turn = false;
+				m_npcCount = 0;
+			}*/
+			t_npc[0]->end = false;
 			t_npc[0]->turn = true;
-			m_npcCount++;
 		}
 	}
-
-	if (m_npcCount >= t_npc.size())
-	{
-		m_npcCount = 0;
-	}
-	*/
+	
 	// SDL_Rect to focus on
 	focus = camera->focus(m_entity);
 	// Update Camera based on new focus
@@ -218,8 +158,7 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 	SDL_RenderCopy(m_renderer, m_backgroundTextureTwo, NULL, NULL);
 	SDL_RenderCopy(m_renderer, m_backgroundTexture, NULL, &m_backgroundRect);
-
-
+	
 	//drawLines(graph, t_player, t_npc);// can remove --------------
 
 	offset->x = focus->x - camera->getCamera()->x;
@@ -241,7 +180,6 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	for (int i = 0; i < m_outLine.size()-4; i++) { SDL_RenderCopy(m_renderer, m_outLineTexture, NULL, &m_outLine[i]); }
 	for (int i = m_outLine.size() - 4; i < m_outLine.size(); i++) {SDL_RenderCopyEx(m_renderer, m_outLineTexture, NULL, &m_outLine[i],90, NULL, SDL_FLIP_NONE);}
 
-
 	// Little target Box in middle of Focus
 	//offset->w = CHARACTER_WIDTH ;
 	//offset->h = CHARACTER_HEIGHT ;
@@ -258,7 +196,12 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		SDL_RenderCopy(m_renderer, m_DiceTexture[i], NULL, &m_DiceRect[i]);
 	}
 
-	for (int i = 0; i < m_clouds.size(); i++) {SDL_RenderCopy(m_renderer, m_CloudTexture, NULL, &m_clouds[i]);}
+	//for (int i = 0; i < m_clouds.size(); i++) {SDL_RenderCopy(m_renderer, m_CloudTexture, NULL, &m_clouds[i]);}
+
+	for (int i = 0; i < t_npc.size(); i++)
+	{
+		t_npc[i]->render(m_renderer);
+	}
 
 	SDL_RenderPresent(m_renderer);
 }
@@ -280,7 +223,6 @@ void Gameplay::processEvent(MovementSystem & t_move)
 			}
 		}
 	}
-
 }
 
 void Gameplay::setGameState()
@@ -402,7 +344,6 @@ void Gameplay::drawLines(Graph< pair<string, int>, int>& graph, std::vector<Play
 	}
 	//SDL_RenderPresent(m_renderer);
 }
-
 
 float Gameplay::calculateScale(float width, float height, float maxWidth, float maxHeight)
 {

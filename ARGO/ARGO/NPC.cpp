@@ -5,6 +5,7 @@ NPC::NPC(std::vector<Tile>& t_map, Graph<pair<string, int>, int>& t_g, int t_aiB
 	m_graph(t_g),
 	m_aiBehaviour(t_aiBehaviour),
 	turn(false),
+	end(false),
 	stuck(false),
 	Entity(2)
 {
@@ -23,11 +24,16 @@ NPC::~NPC()
 
 void NPC::update()
 {
-	decision();
-	SDL_Delay(100);
-	rollDice();
-	navigateNodes();
-	setPosition(m_map[currentGameBoardIndex].getPosition().x, m_map[currentGameBoardIndex].getPosition().y);
+	
+		decision();
+		SDL_Delay(100);
+		rollDice();
+		navigateNodes();
+		setPosition(m_map[currentGameBoardIndex].getPosition().x, m_map[currentGameBoardIndex].getPosition().y);
+
+		updateTile();
+	
+	
 }
 
 void NPC::render(SDL_Renderer* t_renderer)
@@ -172,6 +178,7 @@ void NPC::nodeChange(std::list<GraphArc<pair<std::string, int>, int>> newPoint)
 			newPoint.front().node()->m_y == m_graph.nodeIndex(i)->m_y)
 		{
 			// this is then the next tile index to go to
+			previousIndex = currentGameBoardIndex;
 			currentGameBoardIndex = i;
 			//setPosition(m_map[CurrentGameBoardIndex].getPosition().x - (rect.w / 4.0f), m_map[CurrentGameBoardIndex].getPosition().y - (rect.h / 4.0f));
 		}
@@ -212,5 +219,101 @@ void NPC::decision()
 	{
 		std::vector<Node*> path;
 		//m_graph.aStar(m_graph.nodeIndex(0), m_graph.nodeIndex(41), m_visit, path);
+	}
+}
+
+void NPC::updateTile()
+{
+	if (!stuck && m_diceNumber == 0)
+	{
+		if (m_map[currentGameBoardIndex].count == 0)
+		{
+			std::cout << "npc " << m_aiBehaviour << " tile" << std::endl;
+			m_map[currentGameBoardIndex].update();
+			tileBehaviour();
+			SDL_Delay(500);
+		}
+
+		m_map[currentGameBoardIndex].count++;
+
+		if (!stuck)
+		{
+			m_map[currentGameBoardIndex].count = 0;
+		}
+
+		 
+		if (end)
+		{
+			turn = false;
+		}
+	}
+	if (stuck && m_map[currentGameBoardIndex].count == 2)
+	{
+		stuck = false;
+	}
+}
+
+void NPC::tileBehaviour()
+{
+	switch (m_map[currentGameBoardIndex].getType())
+	{
+	case 1:
+		SDL_Delay(500);
+		std::cout << "good square" << std::endl;
+		end = true;
+		break;
+	case 2:
+		switch (currentGameBoardIndex)
+		{
+		case 32:
+			SDL_Delay(500);
+			std::cout << "story 1" << std::endl;
+			end = true;
+			break;
+		case 62:
+			SDL_Delay(500);
+			std::cout << "story 2" << std::endl;
+			end = true;
+			break;
+		case 104:
+			SDL_Delay(500);
+			std::cout << "story 3" << std::endl;
+			end = true;
+			break;
+		case 125:
+			SDL_Delay(500);
+			std::cout << "story 4" << std::endl;
+			end = true;
+			break;
+		default:
+			break;
+		}
+		break;
+	case 3:
+		SDL_Delay(500);
+		std::cout << "bounce square" << std::endl;
+		navigateNodes();
+		end = true;
+		break;
+	case 4:
+		SDL_Delay(500);
+		std::cout << "dice square" << std::endl;
+		update();
+		break;
+	case 5:
+		SDL_Delay(500);
+		std::cout << "honey puddle square" << std::endl;
+		stuck = true;
+		end = true;
+		break;
+	case 6:
+		SDL_Delay(500);
+		std::cout << "tumble square" << std::endl;
+		currentGameBoardIndex = previousIndex;
+		setPosition(m_map[currentGameBoardIndex].getPosition().x, m_map[currentGameBoardIndex].getPosition().y);
+		end = true;
+		break;
+	default:
+		break;
 	}
 }
