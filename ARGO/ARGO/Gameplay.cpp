@@ -136,14 +136,6 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 	}
 
-	if (m_event.type == SDL_KEYDOWN)
-	{
-		if (m_event.key.keysym.sym == SDLK_RETURN)
-		{
-			setGameState();
-		}
-	}
-
 
 /*
 	if (t_npc[0]->turn)
@@ -299,7 +291,8 @@ void Gameplay::processEvent(MovementSystem & t_move)
 	{
 		if (m_turnOrder == m_entity[i]->getId())
 		{
-			m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
+
+			
 
 			if (t_move.getPlayerDiceValue(i) == -1 && !t_move.IsThePlayerMoving(i))
 			{
@@ -308,6 +301,10 @@ void Gameplay::processEvent(MovementSystem & t_move)
 				if (m_turnOrder == m_entity.size())
 					m_turnOrder = 0;
 				m_entity[i]->setLastButton(NULL);
+			}
+			else
+			{
+				m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
 			}
 		}
 	}

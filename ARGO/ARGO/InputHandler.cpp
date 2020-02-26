@@ -18,7 +18,7 @@ void InputHandler::ForceAButton(GameState& t_currentState, Player* t_entity)
 	case GameState::Options:
 		break;
 	case GameState::Gameplay:
-		t_entity->setLastButton(1);
+		t_entity->setLastButton(-1);
 		m_manager->addCmd(diceRoll, t_entity, t_entity->randomNumber(6, 1));
 
 		break;
