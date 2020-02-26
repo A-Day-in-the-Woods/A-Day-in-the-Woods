@@ -246,12 +246,12 @@ public:
 		return -1;
 	}
 
-	int CurrentGameBoardIndex; //temp
+	//int CurrentGameBoardIndex; //temp
 
 private:
 
 	//Real one
-	//int CurrentGameBoardIndex;
+	int CurrentGameBoardIndex;
 
 	SDL_Rect * rect;
 	bool * m_IsAi;

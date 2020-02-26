@@ -47,14 +47,14 @@ Game::Game() :
 		{
 			m_player.push_back(new Player(i));
 		}
-		//for (int i = m_player.size(); i < 4; i++)
-		//{
+		for (int i = m_player.size(); i < 4; i++)
+		{
 
-		//	//add ai here 
-		//	m_player.push_back(new Player(i));
-		//	m_player[i]->IsAI = true;
-		//		
-		//}
+			//add ai here 
+			m_player.push_back(new Player(i));
+			m_player[i]->IsAI = true;
+				
+		}
 
 
 		m_npc.push_back(new NPC(m_tile, graph, 1));
@@ -225,6 +225,13 @@ void Game::update()
 		break;
 	case GameState::Credit:
 		m_creditscreen->update();
+		for (int i = 0; i < m_player.size(); i++)
+		{
+			if (m_movementSystem.endGame(i))
+			{
+
+			}
+		}
 		break;
 	case GameState::Minigame:
 		m_minigamescreen->update();
