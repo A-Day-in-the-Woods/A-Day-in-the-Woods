@@ -114,7 +114,10 @@ public:
 		}
 		else
 		{
-			m_takeingTurn = false;			
+			m_takeingTurn = false;
+			std::cout << m_diceRoll << std::endl;
+			m_diceRoll = -1;
+			choiceLoop = false;
 		}
 	}
 
@@ -187,6 +190,16 @@ public:
 
 	bool getTakeingTurn(){
 		return m_takeingTurn;
+	}
+
+	int getDiceValue()
+	{
+		return m_diceRoll;
+	}
+
+	void setDiceValue(int i)
+	{
+		m_diceRoll = i;
 	}
 
 

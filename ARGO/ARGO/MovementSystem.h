@@ -33,7 +33,15 @@ public:
 		}
 	}
 
+	int getPlayerDiceValue(int t_index)
+	{
+		return m_moveComp[t_index]->getDiceValue();
+	}
 
+	void setPlayerDiceValue(int t_index, int num)
+	{
+		m_moveComp[t_index]->setDiceValue(num);
+	}
 
 	bool IsThePlayerMoving(int t_i)
 	{
