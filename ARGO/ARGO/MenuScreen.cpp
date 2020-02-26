@@ -39,8 +39,13 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 		m_menuButtonPosition.push_back(SDL_Rect{ 750 ,(i * 250),350,150 });
 	}
 	
+	m_beeSurface = IMG_Load("ASSETS/IMAGES/bee.png");
+	m_beeTexture = SDL_CreateTextureFromSurface(m_renderer, m_beeSurface);
 
+	m_factory = new CharacterFactory;
+	m_characters.push_back(m_factory->CreateBee());
 
+	m_characters[0]->SetUp(100, 100, 90, 90, *m_beeTexture);
 }
 
 MenuScreen::~MenuScreen()
@@ -87,6 +92,7 @@ void MenuScreen::update()
 			if (m_currentButton <= -1) {m_currentButton = 3;}
 		}
 		
+		m_characters[0]->Update();
 }
 
 void MenuScreen::render()
@@ -107,6 +113,7 @@ void MenuScreen::render()
 
 	SDL_RenderCopyEx(m_renderer, m_buttonSelectorTexture[m_currentButton], NULL, &m_buttonSelectorRect[m_currentButton], 90, NULL, SDL_FLIP_NONE);
 
+	m_characters[0]->Render(m_renderer);
 }
 
 void MenuScreen::processEvent()

@@ -10,6 +10,9 @@
 #include <Player.h>
 #include <InputSystem.h>
 
+#include "CharacterFactory.h"
+
+
 class Game;
 
 class MenuScreen
@@ -21,6 +24,10 @@ public:
 	void render();
 	void processEvent();
 	void setGameState();
+
+
+	Factory* m_factory;
+	std::vector<Character*> m_characters;
 
 private:
 	int m_numberPlayers;
@@ -53,6 +60,9 @@ private:
 	SDL_Surface* m_menuButtonSurface;
 
 	
+	//bee
+	SDL_Texture* m_beeTexture;
+	SDL_Surface* m_beeSurface;
 
 };
 #endif // MENU
