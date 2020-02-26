@@ -32,6 +32,16 @@ public:
 		}
 	}
 
+	int getPlayerDiceValue(int t_index)
+	{
+		return m_moveComp[t_index]->getDiceValue();
+	}
+
+	void setPlayerDiceValue(int t_index, int num)
+	{
+		m_moveComp[t_index]->setDiceValue(num);
+	}
+
 	/// <summary>
 	/// Input Rolled num and the index of the moveing
 	/// </summary>

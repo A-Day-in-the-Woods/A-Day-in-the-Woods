@@ -33,11 +33,16 @@ public:
 	
 	void update(SDL_Event &event, GameState &t_currentState, Player* t_entity)
 	{
-
 		for (int i = 0; i < m_entities.size(); i++)
 		{
 			m_inputComp[i]->m_input.inputHandle(event, t_currentState,t_entity);
 		}
+	}
+
+
+	void update(SDL_Event& event, GameState& t_currentState, Player* t_entity, int t_index)
+	{
+		m_inputComp[t_index]->m_input.inputHandle(event, t_currentState, t_entity);
 	}
 
 private:
