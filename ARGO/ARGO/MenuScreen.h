@@ -71,9 +71,11 @@ private:
 	Uint32 wavLength;
 	Uint8* wavBuffer;
 	SDL_AudioDeviceID deviceId;
+	bool audioPlaying = false;
 	//bee
 	SDL_Texture* m_beeTexture;
 	SDL_Surface* m_beeSurface;
+
 
 };
 #endif // MENU
