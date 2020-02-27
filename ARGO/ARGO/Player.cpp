@@ -40,10 +40,11 @@ void Player::update(MovementSystem & t_move)
 	}*/
 }
 
-void Player::render(SDL_Renderer* t_renderer)
+void Player::render(SDL_Renderer* t_renderer, int t_rotation)
 {
+
 	SDL_SetRenderDrawColor(t_renderer, 0, 155, 255, 255);
-	SDL_RenderCopy(t_renderer, m_PlayerTexture, NULL, &m_spriteBody);
+	SDL_RenderCopyEx(t_renderer, m_PlayerTexture, NULL, &m_spriteBody, t_rotation, NULL, SDL_FLIP_NONE);
 	SDL_SetRenderDrawColor(t_renderer, 0, 0, 0, 255);
 }
 
