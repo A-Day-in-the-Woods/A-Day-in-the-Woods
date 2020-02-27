@@ -17,18 +17,20 @@ Game::Game() :
 	m_inputSystem(),
 	m_movementSystem(m_currentState, m_tile, graph)
 {
+
 	m_tile.reserve(200);
 	initNodeFiles();
-
+	
 
 	try
 	{
+		
 		// Try to initalise SDL in general
 		if (SDL_Init(SDL_INIT_EVERYTHING) < 0) throw "Error Loading SDL";
 
 		// Create SDL Window Centred in Middle Of Screen
 
-		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1820, 980, NULL);
+		m_window = SDL_CreateWindow("A Day in the Woods", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1820, 980, NULL);
 
 		// Check if window was created correctly
 		if (!m_window) throw "Error Loading Window";
@@ -72,7 +74,7 @@ Game::Game() :
 		}
 
 		m_menuscreen = new MenuScreen(*this, m_renderer, event,m_currentState, m_inputSystem,m_player);
-		m_optionscreen = new OptionScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
+		m_onlineMode = new OnlineMode(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
 		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window, m_inputSystem,m_player);
 		m_creditscreen = new CreditScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
 		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState, m_inputSystem,m_player);
@@ -94,7 +96,7 @@ Game::Game() :
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
-
+	
 
 }
 
@@ -159,7 +161,7 @@ void Game::processEvent()
 			m_menuscreen->processEvent();
 			break;
 		case GameState::Options:
-			m_optionscreen->processEvent();
+			m_onlineMode->processEvent();
 			break;
 		case GameState::Gameplay:
 			m_gameplayscreen->processEvent(m_movementSystem);
@@ -184,7 +186,7 @@ void Game::processEvent()
 		m_menuscreen->processEvent();
 		break;
 	case GameState::Options:
-		m_optionscreen->processEvent();
+		m_onlineMode->processEvent();
 		break;
 	case GameState::Gameplay:
 		m_gameplayscreen->processEvent(m_movementSystem);
@@ -218,7 +220,7 @@ void Game::update()
 		m_menuscreen->update();
 		break;
 	case GameState::Options:
-		m_optionscreen->update();
+		m_onlineMode->update();
 		break;
 	case GameState::Gameplay:
 		m_gameplayscreen->update(m_tile, m_player, m_npc, m_movementSystem);
@@ -251,7 +253,7 @@ void Game::render()
 		m_menuscreen->render();
 		break;
 	case GameState::Options:
-		m_optionscreen->render();
+		m_onlineMode->render();
 		break;
 	case GameState::Gameplay:
 		m_gameplayscreen->render(m_tile, m_player, m_npc, graph);

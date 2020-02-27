@@ -11,7 +11,7 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 {
 	m_numberPlayers = m_entity.size();
 
-
+	m_client = new Client("149.153.106.155", 1111, m_entity);
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceOne.png"));
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceTwo.png"));
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceThree.png"));
@@ -101,6 +101,13 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 
 	m_backgroundSurface = IMG_Load("ASSETS/IMAGES/pic2.png");
 	m_backgroundTextureTwo = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
+
+
+	if (!m_client->Connect()) //If client fails to connect...
+	{
+	std::cout << "Failed to connect to server..." << std::endl;
+
+	}
 }
 
 Gameplay::~Gameplay()
@@ -109,6 +116,7 @@ Gameplay::~Gameplay()
 
 void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem& t_move)
 {
+	int x = numFromString(m_client->getOtherPos()).at(0);
 	if (!setUp)
 	{
 		t_npc[0]->turn = true;
@@ -291,7 +299,7 @@ void Gameplay::processEvent(MovementSystem & t_move)
 	{
 		if (m_turnOrder == m_entity[i]->getId())
 		{
-
+			
 			
 
 			if (t_move.getPlayerDiceValue(i) == -1 && !t_move.IsThePlayerMoving(i))
@@ -303,10 +311,13 @@ void Gameplay::processEvent(MovementSystem & t_move)
 				m_entity[i]->setLastButton(NULL);
 			}
 			else
-			{
+			{	
+				m_client->SendString(m_entity[i]->GetValueAsString());
+				std::cout << m_entity[i]->GetValueAsString();
 				m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
 			}
 		}
+		
 	}
 
 }

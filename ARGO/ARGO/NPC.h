@@ -13,7 +13,7 @@
 #include "Entity.h"
 
 class Tile;
-typedef GraphArc<pair<std::string, int>, int> Arc;
+typedef GraphArc<pair<std::string, int>, int> Arcs;
 typedef GraphNode<pair<std::string, int>, int> Node;
 
 class NPC : public Entity

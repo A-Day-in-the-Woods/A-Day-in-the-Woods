@@ -53,3 +53,8 @@ SDL_Rect * Player::getPlayerRectRef()
 {
 	return & rect;
 }
+
+std::string Player::GetValueAsString()
+{
+	return std::string(std::to_string(diceRoll));
+}

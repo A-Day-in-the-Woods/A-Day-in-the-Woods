@@ -32,7 +32,8 @@
     <ClCompile Include="Minigame.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="NPC.cpp" />
-    <ClCompile Include="Options.cpp" />
+    <ClCompile Include="NumFromString.cpp" />
+    <ClCompile Include="OnlineMode.cpp" />
     <ClCompile Include="Packet.cpp" />
     <ClCompile Include="PacketManager.cpp" />
     <ClCompile Include="PacketStructs.cpp" />
@@ -72,7 +73,7 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="MovementSystem.h" />
-    <ClInclude Include="Options.h" />
+    <ClInclude Include="OnlineMode.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="PacketManager.h" />
     <ClInclude Include="PacketStructs.h" />

@@ -9,6 +9,7 @@
 #include <vector>
 #include "Tile.h"
 #include <iostream>
+#include <string>
 #include "Graph.h"
 #include "Entity.h"
 #include "MovementSystem.h"
@@ -53,6 +54,8 @@ public:
 	int m_lastButtonPressed {NULL};
 	void setLastButton(int t_button) { m_lastButtonPressed = t_button; };
 	int getLastButtonPressed() { return m_lastButtonPressed; };
+	
+	std::string GetValueAsString();
 
 	bool IsAI{ false };
 
