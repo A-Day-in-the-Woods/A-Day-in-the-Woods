@@ -308,6 +308,9 @@ void Gameplay::renderWin(int index)
 
 	switch (index)
 	{
+	case 0:
+		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
+		break;
 	case 1:
 		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
 		break;
@@ -317,15 +320,14 @@ void Gameplay::renderWin(int index)
 	case 3:
 		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
 		break;
-	case 4:
-		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
-		break;
 	default:
 		break;
 	}
+
+	SDL_RenderPresent(m_renderer);
 	SDL_Delay(500);
 	setGameState();
-	SDL_RenderPresent(m_renderer);
+
 }
 
 
