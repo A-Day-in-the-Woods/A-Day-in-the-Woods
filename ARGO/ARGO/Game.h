@@ -21,7 +21,6 @@
 
 #include "Entity.h"
 #include "HealthComp.h"
-#include "HealthSystem.h"
 #include "PositionComp.h"
 #include "RenderSystem.h"
 #include "InputComponent.h"
@@ -106,7 +105,6 @@ private:
 	std::vector<NPC*> m_npc;
 
 	//---------Entity + Components-----------
-	HealthSystem m_healthSystem;
 	InputSystem m_inputSystem;
 	MovementSystem m_movementSystem;
 };

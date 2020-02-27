@@ -98,9 +98,6 @@
     <ClInclude Include="Component.h">
       <Filter>Header Files\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="HealthSystem.h">
-      <Filter>Header Files\ECS\ComponentSystems</Filter>
-    </ClInclude>
     <ClInclude Include="RenderSystem.h">
       <Filter>Header Files\ECS\ComponentSystems</Filter>
     </ClInclude>

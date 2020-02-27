@@ -11,12 +11,18 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 {
 	m_numberPlayers = m_entity.size();
 
-	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceOne.png"));
-	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceTwo.png"));
-	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceThree.png"));
-	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceFour.png"));
-	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceFive.png"));
-	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceSix.png"));
+	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceOne.png");
+	m_DiceTextureSides.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface));
+	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceTwo.png");
+	m_DiceTextureSides.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface));
+	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceThree.png");
+	m_DiceTextureSides.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface));
+	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceFour.png");
+	m_DiceTextureSides.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface));
+	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceFive.png");
+	m_DiceTextureSides.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface));
+	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceSix.png");
+	m_DiceTextureSides.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface));
 
 	m_PlayerUIRect.push_back(SDL_Rect{ 100,0,300,400 });
 	m_PlayerUIRect.push_back(SDL_Rect{ 1600,0,300,400 });
@@ -74,7 +80,7 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 		m_PlayerUITexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_PlayerUISurface));
 		m_PlayerShadowUITexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_PlayerShadowUISurface));
 
-		m_DiceTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface[0]));
+		m_DiceTexture.push_back(m_DiceTextureSides[0]);
 
 		m_entity[i]->assignSprite(m_PlayerUITexture[i]);
 	}
@@ -357,7 +363,7 @@ float Gameplay::calculateScale(float width, float height, float maxWidth, float 
 
 void Gameplay::setDiceTexture(int m_playerID)
 {	
-	m_DiceTexture[m_playerID] = SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface[m_entity[m_playerID]->getDiceRoll()-1]);
+	m_DiceTexture[m_playerID] = m_DiceTextureSides[m_entity[m_playerID]->getDiceRoll()-1] ;
 }
 
 int Gameplay::randomNumber(int t_max, int t_min)

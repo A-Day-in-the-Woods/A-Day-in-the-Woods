@@ -209,8 +209,6 @@ void Game::processEvent()
 /// </summary>
 void Game::update()
 {
-	//graph.nodeIndex(1)->m_x;
-	//graph.nodeIndex(1)->m_Y;
 
 	switch (m_currentState)
 	{
@@ -247,7 +245,6 @@ void Game::update()
 		break;
 	}
 
-	m_healthSystem.update();
 }
 
 /// <summary>

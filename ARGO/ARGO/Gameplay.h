@@ -36,7 +36,6 @@ public:
 	int randomNumber(int t_max, int t_min);
 	
 	int m_npcCount = 0;
-
 	int m_turnOrder{ 0 };
 
 private:
@@ -70,12 +69,12 @@ private:
 
 	SDL_Texture* m_backgroundTextureTwo;
 
-	
-
 	//Dice
 	std::vector <SDL_Texture*> m_DiceTexture; // Dice texture
+	std::vector <SDL_Texture*> m_DiceTextureSides; // Dice texture
+
 	std::vector<SDL_Rect> m_DiceRect;
-	std::vector <SDL_Surface*> m_DiceSurface;
+	SDL_Surface* m_DiceSurface;
 
 	//player UI
 	std::vector<SDL_Texture*>m_PlayerUITexture; // Player UI texture
