@@ -14,8 +14,8 @@ Tile::~Tile()
 
 void Tile::SetUp()
 {
-	rect.w = 10;
-	rect.h = 10;
+	rect.w = 20;
+	rect.h = 20;
 	count = 0;
 }
 
