@@ -72,34 +72,40 @@ public:
 			if (p.size() > 1)
 			{ // direction choice
 
-				if (m_choicesMade >= 1 && m_randomDirectionDecided == true)
-				{
-					m_randomDirectionDecided = false;
-				}
-
+	
 				if (*m_IsAi == true && choiceLoop ==true && m_randomDirectionDecided == false)
 				{
+					m_currentDiceRoll = p.size()-1;
 					m_DirectionChoiceNum = randomNumber(6,1);
 					choiceLoop = false;
 				}
+				else if (m_currentDiceRoll != p.size() || m_currentDiceRoll == -1)
+				{
+					m_randomDirectionDecided = false;
+				}
+			
+
 
 				if (!choiceLoop)
 				{
-					
+
 
 					if (m_DirectionChoiceNum == nodeDirectionCheck(
-							p.front().node()->m_x,
-							p.front().node()->m_y,
-							t_g.nodeIndex(CurrentGameBoardIndex)->m_x,
-							t_g.nodeIndex(CurrentGameBoardIndex)->m_y))
+						p.front().node()->m_x,
+						p.front().node()->m_y,
+						t_g.nodeIndex(CurrentGameBoardIndex)->m_x,
+						t_g.nodeIndex(CurrentGameBoardIndex)->m_y))
 					{
 						playerNodeChange(p, t_map, t_g);
-						m_randomDirectionDecided = true;
-						m_randomDirectionDecided++;
+
+						if (*m_IsAi == true)
+						{
+							m_randomDirectionDecided = true;
+						}
 					}
 					else
 					{
-			
+
 						p.reverse();
 						if (m_DirectionChoiceNum == nodeDirectionCheck(
 							p.front().node()->m_x,
@@ -108,58 +114,35 @@ public:
 							t_g.nodeIndex(CurrentGameBoardIndex)->m_y))
 						{
 							playerNodeChange(p, t_map, t_g);
-							m_randomDirectionDecided = true;
-							m_choicesMade++;
+
+							if (*m_IsAi == true)
+							{
+								m_randomDirectionDecided = true;
+							}
 						}
 					}
 					if (!m_randomDirectionDecided)
 					{
-						m_loopsMade++;
-						m_DirectionChoiceNum = randomNumber(6, 1);
-						choiceLoop = false;
+						if (*m_IsAi == true)
+						{
+							m_DirectionChoiceNum = randomNumber(6, 1);
+						}
 					}
-					//else if()
-				}
-				else
-				{
-					m_loopsMade++;
-					m_DirectionChoiceNum = randomNumber(6, 1);
-					choiceLoop = false;
 
 				}
-
 			}
 			else
-			{ // only one way to go
-				if (m_loopsMade >= 3)
-				{
-					m_takeingTurn = false;
-					m_diceRoll = -1;
-					choiceLoop = false;
-				}
-				else
-				{
-					if (m_loopsMade == 1 && p.size() >= 1)
-					{
-						m_takeingTurn = false;
-						m_diceRoll = -1;
-						m_choicesMade = 0;
-						m_loopsMade = 0;
-						choiceLoop = false;
-
-					}
-					playerNodeChange(p, t_map, t_g);
-				}
-				
+			{ // only one way to go			
+				playerNodeChange(p, t_map, t_g);								
 			}
 		}
 		else
 		{
 			m_takeingTurn = false;
 			m_diceRoll = -1;
-			m_choicesMade = 0;
-			m_loopsMade = 0;
+			m_currentDiceRoll = -1;
 			choiceLoop = false;
+			m_randomDirectionDecided = false;
 
 		}
 	}
@@ -281,11 +264,11 @@ private:
 	bool * m_IsAi;
 
 	bool m_randomDirectionDecided{false};
-	int m_choicesMade{ 0 };
-	int m_loopsMade{ 0 };
 	bool choiceLoop;
 
 	bool LeftOrRight = false;
+	int m_currentDiceRoll{ -1 };
+
 
 
 	bool m_takeingTurn;

@@ -121,12 +121,12 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		int temp = randomNumber(80, 0);
 
 		if (temp == 0){
-		m_clouds[i].x += 5;
+		m_clouds[i].x += 10;
 		m_clouds[i].h -= 10;
 		m_clouds[i].w -= 15;}
 
 		else if (temp == 1){
-		m_clouds[i].x -= 5;
+		m_clouds[i].x -= 10;
 		m_clouds[i].h += 10;
 		m_clouds[i].w += 15;}
 
