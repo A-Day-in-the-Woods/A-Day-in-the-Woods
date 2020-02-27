@@ -16,7 +16,7 @@
 #include "MovementSystem.h"
 #include "MovementComponent.h"
 #include "Camera.h"
-#include "Client.h"
+
 
 
 class Game;
@@ -46,7 +46,7 @@ private:
 
 	void setDiceTexture(int m_playerID);
 
-	Client* m_client;
+
 
 
 	int m_rotation = 0;

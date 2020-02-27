@@ -10,7 +10,7 @@
 #include <string>
 #include <InputSystem.h>
 #include "NumFromString.cpp"
-//#include "Client.h"
+#include "Client.h"
 
 class Game;
 
@@ -30,7 +30,7 @@ private:
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;
 
-	//Client* m_client;
+	Client* m_client;
 	
 
 	GameState& m_currentState;

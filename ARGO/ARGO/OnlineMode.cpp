@@ -11,17 +11,17 @@ OnlineMode::OnlineMode(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 
 	
 
-	//m_client = new Client("149.153.106.155", 1111, m_entity);
+	m_client = new Client("149.153.106.155", 1111, m_entity);
 	m_numberPlayers = m_entity.size();
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic1.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
 
-	//if (!m_client->Connect()) //If client fails to connect...
-	//{
-	//	std::cout << "Failed to connect to server..." << std::endl;
+	if (!m_client->Connect()) //If client fails to connect...
+	{
+		std::cout << "Failed to connect to server..." << std::endl;
 
-	//}
+	}
 
 }
 
@@ -32,7 +32,7 @@ OnlineMode::~OnlineMode()
 void OnlineMode::update()
 {
 	
-	//int x = numFromString(m_client->getOtherPos()).at(0);
+	int x = numFromString(m_client->getOtherPos()).at(0);
 
 
 
@@ -57,7 +57,7 @@ void OnlineMode::processEvent()
 	for (int i = 0; i < m_numberPlayers ;i++)
 	{
 		m_inputSystem.update(m_event, m_currentState, m_entity[i]);
-		//m_client->SendString(m_entity[i]->GetValueAsString());
+		m_client->SendString(m_entity[i]->GetValueAsString());
 		
 	}
 	
