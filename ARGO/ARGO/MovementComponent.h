@@ -114,11 +114,47 @@ public:
 		}
 		else
 		{
+
+			if (MoveForward)
+			{
+				if (IndexPlaceHolder == CurrentGameBoardIndex)
+				{
+					std::list<GraphArc<std::pair<std::string, int>, int>> p;
+					p = t_g.nodeIndex(CurrentGameBoardIndex)->arcList();
+					playerNodeChange(p, t_map, t_g);
+				}
+				else
+				{
+					m_diceRoll = -1;
+					choiceLoop = false;
+					m_takeingTurn = false;
+					MoveForward = false;
+				}
+			}
+
+			if (MoveBack)
+			{
+				if (animateMovingToPoint(t_map[PriorGameBoardIndex].getPosition().x - (rect->w / 4.0f), t_map[PriorGameBoardIndex].getPosition().y - (rect->h / 4.0f)))
+				{
+					int tempIndex = CurrentGameBoardIndex;
+					CurrentGameBoardIndex = PriorGameBoardIndex;
+					PriorGameBoardIndex = tempIndex;
+
+					std::cout << m_diceRoll << std::endl;
+					m_diceRoll = -1;
+					choiceLoop = false;
+					m_takeingTurn = false;
+
+					MoveBack = false;
+				}
+			}
+
+
 			if (m_takeingTurn)
 			{
 				switch (tileBehaviour(t_map))
 				{
-				case 0:
+				case 0: // Basic Tile
 					m_takeingTurn = false;
 					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
@@ -148,31 +184,27 @@ public:
 					m_diceRoll = -1;
 					choiceLoop = false;
 					break;
-				case 2:
-					m_diceRoll = 1;
+				case 2: // +1 SPACE
+					MoveForward = true;
+					IndexPlaceHolder = CurrentGameBoardIndex;
 					break;
-				case 3:
+				case 3: // + 1 TURN
 					m_takeingTurn = false;
 					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
 					choiceLoop = false;
 					break;
-				case 4://+ 1 turn
+				case 4:// - 1 TURN
 					m_takeingTurn = false;
 					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -2;
 					choiceLoop = false;
 					break;
-				case 5:// - 1 turn
-					m_takeingTurn = false;
-					std::cout << m_diceRoll << std::endl;
-					m_diceRoll = -1;
-					choiceLoop = false;
+				case 5:// -1 SPACE
+					MoveBack = true;
 					break;
 				}
 			}
-
-
 		}
 	}
 
@@ -190,6 +222,7 @@ public:
 
 				if (animateMovingToPoint(t_map[i].getPosition().x - (rect->w / 4.0f), t_map[i].getPosition().y - (rect->h / 4.0f)))
 				{
+					PriorGameBoardIndex = CurrentGameBoardIndex;
 					CurrentGameBoardIndex = i;
 					m_diceRoll--;
 					choiceLoop = true;
@@ -350,6 +383,11 @@ private:
 
 
 	int CurrentGameBoardIndex;
+	int PriorGameBoardIndex;
+
+	bool MoveForward = false;
+	bool MoveBack = false;
+	int IndexPlaceHolder;
 
 
 	SDL_Rect * rect;
