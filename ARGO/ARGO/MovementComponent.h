@@ -67,34 +67,45 @@ public:
 			SDL_Event(event);
 			SDL_PollEvent(&event);
 
+		
 
 			if (p.size() > 1)
 			{ // direction choice
-				if (*m_IsAi == true && choiceLoop ==true)
+
+	
+				if (*m_IsAi == true && choiceLoop ==true && m_randomDirectionDecided == false)
 				{
+					m_currentDiceRoll = p.size()-1;
 					m_DirectionChoiceNum = randomNumber(6,1);
 					choiceLoop = false;
 				}
+				else if (m_currentDiceRoll != p.size() || m_currentDiceRoll == -1)
+				{
+					m_randomDirectionDecided = false;
+				}
+			
+
+
 				if (!choiceLoop)
 				{
-		
+
 
 					if (m_DirectionChoiceNum == nodeDirectionCheck(
-							p.front().node()->m_x,
-							p.front().node()->m_y,
-							t_g.nodeIndex(CurrentGameBoardIndex)->m_x,
-							t_g.nodeIndex(CurrentGameBoardIndex)->m_y))
+						p.front().node()->m_x,
+						p.front().node()->m_y,
+						t_g.nodeIndex(CurrentGameBoardIndex)->m_x,
+						t_g.nodeIndex(CurrentGameBoardIndex)->m_y))
 					{
 						playerNodeChange(p, t_map, t_g);
-					}
-					else if (*m_IsAi == true)
-					{
-						m_DirectionChoiceNum = randomNumber(6, 1);
 
+						if (*m_IsAi == true)
+						{
+							m_randomDirectionDecided = true;
+						}
 					}
 					else
 					{
-			
+
 						p.reverse();
 						if (m_DirectionChoiceNum == nodeDirectionCheck(
 							p.front().node()->m_x,
@@ -103,21 +114,36 @@ public:
 							t_g.nodeIndex(CurrentGameBoardIndex)->m_y))
 						{
 							playerNodeChange(p, t_map, t_g);
+
+							if (*m_IsAi == true)
+							{
+								m_randomDirectionDecided = true;
+							}
 						}
 					}
+					if (!m_randomDirectionDecided)
+					{
+						if (*m_IsAi == true)
+						{
+							m_DirectionChoiceNum = randomNumber(6, 1);
+						}
+					}
+
 				}
 			}
 			else
-			{ // only one way to go
-				playerNodeChange(p, t_map, t_g);
+			{ // only one way to go			
+				playerNodeChange(p, t_map, t_g);								
 			}
 		}
 		else
 		{
 			m_takeingTurn = false;
-			std::cout << m_diceRoll << std::endl;
 			m_diceRoll = -1;
+			m_currentDiceRoll = -1;
 			choiceLoop = false;
+			m_randomDirectionDecided = false;
+
 		}
 	}
 
@@ -149,6 +175,7 @@ public:
 				{
 					CurrentGameBoardIndex = i;
 					m_diceRoll--;
+					m_randomDirectionDecided = false;
 					choiceLoop = true;
 					// direction check here;
 				}
@@ -229,6 +256,7 @@ public:
 
 	int nodeDirectionCheck(int x1, int y1, int x2, int y2)
 	{
+
 		if (x1 == x2 && y1 > y2)
 		{	// p2 Down
 			return 1;
@@ -259,8 +287,13 @@ private:
 	SDL_Rect * rect;
 	bool * m_IsAi;
 
+	bool m_randomDirectionDecided{false};
 	bool choiceLoop;
+
 	bool LeftOrRight = false;
+	int m_currentDiceRoll{ -1 };
+
+
 
 	bool gameWin = false;
 	int playerWon;
@@ -269,7 +302,7 @@ private:
 
 	float m_movementSpeed;
 
-	int m_diceRoll;
+	int m_diceRoll{-1};
 
 	int m_DirectionChoiceNum = -1;
 };
