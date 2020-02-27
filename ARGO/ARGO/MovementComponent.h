@@ -259,6 +259,18 @@ public:
 							Graph< pair<string, int>, int>& t_g) {
 		for (int i = 0; i < t_map.size(); i++)
 		{
+			if (CurrentGameBoardIndex == 41)
+			{
+				std::cout << "Game Won " << std::endl;
+				gameWin = true;
+				
+			}
+
+			if (gameWin)
+			{
+				break;
+			}
+
 			if (newPoint.front().node()->m_x == t_g.nodeIndex(i)->m_x &&
 				newPoint.front().node()->m_y == t_g.nodeIndex(i)->m_y)
 			{
@@ -273,9 +285,21 @@ public:
 					choiceLoop = true;
 					// direction check here;
 				}
+				
 			}
+
+			
 		}
+		
 	}
+
+
+	bool getEndGame()
+	{
+		return gameWin;
+	}
+
+	
 
 	void rollForMove(int t_diceRolled) {
 
@@ -427,14 +451,13 @@ public:
 
 private:
 
-
+	//Real one
 	int CurrentGameBoardIndex;
 	int PriorGameBoardIndex;
 
 	bool MoveForward = false;
 	bool MoveBack = false;
 	int IndexPlaceHolder;
-
 
 	SDL_Rect * rect;
 	bool * m_IsAi;
@@ -447,6 +470,9 @@ private:
 	int m_currentDiceRoll{ -1 };
 
 
+
+	bool gameWin = false;
+	int playerWon;
 
 	bool m_takeingTurn;
 

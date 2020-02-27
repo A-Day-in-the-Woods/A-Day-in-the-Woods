@@ -55,6 +55,7 @@ public:
 	void setLastButton(int t_button) { m_lastButtonPressed = t_button; };
 	int getLastButtonPressed() { return m_lastButtonPressed; };
 
+
 	bool IsAI{ false };
 
 private:

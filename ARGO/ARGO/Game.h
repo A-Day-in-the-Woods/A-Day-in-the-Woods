@@ -93,6 +93,9 @@ private:
 	int index = 0;
 	ifstream myfile;
 
+	bool GameWon{ false };
+
+	int winnerIndex;
 
 	string from, to;
 	int weight;
