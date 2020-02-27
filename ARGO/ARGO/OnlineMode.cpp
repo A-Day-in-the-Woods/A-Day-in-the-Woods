@@ -32,8 +32,11 @@ OnlineMode::~OnlineMode()
 void OnlineMode::update()
 {
 	
-	int x = numFromString(m_client->getOtherPos()).at(0);
+	int x = numFromString(m_client->GetDiceRoll()).at(0);
 
+	//m_client->SendString(m_entity[0]->GetValueAsString());
+	m_client->SendString(std::to_string(6));
+	std::cout << x << std::endl;
 
 
 	if (m_entity[0]->m_lastButtonPressed == 4)
@@ -57,8 +60,6 @@ void OnlineMode::processEvent()
 	for (int i = 0; i < m_numberPlayers ;i++)
 	{
 		m_inputSystem.update(m_event, m_currentState, m_entity[i]);
-		m_client->SendString(m_entity[i]->GetValueAsString());
-		
 	}
 	
 }

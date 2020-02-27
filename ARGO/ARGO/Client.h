@@ -19,12 +19,13 @@ public: //Public functions
 	void SendString(const std::string& str);
 	bool RequestFile(const std::string& fileName);
 	~Client();
-	std::string getOtherPos() { return m_otherPos; }
+	std::string GetDiceRoll() { return m_diceRoll; }
+
 
 private: //Private functions
 
 	std::string GetMessage() { return m_message.second; }
-	std::string m_otherPos;
+	std::string m_diceRoll;
 
 	bool CloseConnection();
 	bool ProcessPacketType(const PacketType packetType);
