@@ -323,18 +323,31 @@ void Gameplay::processEvent(MovementSystem & t_move)
 	{
 		if (m_turnOrder == m_entity[i]->getId())
 		{
-
-			if (t_move.getPlayerDiceValue(i) == -1 && !t_move.IsThePlayerMoving(i))
+			if (t_move.getPlayerDiceValue(i) == -2)
 			{
-				t_move.setPlayerDiceValue(i, 0);
+				m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
+			}
+			else if (t_move.getPlayerDiceValue(i) == -3)
+			{
 				m_turnOrder++;
 				if (m_turnOrder == m_entity.size())
 					m_turnOrder = 0;
-				m_entity[i]->setLastButton(NULL);
+				t_move.setPlayerDiceValue(i, -1);
 			}
 			else
 			{
-				m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
+				if (t_move.getPlayerDiceValue(i) == -1 && !t_move.IsThePlayerMoving(i))
+				{
+					t_move.setPlayerDiceValue(i, 0);
+					m_turnOrder++;
+					if (m_turnOrder == m_entity.size())
+						m_turnOrder = 0;
+					m_entity[i]->setLastButton(NULL);
+				}
+				else
+				{
+					m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
+				}
 			}
 		}
 	}
