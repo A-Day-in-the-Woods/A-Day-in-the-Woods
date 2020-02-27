@@ -11,8 +11,6 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 {
 	m_numberPlayers = m_entity.size();
 
-
-
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceOne.png"));
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceTwo.png"));
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceThree.png"));
@@ -70,10 +68,8 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 
 	m_clouds.reserve(100);
 	m_tile.reserve(200);
-	for (int i = 0; i < 100; i++)
-	{
-		m_clouds.push_back(SDL_Rect{ randomNumber(1300,500),randomNumber(900,100),150,100 });
-	}
+
+	for (int i = 0; i < 100; i++) {m_clouds.push_back(SDL_Rect{ randomNumber(1300,500),randomNumber(900,100),150,100 });} //make 100 clouds
 
 	for (int i = 0; i < 4 ; i++)
 	{
@@ -81,14 +77,10 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 		m_outLine.push_back(SDL_Rect{ 1860,(i * 200)-100,250,700 });
 	}
 
-	for (int i = 0; i < 4; i++)
-	{
-		m_outLine.push_back(SDL_Rect{ i*550,820 - 100,150,700 });
-	}
+	for (int i = 0; i < 4; i++) {m_outLine.push_back(SDL_Rect{ i*550,820 - 100,150,700 });} //make out line of bushes 
 
 	m_CloudSurface = IMG_Load("ASSETS/IMAGES/cloud.png");
 	m_CloudTexture = SDL_CreateTextureFromSurface(m_renderer, m_CloudSurface);
-
 
 	m_outLineSurface = IMG_Load("ASSETS/IMAGES/UI/hedge.png");
 	m_outLineTexture = SDL_CreateTextureFromSurface(m_renderer, m_outLineSurface);
@@ -127,15 +119,21 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	for (int i = 0; i < m_clouds.size(); i++)
 	{
 		int temp = randomNumber(80, 0);
-		if (temp == 0)
-		{
-			m_clouds[i].x += 5;
-		}
-		else if (temp == 1)
-		{
-			m_clouds[i].x -= 5;
-		}
 
+		if (temp == 0){
+		m_clouds[i].x += 5;
+		m_clouds[i].h -= 10;
+		m_clouds[i].w -= 15;}
+
+		else if (temp == 1){
+		m_clouds[i].x -= 5;
+		m_clouds[i].h += 10;
+		m_clouds[i].w += 15;}
+
+		if (m_clouds[i].x > 1500 || m_clouds[i].x < 300 || m_clouds[i].y > 950 || m_clouds[i].y < 0 || m_clouds[i].h > 150 || m_clouds[i].h < 50) {
+			m_clouds.erase(m_clouds.begin() + i);
+			m_clouds.push_back(SDL_Rect{ randomNumber(1300,500),randomNumber(900,100),150,100 });
+		}
 	}
 
 
@@ -225,15 +223,12 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	SDL_RenderCopy(m_renderer, m_backgroundTexture, NULL, &m_backgroundRect);
 
 
-	//drawLines(graph, t_player, t_npc);// can remove --------------
 
 	offset->x = focus->x - camera->getCamera()->x;
 	offset->y = focus->y - camera->getCamera()->y;
 	offset->w = focus->w;
 	offset->h = focus->h;
-	
-	//SDL_SetRenderDrawColor(m_renderer, 0xFF, 0x00, 0x00, 0xFF); // can remove --------------
-	//SDL_RenderDrawRect(m_renderer, offset);
+
 	
 	for (int i = 0; i < m_clouds.size(); i++)
 	{
@@ -267,25 +262,25 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 	for (int i = 0; i < m_numberPlayers ;i++)
 	{
-		m_entity[i]->render(m_renderer);
-
 		if (i == m_turnOrder) {
-			if(m_entity[m_turnOrder]->getLastButtonPressed() == 1)
-			{
-				setDiceTexture(i);
-			}
+			if(m_entity[m_turnOrder]->getLastButtonPressed() == 1) {setDiceTexture(i);}
+			m_entity[i]->render(m_renderer, m_rotation);
 			SDL_RenderCopyEx(m_renderer, m_PlayerShadowUITexture[i], NULL, &m_PlayerShadowUIRect[i], m_rotation, NULL, SDL_FLIP_NONE);
 			SDL_RenderCopyEx(m_renderer, m_PlayerUITexture[i], NULL, &m_PlayerUIRect[i], m_rotation, NULL, SDL_FLIP_NONE);
 			SDL_RenderCopyEx(m_renderer, m_DiceTexture[i], NULL, &m_DiceRect[i], m_rotation, NULL, SDL_FLIP_NONE);
 		}
 		else
 		{
+			m_entity[i]->render(m_renderer, 0);
 			SDL_RenderCopyEx(m_renderer, m_PlayerShadowUITexture[i], NULL, &m_PlayerShadowUIRect[i], 0, NULL, SDL_FLIP_NONE);
 			SDL_RenderCopyEx(m_renderer, m_PlayerUITexture[i], NULL, &m_PlayerUIRect[i], 0, NULL, SDL_FLIP_NONE);
-			SDL_RenderCopyEx(m_renderer, m_DiceTexture[i], NULL, &m_DiceRect[i], 0, NULL, SDL_FLIP_NONE);}
+			SDL_RenderCopyEx(m_renderer, m_DiceTexture[i], NULL, &m_DiceRect[i], 0, NULL, SDL_FLIP_NONE);
+		}
 	}
 
-	for (int i = 0; i < m_clouds.size(); i++) {SDL_RenderCopy(m_renderer, m_CloudTexture, NULL, &m_clouds[i]);}
+	for (int i = 0; i < m_clouds.size(); i++) {SDL_RenderCopyEx(m_renderer, m_CloudTexture, NULL, &m_clouds[i], 0, NULL, SDL_FLIP_NONE);}
+
+	for (int i = 0; i < t_npc.size(); i++) {t_npc[i]->render(m_renderer);}
 
 	SDL_RenderPresent(m_renderer);
 }
@@ -320,119 +315,6 @@ void Gameplay::setGameState()
 	SDL_RenderSetScale(m_renderer, 1, 1);
 	m_game.startMinGame();
 	m_game.setGameState(GameState::Minigame);
-}
-
-void Gameplay::drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc)
-{
-	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-
-	for (int i = 0; i < 41; i ++)
-	{
-		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
-	}
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(39)->m_x + 5, graph.nodeIndex(39)->m_y+5, graph.nodeIndex(42)->m_x + 5, graph.nodeIndex(42)->m_y+5);
-	
-	for (int i = 42; i < 54; i++)
-	{
-		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y+5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y+5);
-	}
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(54)->m_x + 5, graph.nodeIndex(54)->m_y + 5, graph.nodeIndex(37)->m_x + 5, graph.nodeIndex(37)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(35)->m_x + 5, graph.nodeIndex(35)->m_y + 5, graph.nodeIndex(55)->m_x + 5, graph.nodeIndex(55)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(30)->m_x + 5, graph.nodeIndex(30)->m_y + 5, graph.nodeIndex(56)->m_x + 5, graph.nodeIndex(56)->m_y + 5);
-
-	for (int i = 55; i < 101; i++)
-	{
-		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
-	}
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(51)->m_x + 5, graph.nodeIndex(51)->m_y + 5, graph.nodeIndex(43)->m_x + 5, graph.nodeIndex(43)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(101)->m_x + 5, graph.nodeIndex(101)->m_y + 5, graph.nodeIndex(4)->m_x + 5, graph.nodeIndex(4)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(108)->m_x + 5, graph.nodeIndex(108)->m_y + 5, graph.nodeIndex(11)->m_x + 5, graph.nodeIndex(11)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(107)->m_x + 5, graph.nodeIndex(107)->m_y + 5, graph.nodeIndex(8)->m_x + 5, graph.nodeIndex(8)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(107)->m_x + 5, graph.nodeIndex(107)->m_y + 5, graph.nodeIndex(108)->m_x + 5, graph.nodeIndex(108)->m_y + 5);
-
-	for (int i = 101; i < 106; i++)
-	{
-		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
-	}
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(106)->m_x + 5, graph.nodeIndex(106)->m_y + 5, graph.nodeIndex(99)->m_x + 5, graph.nodeIndex(99)->m_y + 5);
-
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(127)->m_x + 5, graph.nodeIndex(127)->m_y + 5, graph.nodeIndex(97)->m_x + 5, graph.nodeIndex(97)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(128)->m_x + 5, graph.nodeIndex(128)->m_y + 5, graph.nodeIndex(83)->m_x + 5, graph.nodeIndex(83)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(128)->m_x + 5, graph.nodeIndex(128)->m_y + 5, graph.nodeIndex(127)->m_x + 5, graph.nodeIndex(127)->m_y + 5);
-
-	for (int i = 124; i < 126; i++)
-	{
-		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
-	}
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(124)->m_x + 5, graph.nodeIndex(124)->m_y + 5, graph.nodeIndex(93)->m_x + 5, graph.nodeIndex(93)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(126)->m_x + 5, graph.nodeIndex(126)->m_y + 5, graph.nodeIndex(91)->m_x + 5, graph.nodeIndex(91)->m_y + 5);
-
-	for (int i = 109; i < 112; i++)
-	{
-		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
-	}
-
-	for (int i = 113; i < 115; i++)
-	{
-		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
-	}
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(109)->m_x + 5, graph.nodeIndex(109)->m_y + 5, graph.nodeIndex(14)->m_x + 5, graph.nodeIndex(14)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(112)->m_x + 5, graph.nodeIndex(112)->m_y + 5, graph.nodeIndex(17)->m_x + 5, graph.nodeIndex(17)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(13)->m_x + 5, graph.nodeIndex(13)->m_y + 5, graph.nodeIndex(113)->m_x + 5, graph.nodeIndex(113)->m_y + 5);
-
-	for (int i = 116; i < 121; i++)
-	{
-		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
-	}
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(121)->m_x + 5, graph.nodeIndex(121)->m_y + 5, graph.nodeIndex(21)->m_x + 5, graph.nodeIndex(21)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(115)->m_x + 5, graph.nodeIndex(115)->m_y + 5, graph.nodeIndex(116)->m_x + 5, graph.nodeIndex(116)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(114)->m_x + 5, graph.nodeIndex(114)->m_y + 5, graph.nodeIndex(137)->m_x + 5, graph.nodeIndex(137)->m_y + 5);
-
-	for (int i = 129; i < 137; i++)
-	{
-		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
-	}
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(138)->m_x + 5, graph.nodeIndex(138)->m_y + 5, graph.nodeIndex(134)->m_x + 5, graph.nodeIndex(134)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(138)->m_x + 5, graph.nodeIndex(138)->m_y + 5, graph.nodeIndex(115)->m_x + 5, graph.nodeIndex(115)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(130)->m_x + 5, graph.nodeIndex(130)->m_y + 5, graph.nodeIndex(81)->m_x + 5, graph.nodeIndex(81)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(122)->m_x + 5, graph.nodeIndex(122)->m_y + 5, graph.nodeIndex(123)->m_x + 5, graph.nodeIndex(123)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(122)->m_x + 5, graph.nodeIndex(122)->m_y + 5, graph.nodeIndex(22)->m_x + 5, graph.nodeIndex(22)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(123)->m_x + 5, graph.nodeIndex(123)->m_y + 5, graph.nodeIndex(25)->m_x + 5, graph.nodeIndex(25)->m_y + 5);
-
-	for (int i = 148; i < 152; i++)
-	{
-		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
-	}
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(148)->m_x + 5, graph.nodeIndex(148)->m_y + 5, graph.nodeIndex(27)->m_x + 5, graph.nodeIndex(27)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(152)->m_x + 5, graph.nodeIndex(152)->m_y + 5, graph.nodeIndex(28)->m_x + 5, graph.nodeIndex(28)->m_y + 5); //weird top right bit
-	
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(170)->m_x + 5, graph.nodeIndex(170)->m_y + 5, graph.nodeIndex(171)->m_x + 5, graph.nodeIndex(171)->m_y + 5);
-
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(170)->m_x + 5, graph.nodeIndex(170)->m_y + 5, graph.nodeIndex(76)->m_x + 5, graph.nodeIndex(76)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(171)->m_x + 5, graph.nodeIndex(171)->m_y + 5, graph.nodeIndex(129)->m_x + 5, graph.nodeIndex(129)->m_y + 5);
-	
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(149)->m_x + 5, graph.nodeIndex(149)->m_y + 5, graph.nodeIndex(153)->m_x + 5, graph.nodeIndex(153)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(153)->m_x + 5, graph.nodeIndex(153)->m_y + 5, graph.nodeIndex(154)->m_x + 5, graph.nodeIndex(154)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(154)->m_x + 5, graph.nodeIndex(154)->m_y + 5, graph.nodeIndex(63)->m_x + 5, graph.nodeIndex(63)->m_y + 5);
-
-	for (int i = 162; i < 166; i++)
-	{
-		SDL_RenderDrawLine(m_renderer, graph.nodeIndex(i)->m_x + 5, graph.nodeIndex(i)->m_y + 5, graph.nodeIndex(i + 1)->m_x + 5, graph.nodeIndex(i + 1)->m_y + 5);
-	}
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(166)->m_x + 5, graph.nodeIndex(166)->m_y + 5, graph.nodeIndex(26)->m_x + 5, graph.nodeIndex(26)->m_y + 5);
-	SDL_RenderDrawLine(m_renderer, graph.nodeIndex(162)->m_x + 5, graph.nodeIndex(162)->m_y + 5, graph.nodeIndex(75)->m_x + 5, graph.nodeIndex(75)->m_y + 5);
-	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
-
-	for (int i = 0; i < t_player.size(); i++)
-	{
-		t_player[i]->render(m_renderer);
-	}
-
-	for (int i = 0; i < t_npc.size(); i++)
-	{
-		t_npc[i]->render(m_renderer);
-	}
-	//SDL_RenderPresent(m_renderer);
 }
 
 

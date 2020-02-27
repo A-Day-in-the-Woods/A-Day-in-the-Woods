@@ -114,21 +114,51 @@ public:
 					}
 					if (!m_randomDirectionDecided)
 					{
+						m_loopsMade++;
 						m_DirectionChoiceNum = randomNumber(6, 1);
+						choiceLoop = false;
 					}
+					//else if()
 				}
+				else
+				{
+					m_loopsMade++;
+					m_DirectionChoiceNum = randomNumber(6, 1);
+					choiceLoop = false;
+
+				}
+
 			}
 			else
 			{ // only one way to go
-				playerNodeChange(p, t_map, t_g);
+				if (m_loopsMade >= 3)
+				{
+					m_takeingTurn = false;
+					m_diceRoll = -1;
+					choiceLoop = false;
+				}
+				else
+				{
+					if (m_loopsMade == 1 && p.size() >= 1)
+					{
+						m_takeingTurn = false;
+						m_diceRoll = -1;
+						m_choicesMade = 0;
+						m_loopsMade = 0;
+						choiceLoop = false;
+
+					}
+					playerNodeChange(p, t_map, t_g);
+				}
+				
 			}
 		}
 		else
 		{
 			m_takeingTurn = false;
-			std::cout << m_diceRoll << std::endl;
 			m_diceRoll = -1;
 			m_choicesMade = 0;
+			m_loopsMade = 0;
 			choiceLoop = false;
 
 		}
@@ -252,8 +282,11 @@ private:
 
 	bool m_randomDirectionDecided{false};
 	int m_choicesMade{ 0 };
+	int m_loopsMade{ 0 };
 	bool choiceLoop;
+
 	bool LeftOrRight = false;
+
 
 	bool m_takeingTurn;
 

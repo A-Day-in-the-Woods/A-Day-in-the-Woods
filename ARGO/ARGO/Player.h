@@ -30,7 +30,7 @@ public:
 	void assignSprite(SDL_Texture* t_PlayerTexture);
 	void SetUp();
 	void update(MovementSystem & t_move);
-	void render(SDL_Renderer* t_renderer);
+	void render(SDL_Renderer* t_renderer,int t_rotation);
 	void setPosition(float t_x, float t_y);
 	
 	
@@ -57,8 +57,6 @@ public:
 	bool IsAI{ false };
 
 private:
-
-
 
 	SDL_Rect rect;//temp rect for a player square
 	SDL_Rect m_spriteBody;

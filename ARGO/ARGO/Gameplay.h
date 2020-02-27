@@ -32,7 +32,6 @@ public:
 	void processEvent(MovementSystem& t_move);
 	void setGameState();
 	int randomNumber(int t_max, int t_min);
-	void drawLines(Graph< pair<string, int>, int>& graph, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc);
 	
 	int m_npcCount = 0;
 
@@ -46,11 +45,7 @@ private:
 
 	void setDiceTexture(int m_playerID);
 
-
-
-
 	int m_rotation = 0;
-
 
 
 
