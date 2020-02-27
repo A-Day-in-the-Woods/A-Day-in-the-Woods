@@ -32,6 +32,7 @@
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +68,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PositionComp.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="Tile.h" />
   </ItemGroup>
   <ItemGroup>

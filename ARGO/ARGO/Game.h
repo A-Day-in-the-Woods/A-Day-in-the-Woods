@@ -18,6 +18,7 @@
 #include "Gameplay.h"
 #include "CreditsScreen.h"
 #include "Minigame.h"
+#include "SplashScreen.h"
 
 #include "Entity.h"
 #include "HealthComp.h"
@@ -37,7 +38,7 @@ class OptionScreen;
 class Gameplay;
 class CreditScreen;
 class MinigameScreen;
-
+class SplashScreen;
 
 typedef GraphArc<pair<std::string, int>, int> Arc;
 typedef GraphNode<pair<std::string, int>, int> Node;
@@ -51,7 +52,7 @@ public:
 	Game();
 	~Game();
 	void run();
-	GameState m_currentState{ GameState::Menu };
+	GameState m_currentState{ GameState::Splash };
 	void setGameState(GameState t_newState) { m_currentState = t_newState; };
 
 	void startMinGame();
@@ -68,6 +69,7 @@ private:
 	Gameplay* m_gameplayscreen;
 	CreditScreen* m_creditscreen;
 	MinigameScreen* m_minigamescreen;
+	SplashScreen* m_splashscreen;
 	
 	SDL_Window* m_window;	// game window
 	SDL_Renderer* m_renderer;	// game renderer

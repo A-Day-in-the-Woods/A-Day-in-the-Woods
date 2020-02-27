@@ -9,12 +9,13 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 	m_entity(t_entity)
 {
 	m_numberPlayers = m_entity.size();
-	m_backgroundSurface = IMG_Load("ASSETS\\IMAGES\\MainMenuBg.png");
+	SDL_Surface* m_backgroundSurface = IMG_Load("ASSETS\\IMAGES\\MainMenuBg.png");
 	m_backgroundTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
 	
-	m_titleSurface = IMG_Load("ASSETS\\IMAGES\\Title.png");
+	SDL_Surface* m_titleSurface = IMG_Load("ASSETS\\IMAGES\\Title.png");
 	m_titleTexture  = SDL_CreateTextureFromSurface(m_renderer, m_titleSurface);
 
+	SDL_Surface* m_menuButtonSurface;
 	m_menuButtonSurface = IMG_Load("ASSETS\\IMAGES\\game.png");
 	m_menuButtonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_menuButtonSurface));
 	m_menuButtonSurface = IMG_Load("ASSETS\\IMAGES\\options.png");
@@ -24,6 +25,7 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 	m_menuButtonSurface = IMG_Load("ASSETS\\IMAGES\\quit.png");
 	m_menuButtonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_menuButtonSurface));
 
+	SDL_Surface* m_buttonSelectorSurface;
 	m_buttonSelectorSurface = IMG_Load("ASSETS/IMAGES/buttons/ABluePawButton.png");
 	m_buttonSelectorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
 	m_buttonSelectorTextureTwo.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
@@ -48,13 +50,24 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 	}
 	
 	m_titleRect = { 750 ,10,750, 750 };
-	m_beeSurface = IMG_Load("ASSETS/IMAGES/bee.png");
+
+	SDL_Surface* m_beeSurface = IMG_Load("ASSETS/IMAGES/bee.png");
 	m_beeTexture = SDL_CreateTextureFromSurface(m_renderer, m_beeSurface);
 
 	m_factory = new CharacterFactory;
 	m_characters.push_back(m_factory->CreateBee());
 
 	m_characters[0]->SetUp(100, 100, 90, 90, *m_beeTexture);
+
+
+	SDL_FreeSurface(m_backgroundSurface);
+	SDL_FreeSurface(m_titleSurface);
+	SDL_FreeSurface(m_menuButtonSurface);
+	SDL_FreeSurface(m_buttonSelectorSurface);
+	SDL_FreeSurface(m_beeSurface);
+
+
+
 }
 
 MenuScreen::~MenuScreen()

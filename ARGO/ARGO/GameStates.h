@@ -10,7 +10,8 @@ enum class GameState
 	Gameplay,
 	Credit,
 	Minigame,
-	Quit
+	Quit,
+	Splash
 };
 
 

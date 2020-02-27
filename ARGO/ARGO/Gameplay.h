@@ -63,7 +63,6 @@ private:
 
 
 	//background
-	SDL_Surface* m_backgroundSurface;
 	SDL_Texture* m_backgroundTexture;
 	SDL_Rect m_backgroundRect;
 
@@ -74,31 +73,21 @@ private:
 	std::vector <SDL_Texture*> m_DiceTextureSides; // Dice texture
 
 	std::vector<SDL_Rect> m_DiceRect;
-	SDL_Surface* m_DiceSurface;
 
 	//player UI
 	std::vector<SDL_Texture*>m_PlayerUITexture; // Player UI texture
 	std::vector<SDL_Rect> m_PlayerUIRect;
-	SDL_Surface* m_PlayerUISurface;
 	
 	std::vector<SDL_Texture*>m_PlayerShadowUITexture; // Player Shadow UI texture
 	std::vector<SDL_Rect> m_PlayerShadowUIRect;
-	SDL_Surface* m_PlayerShadowUISurface;
-
-	//tile	
-	std::vector<Tile> m_tile;
-	SDL_Texture* m_TileTexture; // tile texture
-	SDL_Surface* m_TileSurface;
 
 	//Clouds
 	std::vector<SDL_Rect> m_clouds;
 	SDL_Texture* m_CloudTexture; // Clouds texture
-	SDL_Surface* m_CloudSurface;
 
 	//Outline
 	std::vector<SDL_Rect> m_outLine;
 	SDL_Texture* m_outLineTexture; // outline texture
-	SDL_Surface* m_outLineSurface;
 	
 
 	//Winner Screen

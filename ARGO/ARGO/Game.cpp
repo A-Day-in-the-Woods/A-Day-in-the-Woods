@@ -76,6 +76,8 @@ Game::Game() :
 		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window, m_inputSystem,m_player);
 		m_creditscreen = new CreditScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
 		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState, m_inputSystem,m_player);
+		m_splashscreen = new SplashScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
+
 
 		// Game is running
 		m_isRunning = true;
@@ -87,13 +89,7 @@ Game::Game() :
 		// game doesnt run
 		m_isRunning = false;
 	}
-	
 
-
-
-	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic.png");
-	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
-	SDL_FreeSurface(tempSerface);
 
 
 }
@@ -172,6 +168,9 @@ void Game::processEvent()
 			break;
 		case GameState::Quit:
 			m_isRunning = false;
+			break;
+		case GameState::Splash:
+			m_splashscreen->processEvent();
 		default:
 			break;
 		}
@@ -197,6 +196,9 @@ void Game::processEvent()
 		break;
 	case GameState::Quit:
 		m_isRunning = false;
+		break;
+	case GameState::Splash:
+		m_splashscreen->processEvent();
 	default:
 		break;
 	}
@@ -241,6 +243,9 @@ void Game::update()
 		break;
 	case GameState::Quit:
 		m_isRunning = false;
+		break;
+	case GameState::Splash:
+		m_splashscreen->update();
 	default:
 		break;
 	}
@@ -280,11 +285,13 @@ void Game::render()
 		break;
 	case GameState::Quit:
 		m_isRunning = false;
+		break;
+	case GameState::Splash:
+		m_splashscreen->render();
+
 	default:
 		break;
 	}
-
-	//SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 
 	SDL_RenderPresent(m_renderer);
 

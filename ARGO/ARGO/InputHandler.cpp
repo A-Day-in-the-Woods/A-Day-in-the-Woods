@@ -25,6 +25,9 @@ void InputHandler::ForceAButton(GameState& t_currentState, Player* t_entity)
 	case GameState::Credit:
 		break;
 	case GameState::Minigame:
+		break;
+	case GameState::Splash:
+		t_entity->setLastButton(1);
 
 		break;
 	default:
@@ -71,6 +74,8 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 					t_entity->setLastButton(1);
 					m_manager->addCmd(buttonA, t_entity, NULL);
 					break;
+				case GameState::Splash:
+					t_entity->setLastButton(1);
 				default:
 					break;
 				}
