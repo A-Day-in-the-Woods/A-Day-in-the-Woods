@@ -225,8 +225,7 @@ public:
 			m_currentDiceRoll = -1;
 			break;
 				case 2: // +1 SPACE
-					MoveForward = true;
-					IndexPlaceHolder = CurrentGameBoardIndex;
+					m_diceRoll = 1;
 			break;
 				case 3: // + 1 TURN
 					m_takeingTurn = false;
