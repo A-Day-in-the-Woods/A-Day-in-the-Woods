@@ -231,7 +231,7 @@ public:
 				case 3: // + 1 TURN
 					m_takeingTurn = false;
 					std::cout << m_diceRoll << std::endl;
-					m_diceRoll = -1;
+					m_diceRoll = -2;
 					choiceLoop = false;
 					m_randomDirectionDecided = false;
 			m_currentDiceRoll = -1;
@@ -239,7 +239,7 @@ public:
 				case 4:// - 1 TURN
 					m_takeingTurn = false;
 					std::cout << m_diceRoll << std::endl;
-					m_diceRoll = -2;
+					m_diceRoll = -3;
 					choiceLoop = false;
 					m_randomDirectionDecided = false;
 			m_currentDiceRoll = -1;

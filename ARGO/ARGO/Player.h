@@ -66,16 +66,14 @@ private:
 
 
 
-/*
+
 void tileBehaviour();
-	SDL_Rect rect;//temp rect for a player square
-	SDL_Rect m_spriteBody;
-	SDL_Texture* m_PlayerTexture;
-	int diceRoll{2};
+	
+
 	int tileType;
 	int currentIndex;
 	bool stuck{ false };
-*/
+
 
 	bool m_takingTurn;
 

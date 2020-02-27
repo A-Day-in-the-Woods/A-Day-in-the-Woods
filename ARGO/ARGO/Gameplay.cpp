@@ -250,28 +250,37 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	SDL_RenderPresent(m_renderer);
 }
 
-void Gameplay::processEvent(MovementSystem & t_move)
+void Gameplay::processEvent(MovementSystem& t_move)
 {
 
 	for (int i = 0; i < m_numberPlayers; i++)
 	{
 		if (m_turnOrder == m_entity[i]->getId())
 		{
-			if (t_move.getPlayerDiceValue(i) == -2 )
+			if (t_move.getPlayerDiceValue(i) == -2)
 			{
 				m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
-
-			if (t_move.getPlayerDiceValue(i) == -1 && !t_move.IsThePlayerMoving(i))
+			}
+			else if (t_move.getPlayerDiceValue(i) == -3)
 			{
-				t_move.setPlayerDiceValue(i, 0);
 				m_turnOrder++;
 				if (m_turnOrder == m_entity.size())
 					m_turnOrder = 0;
-				m_entity[i]->setLastButton(NULL);
+				t_move.setPlayerDiceValue(i, -1);
 			}
-			else
-			{
-				m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
+			else {
+				if (t_move.getPlayerDiceValue(i) == -1 && !t_move.IsThePlayerMoving(i))
+				{
+					t_move.setPlayerDiceValue(i, 0);
+					m_turnOrder++;
+					if (m_turnOrder == m_entity.size())
+						m_turnOrder = 0;
+					m_entity[i]->setLastButton(NULL);
+				}
+				else
+				{
+					m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
+				}
 			}
 		}
 	}
