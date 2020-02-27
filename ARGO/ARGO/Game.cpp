@@ -26,6 +26,11 @@ Game::Game() :
 		// Try to initalise SDL in general
 		if (SDL_Init(SDL_INIT_EVERYTHING) < 0) throw "Error Loading SDL";
 
+		if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+		{
+			printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
+			throw "Error Loading SDL Audio";
+		}
 		// Create SDL Window Centred in Middle Of Screen
 
 		m_window = SDL_CreateWindow("Bear Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1820, 980, NULL);

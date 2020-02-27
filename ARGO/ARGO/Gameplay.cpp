@@ -10,7 +10,10 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_currentState(t_currentState)
 {
 	m_numberPlayers = m_entity.size();
-
+	
+	SDL_LoadWAV("ASSETS/AUDIO/intro.wav", &wavSpec, &wavBuffer, &wavLength);
+	deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
+	int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
 
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceOne.png"));
 	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceTwo.png"));
@@ -61,6 +64,8 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 		m_DiceTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface[0]));
 
 		m_entity[i]->assignSprite(m_PlayerUITexture[i]);
+
+		
 	}
 	
 
@@ -102,12 +107,16 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 
 Gameplay::~Gameplay()
 {
+	SDL_Delay(3000);
+	SDL_CloseAudioDevice(deviceId);
+	SDL_FreeWAV(wavBuffer);
 }
 
 void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem& t_move)
 {
 	if (!setUp)
 	{
+		SDL_PauseAudioDevice(deviceId, 0);
 		t_npc[0]->turn = true;
 		setUp = true;
 	}
@@ -260,7 +269,6 @@ void Gameplay::processEvent(MovementSystem & t_move)
 			if (t_move.getPlayerDiceValue(i) == -2 )
 			{
 				m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
-
 			}
 
 			if (t_move.getPlayerDiceValue(i) == -1 && !t_move.IsThePlayerMoving(i))

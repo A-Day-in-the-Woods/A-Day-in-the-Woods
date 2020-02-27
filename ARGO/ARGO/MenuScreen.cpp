@@ -55,6 +55,11 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 	m_characters.push_back(m_factory->CreateBee());
 
 	m_characters[0]->SetUp(100, 100, 90, 90, *m_beeTexture);
+
+	/*SDL_LoadWAV("ASSETS/AUDIO/intro.wav", &wavSpec, &wavBuffer, &wavLength);
+	deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
+	int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+	SDL_PauseAudioDevice(deviceId, 0);*/
 }
 
 MenuScreen::~MenuScreen()
@@ -155,23 +160,38 @@ void MenuScreen::setGameState()
 	switch (m_currentButton)
 	{
 	default:
+		SDL_Delay(3000); 
+		SDL_CloseAudioDevice(deviceId);
+		SDL_FreeWAV(wavBuffer); 
 		m_game.setGameState(GameState::Gameplay);
 		std::cout << "error on Menu select" << std::endl;
 		m_entity[0]->setLastButton(NULL);
 		break;
 	case 0:
+		SDL_Delay(3000);
+		SDL_CloseAudioDevice(deviceId);
+		SDL_FreeWAV(wavBuffer);
 		m_game.setGameState(GameState::Gameplay);
 		m_entity[0]->setLastButton(NULL);
 		break;
 	case 1:
+		SDL_Delay(3000);
+		SDL_CloseAudioDevice(deviceId);
+		SDL_FreeWAV(wavBuffer);
 		m_game.setGameState(GameState::Options);
 		m_entity[0]->setLastButton(NULL);
 		break;
 	case 2:
+		SDL_Delay(3000);
+		SDL_CloseAudioDevice(deviceId);
+		SDL_FreeWAV(wavBuffer);
 		m_game.setGameState(GameState::Credit);
 		m_entity[0]->setLastButton(NULL);
 		break;
 	case 3:
+		SDL_Delay(3000);
+		SDL_CloseAudioDevice(deviceId);
+		SDL_FreeWAV(wavBuffer);
 		m_game.setGameState(GameState::Quit);
 		m_entity[0]->setLastButton(NULL);
 		break;

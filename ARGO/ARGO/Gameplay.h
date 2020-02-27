@@ -107,7 +107,10 @@ private:
 	// ------ A* stuff ----------
 	//void aStar();
 
-
+	SDL_AudioSpec wavSpec;
+	Uint32 wavLength;
+	Uint8* wavBuffer;
+	SDL_AudioDeviceID deviceId;
 	
 	bool setUp{ false };
 	bool startAstar{ false };

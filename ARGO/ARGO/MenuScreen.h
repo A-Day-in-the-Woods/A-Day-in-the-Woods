@@ -67,7 +67,10 @@ private:
 	std::vector<SDL_Rect> m_menuButtonPositionSelected;
 	SDL_Surface* m_menuButtonSurface;
 
-	
+	SDL_AudioSpec wavSpec;
+	Uint32 wavLength;
+	Uint8* wavBuffer;
+	SDL_AudioDeviceID deviceId;
 	//bee
 	SDL_Texture* m_beeTexture;
 	SDL_Surface* m_beeSurface;
