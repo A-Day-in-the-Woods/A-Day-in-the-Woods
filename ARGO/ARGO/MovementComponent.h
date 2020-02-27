@@ -82,34 +82,45 @@ public:
 			SDL_Event(event);
 			SDL_PollEvent(&event);
 
+		
 
 			if (p.size() > 1)
 			{ // direction choice
-				if (*m_IsAi == true && choiceLoop ==true)
+
+	
+				if (*m_IsAi == true && choiceLoop ==true && m_randomDirectionDecided == false)
 				{
+					m_currentDiceRoll = p.size()-1;
 					m_DirectionChoiceNum = randomNumber(6,1);
 					choiceLoop = false;
 				}
+				else if (m_currentDiceRoll != p.size() || m_currentDiceRoll == -1)
+				{
+					m_randomDirectionDecided = false;
+				}
+			
+
+
 				if (!choiceLoop)
 				{
-		
+
 
 					if (m_DirectionChoiceNum == nodeDirectionCheck(
-							p.front().node()->m_x,
-							p.front().node()->m_y,
-							t_g.nodeIndex(CurrentGameBoardIndex)->m_x,
-							t_g.nodeIndex(CurrentGameBoardIndex)->m_y))
+						p.front().node()->m_x,
+						p.front().node()->m_y,
+						t_g.nodeIndex(CurrentGameBoardIndex)->m_x,
+						t_g.nodeIndex(CurrentGameBoardIndex)->m_y))
 					{
 						playerNodeChange(p, t_map, t_g);
-					}
-					else if (*m_IsAi == true)
-					{
-						m_DirectionChoiceNum = randomNumber(6, 1);
 
+						if (*m_IsAi == true)
+						{
+							m_randomDirectionDecided = true;
+						}
 					}
 					else
 					{
-			
+
 						p.reverse();
 						if (m_DirectionChoiceNum == nodeDirectionCheck(
 							p.front().node()->m_x,
@@ -118,27 +129,83 @@ public:
 							t_g.nodeIndex(CurrentGameBoardIndex)->m_y))
 						{
 							playerNodeChange(p, t_map, t_g);
+
+							if (*m_IsAi == true)
+							{
+								m_randomDirectionDecided = true;
+							}
 						}
 					}
+					if (!m_randomDirectionDecided)
+					{
+						if (*m_IsAi == true)
+						{
+							m_DirectionChoiceNum = randomNumber(6, 1);
+						}
+					}
+
 				}
 			}
 			else
-			{ // only one way to go
-				playerNodeChange(p, t_map, t_g);
+			{ // only one way to go			
+				playerNodeChange(p, t_map, t_g);								
 			}
 		}
 		else
 		{
+
+			if (MoveForward)
+			{
+				if (IndexPlaceHolder == CurrentGameBoardIndex)
+				{
+					std::list<GraphArc<std::pair<std::string, int>, int>> p;
+					p = t_g.nodeIndex(CurrentGameBoardIndex)->arcList();
+					playerNodeChange(p, t_map, t_g);
+				}
+				else
+				{
+					m_diceRoll = -1;
+					choiceLoop = false;
+					m_takeingTurn = false;
+					MoveForward = false;
+
+					m_randomDirectionDecided = false;
+					m_currentDiceRoll = -1;
+				}
+			}
+
+			if (MoveBack)
+			{
+				if (animateMovingToPoint(t_map[PriorGameBoardIndex].getPosition().x - (rect->w / 4.0f), t_map[PriorGameBoardIndex].getPosition().y - (rect->h / 4.0f)))
+				{
+					int tempIndex = CurrentGameBoardIndex;
+					CurrentGameBoardIndex = PriorGameBoardIndex;
+					PriorGameBoardIndex = tempIndex;
+
+					std::cout << m_diceRoll << std::endl;
+					m_diceRoll = -1;
+					choiceLoop = false;
+					m_takeingTurn = false;
+
+					m_randomDirectionDecided = false;
+					m_currentDiceRoll = -1;
+
+					MoveBack = false;
+				}
+			}
+
+
 			if (m_takeingTurn)
 			{
 				switch (tileBehaviour(t_map))
 				{
-				case 0:
-					//SDL_PauseAudioDevice(deviceId, 0);
+				case 0: // Basic Tile
 					m_takeingTurn = false;
 					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
 					choiceLoop = false; 
+					m_randomDirectionDecided = false;
+					m_currentDiceRoll = -1;
 					break;
 				case 10://pt1
 					SDL_LoadWAV("ASSETS/AUDIO/pt1.wav", &wavSpec, &wavBuffer, &wavLength);
@@ -151,6 +218,8 @@ public:
 					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
 					choiceLoop = false;
+					m_randomDirectionDecided = false;
+			m_currentDiceRoll = -1;
 					break;
 				case 11://pt2
 					SDL_LoadWAV("ASSETS/AUDIO/pt2.wav", &wavSpec, &wavBuffer, &wavLength);
@@ -163,6 +232,8 @@ public:
 					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
 					choiceLoop = false;
+					m_randomDirectionDecided = false;
+			m_currentDiceRoll = -1;
 					break;
 				case 12://pt3
 					SDL_LoadWAV("ASSETS/AUDIO/pt3.wav", &wavSpec, &wavBuffer, &wavLength);
@@ -175,6 +246,8 @@ public:
 					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
 					choiceLoop = false;
+					m_randomDirectionDecided = false;
+			m_currentDiceRoll = -1;
 					break;
 				case 13://pt4
 					SDL_LoadWAV("ASSETS/AUDIO/pt4.wav", &wavSpec, &wavBuffer, &wavLength);
@@ -186,24 +259,23 @@ public:
 					m_takeingTurn = false;
 					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
+					m_randomDirectionDecided = false;
+					m_currentDiceRoll = -1;
 					choiceLoop = false;
 					break;
 				case 2://bounce
 					SDL_LoadWAV("ASSETS/AUDIO/forward.wav", &wavSpec, &wavBuffer, &wavLength);
 					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
 					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-					/*SDL_CloseAudioDevice(deviceId);
-					SDL_FreeWAV(wavBuffer); */
+					
 					SDL_PauseAudioDevice(deviceId, 0);
 					m_diceRoll = 1;
 					break;
-				case 3://dice
+				case 3://dice + 1 TURN
 					SDL_LoadWAV("ASSETS/AUDIO/add.wav", &wavSpec, &wavBuffer, &wavLength);
 					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
 					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
 					SDL_PauseAudioDevice(deviceId, 0);
-					/*SDL_CloseAudioDevice(deviceId);
-					SDL_FreeWAV(wavBuffer); */
 					m_takeingTurn = false;
 					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
@@ -214,24 +286,29 @@ public:
 					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
 					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
 					SDL_PauseAudioDevice(deviceId, 0);
-					/*SDL_CloseAudioDevice(deviceId);
-					SDL_FreeWAV(wavBuffer); */
+					
 					m_takeingTurn = false;
 					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -2;
 					choiceLoop = false;
+					m_randomDirectionDecided = false;
+					m_currentDiceRoll = -1;
 					break;
 				case 5:// tumble
 					SDL_LoadWAV("ASSETS/AUDIO/back.wav", &wavSpec, &wavBuffer, &wavLength);
 					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
 					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
 					SDL_PauseAudioDevice(deviceId, 0);
-					/*SDL_CloseAudioDevice(deviceId);
-					SDL_FreeWAV(wavBuffer); */
+	
 					m_takeingTurn = false;
 					std::cout << m_diceRoll << std::endl;
-					m_diceRoll = -1;
+					m_diceRoll = -3;
 					choiceLoop = false;
+					m_randomDirectionDecided = false;
+			m_currentDiceRoll = -1;
+					break;
+				case 5:// -1 SPACE
+					MoveBack = true;
 					break;
 				}
 			}
@@ -243,6 +320,18 @@ public:
 							Graph< pair<string, int>, int>& t_g) {
 		for (int i = 0; i < t_map.size(); i++)
 		{
+			if (CurrentGameBoardIndex == 41)
+			{
+				std::cout << "Game Won " << std::endl;
+				gameWin = true;
+				
+			}
+
+			if (gameWin)
+			{
+				break;
+			}
+
 			if (newPoint.front().node()->m_x == t_g.nodeIndex(i)->m_x &&
 				newPoint.front().node()->m_y == t_g.nodeIndex(i)->m_y)
 			{
@@ -250,14 +339,28 @@ public:
 
 				if (animateMovingToPoint(t_map[i].getPosition().x - (rect->w / 4.0f), t_map[i].getPosition().y - (rect->h / 4.0f)))
 				{
+					PriorGameBoardIndex = CurrentGameBoardIndex;
 					CurrentGameBoardIndex = i;
 					m_diceRoll--;
+					m_randomDirectionDecided = false;
 					choiceLoop = true;
 					// direction check here;
 				}
+				
 			}
+
+			
 		}
+		
 	}
+
+
+	bool getEndGame()
+	{
+		return gameWin;
+	}
+
+	
 
 	void rollForMove(int t_diceRolled) {
 
@@ -320,6 +423,7 @@ public:
 
 	int nodeDirectionCheck(int x1, int y1, int x2, int y2)
 	{
+
 		if (x1 == x2 && y1 > y2)
 		{	// p2 Down
 			return 1;
@@ -408,21 +512,34 @@ public:
 
 private:
 
-
+	//Real one
 	int CurrentGameBoardIndex;
+	int PriorGameBoardIndex;
 
+	bool MoveForward = false;
+	bool MoveBack = false;
+	int IndexPlaceHolder;
 
 	SDL_Rect * rect;
 	bool * m_IsAi;
 
+	bool m_randomDirectionDecided{false};
 	bool choiceLoop;
+
 	bool LeftOrRight = false;
 	bool useTile = false;
+	int m_currentDiceRoll{ -1 };
+
+
+
+	bool gameWin = false;
+	int playerWon;
+
 	bool m_takeingTurn;
 
 	float m_movementSpeed;
 
-	int m_diceRoll;
+	int m_diceRoll{-1};
 
 	int m_DirectionChoiceNum = -1;
 };

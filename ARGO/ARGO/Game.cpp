@@ -226,7 +226,19 @@ void Game::update()
 		m_optionscreen->update();
 		break;
 	case GameState::Gameplay:
-		m_gameplayscreen->update(m_tile, m_player, m_npc, m_movementSystem);
+		for (int i = 0; i < m_player.size(); i++)
+		{
+			if (m_movementSystem.endGame(i))
+			{
+				GameWon = true;
+				winnerIndex = i;
+			}
+		}
+		if (GameWon == false)
+		{
+			m_gameplayscreen->update(m_tile, m_player, m_npc, m_movementSystem);
+		}
+		
 		break;
 	case GameState::Credit:
 		m_creditscreen->update();
@@ -259,7 +271,14 @@ void Game::render()
 		m_optionscreen->render();
 		break;
 	case GameState::Gameplay:
-		m_gameplayscreen->render(m_tile, m_player, m_npc, graph);
+		if (GameWon == false)
+		{
+			m_gameplayscreen->render(m_tile, m_player, m_npc, graph);
+		}
+		else
+		{
+			m_gameplayscreen->renderWin(winnerIndex);
+		}
 		break;
 	case GameState::Credit:
 		m_creditscreen->render();

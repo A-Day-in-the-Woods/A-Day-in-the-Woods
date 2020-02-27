@@ -108,31 +108,34 @@ void MenuScreen::update()
 		if (m_buttonSelectorRect[m_currentButton].w >= 400 || m_buttonSelectorRect[m_currentButton].h <= 200) { flip = true; }
 	}
 
+		if (m_entity[0]->m_lastButtonPressed == 1)
+		{
+			m_entity[0]->setLastButton(NULL);
+			setGameState();
+		}
 
+		if (m_entity[0]->IsAI == true)
+		{
+			m_entity[0]->setLastButton(NULL);
+			setGameState();
+		}
 
-
-
-	if (m_entity[0]->m_lastButtonPressed == 1)
-	{
-		m_entity[0]->setLastButton(NULL);
-		setGameState();
-	}
-
-	if (m_entity[0]->m_lastButtonPressed == 3)
-	{
-		m_entity[0]->setLastButton(NULL);
-		m_currentButton++;
-		if (m_currentButton >= 4) { m_currentButton = 0; }
-	}
-
-	if (m_entity[0]->m_lastButtonPressed == 2)
-	{
-		m_entity[0]->setLastButton(NULL);
-		m_currentButton--;
-		if (m_currentButton <= -1) { m_currentButton = 3; }
-	}
-
-	m_characters[0]->Update();
+	
+		if (m_entity[0]->m_lastButtonPressed == 3)
+		{
+			m_entity[0]->setLastButton(NULL);
+			m_currentButton++;
+			if (m_currentButton >= 4) {m_currentButton = 0;}
+		}
+		
+		if (m_entity[0]->m_lastButtonPressed == 2)
+		{
+			m_entity[0]->setLastButton(NULL);
+			m_currentButton--;
+			if (m_currentButton <= -1) {m_currentButton = 3;}
+		}
+		
+		m_characters[0]->Update();
 }
 
 void MenuScreen::render()

@@ -28,6 +28,7 @@ public:
 				m_moveComp.push_back(static_cast<MovementComponent*>(InputCheck[i]));
 				m_moveComp.back()->setRect(t_rect);
 				m_moveComp.back()->setAiCheck(t_IsAi);
+				//m_moveComp.back()->CurrentGameBoardIndex = 40; //delete this later
 			}
 		}
 	}
@@ -46,6 +47,13 @@ public:
 	{
 		return m_moveComp[t_i]->getTakeingTurn();
 	}
+
+	bool endGame(int t_i)
+	{
+		return m_moveComp[t_i]->getEndGame();
+	}
+
+	
 
 	void leftOrRightChoice(bool t_b, int index)
 	{
