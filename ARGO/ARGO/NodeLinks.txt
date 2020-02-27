@@ -24,7 +24,6 @@ s t 100
 t u 100
 u v 100
 v w 100
-v dp 100
 w x 100
 w dq 100
 x y 100

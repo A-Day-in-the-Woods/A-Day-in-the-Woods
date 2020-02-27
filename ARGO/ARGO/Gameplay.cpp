@@ -252,6 +252,12 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		if (m_rotation > 5) { m_flipUIBear = true; }
 	}
 
+
+	for (int i = 0; i < t_tile.size(); i++)
+	{
+		t_tile[i].render(m_renderer);
+	}
+
 	for (int i = 0; i < m_numberPlayers ;i++)
 	{
 		if (i == m_turnOrder) {
@@ -269,6 +275,10 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 			SDL_RenderCopyEx(m_renderer, m_DiceTexture[i], NULL, &m_DiceRect[i], 0, NULL, SDL_FLIP_NONE);
 		}
 	}
+
+
+
+
 
 	for (int i = 0; i < m_clouds.size(); i++) {SDL_RenderCopyEx(m_renderer, m_CloudTexture, NULL, &m_clouds[i], 0, NULL, SDL_FLIP_NONE);}
 
