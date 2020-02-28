@@ -29,7 +29,7 @@ void OnlineMode::update()
 
 	m_myX += 2;
 	m_myY += 1;
-
+	std::cout << x + "," + y << std::endl;
 
 	m_entity[1]->setPositionOnline(x, y);
 	m_entity[0]->setPositionOnline(m_myX, m_myY);
@@ -75,7 +75,7 @@ void OnlineMode::setGameState()
 void OnlineMode::ConnectToServer()
 {
 
-	m_client = new Client("149.153.106.154", 1111, m_entity);
+	m_client = new Client("149.153.106.157", 1111, m_entity);
 
 	if (!m_client->Connect()) //If client fails to connect...
 	{

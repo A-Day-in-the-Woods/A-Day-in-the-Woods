@@ -96,9 +96,6 @@
     <ClCompile Include="SendGetMethods.cpp">
       <Filter>Source Files\Client</Filter>
     </ClCompile>
-    <ClCompile Include="MovementComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="NumFromString.cpp">
       <Filter>Source Files\Client</Filter>
     </ClCompile>
