@@ -33,10 +33,10 @@ public:
 	
 	void processEvent(MovementSystem& t_move);
 	void setGameState();
+	void Reset(MovementSystem& t_move);
 	int randomNumber(int t_max, int t_min);
 	
 	int m_npcCount = 0;
-
 	int m_turnOrder{ 0 };
 
 	//AudioManager* m_audioManager;
@@ -60,40 +60,31 @@ private:
 	SDL_Rect* offset = new SDL_Rect();
 
 	//background
-	SDL_Surface* m_backgroundSurface;
 	SDL_Texture* m_backgroundTexture;
 	SDL_Rect m_backgroundRect;
 
-	SDL_Texture* m_backgroundTextureTwo;	
+	SDL_Texture* m_backgroundTextureTwo;
 
 	//Dice
 	std::vector <SDL_Texture*> m_DiceTexture; // Dice texture
+	std::vector <SDL_Texture*> m_DiceTextureSides; // Dice texture
+
 	std::vector<SDL_Rect> m_DiceRect;
-	std::vector <SDL_Surface*> m_DiceSurface;
 
 	//player UI
 	std::vector<SDL_Texture*>m_PlayerUITexture; // Player UI texture
 	std::vector<SDL_Rect> m_PlayerUIRect;
-	SDL_Surface* m_PlayerUISurface;
 	
 	std::vector<SDL_Texture*>m_PlayerShadowUITexture; // Player Shadow UI texture
 	std::vector<SDL_Rect> m_PlayerShadowUIRect;
-	SDL_Surface* m_PlayerShadowUISurface;
-
-	//tile	
-	std::vector<Tile> m_tile;
-	SDL_Texture* m_TileTexture; // tile texture
-	SDL_Surface* m_TileSurface;
 
 	//Clouds
 	std::vector<SDL_Rect> m_clouds;
 	SDL_Texture* m_CloudTexture; // Clouds texture
-	SDL_Surface* m_CloudSurface;
 
 	//Outline
 	std::vector<SDL_Rect> m_outLine;
-	SDL_Texture* m_outLineTexture; // outline texture
-	SDL_Surface* m_outLineSurface;	
+	SDL_Texture* m_outLineTexture; // outline texture	
 
 	//Winner Screen
 	std::vector <SDL_Texture*> m_WinScreenTexture; // win screen
@@ -120,6 +111,8 @@ private:
 
 	GameState& m_currentState;
 	InputSystem& m_inputSystem;
+
+	int m_storyPointIndex = 0;
 };
 
 #endif // !GAMEPLAY

@@ -4,6 +4,10 @@
 AudioManager* AudioManager::sInstance = NULL;
 
 
+
+// wants a vector / audio que
+// info on if the player is at a turn
+
 AudioManager * AudioManager::Instance()
 {
 	if (sInstance == NULL)
@@ -63,4 +67,19 @@ void AudioManager::PlaySfx(std::string t_filename, int t_volume, int t_loops, in
 {
 	Mix_PlayChannel(t_channel, m_assetManager->GetSfx(t_filename), t_loops);
 	Mix_VolumeChunk(m_assetManager->GetSfx(t_filename), t_volume);
+}
+
+bool AudioManager::isMusicPlaying()
+{
+	return Mix_PlayingMusic();
+}
+
+int AudioManager::IsChannelPLaying(int t_channel)
+{
+	return Mix_Playing(t_channel);
+}
+
+void AudioManager::StopChannel(int t_channel)
+{
+	Mix_HaltChannel(t_channel);
 }

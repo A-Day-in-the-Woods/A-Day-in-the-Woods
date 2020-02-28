@@ -4,11 +4,12 @@
 enum class GameState
 {
 	Menu,
-	Options,
+	Online,
 	Gameplay,
 	Credit,
 	Minigame,
-	Quit
+	Quit,
+	Splash
 };
 
 #endif // ENUM

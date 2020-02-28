@@ -31,9 +31,7 @@ y z 100
 z aa 100
 aa ab 100
 ab ac 100
-ab eq 100
 ac ad 100
-ac eu 100
 ad ae 100
 ae af 100
 ae bd 100
@@ -158,7 +156,6 @@ es er 100
 et es 100
 eu et 100
 ev ew 100
-ew bk 100
 ff fg 100
 fe ff 100
 fg fh 100

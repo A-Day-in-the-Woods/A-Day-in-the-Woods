@@ -76,7 +76,6 @@ private:
 	
 
 
-	SDL_Surface* buttonSurface;
 	std::vector< SDL_Texture*> m_AbuttonTexture;
 	std::vector< SDL_Rect> m_buttonRectangle;
 	std::vector<float> m_ApressedDistance;

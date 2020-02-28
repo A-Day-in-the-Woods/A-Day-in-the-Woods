@@ -10,12 +10,13 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 	m_audioManager(t_audioManager)
 {
 	m_numberPlayers = m_entity.size();
-	m_backgroundSurface = IMG_Load("ASSETS\\IMAGES\\MainMenuBg.png");
+	SDL_Surface* m_backgroundSurface = IMG_Load("ASSETS\\IMAGES\\MainMenuBg.png");
 	m_backgroundTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
 	
-	m_titleSurface = IMG_Load("ASSETS\\IMAGES\\Title.png");
+	SDL_Surface* m_titleSurface = IMG_Load("ASSETS\\IMAGES\\Title.png");
 	m_titleTexture  = SDL_CreateTextureFromSurface(m_renderer, m_titleSurface);
 
+	SDL_Surface* m_menuButtonSurface;
 	m_menuButtonSurface = IMG_Load("ASSETS\\IMAGES\\game.png");
 	m_menuButtonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_menuButtonSurface));
 	m_menuButtonSurface = IMG_Load("ASSETS\\IMAGES\\options.png");
@@ -25,6 +26,7 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 	m_menuButtonSurface = IMG_Load("ASSETS\\IMAGES\\quit.png");
 	m_menuButtonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_menuButtonSurface));
 
+	SDL_Surface* m_buttonSelectorSurface;
 	m_buttonSelectorSurface = IMG_Load("ASSETS/IMAGES/buttons/ABluePawButton.png");
 	m_buttonSelectorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
 	m_buttonSelectorTextureTwo.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
@@ -49,7 +51,8 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 	}
 	
 	m_titleRect = { 750 ,10,750, 750 };
-	m_beeSurface = IMG_Load("ASSETS/IMAGES/bee.png");
+
+	SDL_Surface* m_beeSurface = IMG_Load("ASSETS/IMAGES/bee.png");
 	m_beeTexture = SDL_CreateTextureFromSurface(m_renderer, m_beeSurface);
 
 	m_factory = new CharacterFactory;
@@ -57,11 +60,18 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 
 	m_characters[0]->SetUp(100, 100, 90, 90, *m_beeTexture);
 
-	/*SDL_LoadWAV("ASSETS/AUDIO/intro.wav", &wavSpec, &wavBuffer, &wavLength);
-	deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-	int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);*/
+
 
 	audioPlaying = false;
+
+	SDL_FreeSurface(m_backgroundSurface);
+	SDL_FreeSurface(m_titleSurface);
+	SDL_FreeSurface(m_menuButtonSurface);
+	SDL_FreeSurface(m_buttonSelectorSurface);
+	SDL_FreeSurface(m_beeSurface);
+
+
+
 }
 
 MenuScreen::~MenuScreen()
@@ -70,10 +80,13 @@ MenuScreen::~MenuScreen()
 
 void MenuScreen::update()
 {
-	if (!audioPlaying)
+	if (m_audioManager.isMusicPlaying() == 0)
 	{
-		m_audioManager.PlayMusic("menu.wav",2);
-		audioPlaying = true;
+		if (!audioPlaying)
+		{
+			m_audioManager.PlayMusic("m_menu.wav", 2);
+			audioPlaying = true;
+		}
 	}
 	/*if (!audioPlaying)
 	{
@@ -111,6 +124,7 @@ void MenuScreen::update()
 
 		if (m_entity[0]->m_lastButtonPressed == 1)
 		{
+			m_audioManager.PlaySfx("f_button.wav", 80, 0, 1);
 			m_entity[0]->setLastButton(NULL);
 			setGameState();
 		}
@@ -124,6 +138,7 @@ void MenuScreen::update()
 	
 		if (m_entity[0]->m_lastButtonPressed == 3)
 		{
+			m_audioManager.PlaySfx("f_selector.wav", 80, 0, 1);
 			m_entity[0]->setLastButton(NULL);
 			m_currentButton++;
 			if (m_currentButton >= 4) {m_currentButton = 0;}
@@ -131,6 +146,7 @@ void MenuScreen::update()
 		
 		if (m_entity[0]->m_lastButtonPressed == 2)
 		{
+			m_audioManager.PlaySfx("f_selector.wav", 80, 0, 1);
 			m_entity[0]->setLastButton(NULL);
 			m_currentButton--;
 			if (m_currentButton <= -1) {m_currentButton = 3;}
@@ -186,17 +202,13 @@ void MenuScreen::setGameState()
 		m_entity[0]->setLastButton(NULL);
 		break;
 	case 0:
-		SDL_Delay(3000);
-		SDL_CloseAudioDevice(deviceId);
-		SDL_FreeWAV(wavBuffer);
+		m_game.RestGameplay();
 		m_game.setGameState(GameState::Gameplay);
 		m_entity[0]->setLastButton(NULL);
 		break;
 	case 1:
-		SDL_Delay(3000);
-		SDL_CloseAudioDevice(deviceId);
-		SDL_FreeWAV(wavBuffer);
-		m_game.setGameState(GameState::Options);
+		m_game.connecToServer();
+		m_game.setGameState(GameState::Online);
 		m_entity[0]->setLastButton(NULL);
 		break;
 	case 2:

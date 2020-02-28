@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MOVEMENTCOMPONENT_H
+#define MOVEMENTCOMPONENT_H
+
 
 #include "Component.h"
 #include <vector>
@@ -61,9 +63,26 @@ public:
 		m_movementSpeed = -1;
 		m_takeingTurn = false;
 		choiceLoop = true;
-	}
 
+	}
+	void reSetUp() {
+		CurrentGameBoardIndex = 0;
+		m_movementSpeed = -1;
+		m_takeingTurn = false;
+		choiceLoop = true;
+		m_newGame = true;
+		rect->x = 955;
+		rect->y = 955;
+	}
 	void update(std::vector<Tile>& t_map, Graph< pair<string, int>, int>& t_g) {
+		if (m_newGame == true)
+		{
+			rect->x = t_map[CurrentGameBoardIndex].getPosition().x - (rect->w / 4.0f);
+			rect->y = t_map[CurrentGameBoardIndex].getPosition().y - (rect->h / 4.0f);
+			m_newGame = false;
+		}
+
+
 		if (m_takeingTurn)
 		{
 			nodeNavigation(t_map, t_g);
@@ -157,42 +176,53 @@ public:
 		{
 			if (MoveForward)
 			{
-				if (IndexPlaceHolder == CurrentGameBoardIndex)
+				if (!m_audioManager->IsChannelPLaying(1))
 				{
-					std::list<GraphArc<std::pair<std::string, int>, int>> p;
-					p = t_g.nodeIndex(CurrentGameBoardIndex)->arcList();
-					playerNodeChange(p, t_map, t_g);
-				}
-				else
-				{
-					m_diceRoll = -1;
-					choiceLoop = false;
-					m_takeingTurn = false;
-					MoveForward = false;
+					if (IndexPlaceHolder == CurrentGameBoardIndex)
+					{
+						std::list<GraphArc<std::pair<std::string, int>, int>> p;
+						p = t_g.nodeIndex(CurrentGameBoardIndex)->arcList();
+						playerNodeChange(p, t_map, t_g);
+					}
+					else
+					{
+						m_diceRoll = -1;
+						choiceLoop = false;
+						m_takeingTurn = false;
+						MoveForward = false;
 
-					m_randomDirectionDecided = false;
-					m_currentDiceRoll = -1;
-				}
+						m_randomDirectionDecided = false;
+						m_currentDiceRoll = -1;
+
+						m_moveForwardAudio = false;
+					}
+				}	
 			}
 
 			if (MoveBack)
 			{
-				if (animateMovingToPoint(t_map[PriorGameBoardIndex].getPosition().x - (rect->w / 4.0f), t_map[PriorGameBoardIndex].getPosition().y - (rect->h / 4.0f)))
+				if (!m_audioManager->IsChannelPLaying(1))
 				{
-					int tempIndex = CurrentGameBoardIndex;
-					CurrentGameBoardIndex = PriorGameBoardIndex;
-					PriorGameBoardIndex = tempIndex;
+					if (animateMovingToPoint(t_map[PriorGameBoardIndex].getPosition().x - (rect->w / 4.0f), t_map[PriorGameBoardIndex].getPosition().y - (rect->h / 4.0f)))
+					{
+						int tempIndex = CurrentGameBoardIndex;
+						CurrentGameBoardIndex = PriorGameBoardIndex;
+						PriorGameBoardIndex = tempIndex;
 
-					std::cout << m_diceRoll << std::endl;
-					m_diceRoll = -1;
-					choiceLoop = false;
-					m_takeingTurn = false;
+						m_diceRoll = -1;
+						choiceLoop = false;
+						m_takeingTurn = false;
 
-					m_randomDirectionDecided = false;
-					m_currentDiceRoll = -1;
+						m_randomDirectionDecided = false;
+						m_currentDiceRoll = -1;
 
-					MoveBack = false;
+						MoveBack = false;
+
+						m_moveBackAudio = false;
+						m_moveForwardAudio = false;
+					}
 				}
+				
 			}
 
 			if (m_takeingTurn)
@@ -201,122 +231,99 @@ public:
 				{
 				case 0: // Basic Tile
 					m_takeingTurn = false;
-					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
 					choiceLoop = false; 
 					m_randomDirectionDecided = false;
 					m_currentDiceRoll = -1;
+					m_moveForwardAudio = false;
 					break;
 				case 10://pt1
-					/*SDL_LoadWAV("ASSETS/AUDIO/Story/st1.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-					SDL_PauseAudioDevice(deviceId, 0);*/
 					
-					m_audioManager->PlaySfx("s_pt1.wav", 75);
+					m_audioManager->PlaySfx("w_pt1.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
-					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
 					choiceLoop = false;
 					m_randomDirectionDecided = false;
 					m_currentDiceRoll = -1;
+					m_moveForwardAudio = false;
 					break;
 				case 11://pt2
-					/*SDL_LoadWAV("ASSETS/AUDIO/Story/st2.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-					SDL_PauseAudioDevice(deviceId, 0);*/
 					
-					m_audioManager->PlaySfx("s_pt2.wav", 75);
+					m_audioManager->PlaySfx("w_pt2.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
-					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
 					choiceLoop = false;
 					m_randomDirectionDecided = false;
 					m_currentDiceRoll = -1;
+					m_moveForwardAudio = false;
 					break;
 				case 12://pt3
-				/*	SDL_LoadWAV("ASSETS/AUDIO/Story/st3.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-					SDL_PauseAudioDevice(deviceId, 0);
-					*/
 
-					m_audioManager->PlaySfx("s_pt3.wav", 75);
+					m_audioManager->PlaySfx("w_pt3.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
-					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
 					choiceLoop = false;
 					m_randomDirectionDecided = false;
 					m_currentDiceRoll = -1;
+					m_moveForwardAudio = false;
 					break;
 				case 13://pt4
-					/*SDL_LoadWAV("ASSETS/AUDIO/Story/st4.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-					SDL_PauseAudioDevice(deviceId, 0);*/
 					
-					m_audioManager->PlaySfx("s_pt4.wav", 75);
+					m_audioManager->PlaySfx("w_pt4.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
-					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
 					m_randomDirectionDecided = false;
 					m_currentDiceRoll = -1;
 					choiceLoop = false;
+					m_moveForwardAudio = false;
 					break;
 				case 2://bounce - forward 1
-			/*		SDL_LoadWAV("ASSETS/AUDIO/Tiles/forward.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);					
-					SDL_PauseAudioDevice(deviceId, 0);
-					SDL_Delay(500);*/
 					
-					m_audioManager->PlaySfx("t_forward.wav", 75);
-					SDL_Delay(1000);
+					if (!m_moveForwardAudio)
+					{
+						m_audioManager->PlaySfx("t_forward.wav", 75, 0, 1);
+						m_moveForwardAudio = true;
+					}
 
-					m_diceRoll = 1;
+					if (!m_audioManager->IsChannelPLaying(1))
+					{
+						m_diceRoll = 1;
+					}
+				
 					break;
 				case 3://dice - add TURN
-				/*	SDL_LoadWAV("ASSETS/AUDIO/Tiles/add.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-					SDL_PauseAudioDevice(deviceId, 0);*/
 
-					m_audioManager->PlaySfx("t_add.wav", 75);
-					SDL_Delay(1000);
+					m_audioManager->PlaySfx("t_add.wav", 75, 0, 1);
+
 					m_takeingTurn = false;
-					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -2;
 					choiceLoop = false;
 					m_randomDirectionDecided = false;
 					m_currentDiceRoll = -1;
+					m_moveForwardAudio = false;
 					break;
 				case 4://honey - lose turn
-				/*	SDL_LoadWAV("ASSETS/AUDIO/Tiles/miss.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-					SDL_PauseAudioDevice(deviceId, 0);		*/
 
-					m_audioManager->PlaySfx("t_miss.wav", 75);
-					SDL_Delay(1000);
+					m_audioManager->PlaySfx("t_miss.wav", 75,0,1);
+
 					m_takeingTurn = false;
-					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -3;
 					choiceLoop = false;
 					m_randomDirectionDecided = false;
 					m_currentDiceRoll = -1;
+					m_moveForwardAudio = false;
 					break;
 				case 5:// tumble - back 1
-	/*				SDL_LoadWAV("ASSETS/AUDIO/Tiles/back.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-					SDL_PauseAudioDevice(deviceId, 0);
-	*/
-					m_audioManager->PlaySfx("t_back.wav", 75);
+					if (!m_moveBackAudio)
+					{
+						m_audioManager->PlaySfx("t_back.wav", 75, 0, 1);
+						m_moveBackAudio = true;
+					}
+
 					//SDL_Delay(1000);
 					MoveBack = true;
 					//m_takeingTurn = false;
@@ -335,10 +342,8 @@ public:
 			{
 				std::cout << "Game Won " << std::endl;
 				gameWin = true;
-				SDL_LoadWAV("ASSETS/AUDIO/end.wav", &wavSpec, &wavBuffer, &wavLength);
-				deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-				success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-				SDL_PauseAudioDevice(deviceId, 0);
+
+				m_audioManager->PlaySfx("s_ending.wav", 75, 0, 1);
 			}
 
 			if (gameWin)
@@ -364,9 +369,20 @@ public:
 		}		
 	}
 
+	float getPosY()
+	{
+		return rect->y;
+	}
+
+
 	bool getEndGame()
 	{
 		return gameWin;
+	}
+
+	void resetEndGame()
+	{
+		gameWin = false;
 	}	
 
 	void rollForMove(int t_diceRolled) {
@@ -531,15 +547,23 @@ private:
 	bool LeftOrRight = false;
 	bool useTile = false;
 	int m_currentDiceRoll{ -1 };
-	   
+
+	bool m_moveBackAudio = false;
+	bool m_moveForwardAudio = false;
+
 	bool gameWin = false;
 	int playerWon;
 
 	bool m_takeingTurn;
+	bool m_newGame{ false };
 
 	float m_movementSpeed;
 
 	int m_diceRoll{-1};
 
 	int m_DirectionChoiceNum = -1;
+	//int * m_turnIndex;
 };
+#endif // !MOVEMENTCOMPONENT_H
+	
+

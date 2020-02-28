@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MOVEMENTSYSTEM_H
+#define MOVEMENTSYSTEM_H
+
 
 #include "MovementComponent.h"
 #include <vector>
@@ -54,7 +56,18 @@ public:
 		return m_moveComp[t_i]->getEndGame();
 	}
 
+	void ResetWinner(int t_index)
+	{
+		if (t_index != -1)
+		{
+			m_moveComp[t_index]->resetEndGame();
+		}
+	}
 	
+	float GetYPos(int t_index)
+	{
+		return m_moveComp[t_index]->getPosY();
+	}
 
 	void leftOrRightChoice(bool t_b, int index)
 	{
@@ -69,16 +82,27 @@ public:
 	}
 
 	void update(int t_index) {
+		
+
 		m_moveComp[t_index]->update(m_map, m_graph);
+			
 	}
 
 	int getIndex(int t_index)
 	{
 		return m_moveComp[t_index]->getCurrentIndex();
 	}
+
+
+	void restPlayers()
+	{
+		for (int i = 0; i < m_entities.size(); i++) {m_moveComp[i]->reSetUp();}
+	}
 	
 private:
 	GameState & m_gameState;
+
+	int m_storyPointIndex = 0;
 
 	std::vector<Entity*> m_entities;
 	std::vector<MovementComponent*> m_moveComp;
@@ -87,3 +111,4 @@ private:
 	std::vector<Tile>& m_map;
 	AudioManager& m_audioManager;
 };
+#endif // !MOVEMENTSYSTEM_H

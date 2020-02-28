@@ -43,11 +43,8 @@ private:
 
 	//Background
 	SDL_Texture* m_backgroundTexture;
-	SDL_Surface* m_backgroundSurface;
-
 	//Background
 	SDL_Texture* m_titleTexture;
-	SDL_Surface* m_titleSurface;
 	SDL_Rect m_titleRect;
 
 	//Selector for Buttons 
@@ -56,15 +53,12 @@ private:
 	std::vector<SDL_Rect> m_buttonSelectorRect;
 	std::vector<SDL_Rect> m_buttonSelectorRectTwo;
 
-	SDL_Surface* m_buttonSelectorSurface;
-
 	bool flip{true};
 	
 	//Buttons
 	std::vector <SDL_Texture*> m_menuButtonTexture;
 	std::vector<SDL_Rect> m_menuButtonPosition;
 	std::vector<SDL_Rect> m_menuButtonPositionSelected;
-	SDL_Surface* m_menuButtonSurface;
 
 	SDL_AudioSpec wavSpec;
 	Uint32 wavLength;
@@ -73,7 +67,6 @@ private:
 	bool audioPlaying = false;
 	//bee
 	SDL_Texture* m_beeTexture;
-	SDL_Surface* m_beeSurface;
 
 	AudioManager & m_audioManager;
 };

@@ -10,6 +10,7 @@
 #include <vector>
 #include "Tile.h"
 #include <iostream>
+#include <string>
 #include "Graph.h"
 #include "Entity.h"
 #include "MovementSystem.h"
@@ -33,6 +34,11 @@ public:
 	void update(MovementSystem & t_move);
 	void render(SDL_Renderer* t_renderer,int t_rotation);
 	void setPosition(float t_x, float t_y);
+	void setPositionOnline(int m_x, int m_y);
+	
+	void updateOnline();
+	std::string GetPosAsString();
+
 	void setTileType(int t_type, int t_index);
 	
 	int randomNumber(int t_max, int t_min)
@@ -54,6 +60,8 @@ public:
 	int m_lastButtonPressed {NULL};
 	void setLastButton(int t_button) { m_lastButtonPressed = t_button; };
 	int getLastButtonPressed() { return m_lastButtonPressed; };
+	
+	std::string GetValueAsString();
 
 
 	bool IsAI{ false };
