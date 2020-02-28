@@ -3,6 +3,9 @@
 /// @date 06/02/2020
 /// </summary>
 
+
+#pragma warning(push)
+#pragma warning( disable:4703 )
 #ifndef CONCRETECOMMANDS_H
 #define CONCRETECOMMANDS_H
 
@@ -167,3 +170,4 @@ public:
 
 
 #endif // !CONCRETECOMMANDS_H
+#pragma warning( pop )
