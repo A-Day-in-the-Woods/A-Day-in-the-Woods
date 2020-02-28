@@ -184,41 +184,51 @@ public:
 
 			if (MoveForward)
 			{
-				if (IndexPlaceHolder == CurrentGameBoardIndex)
+				if (!m_audioManager->IsChannelPLaying(1))
 				{
-					std::list<GraphArc<std::pair<std::string, int>, int>> p;
-					p = t_g.nodeIndex(CurrentGameBoardIndex)->arcList();
-					playerNodeChange(p, t_map, t_g);
-				}
-				else
-				{
-					m_diceRoll = -1;
-					choiceLoop = false;
-					m_takeingTurn = false;
-					MoveForward = false;
+					if (IndexPlaceHolder == CurrentGameBoardIndex)
+					{
+						std::list<GraphArc<std::pair<std::string, int>, int>> p;
+						p = t_g.nodeIndex(CurrentGameBoardIndex)->arcList();
+						playerNodeChange(p, t_map, t_g);
+					}
+					else
+					{
+						m_diceRoll = -1;
+						choiceLoop = false;
+						m_takeingTurn = false;
+						MoveForward = false;
 
-					m_randomDirectionDecided = false;
-					m_currentDiceRoll = -1;
+						m_randomDirectionDecided = false;
+						m_currentDiceRoll = -1;
+
+						m_moveForwardAudio = false;
+					}
 				}
 			}
 
 			if (MoveBack)
 			{
-				if (animateMovingToPoint(t_map[PriorGameBoardIndex].getPosition().x - (rect->w / 4.0f), t_map[PriorGameBoardIndex].getPosition().y - (rect->h / 4.0f)))
+				if (!m_audioManager->IsChannelPLaying(1))
 				{
-					int tempIndex = CurrentGameBoardIndex;
-					CurrentGameBoardIndex = PriorGameBoardIndex;
-					PriorGameBoardIndex = tempIndex;
+					if (animateMovingToPoint(t_map[PriorGameBoardIndex].getPosition().x - (rect->w / 4.0f), t_map[PriorGameBoardIndex].getPosition().y - (rect->h / 4.0f)))
+					{
+						int tempIndex = CurrentGameBoardIndex;
+						CurrentGameBoardIndex = PriorGameBoardIndex;
+						PriorGameBoardIndex = tempIndex;
 
-					std::cout << m_diceRoll << std::endl;
-					m_diceRoll = -1;
-					choiceLoop = false;
-					m_takeingTurn = false;
+						m_diceRoll = -1;
+						choiceLoop = false;
+						m_takeingTurn = false;
 
-					m_randomDirectionDecided = false;
-					m_currentDiceRoll = -1;
+						m_randomDirectionDecided = false;
+						m_currentDiceRoll = -1;
 
-					MoveBack = false;
+						MoveBack = false;
+
+						m_moveBackAudio = false;
+						m_moveForwardAudio = false;
+					}
 				}
 			}
 
@@ -229,88 +239,99 @@ public:
 				{
 				case 0: // Basic Tile
 					m_takeingTurn = false;
-					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
 					choiceLoop = false; 
 					m_randomDirectionDecided = false;
 					m_currentDiceRoll = -1;
+					m_moveForwardAudio = false;
 					break;
 				case 10://pt1
 					
-					m_audioManager->PlaySfx("s_pt1.wav", 75);
+					m_audioManager->PlaySfx("s_pt1.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
-					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
 					choiceLoop = false;
 					m_randomDirectionDecided = false;
 					m_currentDiceRoll = -1;
+					m_moveForwardAudio = false;
 					break;
 				case 11://pt2
 					
-					m_audioManager->PlaySfx("s_pt2.wav", 75);
+					m_audioManager->PlaySfx("s_pt2.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
-					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
 					choiceLoop = false;
 					m_randomDirectionDecided = false;
 					m_currentDiceRoll = -1;
+					m_moveForwardAudio = false;
 					break;
 				case 12://pt3
 
-					m_audioManager->PlaySfx("s_pt3.wav", 75);
+					m_audioManager->PlaySfx("s_pt3.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
-					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
 					choiceLoop = false;
 					m_randomDirectionDecided = false;
 					m_currentDiceRoll = -1;
+					m_moveForwardAudio = false;
 					break;
 				case 13://pt4
 					
-					m_audioManager->PlaySfx("s_pt4.wav", 75);
+					m_audioManager->PlaySfx("s_pt4.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
-					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -1;
 					m_randomDirectionDecided = false;
 					m_currentDiceRoll = -1;
 					choiceLoop = false;
+					m_moveForwardAudio = false;
 					break;
 				case 2://bounce - forward 1
 					
-					m_audioManager->PlaySfx("t_forward.wav", 75);
-					SDL_Delay(1000);
+					if (!m_moveForwardAudio)
+					{
+						m_audioManager->PlaySfx("t_forward.wav", 75, 0, 1);
+						m_moveForwardAudio = true;
+					}
 
-					m_diceRoll = 1;
+					if (!m_audioManager->IsChannelPLaying(1))
+					{
+						m_diceRoll = 1;
+					}
+				
 					break;
 				case 3://dice - add TURN
 
-					m_audioManager->PlaySfx("t_add.wav", 75);
-					SDL_Delay(1000);
+					m_audioManager->PlaySfx("t_add.wav", 75, 0, 1);
+
 					m_takeingTurn = false;
-					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -2;
 					choiceLoop = false;
 					m_randomDirectionDecided = false;
 					m_currentDiceRoll = -1;
+					m_moveForwardAudio = false;
 					break;
 				case 4://honey - lose turn
 
-					m_audioManager->PlaySfx("t_miss.wav", 75);
-					SDL_Delay(1000);
+					m_audioManager->PlaySfx("t_miss.wav", 75,0,1);
+
 					m_takeingTurn = false;
-					std::cout << m_diceRoll << std::endl;
 					m_diceRoll = -3;
 					choiceLoop = false;
 					m_randomDirectionDecided = false;
 					m_currentDiceRoll = -1;
+					m_moveForwardAudio = false;
 					break;
 				case 5:// tumble - back 1
 
-					m_audioManager->PlaySfx("t_back.wav", 75);
+					if (!m_moveBackAudio)
+					{
+						m_audioManager->PlaySfx("t_back.wav", 75, 0, 1);
+						m_moveBackAudio = true;
+					}
 
 					//SDL_Delay(1000);
 					MoveBack = true;
@@ -544,7 +565,8 @@ private:
 	bool useTile = false;
 	int m_currentDiceRoll{ -1 };
 
-
+	bool m_moveBackAudio = false;
+	bool m_moveForwardAudio = false;
 
 	bool gameWin = false;
 	int playerWon;

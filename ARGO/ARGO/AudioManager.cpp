@@ -4,6 +4,10 @@
 AudioManager* AudioManager::sInstance = NULL;
 
 
+
+// wants a vector / audio que
+// info on if the player is at a turn
+
 AudioManager * AudioManager::Instance()
 {
 	if (sInstance == NULL)
