@@ -54,8 +54,8 @@ void OnlineMode::render()
 	SDL_RenderClear(m_renderer);
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 
-	m_entity[0]->render(m_renderer);
-	m_entity[1]->render(m_renderer);
+	m_entity[0]->render(m_renderer,0);
+	m_entity[1]->render(m_renderer,0);
 }
 
 void OnlineMode::processEvent()
