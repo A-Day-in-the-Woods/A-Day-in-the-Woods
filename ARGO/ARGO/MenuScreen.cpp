@@ -1,12 +1,13 @@
 #include "MenuScreen.h"
 
-MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState, InputSystem& t_inputSystem, std::vector<Player*> t_entity) :
+MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState, InputSystem& t_inputSystem, std::vector<Player*> t_entity, AudioManager& t_audioManager) :
 	m_game(game),
 	m_event(event),
 	m_renderer(t_renderer),
 	m_inputSystem(t_inputSystem),
 	m_currentState(t_currentState),
-	m_entity(t_entity)
+	m_entity(t_entity),
+	m_audioManager(t_audioManager)
 {
 	m_numberPlayers = m_entity.size();
 	m_backgroundSurface = IMG_Load("ASSETS\\IMAGES\\MainMenuBg.png");
@@ -59,6 +60,8 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 	/*SDL_LoadWAV("ASSETS/AUDIO/intro.wav", &wavSpec, &wavBuffer, &wavLength);
 	deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
 	int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);*/
+
+	audioPlaying = false;
 }
 
 MenuScreen::~MenuScreen()
@@ -69,12 +72,17 @@ void MenuScreen::update()
 {
 	if (!audioPlaying)
 	{
+		m_audioManager.PlayMusic("menu.wav",2);
+		audioPlaying = true;
+	}
+	/*if (!audioPlaying)
+	{
 		SDL_LoadWAV("ASSETS/AUDIO/title.wav", &wavSpec, &wavBuffer, &wavLength);
 		deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
 		int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength); 
 		SDL_PauseAudioDevice(deviceId, 0);
 		audioPlaying = true;
-	}
+	}*/
 
 	if (flip)
 	{

@@ -15,7 +15,7 @@ Graph< pair<string, int>, int> graph(172); // A* Graph
 /// </summary>
 Game::Game() :
 	m_inputSystem(),
-	m_movementSystem(m_currentState, m_tile, graph)
+	m_movementSystem(m_currentState, m_tile, graph, *m_audioManager)
 {
 	m_tile.reserve(200);
 	initNodeFiles();
@@ -46,7 +46,7 @@ Game::Game() :
 		// Sets clear colour of renderer to black and the color of any primitives
 		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 
-
+		m_audioManager = AudioManager::Instance();
 
 		for (int i = 0; i < SDL_NumJoysticks(); i++)
 		{
@@ -76,9 +76,9 @@ Game::Game() :
 			m_inputSystem.addEntity(m_player[i]);
 		}
 
-		m_menuscreen = new MenuScreen(*this, m_renderer, event,m_currentState, m_inputSystem,m_player);
+		m_menuscreen = new MenuScreen(*this, m_renderer, event,m_currentState, m_inputSystem,m_player, *m_audioManager);
 		m_optionscreen = new OptionScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
-		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window, m_inputSystem,m_player);
+		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window, m_inputSystem,m_player, *m_audioManager);
 		m_creditscreen = new CreditScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
 		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState, m_inputSystem,m_player);
 
@@ -100,7 +100,7 @@ Game::Game() :
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
 
-
+	
 }
 
 /// <summary>
@@ -308,6 +308,8 @@ void Game::renderNOW()
 /// </summary>
 void Game::clean()
 {
+	AudioManager::Release();
+	m_audioManager = NULL;
 	SDL_DestroyWindow(m_window);
 	SDL_DestroyRenderer(m_renderer);
 	SDL_QUIT;

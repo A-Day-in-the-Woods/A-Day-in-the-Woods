@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="CommandManager.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="CreditsScreen.cpp" />
@@ -35,6 +37,8 @@
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Bee.h" />
     <ClInclude Include="BehaviourTree.h" />
     <ClInclude Include="Camera.h" />

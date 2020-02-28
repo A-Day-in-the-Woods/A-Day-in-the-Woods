@@ -9,10 +9,11 @@
 class MovementSystem
 {
 public:
-	MovementSystem(GameState& t_currentState, std::vector<Tile>& t_map, Graph< pair<string, int>, int>& t_g ) :
+	MovementSystem(GameState& t_currentState, std::vector<Tile>& t_map, Graph< pair<string, int>, int>& t_g, AudioManager & t_audioManager ) :
 		m_gameState(t_currentState),
 		m_map(t_map),
-		m_graph(t_g)
+		m_graph(t_g),
+		m_audioManager(t_audioManager)
 	{
 	}
 
@@ -84,4 +85,5 @@ private:
 
 	Graph< pair<string, int>, int>& m_graph;
 	std::vector<Tile>& m_map;
+	AudioManager& m_audioManager;
 };
