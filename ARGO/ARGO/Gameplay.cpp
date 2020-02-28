@@ -296,6 +296,7 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 void Gameplay::renderWin(int index)
 {
+
 	SDL_RenderClear(m_renderer);
 
 	switch (index)

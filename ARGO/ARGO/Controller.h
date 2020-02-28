@@ -47,6 +47,7 @@ public:
 	~Controller();
 	
 	void rumble();
+	void rumbleLow();
 
 	void update();
 	bool connect();

@@ -10,6 +10,14 @@ bool Client::recvall(char* data, int totalBytes)
 		if (RetnCheck == SOCKET_ERROR || RetnCheck == 0) //If there is a socket error while trying to recv bytes or if connection is lost
 			return false; //Return false - failed to recvall
 		bytesReceived += RetnCheck; //Add to total bytes received
+		std::cout << "Debug Start" << std::endl;
+		for (int i = 0; i < totalBytes; i++)
+		{
+			printf("%02x", *(data+i));
+		}
+		std::cout << "Debug End" << std::endl;
+
+
 	}
 	return true; //Success!
 }

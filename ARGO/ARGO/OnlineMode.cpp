@@ -29,7 +29,7 @@ void OnlineMode::update()
 
 	m_myX += 2;
 	m_myY += 1;
-	std::cout << x + "," + y << std::endl;
+
 
 	m_entity[1]->setPositionOnline(x, y);
 	m_entity[0]->setPositionOnline(m_myX, m_myY);

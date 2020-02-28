@@ -1,7 +1,7 @@
 #include "Controller.h"
 
 /// <summary>
-/// @author Jack
+/// @author Jack , Aaron
 /// @date 12/02/2020
 /// </summary>
 
@@ -31,7 +31,14 @@ Controller::~Controller()
 
 void Controller::rumble()
 {
-	SDL_HapticRumblePlay(m_haptic, 10, 2);
+
+	SDL_HapticRumblePlay(m_haptic, .3, 1000);
+
+}
+
+void Controller::rumbleLow()
+{
+	SDL_HapticRumblePlay(m_haptic, .1, 200);
 
 }
 

@@ -48,33 +48,43 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 
 			if (m_controller->m_currentState.A)
 			{
+		
+
 				switch (t_currentState)
 				{
 				case GameState::Menu:
 					t_entity->setLastButton(1);
+					m_controller->rumbleLow();
 					m_manager->addCmd(buttonA, t_entity, NULL);
 					break;
 				case GameState::Online:
+					m_controller->rumbleLow();
 					break;
 				case GameState::Gameplay:	
 						t_entity->setLastButton(1);
 						
 						if (movePlay->getTakeingTurn())
 						{
+							m_controller->rumbleLow();
 							m_manager->addCmd(DirectionDown, t_entity, NULL);
 						}
 						else
 						{
+							m_controller->rumble();
 							m_manager->addCmd(diceRoll, t_entity, t_entity->randomNumber(6, 1));
 						}
 					break;
 				case GameState::Credit:
+					m_controller->rumbleLow();
 					break;
-				case GameState::Minigame:
+				case GameState::Minigame:					
 					t_entity->setLastButton(1);
+					m_controller->rumbleLow();
 					m_manager->addCmd(buttonA, t_entity, NULL);
 					break;
+					m_controller->rumbleLow();
 				case GameState::Splash:
+					m_controller->rumbleLow();
 					t_entity->setLastButton(1);
 				default:
 					break;
@@ -83,6 +93,8 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 
 			if (m_controller->m_currentState.B)
 			{
+				m_controller->rumbleLow();
+
 				switch (t_currentState)
 				{
 				case GameState::Menu:
@@ -110,6 +122,8 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 
 			if (m_controller->m_currentState.X)
 			{
+				m_controller->rumbleLow();
+
 				switch (t_currentState)
 				{
 				case GameState::Menu:
@@ -133,6 +147,8 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 
 			if (m_controller->m_currentState.Y)
 			{
+				m_controller->rumbleLow();
+
 				switch (t_currentState)
 				{
 				case GameState::Menu:
@@ -186,6 +202,8 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 
 			if (m_controller->m_currentState.DpadUp)
 			{
+				m_controller->rumbleLow();
+
 				switch (t_currentState)
 				{
 				case GameState::Menu:
@@ -208,6 +226,8 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 			if (m_controller->m_currentState.DpadDown)
 			{
 				
+				m_controller->rumbleLow();
+
 				switch (t_currentState)
 				{
 				case GameState::Menu:
