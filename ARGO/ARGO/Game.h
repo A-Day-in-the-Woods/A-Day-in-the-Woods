@@ -1,5 +1,4 @@
 #ifndef GAME_H
-
 #define GAME_H
 
 #include <SDL.h>
@@ -80,18 +79,15 @@ private:
 	SDL_Renderer* m_renderer;	// game renderer
 
 	bool m_isRunning;	// is game running?
-
-
+	
 	SDL_Texture* m_TestingTexture;
 	SDL_Event event;
-
 
 	AudioManager * m_audioManager;
 
 	void initNodeFiles();
 	map<string, int> nodemap;
 	pair<string, int> nodeLabel;
-
 
 	int posX = 0;
 	int posY = 0;

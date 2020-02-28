@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Game.h"
 
+
 /// <summary>
 /// @Authors:
 ///		@Oisin Wilson		@C00213826
@@ -9,16 +10,13 @@
 ///		@Savannah Bolger	@C00215747
 /// </summary>
 
-
-
-
 /// <summary>
 /// Entry Point to Argo Project Game
 /// </summary>
 int main(int argc, char* argv[])
 {
 	
-	Game game;
+	Game game;	
 	game.run();
 
 	return EXIT_SUCCESS;

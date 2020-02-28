@@ -10,6 +10,7 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_currentState(t_currentState),
 	m_audioManager(t_audioManager)
 {
+	std::srand(std::time(nullptr));
 	m_numberPlayers = m_entity.size();
 	
 	//SDL_LoadWAV("ASSETS/AUDIO/intro.wav", &wavSpec, &wavBuffer, &wavLength);
@@ -124,7 +125,25 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_backgroundTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
 	m_backgroundRect={ 75,-10,1920,1080};
 
-
+	std::srand(std::time(nullptr));
+	BehaviourTree behaviourTree;
+	BehaviourTree::Selector selector[3];
+	BehaviourTree::Sequence sequence[4];
+	Action goLeft("Go Left", 80), goRight("Go Right", 15), goUp("Go Up", 99), goDown("Go Down", 25), goBack("Go Back", 10),
+		goForward("Go Forward", 60), stopWalking("Stop Walking", 100);
+	behaviourTree.setRootChild(&selector[0]);
+	selector[0].addChildren({ &sequence[0],&sequence[2] });
+	sequence[0].addChildren({ &goLeft, &selector[1], &goForward, &stopWalking });
+	selector[1].addChildren({ &goRight, &sequence[1], &goBack });
+	sequence[1].addChildren({ &goUp, &stopWalking });
+	sequence[2].addChildren({ &goDown, &selector[2], &goBack, &stopWalking });
+	const std::list<BehaviourTree::Node*> nodes = { &goLeft, &sequence[3], &goForward };
+	selector[2].addChildren(nodes);
+	sequence[3].addChildren({ &goForward, &stopWalking });
+	if (behaviourTree.run())
+		std::cout << "Behaviour Success" << std::endl;
+	else
+		std::cout << "Behaviour Failure" << std::endl;
 
 	SDL_FreeSurface(m_DiceSurface);
 	SDL_FreeSurface(WinSurface);
@@ -132,7 +151,6 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	SDL_FreeSurface(m_CloudSurface);
 	SDL_FreeSurface(m_outLineSurface);
 	SDL_FreeSurface(m_backgroundSurface);
-
 }
 
 Gameplay::~Gameplay()
@@ -147,11 +165,11 @@ Gameplay::~Gameplay()
 
 void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem& t_move)
 {
-
 	if (!setUp)
 	{
-		m_audioManager.PlayMusic("testSong.wav",10);
+		m_audioManager.PlayMusic("m_gameBoard.wav",10);
 		m_audioManager.PlaySfx("s_intro.wav", 75, 0, 1);
+		m_storyPointIndex = 0;
 		//SDL_PauseAudioDevice(deviceId, 0);
 		t_npc[0]->turn = true;
 		setUp = true;
@@ -162,6 +180,47 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		t_move.update(i);
 		m_entity[i]->update(t_move);
 		//m_entity[i]->setTileType(t_tile[t_move.getIndex(i)].getType(), t_move.getIndex(i));
+	}
+
+	if (!m_audioManager.IsChannelPLaying(1))
+	{
+		for (int i = 0; i < m_numberPlayers; i++)
+		{
+			switch (m_storyPointIndex)
+			{
+			case 0:
+				if (t_move.GetYPos(i) <= 800)
+				{
+					m_audioManager.PlaySfx("s_pt1.wav", 75, 0, 1);
+					m_storyPointIndex++;
+				}
+				break;
+			case 1:
+				if (t_move.GetYPos(i) <= 650)
+				{
+					m_audioManager.PlaySfx("s_pt2.wav", 75, 0, 1);
+					m_storyPointIndex++;
+				}
+				break;
+			case 2:
+				if (t_move.GetYPos(i) <= 400)
+				{
+					m_audioManager.PlaySfx("s_pt3.wav", 75, 0, 1);
+					m_storyPointIndex++;
+				}
+				break;
+			case 3:
+				if (t_move.GetYPos(i) <= 250)
+				{
+					m_audioManager.PlaySfx("s_pt4.wav", 75, 0, 1);
+					m_storyPointIndex++;
+				}
+				break;
+			default:
+				break;
+			}
+		}
+
 	}
 
 	for (int i = 0; i < m_clouds.size(); i++)
@@ -183,8 +242,7 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 			m_clouds.push_back(SDL_Rect{ randomNumber(1300,500),randomNumber(900,100),150,100 });
 		}
 	}
-
-
+	
 /*
 	if (t_npc[0]->turn)
 	{
@@ -230,20 +288,16 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, Graph< pair<string, int>, int>& graph)
 {
-
 	SDL_RenderClear(m_renderer);
 	SDL_RenderSetScale(m_renderer, scale, scale);
 
 	SDL_RenderCopy(m_renderer, m_backgroundTextureTwo, NULL, NULL);
 	SDL_RenderCopy(m_renderer, m_backgroundTexture, NULL, &m_backgroundRect);
 
-
-
 	offset->x = focus->x - camera->getCamera()->x;
 	offset->y = focus->y - camera->getCamera()->y;
 	offset->w = focus->w;
 	offset->h = focus->h;
-
 	
 	for (int i = 0; i < m_clouds.size(); i++)
 	{
@@ -274,7 +328,6 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		if (m_rotation > 5) { m_flipUIBear = true; }
 	}
 
-
 	for (int i = 0; i < t_tile.size(); i++)
 	{
 		t_tile[i].render(m_renderer);
@@ -297,10 +350,6 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 			SDL_RenderCopyEx(m_renderer, m_DiceTexture[i], NULL, &m_DiceRect[i], 0, NULL, SDL_FLIP_NONE);
 		}
 	}
-
-
-
-
 
 	for (int i = 0; i < m_clouds.size(); i++) {SDL_RenderCopyEx(m_renderer, m_CloudTexture, NULL, &m_clouds[i], 0, NULL, SDL_FLIP_NONE);}
 
@@ -335,9 +384,7 @@ void Gameplay::renderWin(int index)
 	SDL_RenderPresent(m_renderer);
 	SDL_Delay(500);
 	setGameState();
-
 }
-
 
 void Gameplay::processEvent(MovementSystem & t_move)
 {
@@ -346,8 +393,10 @@ void Gameplay::processEvent(MovementSystem & t_move)
 	{
 		if (m_turnOrder == m_entity[i]->getId())
 		{
+
 			if (!m_audioManager.IsChannelPLaying(1))
 			{
+		
 				if (t_move.getPlayerDiceValue(i) == -2)
 				{
 					m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
@@ -375,6 +424,7 @@ void Gameplay::processEvent(MovementSystem & t_move)
 					}
 				}
 			}
+			
 		}
 	}
 }

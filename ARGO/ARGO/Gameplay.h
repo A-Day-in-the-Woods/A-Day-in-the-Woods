@@ -18,9 +18,9 @@
 #include "Camera.h"
 
 #include "AudioManager.h"
+#include "BehaviourTree.h"
 
 class Game;
-
 
 class Gameplay
 {
@@ -51,19 +51,13 @@ private:
 
 	int m_rotation = 0;
 
-
 	AudioManager& m_audioManager;
-
-
-
+	
 	//------------ Camera -------------
 	float scale = .9f;
 	Camera * camera = new Camera();	//camera
 	SDL_Rect* focus = new SDL_Rect();
 	SDL_Rect* offset = new SDL_Rect();
-
-
-
 
 	//background
 	SDL_Texture* m_backgroundTexture;
@@ -90,8 +84,7 @@ private:
 
 	//Outline
 	std::vector<SDL_Rect> m_outLine;
-	SDL_Texture* m_outLineTexture; // outline texture
-	
+	SDL_Texture* m_outLineTexture; // outline texture	
 
 	//Winner Screen
 	std::vector <SDL_Texture*> m_WinScreenTexture; // win screen
@@ -108,7 +101,6 @@ private:
 	bool startAstar{ false };
 	//------! A* stuff ------------
 
-
 	bool m_flipUIBear{ false };
 
 	Game& m_game;
@@ -120,9 +112,7 @@ private:
 	GameState& m_currentState;
 	InputSystem& m_inputSystem;
 
-
-
-	
+	int m_storyPointIndex = 0;
 };
 
 #endif // !GAMEPLAY

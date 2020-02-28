@@ -11,18 +11,13 @@
 #include <SDL.h>
 #include "AudioManager.h"
 
+
 class MovementComponent : public Component
 {
 
 public:
-
 	AudioManager* m_audioManager;
 
-	/*SDL_AudioSpec wavSpec[10];
-	Uint32 wavLength[10];
-	Uint8* wavBuffer[10];
-	SDL_AudioDeviceID deviceId[10;
-	int success;*/
 	SDL_AudioSpec wavSpec;
 	Uint32 wavLength;
 	Uint8* wavBuffer;
@@ -50,7 +45,6 @@ public:
 	void setAiCheck(bool &t_IsAi) {
 		m_IsAi = &t_IsAi;
 	}
-
 
 	int randomNumber(int t_max, int t_min)
 	{
@@ -87,6 +81,7 @@ public:
 			rect->y = t_map[CurrentGameBoardIndex].getPosition().y - (rect->h / 4.0f);
 			m_newGame = false;
 		}
+
 
 		if (m_takeingTurn)
 		{
@@ -148,7 +143,6 @@ public:
 					}
 					else
 					{
-
 						p.reverse();
 						if (m_DirectionChoiceNum == nodeDirectionCheck(
 							p.front().node()->m_x,
@@ -171,7 +165,6 @@ public:
 							m_DirectionChoiceNum = randomNumber(6, 1);
 						}
 					}
-
 				}
 			}
 			else
@@ -181,7 +174,6 @@ public:
 		}
 		else
 		{
-
 			if (MoveForward)
 			{
 				if (!m_audioManager->IsChannelPLaying(1))
@@ -204,7 +196,7 @@ public:
 
 						m_moveForwardAudio = false;
 					}
-				}
+				}	
 			}
 
 			if (MoveBack)
@@ -230,8 +222,8 @@ public:
 						m_moveForwardAudio = false;
 					}
 				}
+				
 			}
-
 
 			if (m_takeingTurn)
 			{
@@ -247,7 +239,7 @@ public:
 					break;
 				case 10://pt1
 					
-					m_audioManager->PlaySfx("s_pt1.wav", 75, 0, 1);
+					m_audioManager->PlaySfx("w_pt1.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
 					m_diceRoll = -1;
@@ -258,7 +250,7 @@ public:
 					break;
 				case 11://pt2
 					
-					m_audioManager->PlaySfx("s_pt2.wav", 75, 0, 1);
+					m_audioManager->PlaySfx("w_pt2.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
 					m_diceRoll = -1;
@@ -269,7 +261,7 @@ public:
 					break;
 				case 12://pt3
 
-					m_audioManager->PlaySfx("s_pt3.wav", 75, 0, 1);
+					m_audioManager->PlaySfx("w_pt3.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
 					m_diceRoll = -1;
@@ -280,7 +272,7 @@ public:
 					break;
 				case 13://pt4
 					
-					m_audioManager->PlaySfx("s_pt4.wav", 75, 0, 1);
+					m_audioManager->PlaySfx("w_pt4.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
 					m_diceRoll = -1;
@@ -326,7 +318,6 @@ public:
 					m_moveForwardAudio = false;
 					break;
 				case 5:// tumble - back 1
-
 					if (!m_moveBackAudio)
 					{
 						m_audioManager->PlaySfx("t_back.wav", 75, 0, 1);
@@ -351,10 +342,8 @@ public:
 			{
 				std::cout << "Game Won " << std::endl;
 				gameWin = true;
-				SDL_LoadWAV("ASSETS/AUDIO/end.wav", &wavSpec, &wavBuffer, &wavLength);
-				deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-				success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-				SDL_PauseAudioDevice(deviceId, 0);
+
+				m_audioManager->PlaySfx("s_ending.wav", 75, 0, 1);
 			}
 
 			if (gameWin)
@@ -375,13 +364,14 @@ public:
 					m_randomDirectionDecided = false;
 					choiceLoop = true;
 					// direction check here;
-				}
-				
-			}
+				}				
+			}			
+		}		
+	}
 
-			
-		}
-		
+	float getPosY()
+	{
+		return rect->y;
 	}
 
 
@@ -393,9 +383,7 @@ public:
 	void resetEndGame()
 	{
 		gameWin = false;
-	}
-
-	
+	}	
 
 	void rollForMove(int t_diceRolled) {
 
@@ -422,7 +410,6 @@ public:
 		return false;
 	}
 
-
 	void normalize(float& t_x, float& t_y) {
 		float len = sqrt(t_x * t_x + t_y * t_y);
 
@@ -440,7 +427,6 @@ public:
 		choiceLoop = false;
 	}
 
-
 	bool getTakeingTurn(){
 		return m_takeingTurn;
 	}
@@ -455,10 +441,8 @@ public:
 		m_diceRoll = i;
 	}
 
-
 	int nodeDirectionCheck(int x1, int y1, int x2, int y2)
 	{
-
 		if (x1 == x2 && y1 > y2)
 		{	// p2 Down
 			return 1;
@@ -546,7 +530,6 @@ public:
 	}
 
 private:
-
 	//Real one
 	int CurrentGameBoardIndex;
 	int PriorGameBoardIndex;

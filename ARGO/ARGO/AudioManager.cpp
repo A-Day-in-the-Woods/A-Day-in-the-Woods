@@ -69,6 +69,11 @@ void AudioManager::PlaySfx(std::string t_filename, int t_volume, int t_loops, in
 	Mix_VolumeChunk(m_assetManager->GetSfx(t_filename), t_volume);
 }
 
+bool AudioManager::isMusicPlaying()
+{
+	return Mix_PlayingMusic();
+}
+
 int AudioManager::IsChannelPLaying(int t_channel)
 {
 	return Mix_Playing(t_channel);

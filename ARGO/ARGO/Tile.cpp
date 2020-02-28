@@ -123,7 +123,6 @@ void Tile::blue()
 void Tile::orange()
 {
 	std::cout << "honey puddle square" << std::endl;
-	//stuck += 1;
 }
 
 void Tile::red()

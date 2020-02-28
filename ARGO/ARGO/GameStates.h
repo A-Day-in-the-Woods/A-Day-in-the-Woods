@@ -1,5 +1,3 @@
-
-
 #ifndef ENUM
 #define ENUM
 
@@ -13,7 +11,5 @@ enum class GameState
 	Quit,
 	Splash
 };
-
-
 
 #endif // ENUM

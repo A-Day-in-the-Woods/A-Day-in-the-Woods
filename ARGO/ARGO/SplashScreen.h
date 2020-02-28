@@ -7,13 +7,14 @@
 #include <iostream>
 #include "Game.h"
 #include <InputSystem.h>
+#include "AudioManager.h"
 
 class Game;
 
 class SplashScreen
 {
 public:
-	SplashScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState, InputSystem& t_inputSystem, std::vector<Player*> t_entity);
+	SplashScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState, InputSystem& t_inputSystem, std::vector<Player*> t_entity, AudioManager& t_audioManager);
 	~SplashScreen();
 	void update();
 	void render();
@@ -33,6 +34,7 @@ private:
 	bool flip{ true };
 	SDL_Rect m_titleRect;
 
+	AudioManager& m_audioManager;
 
 	GameState& m_currentState;
 	InputSystem m_inputSystem;
