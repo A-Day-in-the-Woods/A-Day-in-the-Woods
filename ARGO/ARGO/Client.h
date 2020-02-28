@@ -19,14 +19,12 @@ public: //Public functions
 	void SendString(const std::string& str);
 	bool RequestFile(const std::string& fileName);
 	~Client();
-	std::string GetDiceRoll() { return m_diceRoll; }
+	std::string getOtherPos() { return m_otherPos; }
 
 
 private: //Private functions
 
-	std::string GetMessage() { return m_message.second; }
-	std::string m_diceRoll;
-
+	std::string m_otherPos;
 	bool CloseConnection();
 	bool ProcessPacketType(const PacketType packetType);
 	static void ClientThread(Client& client); //Client thread which reads messages from server
@@ -38,6 +36,7 @@ private: //Private functions
 	bool Getint32_t(std::int32_t& int32_t);
 	bool GetPacketType(PacketType& packetType);
 	bool GetString(std::string& str);
+	std::string GetMessage() { return m_message.second; }
 
 private: //Private variables
 	std::vector<Player*> m_player;

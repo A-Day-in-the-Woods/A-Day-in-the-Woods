@@ -131,6 +131,12 @@ void Game::run()
 	}
  }
 
+void Game::connecToServer()
+{
+	m_onlineMode->ConnectToServer();
+}
+
+
 void Game::startMinGame()
 {
 	m_minigamescreen->startMinGame(1);
@@ -160,7 +166,7 @@ void Game::processEvent()
 		case GameState::Menu:
 			m_menuscreen->processEvent();
 			break;
-		case GameState::Options:
+		case GameState::Online:
 			m_onlineMode->processEvent();
 			break;
 		case GameState::Gameplay:
@@ -185,7 +191,7 @@ void Game::processEvent()
 	case GameState::Menu:
 		m_menuscreen->processEvent();
 		break;
-	case GameState::Options:
+	case GameState::Online:
 		m_onlineMode->processEvent();
 		break;
 	case GameState::Gameplay:
@@ -219,7 +225,7 @@ void Game::update()
 	case GameState::Menu:
 		m_menuscreen->update();
 		break;
-	case GameState::Options:
+	case GameState::Online:
 		m_onlineMode->update();
 		break;
 	case GameState::Gameplay:
@@ -252,7 +258,7 @@ void Game::render()
 	case GameState::Menu:
 		m_menuscreen->render();
 		break;
-	case GameState::Options:
+	case GameState::Online:
 		m_onlineMode->render();
 		break;
 	case GameState::Gameplay:

@@ -56,6 +56,7 @@ public:
 	void run();
 	GameState m_currentState{ GameState::Menu };
 	void setGameState(GameState t_newState) { m_currentState = t_newState; };
+	void connecToServer();
 
 	void startMinGame();
 	void renderNOW();

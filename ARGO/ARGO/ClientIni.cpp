@@ -5,7 +5,7 @@
 
 Client::Client(const char* ip, const int port, std::vector<Player*> t_entity)
 {
-	m_diceRoll = std::string("X: 0, Y: 0");
+	m_otherPos = std::string("X: 0, Y: 0");
 
 	m_player = t_entity;
 	//Winsock Startup

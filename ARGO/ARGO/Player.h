@@ -33,8 +33,11 @@ public:
 	void update(MovementSystem & t_move);
 	void render(SDL_Renderer* t_renderer);
 	void setPosition(float t_x, float t_y);
+	void setPositionOnline(int m_x, int m_y);
 	
-	
+	void updateOnline();
+	std::string GetPosAsString();
+
 	int randomNumber(int t_max, int t_min)
 	{
 		if (!m_takingTurn)

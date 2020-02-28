@@ -164,7 +164,8 @@ void MenuScreen::setGameState()
 		m_entity[0]->setLastButton(NULL);
 		break;
 	case 1:
-		m_game.setGameState(GameState::Options);
+		m_game.connecToServer();
+		m_game.setGameState(GameState::Online);
 		m_entity[0]->setLastButton(NULL);
 		break;
 	case 2:

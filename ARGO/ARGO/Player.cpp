@@ -49,6 +49,25 @@ void Player::setPosition(float t_x, float t_y)
 	rect.y = t_y;
 }
 
+void Player::setPositionOnline(int m_x, int m_y)
+{
+
+	rect.x = m_x;
+	rect.y = m_y;
+
+}
+
+void Player::updateOnline()
+{
+	m_spriteBody.x = rect.x - 5.0f;
+	m_spriteBody.y = rect.y - 20.0f;
+}
+
+std::string Player::GetPosAsString()
+{
+	return std::string("X: " + std::to_string(rect.x) + ", " + "Y: " + std::to_string(rect.y));
+}
+
 SDL_Rect * Player::getPlayerRectRef()
 {
 	return & rect;

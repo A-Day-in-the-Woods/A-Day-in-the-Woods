@@ -23,6 +23,9 @@ public:
 	void render();
 	void processEvent();
 	void setGameState();
+	void ConnectToServer();
+
+
 private:
 	int m_numberPlayers;
 	Game& m_game;
@@ -32,6 +35,12 @@ private:
 
 	Client* m_client;
 	
+	int x = 500;
+	int y = 500;
+
+	int m_myX = 10;
+	int m_myY = 10;
+
 
 	GameState& m_currentState;
 	InputSystem m_inputSystem;

@@ -8,20 +8,12 @@ OnlineMode::OnlineMode(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 	m_currentState(t_currentState),
 	m_entity(t_entity)
 {
+	m_numberPlayers = m_entity.size();
 
 	
-
-	m_client = new Client("149.153.106.155", 1111, m_entity);
-	m_numberPlayers = m_entity.size();
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic1.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
-
-	if (!m_client->Connect()) //If client fails to connect...
-	{
-		std::cout << "Failed to connect to server..." << std::endl;
-
-	}
 
 }
 
@@ -29,15 +21,25 @@ OnlineMode::~OnlineMode()
 {
 }
 
+
 void OnlineMode::update()
 {
-	
-	int x = numFromString(m_client->GetDiceRoll()).at(0);
+	x = numFromString(m_client->getOtherPos()).at(0);
+	y = numFromString(m_client->getOtherPos()).at(1);
 
-	//m_client->SendString(m_entity[0]->GetValueAsString());
-	m_client->SendString(std::to_string(6));
-	std::cout << x << std::endl;
+	m_myX += 2;
+	m_myY += 1;
 
+
+	m_entity[1]->setPositionOnline(x, y);
+	m_entity[0]->setPositionOnline(m_myX, m_myY);
+
+
+	m_entity[0]->updateOnline();
+	m_entity[1]->updateOnline();
+
+
+	m_client->SendString(m_entity[0]->GetPosAsString());
 
 	if (m_entity[0]->m_lastButtonPressed == 4)
 	{
@@ -49,10 +51,11 @@ void OnlineMode::update()
 
 void OnlineMode::render()
 {
-	
-	//SDL_RenderClear(m_renderer);
-
+	SDL_RenderClear(m_renderer);
 	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
+
+	m_entity[0]->render(m_renderer);
+	m_entity[1]->render(m_renderer);
 }
 
 void OnlineMode::processEvent()
@@ -67,4 +70,16 @@ void OnlineMode::processEvent()
 void OnlineMode::setGameState()
 {
 	m_game.setGameState(GameState::Menu);
+}
+
+void OnlineMode::ConnectToServer()
+{
+
+	m_client = new Client("149.153.106.154", 1111, m_entity);
+
+	if (!m_client->Connect()) //If client fails to connect...
+	{
+		std::cout << "Failed to connect to server..." << std::endl;
+
+	}
 }

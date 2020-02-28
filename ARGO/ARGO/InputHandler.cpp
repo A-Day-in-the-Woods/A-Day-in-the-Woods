@@ -15,7 +15,7 @@ void InputHandler::ForceAButton(GameState& t_currentState, Player* t_entity)
 	{
 	case GameState::Menu:
 		break;
-	case GameState::Options:
+	case GameState::Online:
 		break;
 	case GameState::Gameplay:
 		t_entity->setLastButton(-1);
@@ -51,7 +51,7 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 					t_entity->setLastButton(1);
 					m_manager->addCmd(buttonA, t_entity, NULL);
 					break;
-				case GameState::Options:
+				case GameState::Online:
 					break;
 				case GameState::Gameplay:	
 						t_entity->setLastButton(1);
@@ -82,7 +82,7 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 				{
 				case GameState::Menu:
 					break;
-				case GameState::Options:
+				case GameState::Online:
 					t_entity->setLastButton(4);
 					m_manager->addCmd(buttonB, t_entity, NULL);
 					break;
@@ -110,7 +110,7 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 				case GameState::Menu:
 					m_manager->addCmd(buttonA, t_entity, NULL);
 					break;
-				case GameState::Options:
+				case GameState::Online:
 					break;
 				case GameState::Gameplay:
 					t_entity->setLastButton(5);
@@ -133,7 +133,7 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 				case GameState::Menu:
 					m_manager->addCmd(buttonA, t_entity, NULL);
 					break;
-				case GameState::Options:
+				case GameState::Online:
 					break;
 				case GameState::Gameplay:
 					t_entity->setLastButton(6);
@@ -187,7 +187,7 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 					t_entity->setLastButton(2);
 					m_manager->addCmd(DpadUp, t_entity, NULL);
 					break;
-				case GameState::Options:
+				case GameState::Online:
 					break;
 				case GameState::Gameplay:
 					break;
@@ -209,7 +209,7 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 					t_entity->setLastButton(3);
 					m_manager->addCmd(DpadDown, t_entity, NULL);
 					break;
-				case GameState::Options:
+				case GameState::Online:
 					break;
 				case GameState::Gameplay:
 					break;
@@ -229,7 +229,7 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 				{
 				case GameState::Menu:
 					break;
-				case GameState::Options:
+				case GameState::Online:
 					break;
 				case GameState::Gameplay:
 					break;
@@ -249,7 +249,7 @@ void InputHandler::inputHandle(SDL_Event& event, GameState& t_currentState, Play
 				{
 				case GameState::Menu:
 					break;
-				case GameState::Options:
+				case GameState::Online:
 					break;
 				case GameState::Gameplay:
 					break;
