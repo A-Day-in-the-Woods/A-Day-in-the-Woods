@@ -30,6 +30,7 @@
 #include "NPC.h"
 #include "MovementSystem.h"
 #include "MovementComponent.h"
+#include "AudioManager.h"
 
 #include "Client.h"
 
@@ -85,7 +86,7 @@ private:
 	SDL_Event event;
 
 
-
+	AudioManager * m_audioManager;
 
 	void initNodeFiles();
 	map<string, int> nodemap;

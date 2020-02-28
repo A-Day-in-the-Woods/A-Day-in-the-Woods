@@ -12,13 +12,14 @@
 
 #include "CharacterFactory.h"
 
+#include"AudioManager.h"
 
 class Game;
 
 class MenuScreen
 {
 public:
-	MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event &event, GameState& t_currentState, InputSystem& t_inputSystem, std::vector<Player*> t_entity);
+	MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event &event, GameState& t_currentState, InputSystem& t_inputSystem, std::vector<Player*> t_entity, AudioManager & t_audioManager );
 	~MenuScreen();
 	void update();
 	void render();
@@ -28,6 +29,7 @@ public:
 
 	Factory* m_factory;
 	std::vector<Character*> m_characters;
+
 
 private:
 	int m_numberPlayers;
@@ -61,9 +63,14 @@ private:
 	std::vector<SDL_Rect> m_menuButtonPosition;
 	std::vector<SDL_Rect> m_menuButtonPositionSelected;
 
-	
+	SDL_AudioSpec wavSpec;
+	Uint32 wavLength;
+	Uint8* wavBuffer;
+	SDL_AudioDeviceID deviceId;
+	bool audioPlaying = false;
 	//bee
 	SDL_Texture* m_beeTexture;
 
+	AudioManager & m_audioManager;
 };
 #endif // MENU

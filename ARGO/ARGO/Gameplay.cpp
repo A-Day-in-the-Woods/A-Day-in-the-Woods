@@ -1,15 +1,20 @@
 #include "Gameplay.h"
 
-Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameState& t_currentState ,SDL_Window* t_window, InputSystem & t_input, std::vector<Player*> t_entity):
+Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameState& t_currentState ,SDL_Window* t_window, InputSystem & t_input, std::vector<Player*> t_entity, AudioManager& t_audioManager):
 	m_game(game),
 	m_event(event),
 	m_renderer(t_renderer),
 	m_window(t_window),
 	m_inputSystem(t_input),
 	m_entity(t_entity),
-	m_currentState(t_currentState)
+	m_currentState(t_currentState),
+	m_audioManager(t_audioManager)
 {
 	m_numberPlayers = m_entity.size();
+	
+	//SDL_LoadWAV("ASSETS/AUDIO/intro.wav", &wavSpec, &wavBuffer, &wavLength);
+	//deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
+	//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
 
 	SDL_Surface* m_DiceSurface;
 	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceOne.png");
@@ -90,6 +95,7 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 		m_DiceTexture.push_back(m_DiceTextureSides[0]);
 
 		m_entity[i]->assignSprite(m_PlayerUITexture[i]);
+
 	}
 	
 
@@ -131,6 +137,12 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 
 Gameplay::~Gameplay()
 {
+	SDL_Delay(3000);
+	SDL_CloseAudioDevice(deviceId);
+	SDL_FreeWAV(wavBuffer);
+
+	//AudioManager::Release();
+	//m_audioManager = NULL;
 }
 
 void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem& t_move)
@@ -138,6 +150,9 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 	if (!setUp)
 	{
+		m_audioManager.PlayMusic("testSong.wav",10);
+		m_audioManager.PlaySfx("s_intro.wav", 75, 0, 1);
+		//SDL_PauseAudioDevice(deviceId, 0);
 		t_npc[0]->turn = true;
 		setUp = true;
 	}
@@ -331,29 +346,33 @@ void Gameplay::processEvent(MovementSystem & t_move)
 	{
 		if (m_turnOrder == m_entity[i]->getId())
 		{
-			if (t_move.getPlayerDiceValue(i) == -2)
+			if (!m_audioManager.IsChannelPLaying(1))
 			{
-				m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
-			}
-			else if (t_move.getPlayerDiceValue(i) == -3)
-			{
-				m_turnOrder++;
-				if (m_turnOrder == m_entity.size())
-					m_turnOrder = 0;
-				t_move.setPlayerDiceValue(i, -1);
-			}
-			else {
-				if (t_move.getPlayerDiceValue(i) == -1 && !t_move.IsThePlayerMoving(i))
+				if (t_move.getPlayerDiceValue(i) == -2)
 				{
-					t_move.setPlayerDiceValue(i, 0);
+					m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
+				}
+				else if (t_move.getPlayerDiceValue(i) == -3)
+				{
 					m_turnOrder++;
 					if (m_turnOrder == m_entity.size())
 						m_turnOrder = 0;
-					m_entity[i]->setLastButton(NULL);
+					t_move.setPlayerDiceValue(i, -1);
 				}
 				else
 				{
-					m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
+					if (t_move.getPlayerDiceValue(i) == -1 && !t_move.IsThePlayerMoving(i))
+					{
+						t_move.setPlayerDiceValue(i, 0);
+						m_turnOrder++;
+						if (m_turnOrder == m_entity.size())
+							m_turnOrder = 0;
+						m_entity[i]->setLastButton(NULL);
+					}
+					else
+					{
+						m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
+					}
 				}
 			}
 		}

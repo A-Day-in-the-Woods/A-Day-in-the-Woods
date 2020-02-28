@@ -1,12 +1,13 @@
 #include "MenuScreen.h"
 
-MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState, InputSystem& t_inputSystem, std::vector<Player*> t_entity) :
+MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState, InputSystem& t_inputSystem, std::vector<Player*> t_entity, AudioManager& t_audioManager) :
 	m_game(game),
 	m_event(event),
 	m_renderer(t_renderer),
 	m_inputSystem(t_inputSystem),
 	m_currentState(t_currentState),
-	m_entity(t_entity)
+	m_entity(t_entity),
+	m_audioManager(t_audioManager)
 {
 	m_numberPlayers = m_entity.size();
 	SDL_Surface* m_backgroundSurface = IMG_Load("ASSETS\\IMAGES\\MainMenuBg.png");
@@ -60,6 +61,9 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 	m_characters[0]->SetUp(100, 100, 90, 90, *m_beeTexture);
 
 
+
+	audioPlaying = false;
+
 	SDL_FreeSurface(m_backgroundSurface);
 	SDL_FreeSurface(m_titleSurface);
 	SDL_FreeSurface(m_menuButtonSurface);
@@ -76,35 +80,45 @@ MenuScreen::~MenuScreen()
 
 void MenuScreen::update()
 {
+	if (!audioPlaying)
+	{
+		m_audioManager.PlayMusic("menu.wav",2);
+		m_audioManager.PlaySfx("gameTitle.wav", 80);
+		audioPlaying = true;
+	}
+	/*if (!audioPlaying)
+	{
+		SDL_LoadWAV("ASSETS/AUDIO/title.wav", &wavSpec, &wavBuffer, &wavLength);
+		deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
+		int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength); 
+		SDL_PauseAudioDevice(deviceId, 0);
+		audioPlaying = true;
+	}*/
 
-		if (flip)
-		{
-			m_buttonSelectorRect[m_currentButton].w += 1;
-			m_buttonSelectorRect[m_currentButton].h += 1;
-			m_buttonSelectorRectTwo[m_currentButton].w += 1;
-			m_buttonSelectorRectTwo[m_currentButton].h += 1;
-			m_menuButtonPositionSelected[m_currentButton].w += 1;
-			m_menuButtonPositionSelected[m_currentButton].h += 1;
-			m_titleRect.h += 1;
-			m_titleRect.w += 1;
-			if (m_buttonSelectorRect[m_currentButton].w >= 450 || m_buttonSelectorRect[m_currentButton].h >= 250) { flip = false; }
-		}
-		else
-		{
-			m_buttonSelectorRect[m_currentButton].w -= 1;
-			m_buttonSelectorRect[m_currentButton].h -= 1;
-			m_buttonSelectorRectTwo[m_currentButton].w -= 1;
-			m_buttonSelectorRectTwo[m_currentButton].h -= 1;
-			m_menuButtonPositionSelected[m_currentButton].h -= 1;
-			m_menuButtonPositionSelected[m_currentButton].w -= 1;
-			m_titleRect.h -= 1;
-			m_titleRect.w -= 1;
-			if (m_buttonSelectorRect[m_currentButton].w >= 400 || m_buttonSelectorRect[m_currentButton].h <= 200) { flip = true; }
-		}
-	
-	
-	
-
+	if (flip)
+	{
+		m_buttonSelectorRect[m_currentButton].w += 1;
+		m_buttonSelectorRect[m_currentButton].h += 1;
+		m_buttonSelectorRectTwo[m_currentButton].w += 1;
+		m_buttonSelectorRectTwo[m_currentButton].h += 1;
+		m_menuButtonPositionSelected[m_currentButton].w += 1;
+		m_menuButtonPositionSelected[m_currentButton].h += 1;
+		m_titleRect.h += 1;
+		m_titleRect.w += 1;
+		if (m_buttonSelectorRect[m_currentButton].w >= 450 || m_buttonSelectorRect[m_currentButton].h >= 250) { flip = false; }
+	}
+	else
+	{
+		m_buttonSelectorRect[m_currentButton].w -= 1;
+		m_buttonSelectorRect[m_currentButton].h -= 1;
+		m_buttonSelectorRectTwo[m_currentButton].w -= 1;
+		m_buttonSelectorRectTwo[m_currentButton].h -= 1;
+		m_menuButtonPositionSelected[m_currentButton].h -= 1;
+		m_menuButtonPositionSelected[m_currentButton].w -= 1;
+		m_titleRect.h -= 1;
+		m_titleRect.w -= 1;
+		if (m_buttonSelectorRect[m_currentButton].w >= 400 || m_buttonSelectorRect[m_currentButton].h <= 200) { flip = true; }
+	}
 
 		if (m_entity[0]->m_lastButtonPressed == 1)
 		{
@@ -175,6 +189,9 @@ void MenuScreen::setGameState()
 	switch (m_currentButton)
 	{
 	default:
+		SDL_Delay(3000); 
+		SDL_CloseAudioDevice(deviceId);
+		SDL_FreeWAV(wavBuffer); 
 		m_game.setGameState(GameState::Gameplay);
 		std::cout << "error on Menu select" << std::endl;
 		m_entity[0]->setLastButton(NULL);
@@ -190,10 +207,16 @@ void MenuScreen::setGameState()
 		m_entity[0]->setLastButton(NULL);
 		break;
 	case 2:
+		SDL_Delay(3000);
+		SDL_CloseAudioDevice(deviceId);
+		SDL_FreeWAV(wavBuffer);
 		m_game.setGameState(GameState::Credit);
 		m_entity[0]->setLastButton(NULL);
 		break;
 	case 3:
+		SDL_Delay(3000);
+		SDL_CloseAudioDevice(deviceId);
+		SDL_FreeWAV(wavBuffer);
 		m_game.setGameState(GameState::Quit);
 		m_entity[0]->setLastButton(NULL);
 		break;
