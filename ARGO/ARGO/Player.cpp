@@ -17,8 +17,8 @@ void Player::assignSprite(SDL_Texture* t_PlayerTexture)
 
 void Player::SetUp()
 {
-	rect.x = 0;
-	rect.y = 0;
+	rect.x = 955;
+	rect.y = 955;
 	rect.w = 20;
 	rect.h = 20;
 
@@ -54,6 +54,24 @@ void Player::setPosition(float t_x, float t_y)
 	rect.y = t_y;
 }
 
+void Player::setPositionOnline(int m_x, int m_y)
+{
+
+	rect.x = m_x;
+	rect.y = m_y;
+
+}
+
+void Player::updateOnline()
+{
+	m_spriteBody.x = rect.x - 5.0f;
+	m_spriteBody.y = rect.y - 20.0f;
+}
+
+std::string Player::GetPosAsString()
+{
+	return std::string("X: " + std::to_string(rect.x) + ", " + "Y: " + std::to_string(rect.y));
+}
 void Player::setTileType(int t_type, int t_index)
 {
 	tileType = t_type;
@@ -65,6 +83,10 @@ SDL_Rect * Player::getPlayerRectRef()
 	return & rect;
 }
 
+std::string Player::GetValueAsString()
+{
+	return std::string(std::to_string(diceRoll));
+}
 void Player::tileBehaviour()
 {
 	switch (tileType)

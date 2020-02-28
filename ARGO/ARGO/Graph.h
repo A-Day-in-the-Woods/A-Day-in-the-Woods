@@ -1,4 +1,4 @@
-#ifndef GRAPH_H
+#ifndef GRAPH_H	
 #define GRAPH_H
 
 
@@ -7,6 +7,9 @@
 #include <queue>
 #include <vector>
 #include <functional>
+#include <limits>
+#include <cstddef>
+#include <iostream>
 
 using namespace std;
 
@@ -19,7 +22,7 @@ class NodeSearchCostComparer
 {
 public:
 	typedef GraphNode<NodeType, ArcType> Node;
-	typedef GraphArc<NodeType, ArcType> Arc;
+	typedef GraphArc<NodeType, ArcType> Arcs;
 
 	bool operator()(Node* n1, Node* n2)
 	{
@@ -40,7 +43,7 @@ class Graph
 {
 public:
 	// typedef the classes to make our lives easier.
-	typedef GraphArc<NodeType, ArcType> Arc;
+	typedef GraphArc<NodeType, ArcType> Arcs;
 	typedef GraphNode<NodeType, ArcType> Node;
 
 
@@ -59,12 +62,13 @@ public:
 	void removeNode(int index);
 	bool addArc(int from, int to, ArcType weight);
 	void removeArc(int from, int to);
-	Arc* getArc(int from, int to);
+	Arcs* getArc(int from, int to);
 	void clearMarks();
 	void depthFirst(Node* pNode, std::function<void(Node*)> f_visit);
 	void breadthFirst(Node* pNode, std::function<void(Node*)> f_visit);
 	void adaptedBreadthFirst(Node* pCurrent, Node* pGoal);
-	void aStar(Node* begining, Node* destination, std::function<void(Node*)> f_visit, std::vector<Node*>& path);
+	//Commented out at the bottom
+	//void aStar(Node* begining, Node* destination, std::function<void(Node*)> f_visit, std::vector<Node*>& path);
 
 private:
 	// ----------------------------------------------------------------
@@ -158,7 +162,7 @@ void Graph<NodeType, ArcType>::removeNode(int index) {
 	if (nullptr != m_nodes.at(index)) {
 		// now find every arc that points to the node that
 		// is being removed and remove it.        
-		Arc* arc;
+		Arcs* arc;
 
 		// loop through every node
 		for (int node = 0; node < m_nodes.size(); node++) {
@@ -245,7 +249,7 @@ void Graph<NodeType, ArcType>::removeArc(int from, int to) {
 // ----------------------------------------------------------------
 template<class NodeType, class ArcType>
 GraphArc<NodeType, ArcType>* Graph<NodeType, ArcType>::getArc(int from, int to) {
-	Arc* arc = 0;
+	Arcs* arc = 0;
 	// make sure the to and from nodes exist
 	if (nullptr != m_nodes.at(from) && nullptr != m_nodes.at(to)) {
 		arc = m_nodes.at(from)->getArc(m_nodes.at(to));
@@ -394,67 +398,68 @@ void Graph<NodeType, ArcType>::adaptedBreadthFirst(Node* current, Node* goal) {
 }
 
 
-template<class NodeType, class ArcType>
-inline void Graph<NodeType, ArcType>::aStar(Node* t_start, Node* t_destination, std::function<void(Node*)> t_visit, std::vector<Node*>& t_path)
-{
-	priority_queue<Node*, std::vector<Node*>, NodeSearchCostComparer<NodeType, ArcType>> priQue;
-
-	for (Node* node : m_nodes)
-	{
-		if (node != t_start)
-		{
-			node->m_heuristic = sqrt(((t_destination->m_x - node->m_x) * (t_destination->m_x - node->m_x)
-				+ (t_destination->m_y - node->m_y) * (t_destination->m_y - node->m_y)));
-
-			NodeType& data = node->data();
-			data.second = std::numeric_limits<int>::max() - 10000;
-		}
-	}
-
-	priQue.push(t_start);
-	t_start->setMarked(true);
-
-	while (priQue.size() != 0 && priQue.top() != t_destination)
-	{
-		auto iter = priQue.top()->arcList().begin();
-		auto endIter = priQue.top()->arcList().end();
-
-		cout << "expandinng : " << priQue.top()->data().first << endl;
-
-		for (; iter != endIter; iter++)
-		{
-			Arc arc = *iter;
-
-			if ((*iter).node() != priQue.top()->previous())
-			{
-				cout << "visiting : " << (*iter).node()->data().first << endl;
-				int distC = arc.node()->m_heuristic + priQue.top()->data().second + arc.weight();
-
-				if (distC < (arc.node()->data().second + arc.node()->m_heuristic))
-				{
-					NodeType& data = arc.node()->data();
-					data.second = priQue.top()->data().second + arc.weight();
-					(*iter).node()->setPrevious(priQue.top());
-				}
-
-				if ((*iter).node()->marked() == false)
-				{
-					priQue.push((*iter).node());
-					((*iter).node()->setMarked(true));
-				}
-			}
-		}
-		priQue.pop();
-	}
-
-	Node* current = t_destination;
-	while (current != nullptr)
-	{
-		auto nodeName = current->data().first;
-		t_path.push_back(current);
-		current = current->previous();
-	}
-}
+//template<class NodeType, class ArcType>
+//inline void Graph<NodeType, ArcType>::aStar(Node* t_start, Node* t_destination, std::function<void(Node*)> t_visit, std::vector<Node*>& t_path)
+//{
+//	priority_queue<Node*, std::vector<Node*>, NodeSearchCostComparer<NodeType, ArcType>> priQue;
+//
+//	for (Node* node : m_nodes)
+//	{
+//		if (node != t_start)
+//		{
+//			node->m_heuristic = sqrt(((t_destination->m_x - node->m_x) * (t_destination->m_x - node->m_x)
+//				+ (t_destination->m_y - node->m_y) * (t_destination->m_y - node->m_y)));
+//
+//			NodeType& data = node->data();
+//			data.second = (std::numeric_limits<int>::max()) - 10000;
+//		
+//		}
+//	}
+//
+//	priQue.push(t_start);
+//	t_start->setMarked(true);
+//
+//	while (priQue.size() != 0 && priQue.top() != t_destination)
+//	{
+//		auto iter = priQue.top()->arcList().begin();
+//		auto endIter = priQue.top()->arcList().end();
+//
+//		cout << "expandinng : " << priQue.top()->data().first << endl;
+//
+//		for (; iter != endIter; iter++)
+//		{
+//			Arcs arc = *iter;
+//
+//			if ((*iter).node() != priQue.top()->previous())
+//			{
+//				cout << "visiting : " << (*iter).node()->data().first << endl;
+//				int distC = arc.node()->m_heuristic + priQue.top()->data().second + arc.weight();
+//
+//				if (distC < (arc.node()->data().second + arc.node()->m_heuristic))
+//				{
+//					NodeType& data = arc.node()->data();
+//					data.second = priQue.top()->data().second + arc.weight();
+//					(*iter).node()->setPrevious(priQue.top());
+//				}
+//
+//				if ((*iter).node()->marked() == false)
+//				{
+//					priQue.push((*iter).node());
+//					((*iter).node()->setMarked(true));
+//				}
+//			}
+//		}
+//		priQue.pop();
+//	}
+//
+//	Node* current = t_destination;
+//	while (current != nullptr)
+//	{
+//		auto nodeName = current->data().first;
+//		t_path.push_back(current);
+//		current = current->previous();
+//	}
+//}
 
 #include "GraphNode.h"
 #include "GraphArc.h"

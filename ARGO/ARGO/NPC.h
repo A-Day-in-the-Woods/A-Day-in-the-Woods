@@ -1,4 +1,7 @@
-#pragma once
+#ifndef NPC_H
+#define NPC_H
+
+
 #include "SDL.h"
 
 #include <cstdlib>
@@ -10,7 +13,7 @@
 #include "Entity.h"
 
 class Tile;
-typedef GraphArc<pair<std::string, int>, int> Arc;
+typedef GraphArc<pair<std::string, int>, int> Arcs;
 typedef GraphNode<pair<std::string, int>, int> Node;
 
 class NPC : public Entity
@@ -44,3 +47,5 @@ private:
 	SDL_Rect npc;
 	int m_pathDecision;
 };
+
+#endif // !NPC_H

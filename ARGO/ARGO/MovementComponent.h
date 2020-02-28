@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MOVEMENTCOMPONENT_H
+#define MOVEMENTCOMPONENT_H
+
 
 #include "Component.h"
 #include <vector>
@@ -67,9 +69,25 @@ public:
 		m_movementSpeed = -1;
 		m_takeingTurn = false;
 		choiceLoop = true;
-	}
 
+	}
+	void reSetUp() {
+		CurrentGameBoardIndex = 0;
+		m_movementSpeed = -1;
+		m_takeingTurn = false;
+		choiceLoop = true;
+		m_newGame = true;
+		rect->x = 955;
+		rect->y = 955;
+	}
 	void update(std::vector<Tile>& t_map, Graph< pair<string, int>, int>& t_g) {
+		if (m_newGame == true)
+		{
+			rect->x = t_map[CurrentGameBoardIndex].getPosition().x - (rect->w / 4.0f);
+			rect->y = t_map[CurrentGameBoardIndex].getPosition().y - (rect->h / 4.0f);
+			m_newGame = false;
+		}
+
 		if (m_takeingTurn)
 		{
 			nodeNavigation(t_map, t_g);
@@ -351,6 +369,11 @@ public:
 		return gameWin;
 	}
 
+	void resetEndGame()
+	{
+		gameWin = false;
+	}
+
 	
 
 	void rollForMove(int t_diceRolled) {
@@ -527,10 +550,15 @@ private:
 	int playerWon;
 
 	bool m_takeingTurn;
+	bool m_newGame{ false };
 
 	float m_movementSpeed;
 
 	int m_diceRoll{-1};
 
 	int m_DirectionChoiceNum = -1;
+	//int * m_turnIndex;
 };
+#endif // !MOVEMENTCOMPONENT_H
+	
+

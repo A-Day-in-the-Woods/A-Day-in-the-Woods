@@ -18,14 +18,14 @@ template<class NodeType, class ArcType>
 class GraphNode {
 public:
 	// typedef the classes to make our lives easier.
-	typedef GraphArc<NodeType, ArcType> Arc;
+	typedef GraphArc<NodeType, ArcType> Arcs;
 	typedef GraphNode<NodeType, ArcType> Node;
 
 	// Constructor function
 	GraphNode(Node* previous = 0) : m_previous(previous) {}
 
 	// Accessor functions
-	list<Arc> const& arcList() const {
+	list<Arcs> const& arcList() const {
 		return m_arcList;
 	}
 
@@ -55,7 +55,7 @@ public:
 	}
 
 
-	Arc* getArc(Node* pNode);
+	Arcs* getArc(Node* pNode);
 	void addArc(Node* pNode, ArcType pWeight);
 	void removeArc(Node* pNode);
 
@@ -76,7 +76,7 @@ private:
 	// -------------------------------------------------------
 	// Description: list of arcs that the node has.
 	// -------------------------------------------------------
-	list<Arc> m_arcList;
+	list<Arcs> m_arcList;
 
 	// -------------------------------------------------------
 	// Description: This remembers if the node is marked.
@@ -103,7 +103,7 @@ GraphArc<NodeType, ArcType>* GraphNode<NodeType, ArcType>::getArc(Node* node) {
 
 	auto iter = m_arcList.begin();
 	auto endIter = m_arcList.end();
-	Arc* arc = 0;
+	Arcs* arc = 0;
 
 	// find the arc that matches the node
 	for (; iter != endIter && nullptr == arc; ++iter) {
@@ -129,7 +129,7 @@ GraphArc<NodeType, ArcType>* GraphNode<NodeType, ArcType>::getArc(Node* node) {
 template<typename NodeType, typename ArcType>
 void GraphNode<NodeType, ArcType>::addArc(Node* node, ArcType weight) {
 	// Create a new arc.
-	Arc a;
+	Arcs a;
 	a.setNode(node);
 	a.setWeight(weight);
 	// Add it to the arc list.

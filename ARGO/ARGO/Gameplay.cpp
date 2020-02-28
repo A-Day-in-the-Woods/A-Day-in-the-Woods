@@ -16,12 +16,19 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	//deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
 	//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
 
-	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceOne.png"));
-	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceTwo.png"));
-	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceThree.png"));
-	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceFour.png"));
-	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceFive.png"));
-	m_DiceSurface.push_back(IMG_Load("ASSETS/IMAGES/Dice/DiceSix.png"));
+	SDL_Surface* m_DiceSurface;
+	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceOne.png");
+	m_DiceTextureSides.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface));
+	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceTwo.png");
+	m_DiceTextureSides.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface));
+	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceThree.png");
+	m_DiceTextureSides.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface));
+	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceFour.png");
+	m_DiceTextureSides.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface));
+	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceFive.png");
+	m_DiceTextureSides.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface));
+	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceSix.png");
+	m_DiceTextureSides.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface));
 
 	m_PlayerUIRect.push_back(SDL_Rect{ 100,0,300,400 });
 	m_PlayerUIRect.push_back(SDL_Rect{ 1600,0,300,400 });
@@ -55,8 +62,8 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_Winsscreen.x = 0;
 	m_Winsscreen.y = 0;
 
-	m_PlayerShadowUISurface = IMG_Load("ASSETS/IMAGES/Players/bearShadow.png");
-	// Initialize GameObject Positions
+	SDL_Surface* m_PlayerShadowUISurface = IMG_Load("ASSETS/IMAGES/Players/bearShadow.png");
+	SDL_Surface* m_PlayerUISurface;
 	for (int i = 0; i < m_numberPlayers ;i++) 
 	{
 		switch (i)
@@ -65,21 +72,27 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 			break;
 		case 0:
 			m_PlayerUISurface = IMG_Load("ASSETS/IMAGES/Players/bear1.png");
+			m_PlayerUITexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_PlayerUISurface));
+
 			break;
 		case 1:
 			m_PlayerUISurface = IMG_Load("ASSETS/IMAGES/Players/bear2.png");
+			m_PlayerUITexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_PlayerUISurface));
+
 			break;
 		case 2:
 			m_PlayerUISurface = IMG_Load("ASSETS/IMAGES/Players/bear3.png");
+			m_PlayerUITexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_PlayerUISurface));
+
 			break;
 		case 3:
 			m_PlayerUISurface = IMG_Load("ASSETS/IMAGES/Players/bear4.png");
+			m_PlayerUITexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_PlayerUISurface));
+
 			break;
 		}
-		m_PlayerUITexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_PlayerUISurface));
 		m_PlayerShadowUITexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_PlayerShadowUISurface));
-
-		m_DiceTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface[0]));
+		m_DiceTexture.push_back(m_DiceTextureSides[0]);
 
 		m_entity[i]->assignSprite(m_PlayerUITexture[i]);
 
@@ -90,7 +103,6 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_turnOrder = 0;
 
 	m_clouds.reserve(100);
-	m_tile.reserve(200);
 
 	for (int i = 0; i < 100; i++) {m_clouds.push_back(SDL_Rect{ randomNumber(1300,500),randomNumber(900,100),150,100 });} //make 100 clouds
 
@@ -102,20 +114,25 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 
 	for (int i = 0; i < 4; i++) {m_outLine.push_back(SDL_Rect{ i*550,820 - 100,150,700 });} //make out line of bushes 
 
-	m_CloudSurface = IMG_Load("ASSETS/IMAGES/cloud.png");
+	SDL_Surface* m_CloudSurface = IMG_Load("ASSETS/IMAGES/cloud.png");
 	m_CloudTexture = SDL_CreateTextureFromSurface(m_renderer, m_CloudSurface);
 
-	m_outLineSurface = IMG_Load("ASSETS/IMAGES/UI/hedge.png");
+	SDL_Surface* m_outLineSurface = IMG_Load("ASSETS/IMAGES/UI/hedge.png");
 	m_outLineTexture = SDL_CreateTextureFromSurface(m_renderer, m_outLineSurface);
 	
-	m_backgroundSurface = IMG_Load("ASSETS/IMAGES/Board.png");
+	SDL_Surface* m_backgroundSurface = IMG_Load("ASSETS/IMAGES/Board.png");
 	m_backgroundTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
-
 	m_backgroundRect={ 75,-10,1920,1080};
 
 
-	m_backgroundSurface = IMG_Load("ASSETS/IMAGES/pic2.png");
-	m_backgroundTextureTwo = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
+
+	SDL_FreeSurface(m_DiceSurface);
+	SDL_FreeSurface(WinSurface);
+	SDL_FreeSurface(m_PlayerShadowUISurface);
+	SDL_FreeSurface(m_CloudSurface);
+	SDL_FreeSurface(m_outLineSurface);
+	SDL_FreeSurface(m_backgroundSurface);
+
 }
 
 Gameplay::~Gameplay()
@@ -365,6 +382,18 @@ void Gameplay::setGameState()
 	m_game.setGameState(GameState::Menu);
 }
 
+void Gameplay::Reset(MovementSystem& t_move)
+{
+
+	m_numberPlayers = m_entity.size();
+	m_turnOrder = 0;
+
+	for (int i = 0; i < 100; i++) { m_clouds.push_back(SDL_Rect{ randomNumber(1300,500),randomNumber(900,100),150,100 }); } //make 100 clouds
+	for (int i = 0; i < m_entity.size(); i++) {m_entity[i]->SetUp();}
+	t_move.restPlayers();
+}
+
+
 float Gameplay::calculateScale(float width, float height, float maxWidth, float maxHeight)
 {
 	return max(maxWidth / width, maxHeight / height);
@@ -372,7 +401,7 @@ float Gameplay::calculateScale(float width, float height, float maxWidth, float 
 
 void Gameplay::setDiceTexture(int m_playerID)
 {	
-	m_DiceTexture[m_playerID] = SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface[m_entity[m_playerID]->getDiceRoll()-1]);
+	m_DiceTexture[m_playerID] = m_DiceTextureSides[m_entity[m_playerID]->getDiceRoll()-1] ;
 }
 
 int Gameplay::randomNumber(int t_max, int t_min)

@@ -14,14 +14,14 @@
 
 #include "GameStates.h"
 #include "MenuScreen.h"
-#include "Options.h"
+#include "OnlineMode.h"
 #include "Gameplay.h"
 #include "CreditsScreen.h"
 #include "Minigame.h"
+#include "SplashScreen.h"
 
 #include "Entity.h"
 #include "HealthComp.h"
-#include "HealthSystem.h"
 #include "PositionComp.h"
 #include "RenderSystem.h"
 #include "InputComponent.h"
@@ -32,15 +32,18 @@
 #include "MovementComponent.h"
 #include "AudioManager.h"
 
+#include "Client.h"
+
+
 
 class MenuScreen;
-class OptionScreen;
+class OnlineMode;
 class Gameplay;
 class CreditScreen;
 class MinigameScreen;
+class SplashScreen;
 
-
-typedef GraphArc<pair<std::string, int>, int> Arc;
+typedef GraphArc<pair<std::string, int>, int> Arcs;
 typedef GraphNode<pair<std::string, int>, int> Node;
 
 /// <summary>
@@ -52,11 +55,13 @@ public:
 	Game();
 	~Game();
 	void run();
-	GameState m_currentState{ GameState::Menu };
+	GameState m_currentState{ GameState::Splash };
 	void setGameState(GameState t_newState) { m_currentState = t_newState; };
+	void connecToServer();
 
 	void startMinGame();
 	void renderNOW();
+	void RestGameplay();
 private:
 	void processEvent();
 	void update();
@@ -65,10 +70,11 @@ private:
 	void clean();
 
 	MenuScreen* m_menuscreen;
-	OptionScreen* m_optionscreen;
+	OnlineMode* m_onlineMode;
 	Gameplay* m_gameplayscreen;
 	CreditScreen* m_creditscreen;
 	MinigameScreen* m_minigamescreen;
+	SplashScreen* m_splashscreen;
 	
 	SDL_Window* m_window;	// game window
 	SDL_Renderer* m_renderer;	// game renderer
@@ -93,7 +99,7 @@ private:
 	int index = 0;
 	ifstream myfile;
 
-	bool GameWon{ false };
+	bool GameWon{ false  };
 
 	int winnerIndex;
 
@@ -105,8 +111,11 @@ private:
 	std::vector<Player*> m_player;
 	std::vector<NPC*> m_npc;
 
+	//Client
+	Client* m_client;
+
+
 	//---------Entity + Components-----------
-	HealthSystem m_healthSystem;
 	InputSystem m_inputSystem;
 	MovementSystem m_movementSystem;
 };

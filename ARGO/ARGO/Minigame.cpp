@@ -25,36 +25,31 @@ MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& 
 
 	SDL_Surface* m_backgroundImage = IMG_Load("ASSETS/IMAGES/BG.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundImage);
-	SDL_FreeSurface(m_backgroundImage);
 
 	SDL_Surface* tempGlass = IMG_Load("ASSETS/IMAGES/pic2Glass.png");
 	m_TestingTextureTwo = SDL_CreateTextureFromSurface(m_renderer, tempGlass);
 	SDL_SetTextureBlendMode(m_TestingTextureTwo, SDL_BLENDMODE_BLEND);
 	SDL_SetTextureAlphaMod(m_TestingTextureTwo, 150);
-	SDL_FreeSurface(tempGlass);
 
 	SDL_Surface* reticleSurface = IMG_Load("ASSETS/IMAGES/reticle.png");
 	m_reticleTexture = SDL_CreateTextureFromSurface(m_renderer, reticleSurface);
-	SDL_FreeSurface(reticleSurface);
 
-	buttonSurface = IMG_Load("ASSETS/IMAGES/buttons/ABluePawButton.png");
-	m_AbuttonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, buttonSurface));
+	SDL_Surface* m_buttonSurface;
+	m_buttonSurface = IMG_Load("ASSETS/IMAGES/buttons/ABluePawButton.png");
+	m_AbuttonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSurface));
 	SDL_SetTextureBlendMode(m_AbuttonTexture[0], SDL_BLENDMODE_BLEND);
 
-	buttonSurface = IMG_Load("ASSETS/IMAGES/buttons/AGreenPawButton.png");
-	m_AbuttonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, buttonSurface));
+	m_buttonSurface = IMG_Load("ASSETS/IMAGES/buttons/AGreenPawButton.png");
+	m_AbuttonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSurface));
 	SDL_SetTextureBlendMode(m_AbuttonTexture[1], SDL_BLENDMODE_BLEND);
 
-	buttonSurface = IMG_Load("ASSETS/IMAGES/buttons/APinkPawButton.png");
-	m_AbuttonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, buttonSurface));
+	m_buttonSurface = IMG_Load("ASSETS/IMAGES/buttons/APinkPawButton.png");
+	m_AbuttonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSurface));
 	SDL_SetTextureBlendMode(m_AbuttonTexture[2], SDL_BLENDMODE_BLEND);
 
-	buttonSurface = IMG_Load("ASSETS/IMAGES/buttons/APurplePawButton.png");
-	m_AbuttonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, buttonSurface));
+	m_buttonSurface = IMG_Load("ASSETS/IMAGES/buttons/APurplePawButton.png");
+	m_AbuttonTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, m_buttonSurface));
 	SDL_SetTextureBlendMode(m_AbuttonTexture[3], SDL_BLENDMODE_BLEND);
-
-
-
 
 	SDL_Surface* WinSurface;
 		WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP1.png");
@@ -68,10 +63,8 @@ MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& 
 		WinSurface = IMG_Load("ASSETS/IMAGES/pic2Glass.png");
 		m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
 
-
 	SDL_Surface* potSurface = IMG_Load("ASSETS/IMAGES/HoneyBig.png");
 	m_honeyPotTexture = SDL_CreateTextureFromSurface(m_renderer, potSurface);
-	SDL_FreeSurface(potSurface);
 
 	m_Winsscreen.h = 1080;
 	m_Winsscreen.w = 1920;
@@ -85,6 +78,14 @@ MinigameScreen::MinigameScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& 
 
 	honeyRectangle.h = 150;
 	honeyRectangle.w = 150;
+
+
+	SDL_FreeSurface(m_backgroundImage);
+	SDL_FreeSurface(tempGlass);
+	SDL_FreeSurface(reticleSurface);
+	SDL_FreeSurface(m_buttonSurface);
+	SDL_FreeSurface(WinSurface);
+	SDL_FreeSurface(potSurface);
 }
 
 MinigameScreen::~MinigameScreen()

@@ -13,6 +13,8 @@ CreditScreen::CreditScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& even
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic3.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
+
+	
 }
 
 CreditScreen::~CreditScreen()

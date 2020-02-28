@@ -18,85 +18,10 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="AssetManager.cpp" />
-    <ClCompile Include="AudioManager.cpp" />
-    <ClCompile Include="Client.cpp" />
-    <ClCompile Include="ClientIni.cpp" />
-    <ClCompile Include="CommandManager.cpp" />
-    <ClCompile Include="Controller.cpp" />
-    <ClCompile Include="CreditsScreen.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Gameplay.cpp" />
-    <ClCompile Include="InputHandler.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MenuScreen.cpp" />
-    <ClCompile Include="Minigame.cpp" />
-    <ClCompile Include="NPC.cpp" />
-    <ClCompile Include="NumFromString.cpp" />
-    <ClCompile Include="OnlineMode.cpp" />
-    <ClCompile Include="Packet.cpp" />
-    <ClCompile Include="PacketManager.cpp" />
-    <ClCompile Include="PacketStructs.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="SplashScreen.cpp" />
-    <ClCompile Include="SendGetMethods.cpp" />
-    <ClCompile Include="Tile.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AssetManager.h" />
-    <ClInclude Include="AudioManager.h" />
-    <ClInclude Include="Bee.h" />
-    <ClInclude Include="BehaviourTree.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Client.h" />
-    <ClInclude Include="Character.h" />
-    <ClInclude Include="CharacterFactory.h" />
-    <ClInclude Include="CommandInterface.h" />
-    <ClInclude Include="CommandManager.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="ConcreteCommands.h" />
-    <ClInclude Include="Controller.h" />
-    <ClInclude Include="CreditsScreen.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="FileTransferData.h" />
-    <ClInclude Include="Factory.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Gameplay.h" />
-    <ClInclude Include="GameStates.h" />
-    <ClInclude Include="Graph.h" />
-    <ClInclude Include="GraphArc.h" />
-    <ClInclude Include="GraphNode.h" />
-    <ClInclude Include="HealthComp.h" />
-    <ClInclude Include="InputComponent.h" />
-    <ClInclude Include="InputHandler.h" />
-    <ClInclude Include="InputSystem.h" />
-    <ClInclude Include="MenuScreen.h" />
-    <ClInclude Include="Minigame.h" />
-    <ClInclude Include="NPC.h" />
-    <ClInclude Include="MovementComponent.h" />
-    <ClInclude Include="MovementSystem.h" />
-    <ClInclude Include="OnlineMode.h" />
-    <ClInclude Include="Packet.h" />
-    <ClInclude Include="PacketManager.h" />
-    <ClInclude Include="PacketStructs.h" />
-    <ClInclude Include="PacketType.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PositionComp.h" />
-    <ClInclude Include="RenderSystem.h" />
-    <ClInclude Include="SplashScreen.h" />
-    <ClInclude Include="Tile.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="NewNodes.txt" />
-    <Text Include="NodeDistances.txt" />
-    <Text Include="NodeLinks.txt" />
-    <Text Include="Nodes.txt" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{2ACE18CA-1044-4D1F-BE8D-AB72675FE888}</ProjectGuid>
-    <RootNamespace>ARGO</RootNamespace>
+    <ProjectGuid>{85EBD3D4-D042-43FB-9E7F-7960C74ECBED}</ProjectGuid>
+    <RootNamespace>BearGAmeServer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -144,22 +69,16 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir);C:\SDL2\include;C:\SDL2_image-2.0.5\include;C:\SDL2_mixer-2.0.4\include;$(IncludePath)</IncludePath>
-    <LibraryWPath>C:\SDL2_image-2.0.5\lib\x86;C:\SDL2\lib\x86;$(LibraryWPath)</LibraryWPath>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SDL_SDK)\include;C:\SDL2_image-2.0.5\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(SDL_SDK)\lib\x86;C:\SDL2_image-2.0.5\lib\x86;C:\SDL2_mixer-2.0.4\lib\x86</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2Main.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -203,6 +122,25 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="FileTransferData.cpp" />
+    <ClCompile Include="Packet.cpp" />
+    <ClCompile Include="PacketManager.cpp" />
+    <ClCompile Include="PacketStructs.cpp" />
+    <ClCompile Include="ProcessPacket.cpp" />
+    <ClCompile Include="SendGetMethods.cpp" />
+    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="Serverlni.cpp" />
+    <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FileTransferData.h" />
+    <ClInclude Include="Packet.h" />
+    <ClInclude Include="PacketManager.h" />
+    <ClInclude Include="PacketStructs.h" />
+    <ClInclude Include="PacketType.h" />
+    <ClInclude Include="Server.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

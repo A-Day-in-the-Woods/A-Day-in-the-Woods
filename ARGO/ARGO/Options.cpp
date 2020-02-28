@@ -31,10 +31,7 @@ void OptionScreen::update()
 
 void OptionScreen::render()
 {
-	
-	//SDL_RenderClear(m_renderer);
-	std::cout << "Options render" << std::endl;
-	SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
+		SDL_RenderCopy(m_renderer, m_TestingTexture, NULL, NULL);
 }
 
 void OptionScreen::processEvent()
