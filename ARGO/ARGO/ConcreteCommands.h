@@ -166,6 +166,4 @@ public:
 
 
 
-
-
 #endif // !CONCRETECOMMANDS_H
