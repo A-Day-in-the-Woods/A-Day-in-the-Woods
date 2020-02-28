@@ -17,8 +17,8 @@ void Player::assignSprite(SDL_Texture* t_PlayerTexture)
 
 void Player::SetUp()
 {
-	rect.x = 0;
-	rect.y = 0;
+	rect.x = 955;
+	rect.y = 955;
 	rect.w = 20;
 	rect.h = 20;
 

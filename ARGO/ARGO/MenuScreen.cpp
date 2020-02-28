@@ -180,6 +180,7 @@ void MenuScreen::setGameState()
 		m_entity[0]->setLastButton(NULL);
 		break;
 	case 0:
+		m_game.RestGameplay();
 		m_game.setGameState(GameState::Gameplay);
 		m_entity[0]->setLastButton(NULL);
 		break;

@@ -57,6 +57,7 @@ public:
 
 	void startMinGame();
 	void renderNOW();
+	void RestGameplay();
 private:
 	void processEvent();
 	void update();
@@ -94,7 +95,7 @@ private:
 	int index = 0;
 	ifstream myfile;
 
-	bool GameWon{ false };
+	bool GameWon{ false  };
 
 	int winnerIndex;
 

@@ -366,6 +366,17 @@ void Gameplay::setGameState()
 	m_game.setGameState(GameState::Menu);
 }
 
+void Gameplay::Reset(MovementSystem& t_move)
+{
+
+	m_numberPlayers = m_entity.size();
+	m_turnOrder = 0;
+
+	for (int i = 0; i < 100; i++) { m_clouds.push_back(SDL_Rect{ randomNumber(1300,500),randomNumber(900,100),150,100 }); } //make 100 clouds
+	for (int i = 0; i < m_entity.size(); i++) {m_entity[i]->SetUp();}
+	t_move.restPlayers();
+}
+
 
 float Gameplay::calculateScale(float width, float height, float maxWidth, float maxHeight)
 {

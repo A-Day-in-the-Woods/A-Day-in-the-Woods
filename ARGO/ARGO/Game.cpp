@@ -302,6 +302,16 @@ void Game::renderNOW()
 
 }
 
+void Game::RestGameplay()
+{
+	GameWon = false;
+//	if(winnerIndex)
+	winnerIndex = -1;
+
+	m_gameplayscreen->Reset(m_movementSystem);
+	m_movementSystem.ResetWinner(winnerIndex);
+}	
+
 /// <summary>
 /// Cleans up what is needed to be deleted
 /// </summary>

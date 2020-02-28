@@ -53,6 +53,13 @@ public:
 		return m_moveComp[t_i]->getEndGame();
 	}
 
+	void ResetWinner(int t_index)
+	{
+		if (t_index != -1)
+		{
+			m_moveComp[t_index]->resetEndGame();
+		}
+	}
 	
 
 	void leftOrRightChoice(bool t_b, int index)
@@ -74,6 +81,12 @@ public:
 	int getIndex(int t_index)
 	{
 		return m_moveComp[t_index]->getCurrentIndex();
+	}
+
+
+	void restPlayers()
+	{
+		for (int i = 0; i < m_entities.size(); i++) {m_moveComp[i]->reSetUp();}
 	}
 	
 private:

@@ -33,6 +33,7 @@ public:
 	
 	void processEvent(MovementSystem& t_move);
 	void setGameState();
+	void Reset(MovementSystem& t_move);
 	int randomNumber(int t_max, int t_min);
 	
 	int m_npcCount = 0;
