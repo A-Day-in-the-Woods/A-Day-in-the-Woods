@@ -18,9 +18,9 @@
 #include "Camera.h"
 
 #include "AudioManager.h"
+#include "BehaviourTree.h"
 
 class Game;
-
 
 class Gameplay
 {
@@ -53,16 +53,12 @@ private:
 
 
 	AudioManager& m_audioManager;
-
-
-
+	
 	//------------ Camera -------------
 	float scale = .9f;
 	Camera * camera = new Camera();	//camera
 	SDL_Rect* focus = new SDL_Rect();
 	SDL_Rect* offset = new SDL_Rect();
-
-
 
 
 	//background
@@ -132,8 +128,9 @@ private:
 	InputSystem& m_inputSystem;
 
 
-
 	
+
+
 };
 
 #endif // !GAMEPLAY

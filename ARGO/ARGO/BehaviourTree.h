@@ -1,5 +1,24 @@
+#pragma once
 #include <iostream>
 #include <list>
+#include <vector>
+#include <stack>
+#include <initializer_list>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+
+//enum Status
+//	/**
+//	 * Return values of and valid states for behaviors.
+//	 */
+//{
+//	BH_INVALID,
+//	BH_SUCCESS,
+//	BH_FAILURE,
+//	BH_RUNNING,
+//};
 
 class BehaviourTree
 {
@@ -13,7 +32,7 @@ public:
 	class CompositeNode : public Node
 	{
 	public:
-		const std::list<Node*>& getChildren() const
+		const std::vector<Node*>& getChildren() const
 		{
 			return m_children;
 		}
@@ -22,14 +41,39 @@ public:
 		{
 			m_children.emplace_back(t_child);
 		}
+
+		void addChildren(std::list<Node*> t_child)
+		{
+			for (Node* child : t_child)
+			{
+				addChild(child);
+			}
+		}
+
+		template <typename CONTAINER>
+		void addChildren(const CONTAINER& newChildren)
+		{
+			for (Node* child : newChildren)
+			{
+				addChild(child);
+			}
+		}
+
+		std::vector<Node*> childrenShuffled() const
+		{
+			std::vector<Node*> temp = m_children;
+			std::random_shuffle(temp.begin(), temp.end());  
+			return temp;
+		}
+
 	private: 
-		std::list<Node*> m_children;
+		std::vector<Node*> m_children;
 	};
 
 	class Selector : public CompositeNode
 	{
 	public:
-		virtual bool run()
+		virtual bool run() override
 		{
 			for (Node* child : getChildren())
 			{
@@ -42,10 +86,21 @@ public:
 		}
 	};
 
+	class RandomSelector : public CompositeNode {  // RandomSelector operates as a Selector, but in a random order instead of from first child to last child.
+	public:
+		virtual bool run() override {
+			for (Node* child : childrenShuffled()) {  // The order is shuffled
+				if (child->run())
+					return true;
+			}
+			return false;
+		}
+	};
+
 	class Sequence : public CompositeNode
 	{
 	public:
-		virtual bool run()
+		virtual bool run() override
 		{
 			for (Node* child : getChildren())
 			{
@@ -54,6 +109,8 @@ public:
 					return false;
 				}
 			}
+			std::cout << "root success" << std::endl;
+			//m_eStatus == BH_SUCCESS; 
 			return true;
 		}
 	};
@@ -62,19 +119,22 @@ public:
 	{
 	public:
 		Node* m_child;
+		class BehaviourTree;
 		void setChild(Node* t_newChild)
 		{
 			m_child = t_newChild;
 		}
-		virtual bool run()
+		virtual bool run() override
 		{
 			return m_child->run();
 		}
 	};
 private:
 	Root* m_root;
+	//Status m_eStatus;
 public:
-	BehaviourTree() : m_root(new Root()) {};
+	BehaviourTree() :	//m_eStatus(BH_INVALID),
+		m_root(new Root()) {};
 	~BehaviourTree() {};
 	void setRootChild(Node* rootChild)
 	{
@@ -82,6 +142,35 @@ public:
 	}
 	bool run() const
 	{
+		/*if (t_true)
+		{
+			std::cout << "root success" << std::endl;
+			m_eStatus == BH_SUCCESS;
+		}
+		else
+		{
+			std::cout << "root failure" << std::endl;
+			m_eStatus == BH_FAILURE;
+		}*/
 		return m_root->run();
 	}
+};
+
+class Action : public BehaviourTree::Node
+{
+public:
+	Action(const std::string newName, int prob) : action(newName), statusSuccess(prob) {}
+	virtual bool run () override
+	{
+		if (std::rand() % 100 < statusSuccess)
+		{
+			std::cout << action << " success" << std::endl;
+			return true;
+		}
+		std::cout << action << " failure" << std::endl;
+		return false;
+	}
+private:
+	std::string action;
+	int statusSuccess;
 };

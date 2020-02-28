@@ -31,6 +31,7 @@
 #include "MovementSystem.h"
 #include "MovementComponent.h"
 #include "AudioManager.h"
+#include"BehaviourTree.h"
 
 
 class MenuScreen;

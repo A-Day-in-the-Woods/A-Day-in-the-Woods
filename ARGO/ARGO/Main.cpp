@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Game.h"
 
+
 /// <summary>
 /// @Authors:
 ///		@Oisin Wilson		@C00213826
@@ -19,6 +20,7 @@ int main(int argc, char* argv[])
 {
 	
 	Game game;
+	
 	game.run();
 
 	return EXIT_SUCCESS;

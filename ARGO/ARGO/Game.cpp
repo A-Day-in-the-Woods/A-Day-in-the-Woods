@@ -1,8 +1,5 @@
 #include "Game.h"
 
-
-
-
 void visit(Node* node) {
 	std::cout << "Visiting " << node->data().first << std::endl;
 }
@@ -252,6 +249,7 @@ void Game::update()
 		break;
 	}
 
+	
 	m_healthSystem.update();
 }
 

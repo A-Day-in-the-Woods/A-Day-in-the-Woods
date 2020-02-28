@@ -10,6 +10,7 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_currentState(t_currentState),
 	m_audioManager(t_audioManager)
 {
+	std::srand(std::time(nullptr));
 	m_numberPlayers = m_entity.size();
 	
 	//SDL_LoadWAV("ASSETS/AUDIO/intro.wav", &wavSpec, &wavBuffer, &wavLength);
@@ -116,6 +117,27 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 
 	m_backgroundSurface = IMG_Load("ASSETS/IMAGES/pic2.png");
 	m_backgroundTextureTwo = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
+
+	std::srand(std::time(nullptr));
+	BehaviourTree behaviourTree;
+	BehaviourTree::Selector selector[3];
+	BehaviourTree::Sequence sequence[4];
+	Action goLeft("Go Left", 80), goRight("Go Right", 15), goUp("Go Up", 99), goDown("Go Down", 25), goBack("Go Back", 10),
+		goForward("Go Forward", 60), stopWalking("Stop Walking", 100);
+	behaviourTree.setRootChild(&selector[0]);
+	selector[0].addChildren({ &sequence[0],&sequence[2] });
+	sequence[0].addChildren({ &goLeft, &selector[1], &goForward, &stopWalking });
+	selector[1].addChildren({ &goRight, &sequence[1], &goBack });
+	sequence[1].addChildren({ &goUp, &stopWalking });
+	sequence[2].addChildren({ &goDown, &selector[2], &goBack, &stopWalking });
+	const std::list<BehaviourTree::Node*> nodes = { &goLeft, &sequence[3], &goForward };
+	selector[2].addChildren(nodes);
+	sequence[3].addChildren({ &goForward, &stopWalking });
+	if (behaviourTree.run())
+		std::cout << "Behaviour Success" << std::endl;
+	else
+		std::cout << "Behaviour Failure" << std::endl;
+
 }
 
 Gameplay::~Gameplay()
@@ -167,7 +189,7 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		}
 	}
 
-
+	
 /*
 	if (t_npc[0]->turn)
 	{
