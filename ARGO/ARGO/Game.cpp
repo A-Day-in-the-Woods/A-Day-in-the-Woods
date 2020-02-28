@@ -79,7 +79,6 @@ Game::Game() :
 		}
 
 		m_menuscreen = new MenuScreen(*this, m_renderer, event,m_currentState, m_inputSystem,m_player, *m_audioManager);
-		m_optionscreen = new OptionScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
 		m_gameplayscreen = new Gameplay(*this, m_renderer, event, m_currentState , m_window, m_inputSystem,m_player, *m_audioManager);
 		m_onlineMode = new OnlineMode(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
 		m_creditscreen = new CreditScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
