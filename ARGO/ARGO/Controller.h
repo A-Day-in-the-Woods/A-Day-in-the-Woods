@@ -38,6 +38,7 @@ private:
 	SDL_GameController* controller;
 public:
 	const int DPAD_THRESHOLD = 8000;
+	SDL_Haptic* m_haptic;
 
 	
 	GamePadState m_currentState;
@@ -45,6 +46,8 @@ public:
 	Controller(int currentController);
 	~Controller();
 	
+	void rumble();
+
 	void update();
 	bool connect();
 	int ReturnID();

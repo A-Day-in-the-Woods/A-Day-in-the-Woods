@@ -12,17 +12,36 @@ Controller::Controller(int currentController): joystick_index(currentController)
 	if (connect())
 	{
 		controller = SDL_GameControllerOpen(joystick_index);
+		m_haptic = SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(controller));
+		if (SDL_INIT_HAPTIC)SDL_INIT_HAPTIC;
+		if (m_haptic != NULL)
+		{
+			SDL_HapticRumbleInit(m_haptic);
+		}
 	}
+
+
+
+
 }
 
 Controller::~Controller()
 {
 }
 
+void Controller::rumble()
+{
+	SDL_HapticRumblePlay(m_haptic, 10, 2);
+
+}
+
 
 
 void Controller::update()
 {
+
+
+
 	if (controller == NULL && connect())
 	{
 		controller = SDL_GameControllerOpen(joystick_index);
