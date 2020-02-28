@@ -64,6 +64,10 @@ public:
 		}
 	}
 	
+	float GetYPos(int t_index)
+	{
+		return m_moveComp[t_index]->getPosY();
+	}
 
 	void leftOrRightChoice(bool t_b, int index)
 	{
@@ -78,7 +82,10 @@ public:
 	}
 
 	void update(int t_index) {
+		
+
 		m_moveComp[t_index]->update(m_map, m_graph);
+			
 	}
 
 	int getIndex(int t_index)
@@ -94,6 +101,8 @@ public:
 	
 private:
 	GameState & m_gameState;
+
+	int m_storyPointIndex = 0;
 
 	std::vector<Entity*> m_entities;
 	std::vector<MovementComponent*> m_moveComp;

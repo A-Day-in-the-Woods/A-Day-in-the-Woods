@@ -1,12 +1,13 @@
 #include "SplashScreen.h"
 
-SplashScreen::SplashScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState, InputSystem& t_inputSystem, std::vector<Player*> t_entity):
+SplashScreen::SplashScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, GameState& t_currentState, InputSystem& t_inputSystem, std::vector<Player*> t_entity, AudioManager& t_audioManager):
 	m_game(game),
 	m_event(event),
 	m_renderer(t_renderer),
 	m_inputSystem(t_inputSystem),
 	m_currentState(t_currentState),
-	m_entity(t_entity)
+	m_entity(t_entity),
+	m_audioManager(t_audioManager)
 {
 	m_numberPlayers = m_entity.size();
 	SDL_Surface* m_titleSurface = IMG_Load("ASSETS/IMAGES/titleScreen.png");
@@ -31,6 +32,13 @@ SplashScreen::~SplashScreen()
 
 void SplashScreen::update()
 {
+	if (m_audioManager.isMusicPlaying() == 0)
+	{
+		m_audioManager.PlayMusic("m_menu.wav", 2);
+		m_audioManager.PlaySfx("s_gameTitle.wav", 80, 0, 1);
+	}
+
+
 	if (flip)
 	{
 		m_buttonSelectorRect.w += 1;
@@ -49,6 +57,10 @@ void SplashScreen::update()
 
 	if (m_entity[0]->m_lastButtonPressed == 1)
 	{
+		//buton push sound here
+		
+		m_audioManager.PlaySfx("f_button.wav", 80, 0, 1);
+
 		m_entity[0]->setLastButton(NULL);
 		setGameState();
 	}

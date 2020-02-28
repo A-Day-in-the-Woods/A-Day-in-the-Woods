@@ -228,15 +228,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AudioManager.h">
-     <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SplashScreen.h">
-      <Filter>Header Files\Factory</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CreditsScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OnlineMode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SplashScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

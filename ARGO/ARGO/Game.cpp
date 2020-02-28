@@ -83,7 +83,7 @@ Game::Game() :
 		m_onlineMode = new OnlineMode(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
 		m_creditscreen = new CreditScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
 		m_minigamescreen = new MinigameScreen(*this, m_renderer, event, m_currentState, m_inputSystem,m_player);
-		m_splashscreen = new SplashScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player);
+		m_splashscreen = new SplashScreen(*this, m_renderer, event, m_currentState, m_inputSystem, m_player, *m_audioManager);
 
 
 		// Game is running

@@ -150,8 +150,9 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 	if (!setUp)
 	{
-		m_audioManager.PlayMusic("testSong.wav",10);
+		m_audioManager.PlayMusic("m_gameBoard.wav",10);
 		m_audioManager.PlaySfx("s_intro.wav", 75, 0, 1);
+		m_storyPointIndex = 0;
 		//SDL_PauseAudioDevice(deviceId, 0);
 		t_npc[0]->turn = true;
 		setUp = true;
@@ -162,6 +163,47 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		t_move.update(i);
 		m_entity[i]->update(t_move);
 		//m_entity[i]->setTileType(t_tile[t_move.getIndex(i)].getType(), t_move.getIndex(i));
+	}
+
+	if (!m_audioManager.IsChannelPLaying(1))
+	{
+		for (int i = 0; i < m_numberPlayers; i++)
+		{
+			switch (m_storyPointIndex)
+			{
+			case 0:
+				if (t_move.GetYPos(i) <= 800)
+				{
+					m_audioManager.PlaySfx("s_pt1.wav", 75, 0, 1);
+					m_storyPointIndex++;
+				}
+				break;
+			case 1:
+				if (t_move.GetYPos(i) <= 650)
+				{
+					m_audioManager.PlaySfx("s_pt2.wav", 75, 0, 1);
+					m_storyPointIndex++;
+				}
+				break;
+			case 2:
+				if (t_move.GetYPos(i) <= 400)
+				{
+					m_audioManager.PlaySfx("s_pt3.wav", 75, 0, 1);
+					m_storyPointIndex++;
+				}
+				break;
+			case 3:
+				if (t_move.GetYPos(i) <= 250)
+				{
+					m_audioManager.PlaySfx("s_pt4.wav", 75, 0, 1);
+					m_storyPointIndex++;
+				}
+				break;
+			default:
+				break;
+			}
+		}
+
 	}
 
 	for (int i = 0; i < m_clouds.size(); i++)
@@ -345,8 +387,10 @@ void Gameplay::processEvent(MovementSystem & t_move)
 	{
 		if (m_turnOrder == m_entity[i]->getId())
 		{
+
 			if (!m_audioManager.IsChannelPLaying(1))
 			{
+		
 				if (t_move.getPlayerDiceValue(i) == -2)
 				{
 					m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
@@ -374,6 +418,7 @@ void Gameplay::processEvent(MovementSystem & t_move)
 					}
 				}
 			}
+			
 		}
 	}
 }

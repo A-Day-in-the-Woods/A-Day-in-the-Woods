@@ -120,9 +120,7 @@ private:
 	GameState& m_currentState;
 	InputSystem& m_inputSystem;
 
-
-
-	
+	int m_storyPointIndex = 0;
 };
 
 #endif // !GAMEPLAY

@@ -88,6 +88,7 @@ public:
 			m_newGame = false;
 		}
 
+
 		if (m_takeingTurn)
 		{
 			nodeNavigation(t_map, t_g);
@@ -204,7 +205,7 @@ public:
 
 						m_moveForwardAudio = false;
 					}
-				}
+				}	
 			}
 
 			if (MoveBack)
@@ -230,6 +231,7 @@ public:
 						m_moveForwardAudio = false;
 					}
 				}
+				
 			}
 
 
@@ -247,7 +249,7 @@ public:
 					break;
 				case 10://pt1
 					
-					m_audioManager->PlaySfx("s_pt1.wav", 75, 0, 1);
+					m_audioManager->PlaySfx("w_pt1.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
 					m_diceRoll = -1;
@@ -258,7 +260,7 @@ public:
 					break;
 				case 11://pt2
 					
-					m_audioManager->PlaySfx("s_pt2.wav", 75, 0, 1);
+					m_audioManager->PlaySfx("w_pt2.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
 					m_diceRoll = -1;
@@ -269,7 +271,7 @@ public:
 					break;
 				case 12://pt3
 
-					m_audioManager->PlaySfx("s_pt3.wav", 75, 0, 1);
+					m_audioManager->PlaySfx("w_pt3.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
 					m_diceRoll = -1;
@@ -280,7 +282,7 @@ public:
 					break;
 				case 13://pt4
 					
-					m_audioManager->PlaySfx("s_pt4.wav", 75, 0, 1);
+					m_audioManager->PlaySfx("w_pt4.wav", 75, 0, 1);
 
 					m_takeingTurn = false;
 					m_diceRoll = -1;
@@ -351,10 +353,8 @@ public:
 			{
 				std::cout << "Game Won " << std::endl;
 				gameWin = true;
-				SDL_LoadWAV("ASSETS/AUDIO/end.wav", &wavSpec, &wavBuffer, &wavLength);
-				deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-				success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-				SDL_PauseAudioDevice(deviceId, 0);
+
+				m_audioManager->PlaySfx("s_ending.wav", 75, 0, 1);
 			}
 
 			if (gameWin)
@@ -382,6 +382,11 @@ public:
 			
 		}
 		
+	}
+
+	float getPosY()
+	{
+		return rect->y;
 	}
 
 
