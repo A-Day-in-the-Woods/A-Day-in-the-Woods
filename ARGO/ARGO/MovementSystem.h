@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MOVEMENTSYSTEM_H
+#define MOVEMENTSYSTEM_H
+
 
 #include "MovementComponent.h"
 #include <vector>
@@ -98,3 +100,4 @@ private:
 	Graph< pair<string, int>, int>& m_graph;
 	std::vector<Tile>& m_map;
 };
+#endif // !MOVEMENTSYSTEM_H

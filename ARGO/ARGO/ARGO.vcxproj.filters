@@ -31,6 +31,12 @@
     <Filter Include="Source Files\CommandPattern">
       <UniqueIdentifier>{b17cdf14-cb7d-42f7-afdd-01f3a9d0d1b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Client">
+      <UniqueIdentifier>{f37affe9-745d-4dff-996c-e33cb2becc7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Client">
+      <UniqueIdentifier>{bcd82805-d070-445d-bb76-daf54b3a330d}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Factory">
       <UniqueIdentifier>{6641a963-90e7-447b-9341-447189673e58}</UniqueIdentifier>
     </Filter>
@@ -43,9 +49,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MenuScreen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Gameplay.cpp">
@@ -75,7 +78,28 @@
     <ClCompile Include="CommandManager.cpp">
       <Filter>Source Files\CommandPattern</Filter>
     </ClCompile>
-    <ClCompile Include="MovementComponent.cpp">
+    <ClCompile Include="Client.cpp">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet.cpp">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketManager.cpp">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketStructs.cpp">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientIni.cpp">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="SendGetMethods.cpp">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="NumFromString.cpp">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="OnlineMode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SplashScreen.cpp">
@@ -131,16 +155,10 @@
     <ClInclude Include="GameStates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CreditsScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Gameplay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MenuScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Minigame.h">
@@ -170,6 +188,24 @@
     <ClInclude Include="BehaviourTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketManager.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketStructs.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketType.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTransferData.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
     <ClInclude Include="Factory.h">
       <Filter>Header Files\Factory</Filter>
     </ClInclude>
@@ -183,6 +219,12 @@
       <Filter>Header Files\Factory</Filter>
     </ClInclude>
     <ClInclude Include="SplashScreen.h">
+      <Filter>Header Files\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditsScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OnlineMode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MOVEMENTCOMPONENT_H
+#define MOVEMENTCOMPONENT_H
+
 
 #include "Component.h"
 #include <vector>
@@ -502,4 +504,8 @@ private:
 	int m_diceRoll{-1};
 
 	int m_DirectionChoiceNum = -1;
+	//int * m_turnIndex;
 };
+#endif // !MOVEMENTCOMPONENT_H
+	
+
