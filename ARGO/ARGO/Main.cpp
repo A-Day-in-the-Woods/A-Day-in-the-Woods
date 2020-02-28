@@ -10,17 +10,13 @@
 ///		@Savannah Bolger	@C00215747
 /// </summary>
 
-
-
-
 /// <summary>
 /// Entry Point to Argo Project Game
 /// </summary>
 int main(int argc, char* argv[])
 {
 	
-	Game game;
-	
+	Game game;	
 	game.run();
 
 	return EXIT_SUCCESS;

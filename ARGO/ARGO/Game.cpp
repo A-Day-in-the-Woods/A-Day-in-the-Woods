@@ -16,8 +16,7 @@ Game::Game() :
 {
 	m_tile.reserve(200);
 	initNodeFiles();
-
-
+	
 	try
 	{
 		// Try to initalise SDL in general
@@ -58,12 +57,9 @@ Game::Game() :
 				
 		}
 
-
 		m_npc.push_back(new NPC(m_tile, graph, 1));
 		m_npc.push_back(new NPC(m_tile, graph, 2));
 		m_npc.push_back(new NPC(m_tile, graph, 3));
-
-
 
 		for (int i = 0; i < m_player.size(); i++)
 		{
@@ -89,14 +85,10 @@ Game::Game() :
 		// game doesnt run
 		m_isRunning = false;
 	}
-	
-
-
 
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
-
 	
 }
 
@@ -202,7 +194,6 @@ void Game::processEvent()
 	default:
 		break;
 	}
-
 }
 
 /// <summary>
@@ -234,8 +225,7 @@ void Game::update()
 		if (GameWon == false)
 		{
 			m_gameplayscreen->update(m_tile, m_player, m_npc, m_movementSystem);
-		}
-		
+		}		
 		break;
 	case GameState::Credit:
 		m_creditscreen->update();
@@ -247,9 +237,7 @@ void Game::update()
 		m_isRunning = false;
 	default:
 		break;
-	}
-
-	
+	}	
 	m_healthSystem.update();
 }
 
@@ -298,7 +286,6 @@ void Game::render()
 void Game::renderNOW()
 {
 	SDL_RenderPresent(m_renderer);
-
 }
 
 /// <summary>
@@ -312,7 +299,6 @@ void Game::clean()
 	SDL_DestroyRenderer(m_renderer);
 	SDL_QUIT;
 }
-
 
 /// <summary>
 /// Loades in files for A*
@@ -330,11 +316,9 @@ void Game::initNodeFiles()
 	}
 	myfile.close();
 
-
 	myfile.open("NodeLinks.txt");	// arcs
 	while (myfile >> from >> to >> weight) {
 		graph.addArc(nodemap[from], nodemap[to], weight);
-
 	}
 
 	myfile.close();

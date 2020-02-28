@@ -137,7 +137,6 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 		std::cout << "Behaviour Success" << std::endl;
 	else
 		std::cout << "Behaviour Failure" << std::endl;
-
 }
 
 Gameplay::~Gameplay()
@@ -152,7 +151,6 @@ Gameplay::~Gameplay()
 
 void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem& t_move)
 {
-
 	if (!setUp)
 	{
 		m_audioManager.PlayMusic("testSong.wav",10);
@@ -188,7 +186,6 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 			m_clouds.push_back(SDL_Rect{ randomNumber(1300,500),randomNumber(900,100),150,100 });
 		}
 	}
-
 	
 /*
 	if (t_npc[0]->turn)
@@ -235,20 +232,16 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, Graph< pair<string, int>, int>& graph)
 {
-
 	SDL_RenderClear(m_renderer);
 	SDL_RenderSetScale(m_renderer, scale, scale);
 
 	SDL_RenderCopy(m_renderer, m_backgroundTextureTwo, NULL, NULL);
 	SDL_RenderCopy(m_renderer, m_backgroundTexture, NULL, &m_backgroundRect);
 
-
-
 	offset->x = focus->x - camera->getCamera()->x;
 	offset->y = focus->y - camera->getCamera()->y;
 	offset->w = focus->w;
 	offset->h = focus->h;
-
 	
 	for (int i = 0; i < m_clouds.size(); i++)
 	{
@@ -279,7 +272,6 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		if (m_rotation > 5) { m_flipUIBear = true; }
 	}
 
-
 	for (int i = 0; i < t_tile.size(); i++)
 	{
 		t_tile[i].render(m_renderer);
@@ -302,10 +294,6 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 			SDL_RenderCopyEx(m_renderer, m_DiceTexture[i], NULL, &m_DiceRect[i], 0, NULL, SDL_FLIP_NONE);
 		}
 	}
-
-
-
-
 
 	for (int i = 0; i < m_clouds.size(); i++) {SDL_RenderCopyEx(m_renderer, m_CloudTexture, NULL, &m_clouds[i], 0, NULL, SDL_FLIP_NONE);}
 
@@ -339,9 +327,7 @@ void Gameplay::renderWin(int index)
 	SDL_RenderPresent(m_renderer);
 	SDL_Delay(500);
 	setGameState();
-
 }
-
 
 void Gameplay::processEvent(MovementSystem & t_move)
 {

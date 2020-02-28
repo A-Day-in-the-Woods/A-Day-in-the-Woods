@@ -14,14 +14,8 @@ class MovementComponent : public Component
 {
 
 public:
-
 	AudioManager* m_audioManager;
 
-	/*SDL_AudioSpec wavSpec[10];
-	Uint32 wavLength[10];
-	Uint8* wavBuffer[10];
-	SDL_AudioDeviceID deviceId[10;
-	int success;*/
 	SDL_AudioSpec wavSpec;
 	Uint32 wavLength;
 	Uint8* wavBuffer;
@@ -49,7 +43,6 @@ public:
 	void setAiCheck(bool &t_IsAi) {
 		m_IsAi = &t_IsAi;
 	}
-
 
 	int randomNumber(int t_max, int t_min)
 	{
@@ -131,7 +124,6 @@ public:
 					}
 					else
 					{
-
 						p.reverse();
 						if (m_DirectionChoiceNum == nodeDirectionCheck(
 							p.front().node()->m_x,
@@ -154,7 +146,6 @@ public:
 							m_DirectionChoiceNum = randomNumber(6, 1);
 						}
 					}
-
 				}
 			}
 			else
@@ -164,7 +155,6 @@ public:
 		}
 		else
 		{
-
 			if (MoveForward)
 			{
 				if (IndexPlaceHolder == CurrentGameBoardIndex)
@@ -204,7 +194,6 @@ public:
 					MoveBack = false;
 				}
 			}
-
 
 			if (m_takeingTurn)
 			{
@@ -327,7 +316,6 @@ public:
 					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
 					SDL_PauseAudioDevice(deviceId, 0);
 	*/
-
 					m_audioManager->PlaySfx("t_back.wav", 75);
 					//SDL_Delay(1000);
 					MoveBack = true;
@@ -371,22 +359,15 @@ public:
 					m_randomDirectionDecided = false;
 					choiceLoop = true;
 					// direction check here;
-				}
-				
-			}
-
-			
-		}
-		
+				}				
+			}			
+		}		
 	}
-
 
 	bool getEndGame()
 	{
 		return gameWin;
-	}
-
-	
+	}	
 
 	void rollForMove(int t_diceRolled) {
 
@@ -413,7 +394,6 @@ public:
 		return false;
 	}
 
-
 	void normalize(float& t_x, float& t_y) {
 		float len = sqrt(t_x * t_x + t_y * t_y);
 
@@ -431,7 +411,6 @@ public:
 		choiceLoop = false;
 	}
 
-
 	bool getTakeingTurn(){
 		return m_takeingTurn;
 	}
@@ -446,10 +425,8 @@ public:
 		m_diceRoll = i;
 	}
 
-
 	int nodeDirectionCheck(int x1, int y1, int x2, int y2)
 	{
-
 		if (x1 == x2 && y1 > y2)
 		{	// p2 Down
 			return 1;
@@ -537,7 +514,6 @@ public:
 	}
 
 private:
-
 	//Real one
 	int CurrentGameBoardIndex;
 	int PriorGameBoardIndex;
@@ -555,9 +531,7 @@ private:
 	bool LeftOrRight = false;
 	bool useTile = false;
 	int m_currentDiceRoll{ -1 };
-
-
-
+	   
 	bool gameWin = false;
 	int playerWon;
 

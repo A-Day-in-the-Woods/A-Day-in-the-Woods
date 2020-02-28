@@ -51,7 +51,6 @@ private:
 
 	int m_rotation = 0;
 
-
 	AudioManager& m_audioManager;
 	
 	//------------ Camera -------------
@@ -60,15 +59,12 @@ private:
 	SDL_Rect* focus = new SDL_Rect();
 	SDL_Rect* offset = new SDL_Rect();
 
-
 	//background
 	SDL_Surface* m_backgroundSurface;
 	SDL_Texture* m_backgroundTexture;
 	SDL_Rect m_backgroundRect;
 
-	SDL_Texture* m_backgroundTextureTwo;
-
-	
+	SDL_Texture* m_backgroundTextureTwo;	
 
 	//Dice
 	std::vector <SDL_Texture*> m_DiceTexture; // Dice texture
@@ -97,8 +93,7 @@ private:
 	//Outline
 	std::vector<SDL_Rect> m_outLine;
 	SDL_Texture* m_outLineTexture; // outline texture
-	SDL_Surface* m_outLineSurface;
-	
+	SDL_Surface* m_outLineSurface;	
 
 	//Winner Screen
 	std::vector <SDL_Texture*> m_WinScreenTexture; // win screen
@@ -115,7 +110,6 @@ private:
 	bool startAstar{ false };
 	//------! A* stuff ------------
 
-
 	bool m_flipUIBear{ false };
 
 	Game& m_game;
@@ -126,11 +120,6 @@ private:
 
 	GameState& m_currentState;
 	InputSystem& m_inputSystem;
-
-
-	
-
-
 };
 
 #endif // !GAMEPLAY

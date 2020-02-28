@@ -9,17 +9,6 @@
 #include <ctime>
 #include <algorithm>
 
-//enum Status
-//	/**
-//	 * Return values of and valid states for behaviors.
-//	 */
-//{
-//	BH_INVALID,
-//	BH_SUCCESS,
-//	BH_FAILURE,
-//	BH_RUNNING,
-//};
-
 class BehaviourTree
 {
 public:
@@ -50,22 +39,6 @@ public:
 			}
 		}
 
-		template <typename CONTAINER>
-		void addChildren(const CONTAINER& newChildren)
-		{
-			for (Node* child : newChildren)
-			{
-				addChild(child);
-			}
-		}
-
-		std::vector<Node*> childrenShuffled() const
-		{
-			std::vector<Node*> temp = m_children;
-			std::random_shuffle(temp.begin(), temp.end());  
-			return temp;
-		}
-
 	private: 
 		std::vector<Node*> m_children;
 	};
@@ -81,17 +54,6 @@ public:
 				{
 					return true;
 				}
-			}
-			return false;
-		}
-	};
-
-	class RandomSelector : public CompositeNode {  // RandomSelector operates as a Selector, but in a random order instead of from first child to last child.
-	public:
-		virtual bool run() override {
-			for (Node* child : childrenShuffled()) {  // The order is shuffled
-				if (child->run())
-					return true;
 			}
 			return false;
 		}
