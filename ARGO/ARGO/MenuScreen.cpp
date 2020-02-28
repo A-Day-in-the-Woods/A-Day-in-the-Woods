@@ -73,6 +73,7 @@ void MenuScreen::update()
 	if (!audioPlaying)
 	{
 		m_audioManager.PlayMusic("menu.wav",2);
+		m_audioManager.PlaySfx("gameTitle.wav", 80);
 		audioPlaying = true;
 	}
 	/*if (!audioPlaying)

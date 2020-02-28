@@ -218,10 +218,6 @@ public:
 					m_currentDiceRoll = -1;
 					break;
 				case 10://pt1
-					/*SDL_LoadWAV("ASSETS/AUDIO/Story/st1.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-					SDL_PauseAudioDevice(deviceId, 0);*/
 					
 					m_audioManager->PlaySfx("s_pt1.wav", 75);
 
@@ -233,10 +229,6 @@ public:
 					m_currentDiceRoll = -1;
 					break;
 				case 11://pt2
-					/*SDL_LoadWAV("ASSETS/AUDIO/Story/st2.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-					SDL_PauseAudioDevice(deviceId, 0);*/
 					
 					m_audioManager->PlaySfx("s_pt2.wav", 75);
 
@@ -248,11 +240,6 @@ public:
 					m_currentDiceRoll = -1;
 					break;
 				case 12://pt3
-				/*	SDL_LoadWAV("ASSETS/AUDIO/Story/st3.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-					SDL_PauseAudioDevice(deviceId, 0);
-					*/
 
 					m_audioManager->PlaySfx("s_pt3.wav", 75);
 
@@ -264,10 +251,6 @@ public:
 					m_currentDiceRoll = -1;
 					break;
 				case 13://pt4
-					/*SDL_LoadWAV("ASSETS/AUDIO/Story/st4.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-					SDL_PauseAudioDevice(deviceId, 0);*/
 					
 					m_audioManager->PlaySfx("s_pt4.wav", 75);
 
@@ -279,11 +262,6 @@ public:
 					choiceLoop = false;
 					break;
 				case 2://bounce - forward 1
-			/*		SDL_LoadWAV("ASSETS/AUDIO/Tiles/forward.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);					
-					SDL_PauseAudioDevice(deviceId, 0);
-					SDL_Delay(500);*/
 					
 					m_audioManager->PlaySfx("t_forward.wav", 75);
 					SDL_Delay(1000);
@@ -291,10 +269,6 @@ public:
 					m_diceRoll = 1;
 					break;
 				case 3://dice - add TURN
-				/*	SDL_LoadWAV("ASSETS/AUDIO/Tiles/add.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-					SDL_PauseAudioDevice(deviceId, 0);*/
 
 					m_audioManager->PlaySfx("t_add.wav", 75);
 					SDL_Delay(1000);
@@ -306,10 +280,6 @@ public:
 					m_currentDiceRoll = -1;
 					break;
 				case 4://honey - lose turn
-				/*	SDL_LoadWAV("ASSETS/AUDIO/Tiles/miss.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-					SDL_PauseAudioDevice(deviceId, 0);		*/
 
 					m_audioManager->PlaySfx("t_miss.wav", 75);
 					SDL_Delay(1000);
@@ -321,13 +291,9 @@ public:
 					m_currentDiceRoll = -1;
 					break;
 				case 5:// tumble - back 1
-	/*				SDL_LoadWAV("ASSETS/AUDIO/Tiles/back.wav", &wavSpec, &wavBuffer, &wavLength);
-					deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-					success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-					SDL_PauseAudioDevice(deviceId, 0);
-	*/
 
 					m_audioManager->PlaySfx("t_back.wav", 75);
+
 					//SDL_Delay(1000);
 					MoveBack = true;
 					//m_takeingTurn = false;

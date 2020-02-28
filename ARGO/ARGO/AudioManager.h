@@ -15,6 +15,10 @@ public:
 	void ResumeMusic();
 	void PlaySfx(std::string t_filename, int t_volume = 100, int t_loops = 0, int t_channel = 0);
 
+	int IsChannelPLaying(int t_channel);
+	void StopChannel(int t_channel);
+
+
 
 private:
 	AudioManager();
