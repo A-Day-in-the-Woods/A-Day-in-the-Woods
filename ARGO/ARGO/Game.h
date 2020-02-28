@@ -1,5 +1,4 @@
 #ifndef GAME_H
-
 #define GAME_H
 
 #include <SDL.h>
@@ -33,13 +32,11 @@
 #include "AudioManager.h"
 #include"BehaviourTree.h"
 
-
 class MenuScreen;
 class OptionScreen;
 class Gameplay;
 class CreditScreen;
 class MinigameScreen;
-
 
 typedef GraphArc<pair<std::string, int>, int> Arc;
 typedef GraphNode<pair<std::string, int>, int> Node;

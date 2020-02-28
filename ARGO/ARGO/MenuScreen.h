@@ -1,4 +1,3 @@
-
 #ifndef MENU
 #define MENU
 
@@ -26,10 +25,8 @@ public:
 	void processEvent();
 	void setGameState();
 
-
 	Factory* m_factory;
 	std::vector<Character*> m_characters;
-
 
 private:
 	int m_numberPlayers;
