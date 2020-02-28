@@ -18,7 +18,6 @@ public:
 	{
 	}
 
-
 	void addEntity(Entity* t_e, SDL_Rect & t_rect,bool & t_IsAi)
 	{
 		std::vector<Component*> InputCheck = t_e->getComponents();
@@ -31,6 +30,7 @@ public:
 				m_moveComp.push_back(static_cast<MovementComponent*>(InputCheck[i]));
 				m_moveComp.back()->setRect(t_rect);
 				m_moveComp.back()->setAiCheck(t_IsAi);
+				//m_moveComp.back()->CurrentGameBoardIndex = 40; //delete this later
 			}
 		}
 	}
@@ -50,12 +50,18 @@ public:
 		return m_moveComp[t_i]->getTakeingTurn();
 	}
 
+	bool endGame(int t_i)
+	{
+		return m_moveComp[t_i]->getEndGame();
+	}
+
+	
+
 	void leftOrRightChoice(bool t_b, int index)
 	{
 		m_moveComp[index]->leftOrRightChoice(t_b);
 	}
-
-
+	
 	void updateAll() {
 		for (int i = 0; i < m_moveComp.size(); i++)
 		{
@@ -67,11 +73,12 @@ public:
 		m_moveComp[t_index]->update(m_map, m_graph);
 	}
 
+	int getIndex(int t_index)
+	{
+		return m_moveComp[t_index]->getCurrentIndex();
+	}
 	
-
-
 private:
-
 	GameState & m_gameState;
 
 	std::vector<Entity*> m_entities;

@@ -24,7 +24,6 @@ s t 100
 t u 100
 u v 100
 v w 100
-v dp 100
 w x 100
 w dq 100
 x y 100
@@ -140,8 +139,7 @@ dr z 100
 ds dt 100
 dt du 100
 du cm 100
-dv dw 100
-dw ce 100
+dv ce 100
 dx dy 100
 dx fn 100
 dy dz 100

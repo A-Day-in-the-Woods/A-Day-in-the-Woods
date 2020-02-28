@@ -34,12 +34,17 @@ void Player::update(MovementSystem & t_move)
 	m_spriteBody.y = rect.y - 20.0f;
 
 	m_takingTurn = t_move.IsThePlayerMoving(this->getEntity()->getId());
+	/*if (m_takingTurn)
+	{
+		tileBehaviour();
+	}*/
 }
 
-void Player::render(SDL_Renderer* t_renderer)
+void Player::render(SDL_Renderer* t_renderer, int t_rotation)
 {
+
 	SDL_SetRenderDrawColor(t_renderer, 0, 155, 255, 255);
-	SDL_RenderCopy(t_renderer, m_PlayerTexture, NULL, &m_spriteBody);
+	SDL_RenderCopyEx(t_renderer, m_PlayerTexture, NULL, &m_spriteBody, t_rotation, NULL, SDL_FLIP_NONE);
 	SDL_SetRenderDrawColor(t_renderer, 0, 0, 0, 255);
 }
 
@@ -67,6 +72,11 @@ std::string Player::GetPosAsString()
 {
 	return std::string("X: " + std::to_string(rect.x) + ", " + "Y: " + std::to_string(rect.y));
 }
+void Player::setTileType(int t_type, int t_index)
+{
+	tileType = t_type;
+	currentIndex = t_index;
+}
 
 SDL_Rect * Player::getPlayerRectRef()
 {
@@ -76,4 +86,56 @@ SDL_Rect * Player::getPlayerRectRef()
 std::string Player::GetValueAsString()
 {
 	return std::string(std::to_string(diceRoll));
+}
+void Player::tileBehaviour()
+{
+	switch (tileType)
+	{
+	case 1:
+		SDL_Delay(500);
+		std::cout << "good square" << std::endl;
+		break;
+	case 2:
+		switch (currentIndex)
+		{
+		case 32:
+			SDL_Delay(500);
+			std::cout << "story 1" << std::endl;
+			break;
+		case 62:
+			SDL_Delay(500);
+			std::cout << "story 2" << std::endl;
+			break;
+		case 104:
+			SDL_Delay(500);
+			std::cout << "story 3" << std::endl;
+			break;
+		case 125:
+			SDL_Delay(500);
+			std::cout << "story 4" << std::endl;
+			break;
+		default:
+			break;
+		}
+		break;
+	case 3:
+		SDL_Delay(500);
+		std::cout << "bounce square" << std::endl;
+		break;
+	case 4:
+		SDL_Delay(500);
+		std::cout << "dice square" << std::endl;
+		break;
+	case 5:
+		SDL_Delay(500);
+		std::cout << "honey puddle square" << std::endl;
+		stuck = true;
+		break;
+	case 6:
+		SDL_Delay(500);
+		std::cout << "tumble square" << std::endl;
+		break;
+	default:
+		break;
+	}
 }

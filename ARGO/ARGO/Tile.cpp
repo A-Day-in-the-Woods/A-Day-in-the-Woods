@@ -14,8 +14,8 @@ Tile::~Tile()
 
 void Tile::SetUp()
 {
-	rect.w = 10;
-	rect.h = 10;
+	rect.w = 15;
+	rect.h = 15;
 	count = 0;
 }
 
@@ -36,16 +36,10 @@ void Tile::update()
 		blue();
 		break;
 	case 5:
-		navy();
-		break;
-	case 6:
 		orange();
 		break;
-	case 7:
+	case 6:
 		red();
-		break;
-	case 8:
-		yellow();
 		break;
 	default:
 		break;
@@ -60,7 +54,7 @@ void Tile::render(SDL_Renderer* t_renderer)
 		SDL_RenderFillRect(t_renderer, &rect);
 		SDL_SetRenderDrawColor(t_renderer, 0, 0, 0, 255);
 	}
-	else if(m_type == 2)
+	else if (m_type == 2)
 	{
 		SDL_SetRenderDrawColor(t_renderer, 187, 134, 217, 255);
 		SDL_RenderFillRect(t_renderer, &rect);
@@ -80,25 +74,13 @@ void Tile::render(SDL_Renderer* t_renderer)
 	}
 	else if (m_type == 5)
 	{
-		SDL_SetRenderDrawColor(t_renderer, 97, 133, 232, 255);
-		SDL_RenderFillRect(t_renderer, &rect);
-		SDL_SetRenderDrawColor(t_renderer, 0, 0, 0, 255);
-	}
-	else if (m_type == 6)
-	{
 		SDL_SetRenderDrawColor(t_renderer, 255, 147, 5, 255);
 		SDL_RenderFillRect(t_renderer, &rect);
 		SDL_SetRenderDrawColor(t_renderer, 0, 0, 0, 255);
 	}
-	else if (m_type == 7)
+	else
 	{
 		SDL_SetRenderDrawColor(t_renderer, 217, 87, 80, 255);
-		SDL_RenderFillRect(t_renderer, &rect);
-		SDL_SetRenderDrawColor(t_renderer, 0, 0, 0, 255);
-	}
-	else 
-	{
-		SDL_SetRenderDrawColor(t_renderer, 245, 243, 142, 255);
 		SDL_RenderFillRect(t_renderer, &rect);
 		SDL_SetRenderDrawColor(t_renderer, 0, 0, 0, 255);
 	}
@@ -108,9 +90,14 @@ void Tile::setPosition()
 {
 }
 
-SDL_Rect & Tile::getPosition()
+SDL_Rect& Tile::getPosition()
 {
 	return rect;
+}
+
+int& Tile::getType()
+{
+	return m_type;
 }
 
 void Tile::green()
@@ -120,23 +107,17 @@ void Tile::green()
 
 void Tile::purple()
 {
-	std::cout << "shop" << std::endl;
+	std::cout << "story" << std::endl;
 }
 
 void Tile::pink()
 {
-	std::cout << "honey item square" << std::endl;
+	std::cout << "bounce square" << std::endl;
 }
 
 void Tile::blue()
 {
 	std::cout << "dice square" << std::endl;
-}
-
-void Tile::navy()
-{
-	std::cout << "bounce square" << std::endl;
-
 }
 
 void Tile::orange()
@@ -147,10 +128,5 @@ void Tile::orange()
 
 void Tile::red()
 {
-	std::cout << "bee square" << std::endl;
-}
-
-void Tile::yellow()
-{
-	std::cout << "bad square" << std::endl;
+	std::cout << "tumble square" << std::endl;
 }

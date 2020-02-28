@@ -32,12 +32,15 @@ public:
 	void removeItem();
 
 	int currentGameBoardIndex;
+	int previousIndex;
 	int m_diceNumber;
 	int items;
 	bool turn;
 	bool stuck;
+	bool end;
 private:
-	void decision();
+	void updateTile();
+	void tileBehaviour();
 	std::vector<Tile>& m_map;
 	Graph< pair<string, int>, int>& m_graph;
 	int m_aiBehaviour;

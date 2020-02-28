@@ -98,6 +98,13 @@ void MenuScreen::update()
 			m_entity[0]->setLastButton(NULL);
 			setGameState();
 		}
+
+		if (m_entity[0]->IsAI == true)
+		{
+			m_entity[0]->setLastButton(NULL);
+			setGameState();
+		}
+
 	
 		if (m_entity[0]->m_lastButtonPressed == 3)
 		{

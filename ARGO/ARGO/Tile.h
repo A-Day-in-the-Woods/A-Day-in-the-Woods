@@ -23,7 +23,7 @@ public:
 
 	void setPosition();
 	SDL_Rect & getPosition();
-
+	int &getType();
 	int count;
 private:
 
@@ -34,10 +34,8 @@ private:
 	void purple();
 	void pink();
 	void blue();
-	void navy();
 	void orange();
 	void red();
-	void yellow();
 };
 
 #endif // !TILE_H

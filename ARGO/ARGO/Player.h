@@ -1,3 +1,4 @@
+#pragma once
 
 #ifndef PLAYER_H
 #define PLAYER_H
@@ -31,13 +32,15 @@ public:
 	void assignSprite(SDL_Texture* t_PlayerTexture);
 	void SetUp();
 	void update(MovementSystem & t_move);
-	void render(SDL_Renderer* t_renderer);
+	void render(SDL_Renderer* t_renderer,int t_rotation);
 	void setPosition(float t_x, float t_y);
 	void setPositionOnline(int m_x, int m_y);
 	
 	void updateOnline();
 	std::string GetPosAsString();
 
+	void setTileType(int t_type, int t_index);
+	
 	int randomNumber(int t_max, int t_min)
 	{
 		if (!m_takingTurn)
@@ -60,16 +63,25 @@ public:
 	
 	std::string GetValueAsString();
 
+
 	bool IsAI{ false };
 
 private:
 
-
-
 	SDL_Rect rect;//temp rect for a player square
 	SDL_Rect m_spriteBody;
 	SDL_Texture* m_PlayerTexture;
-	int diceRoll{2};
+	int diceRoll{-1};
+
+
+
+
+void tileBehaviour();
+	
+
+	int tileType;
+	int currentIndex;
+	bool stuck{ false };
 
 
 	bool m_takingTurn;
