@@ -318,40 +318,7 @@ void Game::RestGameplay()
 	GameWon = false;
 //	if(winnerIndex)
 	winnerIndex = -1;
-	//delete m_gameplayscreen;
-	//delete &m_movementSystem;
-	for (int i = 0; i < SDL_NumJoysticks(); i++)
-	{
-		m_player.push_back(new Player(i));
-	}
-	for (int i = m_player.size(); i < 4; i++)
-	{
-
-		//add ai here 
-		m_player.push_back(new Player(i));
-		m_player[i]->IsAI = true;
-
-	}
-
-	m_npc.push_back(new NPC(m_tile, graph, 1));
-	m_npc.push_back(new NPC(m_tile, graph, 2));
-	m_npc.push_back(new NPC(m_tile, graph, 3));
-
-	for (int i = 0; i < m_player.size(); i++)
-	{
-		m_player[i]->addComponent(new InputComponent());
-		m_player[i]->addComponent(new MovementComponent());
-		m_movementSystem.addEntity(m_player[i]->getEntity(), *m_player[i]->getPlayerRectRef(), m_player[i]->IsAI);
-		m_inputSystem.addEntity(m_player[i]);
-	}
-	/*for (int i = 0; i < m_player.size(); i++)
-	{
-		
-		m_movementSystem.addEntity(m_player[i]->getEntity(), *m_player[i]->getPlayerRectRef(), m_player[i]->IsAI);
-		
-	}*/
 	
-	//m_movementSystem.ResetWinner(winnerIndex);
 }	
 
 /// <summary>
