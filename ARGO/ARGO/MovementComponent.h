@@ -136,7 +136,6 @@ public:
 			if (p.size() > 1)
 			{ // direction choice
 
-	
 				if (*m_IsAi == true && choiceLoop ==true && m_randomDirectionDecided == false)
 				{
 					m_currentDiceRoll = p.size()-1;
@@ -202,6 +201,7 @@ public:
 				*m_upChoiceBool = false;
 				*m_rightChoiceBool = false;
 				*m_leftChoiceBool = false;
+
 			}
 		}
 		else
@@ -222,7 +222,6 @@ public:
 						choiceLoop = false;
 						m_takeingTurn = false;
 						MoveForward = false;
-
 						m_randomDirectionDecided = false;
 						m_currentDiceRoll = -1;
 

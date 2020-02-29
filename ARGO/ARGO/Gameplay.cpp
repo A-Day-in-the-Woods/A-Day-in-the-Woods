@@ -341,6 +341,7 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	//offset->x = (((focus->x + focus->w / 2) - offset->w / 2) - camera->getCamera()->x);
 	//offset->y = (((focus->y + focus->h / 2) - offset->h / 2) - camera->getCamera()->y);
 	//SDL_RenderDrawRect(m_renderer, offset);
+
 	
 	if (m_flipUIBear)
 	{
@@ -361,7 +362,37 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	for (int i = 0; i < m_numberPlayers ;i++)
 	{
 		if (i == m_turnOrder) {
-			if(m_entity[m_turnOrder]->getLastButtonPressed() == 1) {setDiceTexture(i);}
+			if(m_entity[m_turnOrder]->getLastButtonPressed() == 1 && m_diceflip ==3)
+			{					
+				m_diceflip = 0;
+				m_diceAnimation = true;
+				m_entity[i]->setLastButton(998);
+			}
+
+			if (m_diceAnimation)
+			{
+				if (m_diceflip == 0)
+				{
+					m_DiceRect[i].h += 1;
+					m_DiceRect[i].w += 1;
+					setRandomDiceTexture(i);
+					if (m_DiceRect[i].h > 150) { m_diceflip = 1; }
+				}
+				else if(m_diceflip == 1)
+				{
+					setDiceTexture(i);
+					m_DiceRect[i].h -= 1;
+					m_DiceRect[i].w -= 1;
+					if (m_DiceRect[i].h < 100)
+					{
+						m_diceAnimation = false;
+						m_diceflip = 2;
+
+						m_entity[i]->setLastButton(999);
+				
+					}
+				}
+			}
 			m_entity[i]->render(m_renderer, m_rotation);
 			SDL_RenderCopyEx(m_renderer, m_PlayerShadowUITexture[i], NULL, &m_PlayerShadowUIRect[i], m_rotation, NULL, SDL_FLIP_NONE);
 			SDL_RenderCopyEx(m_renderer, m_PlayerUITexture[i], NULL, &m_PlayerUIRect[i], m_rotation, NULL, SDL_FLIP_NONE);
@@ -437,7 +468,7 @@ void Gameplay::renderWin(int index)
 	}
 
 	SDL_RenderPresent(m_renderer);
-	SDL_Delay(500);
+	SDL_Delay(1000);
 	setGameState();
 }
 
@@ -446,12 +477,13 @@ void Gameplay::processEvent(MovementSystem & t_move)
 
 	for (int i = 0; i < m_numberPlayers; i++)
 	{
-		if (m_turnOrder == m_entity[i]->getId())
+		if (m_turnOrder == m_entity[i]->getId()&& m_diceAnimation == false)
 		{
-			m_entity[m_turnOrder]->m_upChoiceBool = false;
-			m_entity[m_turnOrder]->m_downChoiceBool = false;
-			m_entity[m_turnOrder]->m_leftChoiceBool = false;
-			m_entity[m_turnOrder]->m_rightChoiceBool = false;
+			m_entity[i]->m_upChoiceBool = false;
+			m_entity[i]->m_downChoiceBool = false;
+			m_entity[i]->m_leftChoiceBool = false;
+			m_entity[i]->m_rightChoiceBool = false;
+
 			if (!m_audioManager.IsChannelPLaying(1))
 			{
 		
@@ -475,11 +507,20 @@ void Gameplay::processEvent(MovementSystem & t_move)
 						m_turnOrder++;
 						if (m_turnOrder == m_entity.size())
 							m_turnOrder = 0;
-						m_entity[i]->setLastButton(NULL);
+							m_entity[i]->setLastButton(NULL);
+
+							m_diceflip = 3;
 					}
 					else
 					{
-						m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
+						if ( m_diceflip == 2 && m_entity[i]->getLastButtonPressed() == NULL)
+						{m_inputSystem.update(m_event, m_currentState, m_entity[i], i);}
+
+						if(m_entity[i]->IsAI == false && m_diceflip == 2 && m_entity[i]->getLastButtonPressed() == 999 || m_entity[i]->getLastButtonPressed() == NULL)
+						{m_inputSystem.update(m_event, m_currentState, m_entity[i], i);}
+						
+						if (t_move.getPlayerDiceValue(i) >= 0 && m_entity[i]->IsAI == false)
+						{m_inputSystem.update(m_event, m_currentState, m_entity[i], i);}
 					}
 				}
 			}
@@ -515,6 +556,12 @@ float Gameplay::calculateScale(float width, float height, float maxWidth, float 
 void Gameplay::setDiceTexture(int m_playerID)
 {	
 	m_DiceTexture[m_playerID] = m_DiceTextureSides[m_entity[m_playerID]->getDiceRoll()-1] ;
+}
+
+void Gameplay::setRandomDiceTexture(int m_playerID)
+{
+	m_DiceTexture[m_playerID] = m_DiceTextureSides[randomNumber(5,0)];
+
 }
 
 int Gameplay::randomNumber(int t_max, int t_min)

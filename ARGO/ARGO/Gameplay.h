@@ -48,6 +48,7 @@ private:
 	SDL_Window* m_window;
 
 	void setDiceTexture(int m_playerID);
+	void setRandomDiceTexture(int m_playerID);
 
 	int m_rotation = 0;
 
@@ -109,6 +110,9 @@ private:
 	//------! A* stuff ------------
 
 	bool m_flipUIBear{ false };
+	bool m_diceAnimation{ false };
+	int m_diceflip = 2;
+
 
 	Game& m_game;
 	SDL_Renderer* m_renderer;	// game renderer
