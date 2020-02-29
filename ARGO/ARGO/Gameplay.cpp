@@ -18,9 +18,6 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	auto Width = DM.w;
 	auto Height = DM.h;
 	
-	//SDL_LoadWAV("ASSETS/AUDIO/intro.wav", &wavSpec, &wavBuffer, &wavLength);
-	//deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-	//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
 
 	SDL_Surface* m_DiceSurface;
 	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceOne.png");
@@ -40,6 +37,21 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_PlayerUIRect.push_back(SDL_Rect{ static_cast<int>(Width/1.2), 0, 300, 400 });
 	m_PlayerUIRect.push_back(SDL_Rect{ static_cast<int>(Width/19.2),static_cast<int>(Height / 1.8), 300, 400 });
 	m_PlayerUIRect.push_back(SDL_Rect{ static_cast<int>(Width/1.2), static_cast<int>(Height / 1.8), 300, 400 });
+
+	SDL_Surface* Indicator;
+	Indicator = IMG_Load("ASSETS/IMAGES/Ui/Ypaw.png");
+	m_IndicatorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, Indicator));
+	Indicator = IMG_Load("ASSETS/IMAGES/Ui/Apaw.png");
+	m_IndicatorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, Indicator));
+	Indicator = IMG_Load("ASSETS/IMAGES/Ui/Xpaw.png");
+	m_IndicatorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, Indicator));
+	Indicator = IMG_Load("ASSETS/IMAGES/Ui/Bpaw.png");
+	m_IndicatorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, Indicator));
+
+	m_IndicatorRect.push_back(SDL_Rect{ 0,0,50,50 });
+	m_IndicatorRect.push_back(SDL_Rect{ 0,0,50,50 });
+	m_IndicatorRect.push_back(SDL_Rect{ 0,0,50,50 });
+	m_IndicatorRect.push_back(SDL_Rect{ 0,0,50,50 });
 
 	m_PlayerShadowUIRect.push_back(SDL_Rect{ static_cast<int>(Width / 17.45),static_cast<int>(Height / 108),300,400 });
 	m_PlayerShadowUIRect.push_back(SDL_Rect{ static_cast<int>(Width / 1.19),static_cast<int>(Height / 108),300,400 });
@@ -159,7 +171,8 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	SDL_FreeSurface(m_PlayerShadowUISurface);
 	SDL_FreeSurface(m_CloudSurface);
 	SDL_FreeSurface(m_outLineSurface);
-	SDL_FreeSurface(m_backgroundSurface);
+	SDL_FreeSurface(m_backgroundSurface); 
+	SDL_FreeSurface(Indicator);
 }
 
 Gameplay::~Gameplay()
@@ -174,6 +187,8 @@ Gameplay::~Gameplay()
 
 void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem& t_move)
 {
+
+
 	if (!setUp)
 	{
 		m_audioManager.PlayMusic("m_gameBoard.wav",10);
@@ -321,12 +336,18 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	for (int i = 0; i < m_outLine.size()-4; i++) { SDL_RenderCopy(m_renderer, m_outLineTexture, NULL, &m_outLine[i]); }
 	for (int i = m_outLine.size() - 4; i < m_outLine.size(); i++) {SDL_RenderCopyEx(m_renderer, m_outLineTexture, NULL, &m_outLine[i],90, NULL, SDL_FLIP_NONE);}
 
+
+
+
+
+
 	// Little target Box in middle of Focus
 	//offset->w = CHARACTER_WIDTH ;
 	//offset->h = CHARACTER_HEIGHT ;
 	//offset->x = (((focus->x + focus->w / 2) - offset->w / 2) - camera->getCamera()->x);
 	//offset->y = (((focus->y + focus->h / 2) - offset->h / 2) - camera->getCamera()->y);
 	//SDL_RenderDrawRect(m_renderer, offset);
+
 	
 	if (m_flipUIBear)
 	{
@@ -347,7 +368,38 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	for (int i = 0; i < m_numberPlayers ;i++)
 	{
 		if (i == m_turnOrder) {
-			if(m_entity[m_turnOrder]->getLastButtonPressed() == 1) {setDiceTexture(i);}
+			if(m_entity[m_turnOrder]->getLastButtonPressed() == 1 && m_diceflip ==3)
+			{					
+				m_audioManager.PlaySfx("roll.wav", 75, 0, 1);
+				m_diceflip = 0;
+				m_diceAnimation = true;
+				m_entity[i]->setLastButton(998);
+			}
+
+			if (m_diceAnimation)
+			{
+				if (m_diceflip == 0)
+				{
+					m_DiceRect[i].h += 1;
+					m_DiceRect[i].w += 1;
+					setRandomDiceTexture(i);
+					if (m_DiceRect[i].h > 150) { m_diceflip = 1; }
+				}
+				else if(m_diceflip == 1)
+				{
+					setDiceTexture(i);
+					m_DiceRect[i].h -= 1;
+					m_DiceRect[i].w -= 1;
+					if (m_DiceRect[i].h < 100)
+					{
+						m_diceAnimation = false;
+						m_diceflip = 2;
+
+						m_entity[i]->setLastButton(999);
+				
+					}
+				}
+			}
 			m_entity[i]->render(m_renderer, m_rotation);
 			SDL_RenderCopyEx(m_renderer, m_PlayerShadowUITexture[i], NULL, &m_PlayerShadowUIRect[i], m_rotation, NULL, SDL_FLIP_NONE);
 			SDL_RenderCopyEx(m_renderer, m_PlayerUITexture[i], NULL, &m_PlayerUIRect[i], m_rotation, NULL, SDL_FLIP_NONE);
@@ -362,9 +414,39 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		}
 	}
 
+
+
+
 	for (int i = 0; i < m_clouds.size(); i++) {SDL_RenderCopyEx(m_renderer, m_CloudTexture, NULL, &m_clouds[i], 0, NULL, SDL_FLIP_NONE);}
 
 	for (int i = 0; i < t_npc.size(); i++) {t_npc[i]->render(m_renderer);}
+
+	if (m_entity[m_turnOrder]->m_upChoiceBool == true) {
+		m_IndicatorRect[0].x = (m_entity[m_turnOrder]->getPosition().x - m_entity[0]->getPosition().w/2);
+		m_IndicatorRect[0].y = (m_entity[m_turnOrder]->getPosition().y - m_entity[0]->getPosition().h/2)- m_entity[0]->getPosition().h*2.5;
+
+		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[0], NULL, &m_IndicatorRect[0], 0, NULL, SDL_FLIP_NONE);
+	}
+	if (m_entity[m_turnOrder]->m_downChoiceBool == true) {
+		m_IndicatorRect[1].x = (m_entity[m_turnOrder]->getPosition().x - m_entity[0]->getPosition().w/2);
+		m_IndicatorRect[1].y = (m_entity[m_turnOrder]->getPosition().y - m_entity[0]->getPosition().h/2) + m_entity[0]->getPosition().h*1.5;
+
+		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[1], NULL, &m_IndicatorRect[1], 0, NULL, SDL_FLIP_NONE);
+	}
+	if (m_entity[m_turnOrder]->m_leftChoiceBool == true) {
+		m_IndicatorRect[2].x = (m_entity[m_turnOrder]->getPosition().x - m_entity[0]->getPosition().w/2) - m_entity[0]->getPosition().w*2;
+		m_IndicatorRect[2].y = (m_entity[m_turnOrder]->getPosition().y - m_entity[0]->getPosition().h/2);
+
+		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[2], NULL, &m_IndicatorRect[2], 0, NULL, SDL_FLIP_NONE);
+	}
+	if (m_entity[m_turnOrder]->m_rightChoiceBool == true) {
+		m_IndicatorRect[3].x = (m_entity[m_turnOrder]->getPosition().x - m_entity[0]->getPosition().w/2) + m_entity[0]->getPosition().h*2;
+		m_IndicatorRect[3].y = (m_entity[m_turnOrder]->getPosition().y - m_entity[0]->getPosition().h/2);
+
+		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[3], NULL, &m_IndicatorRect[3], 0, NULL, SDL_FLIP_NONE);
+	}
+
+
 
 	SDL_RenderPresent(m_renderer);
 }
@@ -393,7 +475,7 @@ void Gameplay::renderWin(int index)
 	}
 
 	SDL_RenderPresent(m_renderer);
-	SDL_Delay(500);
+	SDL_Delay(1000);
 	setGameState();
 }
 
@@ -402,8 +484,12 @@ void Gameplay::processEvent(MovementSystem & t_move)
 
 	for (int i = 0; i < m_numberPlayers; i++)
 	{
-		if (m_turnOrder == m_entity[i]->getId())
+		if (m_turnOrder == m_entity[i]->getId()&& m_diceAnimation == false)
 		{
+			m_entity[i]->m_upChoiceBool = false;
+			m_entity[i]->m_downChoiceBool = false;
+			m_entity[i]->m_leftChoiceBool = false;
+			m_entity[i]->m_rightChoiceBool = false;
 
 			if (!m_audioManager.IsChannelPLaying(1))
 			{
@@ -423,15 +509,26 @@ void Gameplay::processEvent(MovementSystem & t_move)
 				{
 					if (t_move.getPlayerDiceValue(i) == -1 && !t_move.IsThePlayerMoving(i))
 					{
+		
 						t_move.setPlayerDiceValue(i, 0);
 						m_turnOrder++;
 						if (m_turnOrder == m_entity.size())
 							m_turnOrder = 0;
-						m_entity[i]->setLastButton(NULL);
+							m_entity[i]->setLastButton(NULL);
+
+							m_diceflip = 3;
 					}
 					else
 					{
-						m_inputSystem.update(m_event, m_currentState, m_entity[i], i);
+
+						if ( m_diceflip == 2 && m_entity[i]->getLastButtonPressed() == NULL)
+						{m_inputSystem.update(m_event, m_currentState, m_entity[i], i);}
+
+						if(m_entity[i]->IsAI == false && m_diceflip == 2 && m_entity[i]->getLastButtonPressed() == 999 || m_entity[i]->getLastButtonPressed() == NULL)
+						{m_inputSystem.update(m_event, m_currentState, m_entity[i], i);}
+						
+						if (t_move.getPlayerDiceValue(i) >= 0 && m_entity[i]->IsAI == false)
+						{m_inputSystem.update(m_event, m_currentState, m_entity[i], i);}
 					}
 				}
 			}
@@ -467,6 +564,12 @@ float Gameplay::calculateScale(float width, float height, float maxWidth, float 
 void Gameplay::setDiceTexture(int m_playerID)
 {	
 	m_DiceTexture[m_playerID] = m_DiceTextureSides[m_entity[m_playerID]->getDiceRoll()-1] ;
+}
+
+void Gameplay::setRandomDiceTexture(int m_playerID)
+{
+	m_DiceTexture[m_playerID] = m_DiceTextureSides[randomNumber(5,0)];
+
 }
 
 int Gameplay::randomNumber(int t_max, int t_min)
