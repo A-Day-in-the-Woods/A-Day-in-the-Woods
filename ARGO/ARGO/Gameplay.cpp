@@ -13,9 +13,6 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	std::srand(std::time(nullptr));
 	m_numberPlayers = m_entity.size();
 	
-	//SDL_LoadWAV("ASSETS/AUDIO/intro.wav", &wavSpec, &wavBuffer, &wavLength);
-	//deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-	//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
 
 	SDL_Surface* m_DiceSurface;
 	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceOne.png");
@@ -364,6 +361,7 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		if (i == m_turnOrder) {
 			if(m_entity[m_turnOrder]->getLastButtonPressed() == 1 && m_diceflip ==3)
 			{					
+				m_audioManager.PlaySfx("roll.wav", 75, 0, 1);
 				m_diceflip = 0;
 				m_diceAnimation = true;
 				m_entity[i]->setLastButton(998);
@@ -513,6 +511,7 @@ void Gameplay::processEvent(MovementSystem & t_move)
 					}
 					else
 					{
+
 						if ( m_diceflip == 2 && m_entity[i]->getLastButtonPressed() == NULL)
 						{m_inputSystem.update(m_event, m_currentState, m_entity[i], i);}
 
