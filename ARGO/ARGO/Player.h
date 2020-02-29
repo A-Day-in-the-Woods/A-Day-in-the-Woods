@@ -35,7 +35,8 @@ public:
 	void render(SDL_Renderer* t_renderer,int t_rotation);
 	void setPosition(float t_x, float t_y);
 	void setPositionOnline(int m_x, int m_y);
-	
+	void resetIndex();
+
 	void updateOnline();
 	std::string GetPosAsString();
 
