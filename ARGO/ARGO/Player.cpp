@@ -62,6 +62,11 @@ void Player::setPositionOnline(int m_x, int m_y)
 
 }
 
+void Player::resetIndex()
+{
+	currentIndex = 0;
+}
+
 void Player::updateOnline()
 {
 	m_spriteBody.x = rect.x - 5.0f;
