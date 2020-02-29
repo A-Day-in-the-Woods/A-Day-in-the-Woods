@@ -475,8 +475,10 @@ void Gameplay::renderWin(int index)
 	}
 
 	SDL_RenderPresent(m_renderer);
-	SDL_Delay(1000);
-	setGameState();
+	if (!m_audioManager.IsChannelPLaying(1))
+	{
+		setGameState();
+	}
 }
 
 void Gameplay::processEvent(MovementSystem & t_move)
