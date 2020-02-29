@@ -20,8 +20,13 @@ SplashScreen::SplashScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& even
 	m_buttonSelectorTexture = (SDL_CreateTextureFromSurface(m_renderer, m_buttonSelectorSurface));
 	SDL_FreeSurface(m_buttonSelectorSurface);
 
+	SDL_DisplayMode DM;
+	SDL_GetCurrentDisplayMode(0, &DM);
+	auto Width = DM.w;
+	auto Height = DM.h;
+
 	m_buttonSelectorRect= { 800 ,700,200,200 };
-	m_titleRect = { -200,0,2200,1100 };
+	m_titleRect = { 0,0, Width,Height};
 
 }
 

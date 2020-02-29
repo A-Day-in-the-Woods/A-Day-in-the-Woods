@@ -29,9 +29,14 @@ Game::Game() :
 			printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
 			throw "Error Loading SDL Audio";
 		}
-		// Create SDL Window Centred in Middle Of Screen
 
-		m_window = SDL_CreateWindow("A Day in the Woods", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1820, 980, NULL);
+		// Create SDL Window Centred in Middle Of Screen
+		
+		SDL_DisplayMode DM;
+		SDL_GetCurrentDisplayMode(0,&DM);
+		auto Width = DM.w;
+		auto Height = DM.h; 
+		m_window = SDL_CreateWindow("A Day in the Woods", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Width, Height, NULL);
 
 		// Check if window was created correctly
 		if (!m_window) throw "Error Loading Window";

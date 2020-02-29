@@ -12,6 +12,11 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 {
 	std::srand(std::time(nullptr));
 	m_numberPlayers = m_entity.size();
+
+	SDL_DisplayMode DM;
+	SDL_GetCurrentDisplayMode(0, &DM);
+	auto Width = DM.w;
+	auto Height = DM.h;
 	
 	//SDL_LoadWAV("ASSETS/AUDIO/intro.wav", &wavSpec, &wavBuffer, &wavLength);
 	//deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
@@ -47,19 +52,19 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_DiceRect.push_back(SDL_Rect{ 1705,820,100,100 });
 
 	SDL_Surface* WinSurface;
-	WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP1.png");
+	WinSurface = IMG_Load("ASSETS/IMAGES/buttons/PlayerWin1.png");
 	m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
-	WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP2.png");
+	WinSurface = IMG_Load("ASSETS/IMAGES/buttons/PlayerWin2.png");
 	m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
-	WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP3.png");
+	WinSurface = IMG_Load("ASSETS/IMAGES/buttons/PlayerWin3.png");
 	m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
-	WinSurface = IMG_Load("ASSETS/IMAGES/buttons/WinP4.png");
+	WinSurface = IMG_Load("ASSETS/IMAGES/buttons/PlayerWin4.png");
 	m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
 	WinSurface = IMG_Load("ASSETS/IMAGES/pic2Glass.png");
 	m_WinScreenTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, WinSurface));
 
-	m_Winsscreen.h = 1080;
-	m_Winsscreen.w = 1920;
+	m_Winsscreen.h = Height*1.15;
+	m_Winsscreen.w = Width*1.15;
 	m_Winsscreen.x = 0;
 	m_Winsscreen.y = 0;
 
