@@ -85,6 +85,9 @@ private:
 	//Outline
 	std::vector<SDL_Rect> m_outLine;
 	SDL_Texture* m_outLineTexture; // outline texture	
+	//Table 
+	SDL_Texture* m_taskbarTexture;
+	SDL_Rect m_taskbarRect;
 
 	//Winner Screen
 	std::vector <SDL_Texture*> m_WinScreenTexture; // win screen

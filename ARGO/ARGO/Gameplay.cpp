@@ -36,20 +36,20 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceSix.png");
 	m_DiceTextureSides.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface));
 
-	m_PlayerUIRect.push_back(SDL_Rect{ 100,0,300,400 });
-	m_PlayerUIRect.push_back(SDL_Rect{ 1600,0,300,400 });
-	m_PlayerUIRect.push_back(SDL_Rect{ 100,600,300,400 });
-	m_PlayerUIRect.push_back(SDL_Rect{ 1600,600,300,400 });
+	m_PlayerUIRect.push_back(SDL_Rect{ static_cast<int>(Width/19.2), 0, 300, 400 });
+	m_PlayerUIRect.push_back(SDL_Rect{ static_cast<int>(Width/1.2), 0, 300, 400 });
+	m_PlayerUIRect.push_back(SDL_Rect{ static_cast<int>(Width/19.2),static_cast<int>(Height / 1.8), 300, 400 });
+	m_PlayerUIRect.push_back(SDL_Rect{ static_cast<int>(Width/1.2), static_cast<int>(Height / 1.8), 300, 400 });
 
-	m_PlayerShadowUIRect.push_back(SDL_Rect{ 110,10,300,400 });
-	m_PlayerShadowUIRect.push_back(SDL_Rect{ 1610,10,300,400 });
-	m_PlayerShadowUIRect.push_back(SDL_Rect{ 110,610,300,400 });
-	m_PlayerShadowUIRect.push_back(SDL_Rect{ 1610,610,300,400 });
+	m_PlayerShadowUIRect.push_back(SDL_Rect{ static_cast<int>(Width / 17.45),static_cast<int>(Height / 108),300,400 });
+	m_PlayerShadowUIRect.push_back(SDL_Rect{ static_cast<int>(Width / 1.19),static_cast<int>(Height / 108),300,400 });
+	m_PlayerShadowUIRect.push_back(SDL_Rect{ static_cast<int>(Width / 17.45),static_cast<int>(Height / 1.77),300,400 });
+	m_PlayerShadowUIRect.push_back(SDL_Rect{ static_cast<int>(Width / 1.19),static_cast<int>(Height / 1.77),300,400 });
 
-	m_DiceRect.push_back(SDL_Rect{ 205,220,100,100 });
-	m_DiceRect.push_back(SDL_Rect{ 1705,220,100,100 });
-	m_DiceRect.push_back(SDL_Rect{ 205,820,100,100 });
-	m_DiceRect.push_back(SDL_Rect{ 1705,820,100,100 });
+	m_DiceRect.push_back(SDL_Rect{ static_cast<int>(Width / 9.36),static_cast<int>(Height / 4.9),100,100 });
+	m_DiceRect.push_back(SDL_Rect{ static_cast<int>(Width / 1.12),static_cast<int>(Height / 4.9),100,100 });
+	m_DiceRect.push_back(SDL_Rect{ static_cast<int>(Width / 9.36),static_cast<int>(Height / 1.31),100,100 });
+	m_DiceRect.push_back(SDL_Rect{ static_cast<int>(Width / 1.12),static_cast<int>(Height / 1.31),100,100 });
 
 	SDL_Surface* WinSurface;
 	WinSurface = IMG_Load("ASSETS/IMAGES/buttons/PlayerWin1.png");
@@ -113,9 +113,9 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	for (int i = 0; i < 100; i++) {m_clouds.push_back(SDL_Rect{ randomNumber(1300,500),randomNumber(900,100),150,100 });} //make 100 clouds
 
 	for (int i = 0; i < 4 ; i++)
-	{
-		m_outLine.push_back(SDL_Rect{ -60,(i*200)-100,200,700 });
-		m_outLine.push_back(SDL_Rect{ 1860,(i * 200)-100,250,700 });
+	{ 
+		m_outLine.push_back(SDL_Rect{ -50,(i * 200)-100,200,800 });
+		m_outLine.push_back(SDL_Rect{ Width,(i * 200)-100,350,800 });
 	}
 
 	for (int i = 0; i < 4; i++) {m_outLine.push_back(SDL_Rect{ i*550,820 - 100,150,700 });} //make out line of bushes 
@@ -128,7 +128,11 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	
 	SDL_Surface* m_backgroundSurface = IMG_Load("ASSETS/IMAGES/Board.png");
 	m_backgroundTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
-	m_backgroundRect={ 75,-10,Width,1080};
+	m_backgroundRect={ 75,-10,Width,Height};
+
+	SDL_Surface* m_taskbarSurface = IMG_Load("ASSETS/IMAGES/Bar.png");
+	m_taskbarTexture = SDL_CreateTextureFromSurface(m_renderer, m_taskbarSurface);
+	m_taskbarRect = { 50,1090,Width+100,static_cast<int>(Height / 7.2)};
 
 	std::srand(std::time(nullptr));
 	BehaviourTree behaviourTree;
@@ -311,6 +315,8 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 				if (m_clouds[i].y > (offset->y) - m_clouds[i].h / 1.9){
 					if (m_clouds[i].y < (offset->y + offset->h)) {m_clouds.erase(m_clouds.begin() + i);}}}}
 	}
+
+	SDL_RenderCopy(m_renderer, m_taskbarTexture, NULL, &m_taskbarRect);
 
 	for (int i = 0; i < m_outLine.size()-4; i++) { SDL_RenderCopy(m_renderer, m_outLineTexture, NULL, &m_outLine[i]); }
 	for (int i = m_outLine.size() - 4; i < m_outLine.size(); i++) {SDL_RenderCopyEx(m_renderer, m_outLineTexture, NULL, &m_outLine[i],90, NULL, SDL_FLIP_NONE);}

@@ -338,14 +338,14 @@ public:
 							Graph< pair<string, int>, int>& t_g) {
 		for (int i = 0; i < t_map.size(); i++)
 		{
-			if (CurrentGameBoardIndex == 41)
+			if (CurrentGameBoardIndex == 6)
 			{
 				std::cout << "Game Won " << std::endl;
 				gameWin = true;
 
 				m_audioManager->PlaySfx("s_ending.wav", 75, 0, 1);
 			}
-
+			
 			if (gameWin)
 			{
 				break;
