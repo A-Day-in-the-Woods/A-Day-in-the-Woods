@@ -106,6 +106,10 @@ public:
 	void nodeNavigation(std::vector<Tile>& t_map, Graph< pair<string, int>, int>& t_g) {
 		if (m_diceRoll > 0)
 		{
+			*m_downChoiceBool = false;
+			*m_upChoiceBool = false;
+			*m_rightChoiceBool = false;
+			*m_leftChoiceBool = false;
 
 			std::list<GraphArc<std::pair<std::string, int>, int>> p;
 
@@ -114,7 +118,20 @@ public:
 			SDL_Event(event);
 			SDL_PollEvent(&event);
 
-		
+				if (*m_IsAi == false)
+			{
+				nodeDirectionCheckIndicator(
+					p.front().node()->m_x,
+					p.front().node()->m_y,
+					t_g.nodeIndex(CurrentGameBoardIndex)->m_x,
+					t_g.nodeIndex(CurrentGameBoardIndex)->m_y);
+				p.reverse();
+				nodeDirectionCheckIndicator(
+					p.front().node()->m_x,
+					p.front().node()->m_y,
+					t_g.nodeIndex(CurrentGameBoardIndex)->m_x,
+					t_g.nodeIndex(CurrentGameBoardIndex)->m_y);
+			}
 
 			if (p.size() > 1)
 			{ // direction choice
@@ -132,21 +149,9 @@ public:
 				}
 			
 
-				nodeDirectionCheckIndicator(
-					p.front().node()->m_x,
-					p.front().node()->m_y,
-					t_g.nodeIndex(CurrentGameBoardIndex)->m_x,
-					t_g.nodeIndex(CurrentGameBoardIndex)->m_y);
-				p.reverse();
-				nodeDirectionCheckIndicator(
-					p.front().node()->m_x,
-					p.front().node()->m_y,
-					t_g.nodeIndex(CurrentGameBoardIndex)->m_x,
-					t_g.nodeIndex(CurrentGameBoardIndex)->m_y);
-				p.reverse();
-
 				if (!choiceLoop)
 				{
+	
 					//here is where there is a multiple choice 
 
 					if (m_DirectionChoiceNum == nodeDirectionCheck(
@@ -186,11 +191,17 @@ public:
 							m_DirectionChoiceNum = randomNumber(6, 1);
 						}
 					}
+			
 				}
+	
 			}
 			else
 			{ // only one way to go			
 				playerNodeChange(p, t_map, t_g);								
+				*m_downChoiceBool = false;
+				*m_upChoiceBool = false;
+				*m_rightChoiceBool = false;
+				*m_leftChoiceBool = false;
 			}
 		}
 		else
@@ -345,11 +356,7 @@ public:
 						m_moveBackAudio = true;
 					}
 
-					*m_downChoiceBool = false;
-					*m_upChoiceBool = false;
-					*m_rightChoiceBool = false;
-					*m_leftChoiceBool = false;
-
+		
 
 					MoveBack = true;
 					//m_takeingTurn = false;

@@ -32,7 +32,6 @@ public:
 				m_moveComp.back()->setRect(t_rect);
 				m_moveComp.back()->setAiCheck(t_IsAi);
 				m_moveComp.back()->setChoiceBools(t_up, t_down, t_left, t_right);
-				//m_moveComp.back()->CurrentGameBoardIndex = 40; //delete this later
 			}
 		}
 	}

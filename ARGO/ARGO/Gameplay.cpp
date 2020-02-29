@@ -377,40 +377,38 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	}
 
 
-	if (m_entity[m_turnOrder]->m_upChoiceBool == true) {
-		m_IndicatorRect[0].x = m_entity[m_turnOrder]->getPosition().x-50;
-		m_IndicatorRect[0].y = m_entity[m_turnOrder]->getPosition().y+100;
-
-		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[0], NULL, &m_IndicatorRect[0], 0, NULL, SDL_FLIP_NONE);
-		std::cout << ": UP" << std::endl;
-	}
-	if (m_entity[m_turnOrder]->m_downChoiceBool == true) {
-		m_IndicatorRect[1].x = m_entity[m_turnOrder]->getPosition().x-50;
-		m_IndicatorRect[1].y = m_entity[m_turnOrder]->getPosition().y+50;
-		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[1], NULL, &m_IndicatorRect[1], 0, NULL, SDL_FLIP_NONE);
-		std::cout << ": DOWN" << std::endl;
-	}	
-	if (m_entity[m_turnOrder]->m_leftChoiceBool == true) {
-		m_IndicatorRect[2].x = m_entity[m_turnOrder]->getPosition().x -50;
-		m_IndicatorRect[2].y = m_entity[m_turnOrder]->getPosition().y+100;
-
-		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[2], NULL, &m_IndicatorRect[2], 0, NULL, SDL_FLIP_NONE);
-
-		std::cout << ": LEFT" << std::endl;
-	}
-	if (m_entity[m_turnOrder]->m_rightChoiceBool == true) {
-		m_IndicatorRect[3].x = m_entity[m_turnOrder]->getPosition().x+150;
-		m_IndicatorRect[3].y = m_entity[m_turnOrder]->getPosition().y+50;
-
-		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[3], NULL, &m_IndicatorRect[3], 0, NULL, SDL_FLIP_NONE);
-		std::cout << ": RIGHT" << std::endl;
-	}
-
 
 
 	for (int i = 0; i < m_clouds.size(); i++) {SDL_RenderCopyEx(m_renderer, m_CloudTexture, NULL, &m_clouds[i], 0, NULL, SDL_FLIP_NONE);}
 
 	for (int i = 0; i < t_npc.size(); i++) {t_npc[i]->render(m_renderer);}
+
+	if (m_entity[m_turnOrder]->m_upChoiceBool == true) {
+		m_IndicatorRect[0].x = (m_entity[m_turnOrder]->getPosition().x - m_entity[0]->getPosition().w/2);
+		m_IndicatorRect[0].y = (m_entity[m_turnOrder]->getPosition().y - m_entity[0]->getPosition().h/2)- m_entity[0]->getPosition().h*2.5;
+
+		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[0], NULL, &m_IndicatorRect[0], 0, NULL, SDL_FLIP_NONE);
+	}
+	if (m_entity[m_turnOrder]->m_downChoiceBool == true) {
+		m_IndicatorRect[1].x = (m_entity[m_turnOrder]->getPosition().x - m_entity[0]->getPosition().w/2);
+		m_IndicatorRect[1].y = (m_entity[m_turnOrder]->getPosition().y - m_entity[0]->getPosition().h/2) + m_entity[0]->getPosition().h*1.5;
+
+		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[1], NULL, &m_IndicatorRect[1], 0, NULL, SDL_FLIP_NONE);
+	}
+	if (m_entity[m_turnOrder]->m_leftChoiceBool == true) {
+		m_IndicatorRect[2].x = (m_entity[m_turnOrder]->getPosition().x - m_entity[0]->getPosition().w/2) - m_entity[0]->getPosition().w*2;
+		m_IndicatorRect[2].y = (m_entity[m_turnOrder]->getPosition().y - m_entity[0]->getPosition().h/2);
+
+		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[2], NULL, &m_IndicatorRect[2], 0, NULL, SDL_FLIP_NONE);
+	}
+	if (m_entity[m_turnOrder]->m_rightChoiceBool == true) {
+		m_IndicatorRect[3].x = (m_entity[m_turnOrder]->getPosition().x - m_entity[0]->getPosition().w/2) + m_entity[0]->getPosition().h*2;
+		m_IndicatorRect[3].y = (m_entity[m_turnOrder]->getPosition().y - m_entity[0]->getPosition().h/2);
+
+		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[3], NULL, &m_IndicatorRect[3], 0, NULL, SDL_FLIP_NONE);
+	}
+
+
 
 	SDL_RenderPresent(m_renderer);
 }
@@ -450,7 +448,10 @@ void Gameplay::processEvent(MovementSystem & t_move)
 	{
 		if (m_turnOrder == m_entity[i]->getId())
 		{
-
+			m_entity[m_turnOrder]->m_upChoiceBool = false;
+			m_entity[m_turnOrder]->m_downChoiceBool = false;
+			m_entity[m_turnOrder]->m_leftChoiceBool = false;
+			m_entity[m_turnOrder]->m_rightChoiceBool = false;
 			if (!m_audioManager.IsChannelPLaying(1))
 			{
 		
@@ -469,6 +470,7 @@ void Gameplay::processEvent(MovementSystem & t_move)
 				{
 					if (t_move.getPlayerDiceValue(i) == -1 && !t_move.IsThePlayerMoving(i))
 					{
+		
 						t_move.setPlayerDiceValue(i, 0);
 						m_turnOrder++;
 						if (m_turnOrder == m_entity.size())
