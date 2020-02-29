@@ -45,6 +45,15 @@ public:
 	void setAiCheck(bool &t_IsAi) {
 		m_IsAi = &t_IsAi;
 	}
+	void setChoiceBools(bool& t_upBool, bool& t_downBool, bool& t_leftBool, bool& t_rightBool) {
+
+		m_upChoiceBool = &t_upBool;
+		m_downChoiceBool = &t_downBool;
+		m_rightChoiceBool = &t_rightBool;
+		m_leftChoiceBool = &t_leftBool;
+		
+	}
+
 
 	int randomNumber(int t_max, int t_min)
 	{
@@ -123,10 +132,22 @@ public:
 				}
 			
 
+				nodeDirectionCheckIndicator(
+					p.front().node()->m_x,
+					p.front().node()->m_y,
+					t_g.nodeIndex(CurrentGameBoardIndex)->m_x,
+					t_g.nodeIndex(CurrentGameBoardIndex)->m_y);
+				p.reverse();
+				nodeDirectionCheckIndicator(
+					p.front().node()->m_x,
+					p.front().node()->m_y,
+					t_g.nodeIndex(CurrentGameBoardIndex)->m_x,
+					t_g.nodeIndex(CurrentGameBoardIndex)->m_y);
+				p.reverse();
 
 				if (!choiceLoop)
 				{
-
+					//here is where there is a multiple choice 
 
 					if (m_DirectionChoiceNum == nodeDirectionCheck(
 						p.front().node()->m_x,
@@ -324,7 +345,12 @@ public:
 						m_moveBackAudio = true;
 					}
 
-					//SDL_Delay(1000);
+					*m_downChoiceBool = false;
+					*m_upChoiceBool = false;
+					*m_rightChoiceBool = false;
+					*m_leftChoiceBool = false;
+
+
 					MoveBack = true;
 					//m_takeingTurn = false;
 					break;
@@ -442,7 +468,7 @@ public:
 	}
 
 	int nodeDirectionCheck(int x1, int y1, int x2, int y2)
-	{
+	{		
 		if (x1 == x2 && y1 > y2)
 		{	// p2 Down
 			return 1;
@@ -451,7 +477,7 @@ public:
 		{	// p2 Up
 			return 6;
 		}
-		else if (x1 > x2 && y1 == y2)
+		else if (x1 > x2&& y1 == y2)
 		{	// p2 Right
 			return 4;
 		}
@@ -461,6 +487,18 @@ public:
 		}
 
 		return -1;
+	}
+
+	void nodeDirectionCheckIndicator(int x1, int y1, int x2, int y2)
+	{
+		if (x1 == x2 && y1 > y2){	// p2 Down
+		*m_downChoiceBool = true;}
+		else if (x1 == x2 && y1 < y2){	// p2 Up
+		*m_upChoiceBool = true;	}
+		else if (x1 > x2&& y1 == y2){	// p2 Right
+		*m_rightChoiceBool = true;}
+		else if (x1 < x2 && y1 == y2){	// p2 Left
+		*m_leftChoiceBool = true;}
 	}
 
 	int getCurrentIndex()
@@ -556,6 +594,13 @@ private:
 
 	bool m_takeingTurn;
 	bool m_newGame{ false };
+
+
+	bool* m_leftChoiceBool{false};
+	bool* m_rightChoiceBool{ false };
+	bool* m_upChoiceBool{ false };
+	bool* m_downChoiceBool{ false };
+
 
 	float m_movementSpeed;
 

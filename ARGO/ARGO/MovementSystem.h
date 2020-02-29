@@ -19,7 +19,7 @@ public:
 	{
 	}
 
-	void addEntity(Entity* t_e, SDL_Rect & t_rect,bool & t_IsAi)
+	void addEntity(Entity* t_e, SDL_Rect & t_rect,bool & t_IsAi, bool& t_up, bool& t_down, bool& t_left, bool& t_right)
 	{
 		std::vector<Component*> InputCheck = t_e->getComponents();
 
@@ -31,6 +31,7 @@ public:
 				m_moveComp.push_back(static_cast<MovementComponent*>(InputCheck[i]));
 				m_moveComp.back()->setRect(t_rect);
 				m_moveComp.back()->setAiCheck(t_IsAi);
+				m_moveComp.back()->setChoiceBools(t_up, t_down, t_left, t_right);
 				//m_moveComp.back()->CurrentGameBoardIndex = 40; //delete this later
 			}
 		}

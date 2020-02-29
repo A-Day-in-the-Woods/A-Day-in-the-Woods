@@ -67,7 +67,7 @@ Game::Game() :
 		{
 			m_player[i]->addComponent(new InputComponent());
 			m_player[i]->addComponent(new MovementComponent());
-			m_movementSystem.addEntity(m_player[i]->getEntity(), *m_player[i]->getPlayerRectRef(), m_player[i]->IsAI);
+			m_movementSystem.addEntity(m_player[i]->getEntity(), *m_player[i]->getPlayerRectRef(), m_player[i]->IsAI, m_player[i]->m_upChoiceBool, m_player[i]->m_downChoiceBool, m_player[i]->m_leftChoiceBool, m_player[i]->m_rightChoiceBool);
 			m_inputSystem.addEntity(m_player[i]);
 		}
 

@@ -31,6 +31,23 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceSix.png");
 	m_DiceTextureSides.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface));
 
+
+	SDL_Surface* Indicator;
+	Indicator = IMG_Load("ASSETS/IMAGES/Ui/Ypaw.png");
+	m_IndicatorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, Indicator));
+	Indicator = IMG_Load("ASSETS/IMAGES/Ui/Apaw.png");
+	m_IndicatorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, Indicator));
+	Indicator = IMG_Load("ASSETS/IMAGES/Ui/Xpaw.png");
+	m_IndicatorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, Indicator));
+	Indicator = IMG_Load("ASSETS/IMAGES/Ui/Bpaw.png");
+	m_IndicatorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, Indicator));
+
+	m_IndicatorRect.push_back(SDL_Rect{ 0,0,50,50 });
+	m_IndicatorRect.push_back(SDL_Rect{ 0,0,50,50 });
+	m_IndicatorRect.push_back(SDL_Rect{ 0,0,50,50 });
+	m_IndicatorRect.push_back(SDL_Rect{ 0,0,50,50 });
+
+
 	m_PlayerUIRect.push_back(SDL_Rect{ 100,0,300,400 });
 	m_PlayerUIRect.push_back(SDL_Rect{ 1600,0,300,400 });
 	m_PlayerUIRect.push_back(SDL_Rect{ 100,600,300,400 });
@@ -150,7 +167,8 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	SDL_FreeSurface(m_PlayerShadowUISurface);
 	SDL_FreeSurface(m_CloudSurface);
 	SDL_FreeSurface(m_outLineSurface);
-	SDL_FreeSurface(m_backgroundSurface);
+	SDL_FreeSurface(m_backgroundSurface); 
+	SDL_FreeSurface(Indicator);
 }
 
 Gameplay::~Gameplay()
@@ -165,6 +183,8 @@ Gameplay::~Gameplay()
 
 void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player, std::vector<NPC*>& t_npc, MovementSystem& t_move)
 {
+
+
 	if (!setUp)
 	{
 		m_audioManager.PlayMusic("m_gameBoard.wav",10);
@@ -310,6 +330,11 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 	for (int i = 0; i < m_outLine.size()-4; i++) { SDL_RenderCopy(m_renderer, m_outLineTexture, NULL, &m_outLine[i]); }
 	for (int i = m_outLine.size() - 4; i < m_outLine.size(); i++) {SDL_RenderCopyEx(m_renderer, m_outLineTexture, NULL, &m_outLine[i],90, NULL, SDL_FLIP_NONE);}
 
+
+
+
+
+
 	// Little target Box in middle of Focus
 	//offset->w = CHARACTER_WIDTH ;
 	//offset->h = CHARACTER_HEIGHT ;
@@ -350,6 +375,38 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 			SDL_RenderCopyEx(m_renderer, m_DiceTexture[i], NULL, &m_DiceRect[i], 0, NULL, SDL_FLIP_NONE);
 		}
 	}
+
+
+	if (m_entity[m_turnOrder]->m_upChoiceBool == true) {
+		m_IndicatorRect[0].x = m_entity[m_turnOrder]->getPosition().x-50;
+		m_IndicatorRect[0].y = m_entity[m_turnOrder]->getPosition().y+100;
+
+		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[0], NULL, &m_IndicatorRect[0], 0, NULL, SDL_FLIP_NONE);
+		std::cout << ": UP" << std::endl;
+	}
+	if (m_entity[m_turnOrder]->m_downChoiceBool == true) {
+		m_IndicatorRect[1].x = m_entity[m_turnOrder]->getPosition().x-50;
+		m_IndicatorRect[1].y = m_entity[m_turnOrder]->getPosition().y+50;
+		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[1], NULL, &m_IndicatorRect[1], 0, NULL, SDL_FLIP_NONE);
+		std::cout << ": DOWN" << std::endl;
+	}	
+	if (m_entity[m_turnOrder]->m_leftChoiceBool == true) {
+		m_IndicatorRect[2].x = m_entity[m_turnOrder]->getPosition().x -50;
+		m_IndicatorRect[2].y = m_entity[m_turnOrder]->getPosition().y+100;
+
+		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[2], NULL, &m_IndicatorRect[2], 0, NULL, SDL_FLIP_NONE);
+
+		std::cout << ": LEFT" << std::endl;
+	}
+	if (m_entity[m_turnOrder]->m_rightChoiceBool == true) {
+		m_IndicatorRect[3].x = m_entity[m_turnOrder]->getPosition().x+150;
+		m_IndicatorRect[3].y = m_entity[m_turnOrder]->getPosition().y+50;
+
+		SDL_RenderCopyEx(m_renderer, m_IndicatorTexture[3], NULL, &m_IndicatorRect[3], 0, NULL, SDL_FLIP_NONE);
+		std::cout << ": RIGHT" << std::endl;
+	}
+
+
 
 	for (int i = 0; i < m_clouds.size(); i++) {SDL_RenderCopyEx(m_renderer, m_CloudTexture, NULL, &m_clouds[i], 0, NULL, SDL_FLIP_NONE);}
 

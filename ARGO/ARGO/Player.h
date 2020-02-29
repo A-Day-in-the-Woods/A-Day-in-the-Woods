@@ -65,6 +65,10 @@ public:
 
 
 	bool IsAI{ false };
+	bool m_leftChoiceBool{false};
+	bool m_rightChoiceBool{ false };
+	bool m_upChoiceBool{ false };
+	bool m_downChoiceBool{ false };
 
 private:
 

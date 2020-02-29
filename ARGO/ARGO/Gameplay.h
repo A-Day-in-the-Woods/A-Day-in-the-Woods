@@ -89,6 +89,13 @@ private:
 	//Winner Screen
 	std::vector <SDL_Texture*> m_WinScreenTexture; // win screen
 	SDL_Rect m_Winsscreen;
+	//Direction Indicators 
+	std::vector<SDL_Texture*> m_IndicatorTexture; // Indicator texture	
+	std::vector<SDL_Rect> m_IndicatorRect;
+
+
+
+
 	// ------ A* stuff ----------
 	//void aStar();
 
