@@ -70,8 +70,6 @@ MenuScreen::MenuScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& event, G
 	SDL_FreeSurface(m_buttonSelectorSurface);
 	SDL_FreeSurface(m_beeSurface);
 
-
-
 }
 
 MenuScreen::~MenuScreen()

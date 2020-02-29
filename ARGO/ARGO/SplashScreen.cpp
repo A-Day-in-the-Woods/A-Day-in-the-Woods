@@ -22,10 +22,10 @@ SplashScreen::SplashScreen(Game& game, SDL_Renderer* t_renderer, SDL_Event& even
 
 	SDL_DisplayMode DM;
 	SDL_GetCurrentDisplayMode(0, &DM);
-	auto Width = DM.w;
-	auto Height = DM.h;
+	int Width = DM.w;
+	int Height = DM.h;
 
-	m_buttonSelectorRect= { 800 ,700,200,200 };
+	m_buttonSelectorRect= { static_cast<int>(round( Width*0.45f)) , static_cast<int>(round(Height*0.70f)),static_cast<int>(Width/9.6),static_cast<int>(Height/5.4)};
 	m_titleRect = { 0,0, Width,Height};
 
 }
@@ -79,7 +79,7 @@ void SplashScreen::update()
 
 void SplashScreen::render()
 {
-	SDL_RenderCopy(m_renderer, m_splashTexture, NULL, &m_titleRect);
+	SDL_RenderCopy(m_renderer, m_splashTexture, NULL, NULL);
 	SDL_RenderCopyEx(m_renderer, m_buttonSelectorTexture, NULL, &m_buttonSelectorRect, 0, NULL, SDL_FLIP_NONE);
 
 }

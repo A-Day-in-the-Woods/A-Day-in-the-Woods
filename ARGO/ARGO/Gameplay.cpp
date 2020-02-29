@@ -128,7 +128,7 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	
 	SDL_Surface* m_backgroundSurface = IMG_Load("ASSETS/IMAGES/Board.png");
 	m_backgroundTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
-	m_backgroundRect={ 75,-10,1920,1080};
+	m_backgroundRect={ 75,-10,Width,1080};
 
 	std::srand(std::time(nullptr));
 	BehaviourTree behaviourTree;
@@ -371,16 +371,16 @@ void Gameplay::renderWin(int index)
 	switch (index)
 	{
 	case 0:
-		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
+		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, NULL);
 		break;
 	case 1:
-		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
+		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, NULL);
 		break;
 	case 2:
-		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
+		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, NULL);
 		break;
 	case 3:
-		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, &m_Winsscreen);
+		SDL_RenderCopy(m_renderer, m_WinScreenTexture[index], NULL, NULL);
 		break;
 	default:
 		break;
