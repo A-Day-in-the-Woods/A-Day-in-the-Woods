@@ -207,8 +207,8 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 	if (!setUp)
 	{
-		m_audioManager.PlayMusic("m_gameBoard.wav",10);
-		m_audioManager.PlaySfx("s_intro.wav", 75, 0, 1);
+		m_audioManager.PlayMusic("m_gameBoard.wav",5);
+		m_audioManager.PlaySfx("s_intro.wav", 128, 0, 1);
 		m_storyPointIndex = 0;
 		//SDL_PauseAudioDevice(deviceId, 0);
 		t_npc[0]->turn = true;
@@ -231,28 +231,28 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 			case 0:
 				if (t_move.GetYPos(i) <= static_cast<int>(m_height / 1.35))
 				{
-					m_audioManager.PlaySfx("s_pt1.wav", 75, 0, 1);
+					m_audioManager.PlaySfx("s_pt1.wav", 128, 0, 1);
 					m_storyPointIndex++;
 				}
 				break;
 			case 1:
 				if (t_move.GetYPos(i) <= static_cast<int>(m_height / 1.66))
 				{
-					m_audioManager.PlaySfx("s_pt2.wav", 75, 0, 1);
+					m_audioManager.PlaySfx("s_pt2.wav", 128, 0, 1);
 					m_storyPointIndex++;
 				}
 				break;
 			case 2:
 				if (t_move.GetYPos(i) <= static_cast<int>(m_height / 2.7))
 				{
-					m_audioManager.PlaySfx("s_pt3.wav", 75, 0, 1);
+					m_audioManager.PlaySfx("s_pt3.wav", 128, 0, 1);
 					m_storyPointIndex++;
 				}
 				break;
 			case 3:
 				if (t_move.GetYPos(i) <= static_cast<int>(m_height / 4.32))
 				{
-					m_audioManager.PlaySfx("s_pt4.wav", 75, 0, 1);
+					m_audioManager.PlaySfx("s_pt4.wav", 128, 0, 1);
 					m_storyPointIndex++;
 				}
 				break;
@@ -393,7 +393,7 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 		if (i == m_turnOrder) {
 			if(m_entity[m_turnOrder]->getLastButtonPressed() == 1 && m_diceflip ==3)
 			{					
-				m_audioManager.PlaySfx("roll.wav", 75, 0, 1);
+				m_audioManager.PlaySfx("roll.wav", 50, 0, 1);
 				m_diceflip = 0;
 				m_diceAnimation = true;
 				m_entity[i]->setLastButton(998);

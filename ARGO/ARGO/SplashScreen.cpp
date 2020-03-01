@@ -40,7 +40,7 @@ void SplashScreen::update()
 	if (m_audioManager.isMusicPlaying() == 0)
 	{
 		m_audioManager.PlayMusic("m_menu.wav", 2);
-		m_audioManager.PlaySfx("s_gameTitle.wav", 80, 0, 1);
+		m_audioManager.PlaySfx("s_gameTitle.wav", 100, 0, 1);
 	}
 
 

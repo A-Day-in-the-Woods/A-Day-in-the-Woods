@@ -318,15 +318,15 @@ void Game::renderNOW()
 
 void Game::RestGameplay()
 {
-//	GameWon = false;
-////	if(winnerIndex)
-//	for (int i = 0; i < m_player.size(); i++)
-//	{
-//		m_player[i]->resetIndex();
-//	}
-//	m_gameplayscreen->Reset(m_movementSystem);
-//	m_movementSystem.ResetWinner(winnerIndex);	
-//	winnerIndex = -1;
+	GameWon = false;
+    if(winnerIndex)
+	for (int i = 0; i < m_player.size(); i++)
+	{
+		m_player[i]->resetIndex();
+	}
+	m_gameplayscreen->Reset(m_movementSystem);
+	m_movementSystem.ResetWinner(winnerIndex);	
+	winnerIndex = -1;
 }	
 
 /// <summary>

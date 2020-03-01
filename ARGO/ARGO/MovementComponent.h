@@ -280,7 +280,7 @@ public:
 					break;
 				case 10://pt1
 					
-					m_audioManager->PlaySfx("w_pt1.wav", 75, 0, 1);
+					m_audioManager->PlaySfx("w_pt1.wav", 100, 0, 1);
 
 					m_takeingTurn = false;
 					m_diceRoll = -1;
@@ -291,7 +291,7 @@ public:
 					break;
 				case 11://pt2
 					
-					m_audioManager->PlaySfx("w_pt2.wav", 75, 0, 1);
+					m_audioManager->PlaySfx("w_pt2.wav", 100, 0, 1);
 
 					m_takeingTurn = false;
 					m_diceRoll = -1;
@@ -302,7 +302,7 @@ public:
 					break;
 				case 12://pt3
 
-					m_audioManager->PlaySfx("w_pt3.wav", 75, 0, 1);
+					m_audioManager->PlaySfx("w_pt3.wav", 100, 0, 1);
 
 					m_takeingTurn = false;
 					m_diceRoll = -1;
@@ -313,7 +313,7 @@ public:
 					break;
 				case 13://pt4
 					
-					m_audioManager->PlaySfx("w_pt4.wav", 75, 0, 1);
+					m_audioManager->PlaySfx("w_pt4.wav", 100, 0, 1);
 
 					m_takeingTurn = false;
 					m_diceRoll = -1;
@@ -326,7 +326,7 @@ public:
 					
 					if (!m_moveForwardAudio)
 					{
-						m_audioManager->PlaySfx("t_forward.wav", 75, 0, 1);
+						m_audioManager->PlaySfx("t_forward.wav", 100, 0, 1);
 						m_moveForwardAudio = true;
 					}
 
@@ -338,7 +338,7 @@ public:
 					break;
 				case 3://dice - add TURN
 
-					m_audioManager->PlaySfx("t_add.wav", 75, 0, 1);
+					m_audioManager->PlaySfx("t_add.wav", 100, 0, 1);
 
 					m_takeingTurn = false;
 					m_diceRoll = -2;
@@ -349,7 +349,7 @@ public:
 					break;
 				case 4://honey - lose turn
 
-					m_audioManager->PlaySfx("t_miss.wav", 75,0,1);
+					m_audioManager->PlaySfx("t_miss.wav", 100,0,1);
 
 					m_takeingTurn = false;
 					m_diceRoll = -3;
@@ -361,7 +361,7 @@ public:
 				case 5:// tumble - back 1
 					if (!m_moveBackAudio)
 					{
-						m_audioManager->PlaySfx("t_back.wav", 75, 0, 1);
+						m_audioManager->PlaySfx("t_back.wav", 100, 0, 1);
 						m_moveBackAudio = true;
 					}
 

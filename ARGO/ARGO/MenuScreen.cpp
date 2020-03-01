@@ -122,7 +122,7 @@ void MenuScreen::update()
 
 		if (m_entity[0]->m_lastButtonPressed == 1)
 		{
-			m_audioManager.PlaySfx("f_button.wav", 80, 0, 1);
+			m_audioManager.PlaySfx("f_button.wav", 100, 0, 1);
 			m_entity[0]->setLastButton(NULL);
 			setGameState();
 		}
@@ -136,7 +136,7 @@ void MenuScreen::update()
 	
 		if (m_entity[0]->m_lastButtonPressed == 3)
 		{
-			m_audioManager.PlaySfx("f_selector.wav", 80, 0, 1);
+			m_audioManager.PlaySfx("f_selector.wav", 20, 0, 1);
 			m_entity[0]->setLastButton(NULL);
 			m_currentButton++;
 			if (m_currentButton >= 4) {m_currentButton = 0;}
@@ -144,7 +144,7 @@ void MenuScreen::update()
 		
 		if (m_entity[0]->m_lastButtonPressed == 2)
 		{
-			m_audioManager.PlaySfx("f_selector.wav", 80, 0, 1);
+			m_audioManager.PlaySfx("f_selector.wav", 20, 0, 1);
 			m_entity[0]->setLastButton(NULL);
 			m_currentButton--;
 			if (m_currentButton <= -1) {m_currentButton = 3;}
