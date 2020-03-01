@@ -117,6 +117,9 @@ private:
 	int m_diceflip = 2;
 
 
+	int m_width;
+	int m_height;
+
 	Game& m_game;
 	SDL_Renderer* m_renderer;	// game renderer
 	SDL_Event& m_event;

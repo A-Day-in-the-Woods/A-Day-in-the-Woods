@@ -2,6 +2,16 @@
 
 Tile::Tile(float t_x, float t_y, int t_type)
 {
+	SDL_DisplayMode DM;
+	SDL_GetCurrentDisplayMode(0, &DM);
+	auto Width = DM.w;
+	auto Height = DM.h;
+
+	m_width = Width;
+	m_height = Height;
+
+
+
 	rect.x = t_x;
 	rect.y = t_y;
 	m_type = t_type;

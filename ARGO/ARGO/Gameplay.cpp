@@ -33,11 +33,10 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	m_DiceSurface = IMG_Load("ASSETS/IMAGES/Dice/DiceSix.png");
 	m_DiceTextureSides.push_back(SDL_CreateTextureFromSurface(m_renderer, m_DiceSurface));
 
-	m_PlayerUIRect.push_back(SDL_Rect{ static_cast<int>(Width/19.2), 0, 300, 400 });
-	m_PlayerUIRect.push_back(SDL_Rect{ static_cast<int>(Width/1.2), 0, 300, 400 });
-	m_PlayerUIRect.push_back(SDL_Rect{ static_cast<int>(Width/19.2),static_cast<int>(Height / 1.8), 300, 400 });
-	m_PlayerUIRect.push_back(SDL_Rect{ static_cast<int>(Width/1.2), static_cast<int>(Height / 1.8), 300, 400 });
-
+	m_PlayerUIRect.push_back(SDL_Rect{ static_cast<int>(Width/19.2), 0, static_cast<int>(Width / 6.4), static_cast<int>(Height / 2.7) });
+	m_PlayerUIRect.push_back(SDL_Rect{ static_cast<int>(Width/1.2), 0, static_cast<int>(Width / 6.4), static_cast<int>(Height / 2.7) });
+	m_PlayerUIRect.push_back(SDL_Rect{ static_cast<int>(Width/19.2),static_cast<int>(Height / 1.8), static_cast<int>(Width / 6.4), static_cast<int>(Height / 2.7) });
+	m_PlayerUIRect.push_back(SDL_Rect{ static_cast<int>(Width/1.2), static_cast<int>(Height / 1.8), static_cast<int>(Width / 6.4), static_cast<int>(Height / 2.7) });
 	SDL_Surface* Indicator;
 	Indicator = IMG_Load("ASSETS/IMAGES/Ui/Ypaw.png");
 	m_IndicatorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, Indicator));
@@ -48,20 +47,20 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	Indicator = IMG_Load("ASSETS/IMAGES/Ui/Bpaw.png");
 	m_IndicatorTexture.push_back(SDL_CreateTextureFromSurface(m_renderer, Indicator));
 
-	m_IndicatorRect.push_back(SDL_Rect{ 0,0,50,50 });
-	m_IndicatorRect.push_back(SDL_Rect{ 0,0,50,50 });
-	m_IndicatorRect.push_back(SDL_Rect{ 0,0,50,50 });
-	m_IndicatorRect.push_back(SDL_Rect{ 0,0,50,50 });
+	m_IndicatorRect.push_back(SDL_Rect{ 0,0,static_cast<int>(Width / 38.4),static_cast<int>(Height / 21.6) });
+	m_IndicatorRect.push_back(SDL_Rect{ 0,0,static_cast<int>(Width / 38.4),static_cast<int>(Height / 21.6) });
+	m_IndicatorRect.push_back(SDL_Rect{ 0,0,static_cast<int>(Width / 38.4),static_cast<int>(Height / 21.6) });
+	m_IndicatorRect.push_back(SDL_Rect{ 0,0,static_cast<int>(Width / 38.4),static_cast<int>(Height / 21.6) });
 
-	m_PlayerShadowUIRect.push_back(SDL_Rect{ static_cast<int>(Width / 17.45),static_cast<int>(Height / 108),300,400 });
-	m_PlayerShadowUIRect.push_back(SDL_Rect{ static_cast<int>(Width / 1.19),static_cast<int>(Height / 108),300,400 });
-	m_PlayerShadowUIRect.push_back(SDL_Rect{ static_cast<int>(Width / 17.45),static_cast<int>(Height / 1.77),300,400 });
-	m_PlayerShadowUIRect.push_back(SDL_Rect{ static_cast<int>(Width / 1.19),static_cast<int>(Height / 1.77),300,400 });
+	m_PlayerShadowUIRect.push_back(SDL_Rect{ static_cast<int>(Width / 17.45),static_cast<int>(Height / 108),static_cast<int>(Width / 6.4), static_cast<int>(Height / 2.7) });
+	m_PlayerShadowUIRect.push_back(SDL_Rect{ static_cast<int>(Width / 1.19),static_cast<int>(Height / 108),static_cast<int>(Width / 6.4), static_cast<int>(Height / 2.7) });
+	m_PlayerShadowUIRect.push_back(SDL_Rect{ static_cast<int>(Width / 17.45),static_cast<int>(Height / 1.77),static_cast<int>(Width / 6.4), static_cast<int>(Height / 2.7) });
+	m_PlayerShadowUIRect.push_back(SDL_Rect{ static_cast<int>(Width / 1.19),static_cast<int>(Height / 1.77),static_cast<int>(Width / 6.4), static_cast<int>(Height / 2.7) });
 
-	m_DiceRect.push_back(SDL_Rect{ static_cast<int>(Width / 9.36),static_cast<int>(Height / 4.9),100,100 });
-	m_DiceRect.push_back(SDL_Rect{ static_cast<int>(Width / 1.12),static_cast<int>(Height / 4.9),100,100 });
-	m_DiceRect.push_back(SDL_Rect{ static_cast<int>(Width / 9.36),static_cast<int>(Height / 1.31),100,100 });
-	m_DiceRect.push_back(SDL_Rect{ static_cast<int>(Width / 1.12),static_cast<int>(Height / 1.31),100,100 });
+	m_DiceRect.push_back(SDL_Rect{ static_cast<int>(Width / 9.36),static_cast<int>(Height / 4.9),static_cast<int>(Width / 19.2), static_cast<int>(Height / 10.8) });
+	m_DiceRect.push_back(SDL_Rect{ static_cast<int>(Width / 1.12),static_cast<int>(Height / 4.9),static_cast<int>(Width / 19.2), static_cast<int>(Height / 10.8) });
+	m_DiceRect.push_back(SDL_Rect{ static_cast<int>(Width / 9.36),static_cast<int>(Height / 1.31),static_cast<int>(Width / 19.2), static_cast<int>(Height / 10.8) });
+	m_DiceRect.push_back(SDL_Rect{ static_cast<int>(Width / 1.12),static_cast<int>(Height / 1.31),static_cast<int>(Width / 19.2), static_cast<int>(Height / 10.8) });
 
 	SDL_Surface* WinSurface;
 	WinSurface = IMG_Load("ASSETS/IMAGES/buttons/PlayerWin1.png");
@@ -122,12 +121,18 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 
 	m_clouds.reserve(100);
 
-	for (int i = 0; i < 100; i++) {m_clouds.push_back(SDL_Rect{ randomNumber(1300,500),randomNumber(900,100),150,100 });} //make 100 clouds
+	for (int i = 0; i < 100; i++) {m_clouds.push_back(SDL_Rect{ 
+													randomNumber(static_cast<int>(Width / 1.47),static_cast<int>(Width / 3.84)),
+													randomNumber(static_cast<int>(Height / 1.2),static_cast<int>(Height / 10.8)),
+													static_cast<int>(Width / 12.8),static_cast<int>(Height / 7.2) });} //make 100 clouds
 
 	for (int i = 0; i < 4 ; i++)
 	{ 
-		m_outLine.push_back(SDL_Rect{ -50,(i * 200)-100,200,800 });
-		m_outLine.push_back(SDL_Rect{ Width,(i * 200)-100,350,800 });
+		m_outLine.push_back(SDL_Rect{ -static_cast<int>(Width / 38.4),(i * static_cast<int>(Height / 5.4))- static_cast<int>(Height / 10.6),
+									   static_cast<int>(Width / 9.6),static_cast<int>(Height / 1.35) });
+
+		m_outLine.push_back(SDL_Rect{ Width,(i * static_cast<int>(Height / 5.4))- static_cast<int>(Height /10.8),
+												 static_cast<int>(Width / 5.48),static_cast<int>(Height / 1.35) });
 	}
 
 	for (int i = 0; i < 4; i++) {m_outLine.push_back(SDL_Rect{ i*550,820 - 100,150,700 });} //make out line of bushes 
@@ -140,18 +145,27 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	
 	SDL_Surface* m_backgroundSurface = IMG_Load("ASSETS/IMAGES/Board.png");
 	m_backgroundTexture = SDL_CreateTextureFromSurface(m_renderer, m_backgroundSurface);
-	m_backgroundRect={ 75,-10,Width,Height};
+	m_backgroundRect={ static_cast<int>(Width / 25.6),-static_cast<int>(Height / 108) ,Width,Height};
 
 	SDL_Surface* m_taskbarSurface = IMG_Load("ASSETS/IMAGES/Bar.png");
 	m_taskbarTexture = SDL_CreateTextureFromSurface(m_renderer, m_taskbarSurface);
-	m_taskbarRect = { 50,1090,Width+100,static_cast<int>(Height / 7.2)};
+	m_taskbarRect = { static_cast<int>(Width / 38.4),Height, Width + static_cast<int>(Width / 19.2) ,static_cast<int>(Height / 7.2)};
+
+
+
 
 	std::srand(std::time(nullptr));
 	BehaviourTree behaviourTree;
 	BehaviourTree::Selector selector[3];
 	BehaviourTree::Sequence sequence[4];
-	Action goLeft("Go Left", 80), goRight("Go Right", 15), goUp("Go Up", 99), goDown("Go Down", 25), goBack("Go Back", 10),
-		goForward("Go Forward", 60), stopWalking("Stop Walking", 100);
+	Action goLeft("Go Left", 80), 
+		   goRight("Go Right", 15), 
+		   goUp("Go Up", 99), 
+		   goDown("Go Down", 25),
+		   goBack("Go Back", 10),
+		   goForward("Go Forward", 60),
+		   stopWalking("Stop Walking", 100);
+
 	behaviourTree.setRootChild(&selector[0]);
 	selector[0].addChildren({ &sequence[0],&sequence[2] });
 	sequence[0].addChildren({ &goLeft, &selector[1], &goForward, &stopWalking });
@@ -173,11 +187,13 @@ Gameplay::Gameplay(Game& game, SDL_Renderer* t_renderer,SDL_Event& event, GameSt
 	SDL_FreeSurface(m_outLineSurface);
 	SDL_FreeSurface(m_backgroundSurface); 
 	SDL_FreeSurface(Indicator);
+
+	m_width = Width;
+	m_height = Height;
 }
 
 Gameplay::~Gameplay()
 {
-	SDL_Delay(3000);
 	SDL_CloseAudioDevice(deviceId);
 	SDL_FreeWAV(wavBuffer);
 
@@ -213,28 +229,28 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 			switch (m_storyPointIndex)
 			{
 			case 0:
-				if (t_move.GetYPos(i) <= 800)
+				if (t_move.GetYPos(i) <= static_cast<int>(m_height / 1.35))
 				{
 					m_audioManager.PlaySfx("s_pt1.wav", 75, 0, 1);
 					m_storyPointIndex++;
 				}
 				break;
 			case 1:
-				if (t_move.GetYPos(i) <= 650)
+				if (t_move.GetYPos(i) <= static_cast<int>(m_height / 1.66))
 				{
 					m_audioManager.PlaySfx("s_pt2.wav", 75, 0, 1);
 					m_storyPointIndex++;
 				}
 				break;
 			case 2:
-				if (t_move.GetYPos(i) <= 400)
+				if (t_move.GetYPos(i) <= static_cast<int>(m_height / 2.7))
 				{
 					m_audioManager.PlaySfx("s_pt3.wav", 75, 0, 1);
 					m_storyPointIndex++;
 				}
 				break;
 			case 3:
-				if (t_move.GetYPos(i) <= 250)
+				if (t_move.GetYPos(i) <= static_cast<int>(m_height / 4.32))
 				{
 					m_audioManager.PlaySfx("s_pt4.wav", 75, 0, 1);
 					m_storyPointIndex++;
@@ -249,21 +265,28 @@ void Gameplay::update(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 
 	for (int i = 0; i < m_clouds.size(); i++)
 	{
-		int temp = randomNumber(80, 0);
+		int temp = randomNumber(200, 0);
+
 
 		if (temp == 0){
-		m_clouds[i].x += 10;
-		m_clouds[i].h -= 10;
-		m_clouds[i].w -= 15;}
+		m_clouds[i].x += static_cast<int>(m_width / 190);
+		m_clouds[i].h -= static_cast<int>(m_height / 108);
+		m_clouds[i].w -= static_cast<int>(m_width / 128);}
 
 		else if (temp == 1){
-		m_clouds[i].x -= 10;
-		m_clouds[i].h += 10;
-		m_clouds[i].w += 15;}
+		m_clouds[i].x -= static_cast<int>(m_width / 190);
+		m_clouds[i].h += static_cast<int>(m_height / 108);
+		m_clouds[i].w += static_cast<int>(m_width / 128);}
 
-		if (m_clouds[i].x > 1500 || m_clouds[i].x < 300 || m_clouds[i].y > 950 || m_clouds[i].y < 0 || m_clouds[i].h > 150 || m_clouds[i].h < 50) {
+		if (m_clouds[i].x > static_cast<int>(m_width / 1.28) || m_clouds[i].x < static_cast<int>(m_width / 6.4) ||
+			m_clouds[i].y > static_cast<int>(m_height / 1.13) || m_clouds[i].y < 0 ||
+			m_clouds[i].h > static_cast<int>(m_height / 7.2) || m_clouds[i].h < static_cast<int>(m_height / 21.6))
+		{
 			m_clouds.erase(m_clouds.begin() + i);
-			m_clouds.push_back(SDL_Rect{ randomNumber(1300,500),randomNumber(900,100),150,100 });
+			m_clouds.push_back(SDL_Rect{
+										randomNumber(static_cast<int>(m_width / 1.47),static_cast<int>(m_width / 3.84)),
+										randomNumber(static_cast<int>(m_height / 1.2),static_cast<int>(m_height / 10.8)),
+													static_cast<int>(m_width / 12.8),static_cast<int>(m_height / 7.2) });
 		}
 	}
 	
@@ -379,18 +402,19 @@ void Gameplay::render(std::vector<Tile>& t_tile, std::vector<Player*>& t_player,
 			if (m_diceAnimation)
 			{
 				if (m_diceflip == 0)
-				{
-					m_DiceRect[i].h += 1;
-					m_DiceRect[i].w += 1;
+				{				
+
+					m_DiceRect[i].h += static_cast<int>(m_height / 1080);
+					m_DiceRect[i].w += static_cast<int>(m_width / 960);
 					setRandomDiceTexture(i);
-					if (m_DiceRect[i].h > 150) { m_diceflip = 1; }
+					if (m_DiceRect[i].h > static_cast<int>( m_height/7.2)) { m_diceflip = 1; }
 				}
 				else if(m_diceflip == 1)
 				{
 					setDiceTexture(i);
-					m_DiceRect[i].h -= 1;
-					m_DiceRect[i].w -= 1;
-					if (m_DiceRect[i].h < 100)
+					m_DiceRect[i].h -= static_cast<int>(m_height / 1080);
+					m_DiceRect[i].w -= static_cast<int>(m_width / 960);
+					if (m_DiceRect[i].h < static_cast<int>(m_height / 10.8))
 					{
 						m_diceAnimation = false;
 						m_diceflip = 2;
@@ -552,7 +576,10 @@ void Gameplay::Reset(MovementSystem& t_move)
 	m_numberPlayers = m_entity.size();
 	m_turnOrder = 0;
 
-	for (int i = 0; i < 100; i++) { m_clouds.push_back(SDL_Rect{ randomNumber(1300,500),randomNumber(900,100),150,100 }); } //make 100 clouds
+	for (int i = 0; i < 100; i++) { m_clouds.push_back(SDL_Rect{ randomNumber(static_cast<int>(m_width / 1.47),static_cast<int>(m_width / 3.84)),
+																 randomNumber(static_cast<int>(m_height / 1.2),static_cast<int>(m_height / 10.8)),
+																			  static_cast<int>(m_width / 12.8),static_cast<int>(m_height / 7.2) });} //make 100 clouds
+
 	for (int i = 0; i < m_entity.size(); i++) {m_entity[i]->SetUp();}
 	t_move.restPlayers();
 }

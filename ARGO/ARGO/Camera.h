@@ -1,22 +1,15 @@
 #pragma once
 
 
-#define SCREEN_WIDTH		1820	 
-#define SCREEN_HEIGHT		980
-#define LEVEL_WIDTH			1820
-#define LEVEL_HEIGHT		980
-
-#define CHARACTER_WIDTH		20
-#define CHARACTER_HEIGHT	20
-
-#define MAX					4
-
 
 // Basic Camera Class using a SDL_Rect
 class Camera {
 private:
 	SDL_Rect* camera;
 	SDL_Rect* lookAt;
+
+	int m_width;
+	int m_height;
 
 	int min_x;
 	int min_y;
@@ -29,24 +22,40 @@ public:
 		camera = new SDL_Rect();
 		lookAt = new SDL_Rect();
 
+		SDL_DisplayMode DM;
+		SDL_GetCurrentDisplayMode(0, &DM);
+		auto Width = DM.w;
+		auto Height = DM.h;
+
+
+		m_width = Width;
+		m_height = Height;
+
+
 		this->camera->x = 0;
 		this->camera->y = 0;
-		this->camera->w = SCREEN_WIDTH;
-		this->camera->h = SCREEN_HEIGHT;
+		this->camera->w = Width;
+		this->camera->h = Height;
+
+
+
+
+	//	static_cast<int>(Width / 6.4), static_cast<int>(Height / 2.7)
+
 	}
 	void update(SDL_Rect* focus)
 	{
-		this->camera->x = ((focus->x + focus->w / 2) - SCREEN_WIDTH / 2) - SCREEN_WIDTH;
-		this->camera->y = ((focus->y + focus->y / 2) - SCREEN_HEIGHT / 2) - SCREEN_HEIGHT;
+		this->camera->x = ((focus->x + focus->w / 2) - m_width / 2) - m_width;
+		this->camera->y = ((focus->y + focus->y / 2) - m_height / 2) - m_height;
 
-		if (this->camera->x < 100) {
-			this->camera->x = 100;}
-		if (this->camera->y < 100) {
-			this->camera->y = 100;}
+		if (this->camera->x < static_cast<int>(m_width / 19.2)) {
+			this->camera->x = static_cast<int>(m_width / 19.2);}
+		if (this->camera->y < static_cast<int>(m_height / 10.8)) {
+			this->camera->y = static_cast<int>(m_height / 10.8);}
 
-		if (this->camera->x > this->camera->w) {this->camera->x = LEVEL_WIDTH - this->camera->w;}
+		if (this->camera->x > this->camera->w) {this->camera->x = m_width - this->camera->w;}
 
-		if (this->camera->y > this->camera->h) {this->camera->y = LEVEL_HEIGHT - this->camera->h;}
+		if (this->camera->y > this->camera->h) {this->camera->y = m_height - this->camera->h;}
 
 	}
 
@@ -72,8 +81,8 @@ public:
 
 		lookAt->x = min_x;
 		lookAt->y = min_y;
-		lookAt->w = (max_x - min_x)+200;
-		lookAt->h = (max_y - min_y)+200;
+		lookAt->w = (max_x - min_x)+ static_cast<int>(m_width / 9.6);
+		lookAt->h = (max_y - min_y)+ static_cast<int>(m_height / 5.4);
 
 		return lookAt;
 	}

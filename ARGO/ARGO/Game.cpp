@@ -16,7 +16,6 @@ Game::Game() :
 {
 
 	m_tile.reserve(200);
-	initNodeFiles();
 	
 	try
 	{
@@ -36,6 +35,12 @@ Game::Game() :
 		SDL_GetCurrentDisplayMode(0,&DM);
 		auto Width = DM.w;
 		auto Height = DM.h; 
+
+
+		m_width = Width;
+		m_height = Height;
+			initNodeFiles();
+
 		m_window = SDL_CreateWindow("A Day in the Woods", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Width, Height, NULL);
 
 		// Check if window was created correctly
@@ -98,7 +103,7 @@ Game::Game() :
 	SDL_Surface* tempSerface = IMG_Load("ASSETS/IMAGES/pic.png");
 	m_TestingTexture = SDL_CreateTextureFromSurface(m_renderer, tempSerface);
 	SDL_FreeSurface(tempSerface);
-	
+
 }
 
 /// <summary>
@@ -313,15 +318,15 @@ void Game::renderNOW()
 
 void Game::RestGameplay()
 {
-	GameWon = false;
-//	if(winnerIndex)
-	for (int i = 0; i < m_player.size(); i++)
-	{
-		m_player[i]->resetIndex();
-	}
-	m_gameplayscreen->Reset(m_movementSystem);
-	m_movementSystem.ResetWinner(winnerIndex);	
-	winnerIndex = -1;
+//	GameWon = false;
+////	if(winnerIndex)
+//	for (int i = 0; i < m_player.size(); i++)
+//	{
+//		m_player[i]->resetIndex();
+//	}
+//	m_gameplayscreen->Reset(m_movementSystem);
+//	m_movementSystem.ResetWinner(winnerIndex);	
+//	winnerIndex = -1;
 }	
 
 /// <summary>

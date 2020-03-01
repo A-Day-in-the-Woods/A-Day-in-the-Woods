@@ -26,6 +26,16 @@ public:
 
 	MovementComponent() : Component(ComponentType::MOVEMENT)
 	{
+
+
+		SDL_DisplayMode DM;
+		SDL_GetCurrentDisplayMode(0, &DM);
+		auto Width = DM.w;
+		auto Height = DM.h;
+
+		m_width = Width;
+		m_height = Height;
+
 		setUp();
 	}
 
@@ -80,8 +90,8 @@ public:
 		m_takeingTurn = false;
 		choiceLoop = true;
 		m_newGame = true;
-		rect->x = 955;
-		rect->y = 955;
+		rect->x = static_cast<int>(m_width / 2.01);
+		rect->y = static_cast<int>(m_height / 1.13);
 	}
 	void update(std::vector<Tile>& t_map, Graph< pair<string, int>, int>& t_g) {
 		if (m_newGame == true)
@@ -607,6 +617,9 @@ private:
 	bool* m_upChoiceBool{ false };
 	bool* m_downChoiceBool{ false };
 
+
+	int m_width;
+	int m_height;
 
 	float m_movementSpeed;
 

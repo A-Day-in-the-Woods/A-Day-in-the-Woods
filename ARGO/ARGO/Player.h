@@ -84,6 +84,9 @@ private:
 void tileBehaviour();
 	
 
+
+	int m_width;
+	int m_height;
 	int tileType;
 	int currentIndex;
 	bool stuck{ false };

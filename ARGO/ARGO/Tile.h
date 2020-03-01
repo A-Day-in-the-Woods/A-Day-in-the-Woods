@@ -30,6 +30,9 @@ private:
 	SDL_Rect rect;//temp rect for a tile square 
 	int m_type;
 
+	int m_width;
+	int m_height;
+
 	void green();
 	void purple();
 	void pink();

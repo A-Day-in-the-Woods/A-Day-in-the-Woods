@@ -3,6 +3,16 @@
 Player::Player(int entityIdNum) :
 	Entity(entityIdNum)
 {
+
+
+	SDL_DisplayMode DM;
+	SDL_GetCurrentDisplayMode(0, &DM);
+	auto Width = DM.w;
+	auto Height = DM.h;
+
+	m_width = Width;
+	m_height = Height;
+
 	SetUp();
 }
 
@@ -17,21 +27,21 @@ void Player::assignSprite(SDL_Texture* t_PlayerTexture)
 
 void Player::SetUp()
 {
-	rect.x = 955;
-	rect.y = 955;
-	rect.w = 20;
-	rect.h = 20;
+	rect.x = static_cast<int>(m_width / 2.01);
+	rect.y = static_cast<int>(m_height / 1.13);
+	rect.w = static_cast<int>(m_width / 96);
+	rect.h = static_cast<int>(m_height / 54);
 
 	m_spriteBody.x = 0;
 	m_spriteBody.y = 0;
-	m_spriteBody.w = 40;
-	m_spriteBody.h = 50;
+	m_spriteBody.w = static_cast<int>(m_width / 48);
+	m_spriteBody.h = static_cast<int>(m_height / 21.6);
 }
 
 void Player::update(MovementSystem & t_move)
 {
-	m_spriteBody.x = rect.x - 5.0f;
-	m_spriteBody.y = rect.y - 20.0f;
+	m_spriteBody.x = rect.x - static_cast<int>(m_width / 384);
+	m_spriteBody.y = rect.y - static_cast<int>(m_height / 54);
 
 	m_takingTurn = t_move.IsThePlayerMoving(this->getEntity()->getId());
 	/*if (m_takingTurn)
@@ -69,8 +79,8 @@ void Player::resetIndex()
 
 void Player::updateOnline()
 {
-	m_spriteBody.x = rect.x - 5.0f;
-	m_spriteBody.y = rect.y - 20.0f;
+	m_spriteBody.x = rect.x - static_cast<int>(m_width / 384);
+	m_spriteBody.y = rect.y - static_cast<int>(m_height / 54);
 }
 
 std::string Player::GetPosAsString()

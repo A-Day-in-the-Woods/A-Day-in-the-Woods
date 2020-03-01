@@ -102,6 +102,9 @@ private:
 	string from, to;
 	int weight;
 
+	int m_width;
+	int m_height;
+
 	std::vector<Tile> m_tile;
 
 	std::vector<Player*> m_player;
